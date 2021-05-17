@@ -1,0 +1,34 @@
+name: Project Packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Projects
+        run: |
+          bash -x ./scripts/setup-project.sh mimxrt1060 &&
+          bash -x ./scripts/setup-project.sh stm32l4
+
+      - name: Copy Supporting Docs and Licenses
+        run: |
+          cp -r README.md azrtos-licenses/ samples/mimxrt1060
+          cp -r README.md azrtos-licenses/ samples/stm32l4
+
+      #use wildcards so that directory path is preserved.
+      - name: Publish mimxrt1060 Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-mimxrt1060
+          path: sample*/mimxrt1060
+
+      - name: Publish stm32l4 Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-stm32l4
+          path: sample*/stm32l4
+

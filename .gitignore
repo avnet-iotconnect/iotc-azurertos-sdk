@@ -1,0 +1,18 @@
+#IDE Configs
+.idea/
+.settings/
+
+#irellevant
+./.project
+
+#Build artifacts
+Debug/
+Release/
+
+#Launch Configurations (allow setting WiFi and SDK variables without committing secrets)
+*.launch
+
+#tempoorary files
+/azrtos.zip
+/b-l4s5i-iot01a
+/mimxrt1060

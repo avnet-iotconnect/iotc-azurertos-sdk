@@ -1,0 +1,12 @@
+/.project
+
+#ignore all referenced projects, but don't ignore the modified .project files
+/common_hardware_code
+/netxduo/*
+!/netxduo/.cproject
+/threadx/*
+!/threadx/.cproject
+/mimxrt1060_library/*
+!/mimxrt1060_library/.cproject
+/filex/*
+!/filex/.cproject
