@@ -21,6 +21,17 @@ git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
 git clone --depth 1 --branch v2.0.0 git://github.com/Avnet/iotc-c-lib.git
 git clone --depth 1 --branch v1.7.13 git://github.com/DaveGamble/cJSON.git
 
+# prevent accidental commit of private information by default
+# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+  git update-index --no-assume-unchanged basic-sample/include/app_config.h
+else
+  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+  git update-index --assume-unchanged basic-sample/include/app_config.h
+fi
+
+
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
@@ -62,15 +73,6 @@ pushd "${project_dir}" >/dev/null
     echo cp -nr $dir ../../
     cp -nr $dir ../../
   done
-  # prevent accidental commit of private information by default
-  # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-  if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-    git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --no-assume-unchanged basic-sample/include/app_config.h
-  else
-    git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --assume-unchanged basic-sample/include/app_config.h
-  fi
 popd >/dev/null
 
 rm -rf $(dirname "${project_dir}")
