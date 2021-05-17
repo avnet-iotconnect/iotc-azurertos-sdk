@@ -62,7 +62,7 @@ pushd "${project_dir}" >/dev/null
     echo cp -nr $dir ../../
     cp -nr $dir ../../
   done
-  # prevent accidental commit of private information
+  # prevent accidental commit of private information by default
   # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
   if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
     git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
