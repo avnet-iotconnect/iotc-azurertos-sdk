@@ -18,6 +18,8 @@ typedef struct {
     char *response; // only response for now, but may include transient data that can be freed up in the future
 } IotConnectHttpResponse;
 
+// supports get and post
+// if post_data is NULL, a get is executed
 UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
         IotConnectHttpResponse *r,
         char *host_name,

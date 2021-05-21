@@ -11,25 +11,28 @@
 #include "iotconnect.h"
 #include "azrtos_https_client.h"
 
-#ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
-#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 12000
-#endif
-
 #ifndef NX_WEB_HTTP_TCP_WINDOW_SIZE
 #define NX_WEB_HTTP_TCP_WINDOW_SIZE     1536
 #endif
 
+#ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
+#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 3000
+#endif
+
+#ifndef IOTCONNECT_TLS_PACKET_BUFFER_SIZE
+#define IOTCONNECT_TLS_PACKET_BUFFER_SIZE  4000
+#endif
+
 #ifndef IOTCONNECT_HTTPS_TLS_BUFFERSIZE
-#define IOTCONNECT_HTTPS_TLS_BUFFERSIZE  3000
+#define IOTCONNECT_HTTPS_TLS_BUFFERSIZE  17856
 #endif
 
 #define HDR_CT_NAME "Content-Type"
 #define HDR_CT_VALUE "application/json" // for content type
 
 
-#define NX_WEB_HTTP_SERVER_SESSION_MAX  2
-static UCHAR tls_packet_buffer[16500];
-static CHAR crypto_client_metadata[8928 * NX_WEB_HTTP_SERVER_SESSION_MAX];
+static UCHAR tls_packet_buffer[IOTCONNECT_TLS_PACKET_BUFFER_SIZE];
+static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
 
 //static UCHAR tls_packet_buffer[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
 //static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];

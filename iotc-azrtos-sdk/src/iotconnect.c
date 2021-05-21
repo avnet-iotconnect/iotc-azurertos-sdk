@@ -210,7 +210,7 @@ void iotconnect_sdk_send_packet(const char *data) {
 
 #ifdef PROTOCOL_V2_PROTOTYPE
 static void on_message_intercept(IotclEventData data, IotclEventType type) {
-#else PROTOCOL_V2_PROTOTYPE
+#else
     static void on_message_intercept(IotclEventData data, IotConnectEventType type) {
 #endif
     switch (type) {
