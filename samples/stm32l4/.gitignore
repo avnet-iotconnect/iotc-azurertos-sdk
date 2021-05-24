@@ -5,6 +5,8 @@
 # ignore all referenced projects, but don't ignore the modified .project files
 /common_hardware_code/*
 !/common_hardware_code/board_setup.c
+!/common_hardware_code/STM32L4S5VITX_FLASH.ld
+!/common_hardware_code/STM32L475VGTX_FLASH.ld
 /netxduo
 /threadx
 /stm32l4xx_lib

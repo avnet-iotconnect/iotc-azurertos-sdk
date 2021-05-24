@@ -17,7 +17,7 @@ static IotConnectAzrtosConfig azrtos_config;
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  10 * 1024
-#define TEST_BLOCK_COUNT 10
+#define TEST_BLOCK_COUNT 100
 static void *blocks[TEST_BLOCK_COUNT];
 void memory_test() {
     int i = 0;

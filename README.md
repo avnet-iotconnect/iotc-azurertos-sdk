@@ -54,4 +54,3 @@ This repo's derivative work from Azure RTOS distribution also falls under the sa
 
 * Ofast Optimization should not be enabled in the main project because of the
 AzureRTOS issue [#14](https://github.com/azure-rtos/samples/issues/14). Os (size) optimization has been tested in the the project.
-* stm32l4 - Incorrect malloc behavior in OOM case. See AzureRTOS issue [#23](https://github.com/azure-rtos/samples/issues/23)
