@@ -26,7 +26,7 @@
 
 /* Define the thread for running Azure sample on ThreadX (X-Ware IoT Platform).  */
 #ifndef SAMPLE_THREAD_STACK_SIZE
-#define SAMPLE_THREAD_STACK_SIZE        (4096)
+#define SAMPLE_THREAD_STACK_SIZE        (6 * 1024)
 #endif /* SAMPLE_THREAD_STACK_SIZE  */
 
 #ifndef SAMPLE_THREAD_PRIORITY
