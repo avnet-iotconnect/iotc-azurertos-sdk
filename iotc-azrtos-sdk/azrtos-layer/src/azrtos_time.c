@@ -174,9 +174,13 @@ time_t time(time_t *t) {
 #endif
 
 
-#ifdef IOTC_NEEDS_GETTIMEOFDAY
+#if defined(IOTC_NEEDS_GETTIMEOFDAY) || defined(IOTC_NEEDS_GETTIMEOFDAY_OU)
 // _gettimeofday override provides access to time() function that's needed for the IoTConnect C library
+#ifdef IOTC_NEEDS_GETTIMEOFDAY
 int __gettimeofday(struct timeval *tv, void *tzvp) {
+#else // IOTC_NEEDS_GETTIMEOFDAY_OU with one underscore
+int _gettimeofday(struct timeval *tv, void *tzvp) {
+#endif
     // if either no time, or someone is trying to use timezone offset, we cannot support
 	ULONG time_now;
     if (NX_SUCCESS != unix_time_get(&time_now)) {
