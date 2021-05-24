@@ -186,33 +186,6 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     azrtos_config.pool_ptr = pool_ptr;
     azrtos_config.dns_ptr = dns_ptr;
 
-#if 0
-    char test[20];
-    bool done =false;
-    printf("test:");
-    for (int i = 0; i < 20 && !done; i++) {
-        char c = getchar();
-        switch (c) {
-        case '\r':
-            i--;
-            break;
-        case '\n':
-            break;
-            test[i] = 0;
-            done=true;
-            break;
-        default:
-            test[i] = c;
-            break;
-        }
-    }
-    if (done) {
-        printf("\r\nin: %s\r\n", test);
-    } else {
-        printf("nor done?\r\\n");
-    }
-#endif
-
     while (true) {
 #ifdef MEMORY_TEST
         // check for leaks
