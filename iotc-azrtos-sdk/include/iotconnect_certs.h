@@ -27,13 +27,13 @@ extern   "C" {
 #endif
 
 
-/* Baltimore Root for IoTHub connection.  */
-extern const unsigned char IOTCONNECT_IOTHUB_ROOT_CERT[];
-extern const unsigned int IOTCONNECT_IOTHUB_ROOT_CERT_SIZE;
+/* Baltimore Root for IoTHub connection and any microsoft blob connections  */
+extern const unsigned char IOTCONNECT_BALTIMORE_ROOT_CERT[];
+extern const unsigned int IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
 
-/* Godaddy Secure G2 for Discovery and Sync */
-extern const unsigned char IOTCONNECT_REST_API_CERT[];
-extern const unsigned int IOTCONNECT_REST_API_CERT_SIZE;
+/* Godaddy Secure G2 for IoTConnect Discovery and Sync REST services */
+extern const unsigned char IOTCONNECT_GODADDY_G2_ROOT_CERT[];
+extern const unsigned int IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
 
 
 #ifdef __cplusplus

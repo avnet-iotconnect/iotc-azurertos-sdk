@@ -176,8 +176,8 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
     printf("Initializing server certificates...\r\n");
     /* Initialize CA certificate. */
     if ((status = nx_secure_x509_certificate_initialize(&root_ca_cert, //
-            (UCHAR*)IOTCONNECT_IOTHUB_ROOT_CERT,
-            IOTCONNECT_IOTHUB_ROOT_CERT_SIZE,
+            (UCHAR*)IOTCONNECT_BALTIMORE_ROOT_CERT,
+            IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE,
             NX_NULL, 0, NULL, 0, NX_SECURE_X509_KEY_TYPE_NONE))) {
         printf("Failed to initialize ROOT CA certificate!: error code = 0x%08x\r\n", status);
         nx_azure_iot_delete(&nx_azure_iot);
