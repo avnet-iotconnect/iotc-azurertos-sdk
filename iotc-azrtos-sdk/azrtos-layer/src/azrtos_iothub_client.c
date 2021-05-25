@@ -24,7 +24,7 @@
 
 /* Define the Azure RTOS IOT thread stack and priority.  */
 #ifndef NX_AZURE_IOT_STACK_SIZE
-#define NX_AZURE_IOT_STACK_SIZE                     (2048)
+#define NX_AZURE_IOT_STACK_SIZE                     (4096)
 #endif /* NX_AZURE_IOT_STACK_SIZE */
 
 #ifndef NX_AZURE_IOT_THREAD_PRIORITY
