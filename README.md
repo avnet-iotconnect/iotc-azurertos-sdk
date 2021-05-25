@@ -54,3 +54,5 @@ This repo's derivative work from Azure RTOS distribution also falls under the sa
 
 * Ofast Optimization should not be enabled in the main project because of the
 AzureRTOS issue [#14](https://github.com/azure-rtos/samples/issues/14). Os (size) optimization has been tested in the the project.
+* It appears that ES-WIFI firmware is unable to connect to IP addresses ending with 0. 
+The reported AT command error is "Invalid Address". Needs further investigating...
