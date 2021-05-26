@@ -38,6 +38,7 @@ extern const NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
 
 static UCHAR tls_packet_buffer[IOTCONNECT_TLS_PACKET_BUFFER_SIZE];
 static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
+static char response_buffer[IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE];
 
 //static UCHAR tls_packet_buffer[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
 //static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
@@ -61,14 +62,9 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
         return NX_INVALID_PARAMETERS;
     }
 
-    if (NULL == r->custom_handler_cb) {
-        r->response = malloc(IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE);
-        if (!r->response) {
-            printf("HTTP: Failed to allocate response buffer!\r\n");
-            return NX_POOL_ERROR;
-        }
-        r->response[0] = 0; // null terminate
-    }
+    r->response = response_buffer;
+    r->response[0] = 0; // null terminate
+
     status = nx_web_http_client_create(
             &http_client, "IoTConnect Client",
             r->azrtos_config->ip_ptr,
@@ -257,16 +253,6 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     return NX_SUCCESS;
 }
 
-void iotconnect_free_https_response(IotConnectHttpRequest *request) {
-    if (request) {
-        free(request->response);
-    }
-}
-
-
-VOID free_buffer(CHAR *buffer) {
-    free(buffer);
-}
 
 /* Callback to setup TLS parameters for secure HTTPS. */
 static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SESSION *tls_session) {

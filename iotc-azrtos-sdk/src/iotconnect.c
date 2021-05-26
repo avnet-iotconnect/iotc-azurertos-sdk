@@ -87,7 +87,6 @@ static void report_sync_error(IotclSyncResponse *response, const char *sync_resp
 }
 
 static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *env) {
-    IotclDiscoveryResponse *ret = NULL;
     IotConnectHttpRequest req = { 0 };
 
     char resource_str_buff [ sizeof(RESOURCE_PATH_DSICOVERY) + CONFIG_IOTCONNECT_CPID_MAX_LEN + CONFIG_IOTCONNECT_ENV_MAX_LEN + 10 /* slack */ ];
@@ -103,35 +102,31 @@ static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *
 
     if (status != NX_SUCCESS) {
         printf("Discovery: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
-        goto cleanup;
+        return NULL;
     }
     if (NULL == req.response || 0 == strlen(req.response)) {
         dump_response("Discovery: Unable to obtain HTTP response,", &req);
-        goto cleanup;
+        return NULL;
     }
 
     char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
         dump_response("Discovery: No json response from server.", &req);
-        goto cleanup;
+        return NULL;
     }
     if (json_start != req.response) {
         dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
     }
 
-    ret = iotcl_discovery_parse_discovery_response(json_start);
+    IotclDiscoveryResponse *ret = iotcl_discovery_parse_discovery_response(json_start);
     if (!ret) {
         dump_response("Discovery: Unable to parse HTTP response,", &req);
     }
 
-    cleanup:
-    // fall through
-    iotconnect_free_https_response(&req);
     return ret;
 }
 
 static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) {
-    IotclSyncResponse *ret = NULL;
     IotConnectHttpRequest req = { 0 };
     char post_data[IOTCONNECT_DISCOVERY_PROTOCOL_POST_DATA_MAX_LEN + 1] = {0};
     char sync_path [strlen(discovery_response->path) + strlen("sync?") + 1];
@@ -155,24 +150,24 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
 
     if (status != NX_SUCCESS) {
         printf("Sync: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
-        goto cleanup;
+        return NULL;
     }
 
     if (NULL == req.response || 0 == strlen(req.response)) {
         dump_response("Sync: Unable to obtain HTTP response,", &req);
-        goto cleanup;
+        return NULL;
     }
 
     char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
         dump_response("Sync: No json response from server.", &req);
-        goto cleanup;
+        return NULL;
     }
     if (json_start != req.response) {
         dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
     }
 
-    ret = iotcl_discovery_parse_sync_response(json_start);
+    IotclSyncResponse *ret = iotcl_discovery_parse_sync_response(json_start);
     if (!ret) {
         dump_response("Sync: Unable to parse HTTP response,", &req);
     }
@@ -183,9 +178,6 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
         ret = NULL;
     }
 
-    cleanup:
-    // fall through
-    iotconnect_free_https_response(&req);
     return ret;
 
 }
@@ -295,6 +287,27 @@ static void hello_response_callback(IotclEventData data, IotclEventType type) {
 }
 #endif
 
+bool test_download_handler (IotConnectDownloadEvent* event) {
+    switch (event->type) {
+    case IOTC_DL_STATUS:
+        if (event->status == NX_SUCCESS) {
+            printf("Download success\r\n");
+        } else {
+            printf("Download failed with code 0x%x\r\n", event->status);
+        }
+        break;
+    case IOTC_DL_FILE_SIZE:
+        printf("Download file size is %i\r\n", event->file_size);
+        break;
+    case IOTC_DL_DATA:
+        printf("%i%%\r\n", (event->data.offset + event->data.data_size) * 100 / event->data.file_size);
+        break;
+    default:
+        printf("Unknown event type %d received from download client!\r\n", event->type);
+        break;
+    }
+    return true;
+}
 ///////////////////////////////////////////////////////////////////////////////////
 // this the Initialization os IoTConnect SDK
 UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
@@ -310,8 +323,14 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     req.resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
     req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
     req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
-    while (true) {
-        iotc_download(&req);
+
+    int failed = 0;
+    for (int i = 0; i < 100; i++) {
+        if (iotc_download(&req, test_download_handler, false)) {
+            printf("Download #%d Failed\r\n", i + 1);
+            failed++;
+        }
+        printf("Downloads: %d. Failed:%d\r\n", i + 1, failed);
     }
 
 #ifndef PROTOCOL_V2_PROTOTYPE

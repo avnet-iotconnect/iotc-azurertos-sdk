@@ -3,6 +3,8 @@
 // Created by Shu Liu <shu.liu@avnet.com> on 4/19/21.
 // Modified by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+// This HTTPS client implementation assumes application/json content type and returns it as
+// null terminated string, unless a custom request handler is used.
 
 #ifndef AZRTOS_HTTPS_CLIENT_H
 #define AZRTOS_HTTPS_CLIENT_H
@@ -25,7 +27,7 @@ typedef struct IotConnectHttpRequest {
     char *host_name;
     char *resource; // path of the resource to GET/PUT
     char *payload; // if payload is not null, a POST will be issued, rather than GET.
-    char *response; // We will will allocate a default buffer with default size. Response will be a null terminated string.
+    char *response; // We will will provide a default buffer with default size. Response will be a null terminated string.
     size_t response_length; // We will will allocate a default buffer with default size. Response will be a null terminated string.
     unsigned char *tls_cert; // provide an SSL certificate for your host (default ones provided in iotconnect_certs.h
     unsigned int tls_cert_len; // provide length of the certificate for your https host
@@ -40,7 +42,6 @@ typedef struct IotConnectHttpRequest {
 // supports get and post
 // if post_data is NULL, a get is executed
 UINT iotconnect_https_request(IotConnectHttpRequest *request);
-void iotconnect_free_https_response(IotConnectHttpRequest *request);
 
 #ifdef __cplusplus
 }
