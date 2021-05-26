@@ -182,7 +182,6 @@ void sample_thread_entry(ULONG parameter) {
     while (true) {
         tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);
     }
-
 }
 
 static UINT dns_create(ULONG dns_server_address) {
