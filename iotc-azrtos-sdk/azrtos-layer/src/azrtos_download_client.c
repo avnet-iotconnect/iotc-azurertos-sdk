@@ -33,7 +33,7 @@ static size_t file_size;
 static size_t file_bytes_received;
 
 // event_cb and do_resume recorded from the main entry point and used by request_handler
-static IotConnectDownloadHandler event_cb;
+static IotConnectDownloadHandler event_cb = NULL; // initialize so that first check works properly
 static bool do_resume;
 // ------
 
@@ -317,10 +317,11 @@ UINT iotc_download(IotConnectHttpRequest *r, IotConnectDownloadHandler event_cal
     //NOTE: Global assignment. Can only have one download running at the time.
     if (event_cb) {
         printf("download client: Error: A download is already in progress!\r\n");
-        evt.status = NX_NOT_SUPPORTED; // unable to suport multple downloads
+        evt.status = NX_NOT_SUPPORTED; // unable to support multiple downloads
         if (event_callback) {
             event_callback(&evt);
         }
+        return evt.status;
     }
     event_cb = event_callback;
     do_resume = resume;

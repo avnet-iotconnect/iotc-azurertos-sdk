@@ -287,27 +287,6 @@ static void hello_response_callback(IotclEventData data, IotclEventType type) {
 }
 #endif
 
-bool test_download_handler (IotConnectDownloadEvent* event) {
-    switch (event->type) {
-    case IOTC_DL_STATUS:
-        if (event->status == NX_SUCCESS) {
-            printf("Download success\r\n");
-        } else {
-            printf("Download failed with code 0x%x\r\n", event->status);
-        }
-        break;
-    case IOTC_DL_FILE_SIZE:
-        printf("Download file size is %i\r\n", event->file_size);
-        break;
-    case IOTC_DL_DATA:
-        printf("%i%%\r\n", (event->data.offset + event->data.data_size) * 100 / event->data.file_size);
-        break;
-    default:
-        printf("Unknown event type %d received from download client!\r\n", event->type);
-        break;
-    }
-    return true;
-}
 ///////////////////////////////////////////////////////////////////////////////////
 // this the Initialization os IoTConnect SDK
 UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
@@ -316,22 +295,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 
 	memcpy(&azrtos_config, ac, sizeof(azrtos_config));
     memset(&iic, 0, sizeof(iic));
-
-    IotConnectHttpRequest req = { 0 };
-    req.azrtos_config = &azrtos_config;
-    req.host_name = "iotchicagoprivate.blob.core.windows.net";
-    req.resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
-
-    int failed = 0;
-    for (int i = 0; i < 100; i++) {
-        if (iotc_download(&req, test_download_handler, false)) {
-            printf("Download #%d Failed\r\n", i + 1);
-            failed++;
-        }
-        printf("Downloads: %d. Failed:%d\r\n", i + 1, failed);
-    }
 
 #ifndef PROTOCOL_V2_PROTOTYPE
 

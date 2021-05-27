@@ -9,6 +9,8 @@
 #include "iotconnect_common.h"
 #include "iotconnect.h"
 #include "app_config.h"
+#include "iotconnect_certs.h"
+#include "azrtos_ota_fw_client.h"
 
 static IotConnectAzrtosConfig azrtos_config;
 
@@ -48,6 +50,29 @@ char* compose_device_id() {
     }
     return duid;
 }
+
+static bool download_event_handler (IotConnectDownloadEvent* event) {
+    switch (event->type) {
+    case IOTC_DL_STATUS:
+        if (event->status == NX_SUCCESS) {
+            printf("Download success\r\n");
+        } else {
+            printf("Download failed with code 0x%x\r\n", event->status);
+        }
+        break;
+    case IOTC_DL_FILE_SIZE:
+        printf("Download file size is %i\r\n", event->file_size);
+        break;
+    case IOTC_DL_DATA:
+        printf("%i%%\r\n", (event->data.offset + event->data.data_size) * 100 / event->data.file_size);
+        break;
+    default:
+        printf("Unknown event type %d received from download client!\r\n", event->type);
+        break;
+    }
+    return true;
+}
+
 
 static bool is_app_version_same_as_ota(const char *version) {
     return strcmp(APP_VERSION, version) == 0;
@@ -185,6 +210,28 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     azrtos_config.ip_ptr = ip_ptr;
     azrtos_config.pool_ptr = pool_ptr;
     azrtos_config.dns_ptr = dns_ptr;
+
+
+#if 0 // OTA download test
+    IotConnectHttpRequest req = { 0 };
+    req.azrtos_config = &azrtos_config;
+    req.host_name = "iotchicagoprivate.blob.core.windows.net";
+    req.resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
+    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
+    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+    void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+
+    for (int i = 0; i < 100; i++) {
+        if (iotc_ota_fw_download(&req, nx_azure_iot_adu_agent_stm32l4xx_driver, false, download_event_handler)) {
+            printf("OTA Failed\r\n");
+            iotc_ota_fw_cancel();
+        } else {
+            iotc_ota_fw_apply();
+            return true;
+        }
+    }
+    return false;
+#endif
 
     while (true) {
 #ifdef MEMORY_TEST

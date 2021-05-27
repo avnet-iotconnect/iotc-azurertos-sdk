@@ -28,7 +28,7 @@ typedef struct {
     IotConnectDownloadEventType type;
     union {
         struct data {
-            void* data_ptr;
+            unsigned char* data_ptr;
             size_t data_size;
             size_t offset;
             size_t file_size; // for convenience, from IOTC_DL_FILE_SIZE event
