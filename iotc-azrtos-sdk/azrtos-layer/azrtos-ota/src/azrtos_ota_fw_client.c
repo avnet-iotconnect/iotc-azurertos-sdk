@@ -120,13 +120,14 @@ UINT iotc_ota_fw_apply() {
         return NX_INVALID_PARAMETERS;
     }
     memset(&adudr,0, sizeof(adudr));
-    printf("OTA: Applying firmware...\r\n");
+    printf("OTA: Applying firmware. Resetting the board.\r\n");
     adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_APPLY;
     adu_driver(&adudr);
     if (adudr.nx_azure_iot_adu_agent_driver_status) {
         printf("OTA: Error: Failed to apply firmware. Error was: error: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
     } else {
-        printf("OTA: Firmware applied. Resetting...\r\n");
+        // else we area already in reset!
+        ;
     }
     adu_driver = NULL;
     firmware_ready = false;

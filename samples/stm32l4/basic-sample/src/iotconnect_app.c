@@ -12,6 +12,9 @@
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
 
+// from nx_azure_iot_adu_agent_<boardname>_driver.c
+extern void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+
 static IotConnectAzrtosConfig azrtos_config;
 
 #define APP_VERSION "01.00.00"
@@ -37,7 +40,7 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-char* compose_device_id() {
+static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
     uint8_t mac_addr[6] = { 0 };
     static char duid[PREFIX_LEN + sizeof(mac_addr) * 2 + 1 /* null */] = DUID_PREFIX;
@@ -73,6 +76,84 @@ static bool download_event_handler (IotConnectDownloadEvent* event) {
     return true;
 }
 
+// Parses the URL into host and resource strings which will be malloced
+// Ensure to free the two pointers on success
+static UINT split_url(const char *url, char **host_name, char**resource) {
+    int host_name_start = 0;
+    size_t url_len = strlen(url);
+    *host_name = "iotchicagoprivate.blob.core.windows.net";
+    *resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
+    return NX_SUCCESS;
+
+    if (!host_name || !resource) {
+        printf("split_url: Invalid usage\r\n");
+        return NX_INVALID_PARAMETERS;
+    }
+    *host_name = NULL;
+    *resource = NULL;
+    int slash_count = 0;
+    for (size_t i = 0; i < url_len; i++) {
+        if (url[i] == '/') {
+            slash_count++;
+            if (slash_count == 2) {
+                host_name_start = i + 1;
+            } else if (slash_count == 3) {
+                const size_t slash_start = i;
+                const size_t host_name_len = i - host_name_start;
+                const size_t resource_len = url_len - i;
+                *host_name = malloc(host_name_len + 1); //+1 for null
+                if (NULL == *host_name) {
+                    return NX_POOL_ERROR;
+                }
+                memcpy(*host_name, &url[host_name_start], host_name_len);
+                (*host_name)[host_name_len] = 0; // terminate the string
+
+                *resource = malloc(resource_len + 1); //+1 for null
+                if (NULL == *resource) {
+                    free(*host_name);
+                    return NX_POOL_ERROR;
+                }
+                memcpy(*resource, &url[slash_start], resource_len);
+                (*resource)[resource_len] = 0; // terminate the string
+
+                return NX_SUCCESS;
+            }
+        }
+    }
+    return NX_INVALID_PARAMETERS; // URL could not be parsed
+}
+
+// Parses the URL into host and path strings.
+// It re-uses the URL storage by splitting it into two null-terminated strings.
+static UINT start_ota(char *url) {
+    IotConnectHttpRequest req = { 0 };
+
+    UINT status = split_url(url, &req.host_name, &req.resource);
+    if (status) {
+        printf("start_ota: Error while splitting the URL, code: 0x%x\r\n", status);
+        return status;
+    }
+
+    req.azrtos_config = &azrtos_config;
+    // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
+    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
+    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+
+    status = iotc_ota_fw_download(
+            &req,
+            nx_azure_iot_adu_agent_stm32l4xx_driver,
+            false,
+            download_event_handler);
+    if (status) {
+        printf("OTA Failed with code 0x%x\r\n", status);
+    } else {
+        printf("OTA Success\r\n");
+        iotc_ota_fw_apply();
+    }
+    free(req.host_name);
+    free(req.resource);
+    return status;
+}
 
 static bool is_app_version_same_as_ota(const char *version) {
     return strcmp(APP_VERSION, version) == 0;
@@ -210,9 +291,12 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     azrtos_config.ip_ptr = ip_ptr;
     azrtos_config.pool_ptr = pool_ptr;
     azrtos_config.dns_ptr = dns_ptr;
+    //start_ota("http://abc/123/456");
+#if 0
+    start_ota("https://iotchicagoprivate.blob.core.windows.net/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D");
+#endif
 
-
-#if 0 // OTA download test
+///#if 0 // OTA download test
     IotConnectHttpRequest req = { 0 };
     req.azrtos_config = &azrtos_config;
     req.host_name = "iotchicagoprivate.blob.core.windows.net";
@@ -231,7 +315,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
         }
     }
     return false;
-#endif
+///#endif
 
     while (true) {
 #ifdef MEMORY_TEST
