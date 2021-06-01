@@ -4,7 +4,6 @@
 /dist
 /debug
 
-/common_hardware_code
 /netxduo
 /threadx
 /filex
