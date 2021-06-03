@@ -1,4 +1,5 @@
 /.project
+/.idea
 
 #ignore all referenced projects, but don't ignore the modified .project files
 /common_hardware_code

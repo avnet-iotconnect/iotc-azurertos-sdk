@@ -1,4 +1,5 @@
 /.project
+/.idea
 
 # it's not simple to modify project dfiles from redlib to newlibnano.
 # We need to manually modify the files

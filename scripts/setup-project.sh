@@ -10,7 +10,7 @@ fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro
 
 # prevent accidental commits on these files
 # need to undo if, changes to these files are actually needed
@@ -58,6 +58,11 @@ case "$name" in
     project_dir='mimxrt1060/MCUXpresso/'
     libs="mimxrt1060_library filex "
     ;;
+  same54xpro)
+    wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
+    project_dir='same54Xpro/mplab/'
+    libs="same54_lib filex "
+    ;;
   *)
     echo Invalid platform $name.
     exit 3
@@ -77,13 +82,19 @@ popd >/dev/null
 
 rm -rf $(dirname "${project_dir}")
 
+case "$name" in
+  stm32l4)
 echo 'Applying patches for AzureRTOS component directory name references...'
-
-if [[ -f ./stm32l4xx_lib/.cproject ]]; then
-  sed -i '/stm32l475_lib/d' ./stm32l4xx_lib/.cproject
-fi
-sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
-sed -i 's#tx#threadx#g' ./threadx/.cproject
+    sed -i '/stm32l475_lib/d' ./stm32l4xx_lib/.cproject
+    sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
+    sed -i 's#tx#threadx#g' ./threadx/.cproject
+    ;;
+  mimxrt1060)
+  echo 'Applying patches for AzureRTOS component directory name references...'
+    sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
+    sed -i 's#tx#threadx#g' ./threadx/.cproject
+    ;;
+esac
 
 popd >/dev/null #samples/"${name}"
 echo Done
