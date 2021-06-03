@@ -22,7 +22,8 @@ bool ota_fw_download_handler (IotConnectDownloadEvent* event) {
         adudr.nx_azure_iot_adu_agent_driver_firmware_size = event->file_size;
         adu_driver(&adudr);
         if (adudr.nx_azure_iot_adu_agent_driver_status) {
-            // abort the download and let iotc_ota_fw_download return this status;
+            printf("OTA: Error: ADU driver failed to preprocess with code: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
+            // abort the download and let iotc_ota_fw_download return abort status;
             return false;
         }
         break;
@@ -34,7 +35,8 @@ bool ota_fw_download_handler (IotConnectDownloadEvent* event) {
         adudr.nx_azure_iot_adu_agent_driver_firmware_data_offset = event->data.offset;
         adu_driver(&adudr);
         if (adudr.nx_azure_iot_adu_agent_driver_status) {
-            // abort the download and let iotc_ota_fw_download return this status;
+            printf("OTA: Error: ADU driver failed to write with code: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
+            // abort the download and let iotc_ota_fw_download return abort status;
             return false;
         }
         break;
@@ -43,6 +45,7 @@ bool ota_fw_download_handler (IotConnectDownloadEvent* event) {
         // we should not have to abort.. Perhaps code mismatch?
         // Probably also pass down to the user...
     }
+//    tx_thread_preemption_change(tx_thread_identify(), old_threshold, &old_threshold);
     if (user_download_cb) {
         ret = user_download_cb(event);
     }
@@ -57,6 +60,9 @@ UINT iotc_ota_fw_download(
     IotConnectDownloadHandler user_dl_callback
 ) {
     IotConnectDownloadEvent evt;
+
+    firmware_ready = false;
+
     evt.type = IOTC_DL_STATUS;
     if (firmware_ready) {
         printf("OTA: Error: Firmware is ready. Must call iotc_ota_fw_cancel() before attempting a new download!\r\n");
@@ -97,10 +103,6 @@ UINT iotc_ota_fw_download(
 
     UINT status = iotc_download(r, ota_fw_download_handler, resume);
     if (NX_SUCCESS == status && adudr.nx_azure_iot_adu_agent_driver_status == NX_SUCCESS) {
-        memset(&adudr,0, sizeof(adudr));
-        adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_INSTALL;
-        adu_driver(&adudr);
-        printf("OTA: Ready to install new firmware.\r\n");
         // don't reset the driver pointer. We will need to install()
         firmware_ready = true;
         return status;
@@ -120,17 +122,28 @@ UINT iotc_ota_fw_apply() {
         return NX_INVALID_PARAMETERS;
     }
     memset(&adudr,0, sizeof(adudr));
-    printf("OTA: Applying firmware. Resetting the board.\r\n");
-    adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_APPLY;
+    adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_INSTALL;
+    adu_driver(&adudr);
     adu_driver(&adudr);
     if (adudr.nx_azure_iot_adu_agent_driver_status) {
-        printf("OTA: Error: Failed to apply firmware. Error was: error: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
+        printf("OTA: Error: Failed to install firmware. Error was: error: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
+        // This should not really happen. In effect the download needs to be cancelled
+        adu_driver = NULL;
+        firmware_ready = false;
     } else {
-        // else we area already in reset!
-        ;
+        memset(&adudr,0, sizeof(adudr));
+        printf("OTA: Applying firmware. Resetting the board.\r\n");
+        adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_APPLY;
+        adu_driver(&adudr);
+        if (adudr.nx_azure_iot_adu_agent_driver_status) {
+            printf("OTA: Error: Failed to apply firmware. Error was: error: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
+        } else {
+            // else we area already in reset!
+            ;
+        }
+        adu_driver = NULL;
+        firmware_ready = false;
     }
-    adu_driver = NULL;
-    firmware_ready = false;
     return adudr.nx_azure_iot_adu_agent_driver_status;
 }
 

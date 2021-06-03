@@ -81,9 +81,6 @@ static bool download_event_handler (IotConnectDownloadEvent* event) {
 static UINT split_url(const char *url, char **host_name, char**resource) {
     int host_name_start = 0;
     size_t url_len = strlen(url);
-    *host_name = "iotchicagoprivate.blob.core.windows.net";
-    *resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
-    return NX_SUCCESS;
 
     if (!host_name || !resource) {
         printf("split_url: Invalid usage\r\n");
@@ -147,8 +144,7 @@ static UINT start_ota(char *url) {
     if (status) {
         printf("OTA Failed with code 0x%x\r\n", status);
     } else {
-        printf("OTA Success\r\n");
-        iotc_ota_fw_apply();
+        printf("OTA Download Success\r\n");
     }
     free(req.host_name);
     free(req.resource);
@@ -165,19 +161,31 @@ static bool app_needs_ota_update(const char *version) {
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
+    bool needs_ota_commit = false;
     char *url = iotcl_clone_download_url(data, 0);
     bool success = false;
     if (NULL != url) {
         printf("Download URL is: %s\r\n", url);
         const char *version = iotcl_clone_sw_version(data);
+        if (!version) {
+            printf("Failed to clone SW version! Out of memory?");
+            message = "Failed to clone SW version";
+            free(url);
+        }
         if (is_app_version_same_as_ota(version)) {
             printf("OTA request for same version %s. Sending success\r\n", version);
             success = true;
             message = "Version is matching";
         } else if (app_needs_ota_update(version)) {
             printf("OTA update is required for version %s.\r\n", version);
-            success = false;
-            message = "Not implemented";
+
+            if (start_ota(url)) {
+                message = "OTA Failed";
+            } else {
+                success = true;
+                needs_ota_commit = true;
+                message = NULL;
+            }
         } else {
             printf("Device firmware version %s is newer than OTA version %s. Sending failure\r\n", APP_VERSION,
                     version);
@@ -206,6 +214,14 @@ static void on_ota(IotclEventData data) {
         printf("Sent OTA ack: %s\r\n", ack);
         iotconnect_sdk_send_packet(ack);
         free((void*) ack);
+    }
+    if (needs_ota_commit) {
+        printf("Waiting for ack to be sent by the network\r\n.,,");
+        tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
+        UINT status = iotc_ota_fw_apply();
+        if (status) {
+            printf("Failed to apply fifmware! Error was: %d\r\n", status);
+        }
     }
 }
 
@@ -259,6 +275,7 @@ static void publish_telemetry() {
 
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+    printf("Starting App Version %s\r\n", APP_VERSION);
 
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     if (strcmp("your_cpid", IOTCONNECT_CPID))
@@ -291,31 +308,6 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     azrtos_config.ip_ptr = ip_ptr;
     azrtos_config.pool_ptr = pool_ptr;
     azrtos_config.dns_ptr = dns_ptr;
-    //start_ota("http://abc/123/456");
-#if 0
-    start_ota("https://iotchicagoprivate.blob.core.windows.net/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D");
-#endif
-
-///#if 0 // OTA download test
-    IotConnectHttpRequest req = { 0 };
-    req.azrtos_config = &azrtos_config;
-    req.host_name = "iotchicagoprivate.blob.core.windows.net";
-    req.resource = "/private-fw/basic-sample.bin?sp=rl&st=2021-05-24T18:46:45Z&se=2021-07-25T18:46:00Z&sv=2020-02-10&sr=b&sig=gnniJbeSgnFF4f8wVT%2FeUQ9Jiy6fdtV5z8N0spdHeNo%3D";
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
-    void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
-
-    for (int i = 0; i < 100; i++) {
-        if (iotc_ota_fw_download(&req, nx_azure_iot_adu_agent_stm32l4xx_driver, false, download_event_handler)) {
-            printf("OTA Failed\r\n");
-            iotc_ota_fw_cancel();
-        } else {
-            iotc_ota_fw_apply();
-            return true;
-        }
-    }
-    return false;
-///#endif
 
     while (true) {
 #ifdef MEMORY_TEST
@@ -327,10 +319,10 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             return false;
         }
         // send telemetry approximately ever 5 seconds for 5 minutes
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(1000);
+                iotconnect_sdk_poll(5000);
             } else {
                 return false;
             }
