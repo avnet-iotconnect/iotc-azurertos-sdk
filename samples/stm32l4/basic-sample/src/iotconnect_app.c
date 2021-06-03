@@ -54,7 +54,7 @@ static char* compose_device_id() {
     return duid;
 }
 
-static bool download_event_handler (IotConnectDownloadEvent* event) {
+static bool download_event_handler(IotConnectDownloadEvent* event) {
     switch (event->type) {
     case IOTC_DL_STATUS:
         if (event->status == NX_SUCCESS) {
@@ -220,7 +220,7 @@ static void on_ota(IotclEventData data) {
         tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
         UINT status = iotc_ota_fw_apply();
         if (status) {
-            printf("Failed to apply fifmware! Error was: %d\r\n", status);
+            printf("Failed to apply firmware! Error was: %d\r\n", status);
         }
     }
 }

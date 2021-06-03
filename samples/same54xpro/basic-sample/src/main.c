@@ -330,15 +330,11 @@ ULONG   actual_status;
     /* Create the DHCP instance.  */
     nx_dhcp_create(&dhcp_0, &ip_0, "DHCP Client");
     
-    printf("DHCP In Progress2...\r\n");
-
     /* Start the DHCP Client.  */
     nx_dhcp_start(&dhcp_0);
-    printf("DHCP In Progress3...\r\n");
 
     /* Wait util address is solved. */
     nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, NX_WAIT_FOREVER);
-    printf("DHCP In Progress4...\r\n");
 }
 #endif /* SAMPLE_DHCP_DISABLE  */
 

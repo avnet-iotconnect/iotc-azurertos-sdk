@@ -82,6 +82,7 @@ popd >/dev/null
 
 rm -rf $(dirname "${project_dir}")
 
+  echo 'Applying patches for AzureRTOS component directory name references...'
 case "$name" in
   stm32l4)
 echo 'Applying patches for AzureRTOS component directory name references...'
@@ -90,9 +91,13 @@ echo 'Applying patches for AzureRTOS component directory name references...'
     sed -i 's#tx#threadx#g' ./threadx/.cproject
     ;;
   mimxrt1060)
-  echo 'Applying patches for AzureRTOS component directory name references...'
+    echo 'Applying patches for AzureRTOS component directory name references...'
     sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
     sed -i 's#tx#threadx#g' ./threadx/.cproject
+    ;;
+  same54xpro)
+    # Microsoft's samples point the lib to the common_hardware_code from the sample, so we point it to ours
+    sed -i 's#sample_azure_iot_embedded_sdk#basic-sample#g' ./same54_lib/nbproject/configurations.xml
     ;;
 esac
 

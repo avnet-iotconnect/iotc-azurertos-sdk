@@ -1,18 +1,28 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for STM32L4 IoT Discovery Kit and NXP MTIMXRT1060 EVK.
+for STM32L4 IoT Discovery Kit,  NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro
 
 ## Build Instructions
 
 * Download the project files from Github Actions or Releases pages in this repo.
-* Download STM32CubeIDE or MCUXpresso IDE
-* File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
-Keep subdirectories selected, but unselect the actual directory (stm32l4/mimxrt1060)
-* For MCUXpresso IDE:
+* For STM32L4:
+  * Download and install STM32CubeIDE 
+  * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
+Keep subdirectories selected, but unselect the actual stm32l4 sample directory 
+* For NXP MTIMXRT1060 EVK: 
+  * Download and install MCUXpresso IDE
+  * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
+Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
+* For SAM E54 Xplaineed Pro:
+  * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
+  * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later
+  * In MPLab, File > Open Project and select all projects
+  * Plug in your board AFTER opening the project, so that MPLab detects it
+from the extracted zip file
 * Modify samples/<your_borard>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
-* Build and run the project on your board.
+* Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
 As the AzureRTOS does not yet support ECC certificates yet, only RSA device certificates are supported. 
@@ -55,4 +65,4 @@ This repo's derivative work from Azure RTOS distribution also falls under the sa
 * Ofast Optimization should not be enabled in the main project because of the
 AzureRTOS issue [#14](https://github.com/azure-rtos/samples/issues/14). Os (size) optimization has been tested in the the project.
 * It appears that ES-WIFI firmware is unable to connect to IP addresses ending with 0. 
-The reported AT command error is "Invalid Address". Needs further investigating...
+The reported AT command error is "Invalid Address". Needs further investigation...
