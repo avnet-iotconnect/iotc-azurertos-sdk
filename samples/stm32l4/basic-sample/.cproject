@@ -93,6 +93,8 @@
                                     									
                                     <listOptionValue builtIn="false" value="STM32L4"/>
                                     									
+                                    <listOptionValue builtIn="false" value="USE_AZRTOS_ADU_AGENT_DRIVER"/>
+                                    									
                                     <listOptionValue builtIn="false" value="STM32L4S5xx"/>
                                     									
                                     <listOptionValue builtIn="false" value="DEMO_DHCP_DISABLE"/>
@@ -158,6 +160,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -420,6 +424,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
                                     								
                                 </option>
                                 								

@@ -20,60 +20,67 @@
 #endif
 
 #ifndef IOTCONNECT_TLS_PACKET_BUFFER_SIZE
-#define IOTCONNECT_TLS_PACKET_BUFFER_SIZE  4000
+#define IOTCONNECT_TLS_PACKET_BUFFER_SIZE  6000
 #endif
 
 #ifndef IOTCONNECT_HTTPS_TLS_BUFFERSIZE
 #define IOTCONNECT_HTTPS_TLS_BUFFERSIZE  17856
 #endif
 
+#ifndef IOTCONNECT_HTTPS_CERT_BUFFERSIZE
+#define IOTCONNECT_HTTPS_CERT_BUFFERSIZE  4000
+#endif
 #define HDR_CT_NAME "Content-Type"
 #define HDR_CT_VALUE "application/json" // for content type
 
 
+extern const NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
+
 static UCHAR tls_packet_buffer[IOTCONNECT_TLS_PACKET_BUFFER_SIZE];
 static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
+static char response_buffer[IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE];
 
 //static UCHAR tls_packet_buffer[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
 //static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
 static NX_SECURE_X509_CERT trusted_certificate;
 static NX_SECURE_X509_CERT remote_certificate, remote_issuer;
-static UCHAR remote_cert_buffer[2000];
-static UCHAR remote_issuer_buffer[2000];
-extern const NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
+static UCHAR remote_cert_buffer[IOTCONNECT_HTTPS_CERT_BUFFERSIZE];
+static UCHAR remote_issuer_buffer[IOTCONNECT_HTTPS_CERT_BUFFERSIZE];
+
+// single request only support. Record current request for tls callback
+static IotConnectHttpRequest *current_request = NULL;
 
 static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SESSION *tls_session);
 
-UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
-        IotConnectHttpResponse *r,
-        char *host_name,
-        char *resource,
-        char *post_data
-        ) {
+UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     UINT status;
     NX_WEB_HTTP_CLIENT http_client;
     NXD_ADDRESS server_ip_address;
 
-    if (!azrtos_config || !azrtos_config || !host_name || !resource) {
-        printf("HTTP: Invalid arguments");
+    if (!r ||  !r->azrtos_config || !r->host_name || !r->tls_cert || 0 == r->tls_cert_len) {
+        printf("HTTP: Invalid arguments\r\n");
         return NX_INVALID_PARAMETERS;
     }
 
-    r->response = malloc(IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE);
-    if (!r->response) {
-        printf("HTTP: Failed to allocate response buffer!\r\n");
-        return NX_POOL_ERROR;
-    }
+    r->response = response_buffer;
     r->response[0] = 0; // null terminate
 
-    status = nx_web_http_client_create(&http_client, "HTTP Client", azrtos_config->ip_ptr, azrtos_config->pool_ptr,
+    status = nx_web_http_client_create(
+            &http_client, "IoTConnect Client",
+            r->azrtos_config->ip_ptr,
+            r->azrtos_config->pool_ptr,
             NX_WEB_HTTP_TCP_WINDOW_SIZE);
     if (status) {
         printf("HTTP: Client create failed: 0x%x\r\n", status);
         return status;
     }
 
-    status = nx_dns_host_by_name_get(azrtos_config->dns_ptr, (UCHAR*) host_name, &server_ip_address.nxd_ip_address.v4, 5 * NX_IP_PERIODIC_RATE); // give it 5 seconds to resolve
+    status = nx_dns_host_by_name_get(
+            r->azrtos_config->dns_ptr,
+            (UCHAR*) r->host_name,
+            &server_ip_address.nxd_ip_address.v4,
+            5 * NX_IP_PERIODIC_RATE
+    ); // give it 5 seconds to resolve
     if (status) {
         printf("HTTP: Host DNS resolution failed 0x%x\r\n", status);
         nx_web_http_client_delete(&http_client);
@@ -83,7 +90,7 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
     // Set the header callback routine.
     // nx_web_http_client_response_header_callback_set(http_client_ptr, http_header_response_callback);
 
-
+    current_request = r;
     server_ip_address.nxd_ip_version = NX_IP_VERSION_V4;
     status = nx_web_http_client_secure_connect(
             &http_client, //
@@ -91,17 +98,32 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
             NX_WEB_HTTPS_SERVER_PORT,//
             tls_setup_callback,//
             NX_WAIT_FOREVER);
+    current_request = NULL;
+
     if (status) {
         printf("HTTP: Error in HTTP Connect: 0x%x\r\n", status);
         nx_web_http_client_delete(&http_client);
         return status;
     }
 
-    if (post_data) {
+
+    // PROVIDED HANDLER CALLBACK
+    if (r->custom_handler_cb) {
+        status = r->custom_handler_cb(r, &http_client);
+        nx_web_http_client_delete(&http_client);
+        return status;
+    }
+
+    if (!r->resource) {
+        printf("HTTP: Resource needs to be provided");
+        return NX_INVALID_PARAMETERS;
+    }
+
+    if (r->payload) {
         status = nx_web_http_client_request_initialize(&http_client,
                 NX_WEB_HTTP_METHOD_POST,
-                resource, host_name,
-                strlen(post_data),          //  POST input size needed here
+                r->resource, r->host_name,
+                strlen(r->payload),          //  POST input size needed here
                 NX_FALSE,
                 NULL,
                 NULL,
@@ -127,7 +149,7 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
     } else {
         status = nx_web_http_client_request_initialize(&http_client,
                 NX_WEB_HTTP_METHOD_GET, /* GET, PUT, DELETE, POST, HEAD */
-                resource, host_name, 0, /* PUT and POST need an input size. */
+                r->resource, r->host_name, 0, /* PUT and POST need an input size. */
                 NX_FALSE, /* If true, input_size is ignored. */
                 NULL,
                 NULL,
@@ -147,7 +169,7 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
         return status;
     }
 
-    if (post_data) {
+    if (r->payload) {
         NX_PACKET *packet_ptr;
         /* Create a new data packet request on the HTTP(S) client instance. */
         nx_web_http_client_request_packet_allocate(&http_client, &packet_ptr, NX_WAIT_FOREVER);
@@ -157,7 +179,7 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
             return status;
         }
 
-        status = nx_packet_data_append(packet_ptr, (VOID *)post_data, strlen(post_data),
+        status = nx_packet_data_append(packet_ptr, (VOID *) r->payload, strlen(r->payload),
                                        packet_ptr -> nx_packet_pool_owner,
                                        NX_WAIT_FOREVER);
         if (status) {
@@ -201,27 +223,22 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
 			}
 			break; // in both cases
 		}
-
 		ULONG bytes_received = 0;
-		// TODO: remove this debug
-		if (data_length > 0) {
-			printf("DEBUG: HTTP: Packet data break here\r\n");
-		}
-		status = nx_packet_data_extract_offset( //
-				receive_packet, // packet
-				0, // offset in the packet
-				&(r->response[data_length]), // where to put data
-				IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length - 1 /* 1 for null */, // bytes left in buffer
-				&bytes_received);
-		if (status) {
-			printf("HTTP: Packet data extraction error: 0x%x\r\n", status);
-			break;
-		}
-		if (bytes_received >= IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length) {
-			printf("HTTP Receive buffer empty! Increase IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE\r\n");
-			// just return bad status so that the user can print what we have so far with += bytes_received below
-			status = NX_OVERFLOW;
-		}
+        status = nx_packet_data_extract_offset( //
+                receive_packet, // packet
+                0, // offset in the packet
+                &(r->response[data_length]), // where to put data
+                IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length - 1 /* 1 for null */, // bytes left in buffer
+                &bytes_received);
+        if (status) {
+            printf("HTTP: Packet data extraction error: 0x%x\r\n", status);
+            break;
+        }
+        if (bytes_received >= IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length) {
+            printf("HTTP Receive buffer empty! Increase IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE\r\n");
+            // just return bad status so that the user can print what we have so far with += bytes_received below
+            status = NX_OVERFLOW;
+        }
 
     	nx_packet_release(receive_packet);
     	receive_packet = NULL;
@@ -236,16 +253,6 @@ UINT iotconnect_https_request(IotConnectAzrtosConfig *azrtos_config,
     return NX_SUCCESS;
 }
 
-void iotconnect_free_https_response(IotConnectHttpResponse *response) {
-    if (response) {
-        free(response->response);
-    }
-}
-
-
-VOID free_buffer(CHAR *buffer) {
-    free(buffer);
-}
 
 /* Callback to setup TLS parameters for secure HTTPS. */
 static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SESSION *tls_session) {
@@ -272,8 +279,8 @@ static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SES
 
     /* Add a CA Certificate to our trusted store for verifying incoming server certificates. */
     nx_secure_x509_certificate_initialize(&trusted_certificate,
-            (UCHAR*) IOTCONNECT_REST_API_CERT,
-            (USHORT) IOTCONNECT_REST_API_CERT_SIZE,
+            (UCHAR*) current_request->tls_cert,
+            (USHORT) current_request->tls_cert_len,
             NX_NULL,
             0,
             NULL,

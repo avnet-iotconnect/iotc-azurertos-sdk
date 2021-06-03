@@ -86,7 +86,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 */
 
 #ifndef SAMPLE_SNTP_SERVER_NAME
-#define SAMPLE_SNTP_SERVER_NAME           "time.google.com"    /* SNTP Server.  */
+#define SAMPLE_SNTP_SERVER_NAME           "0.pool.ntp.org"    /* SNTP Server.  */
 #endif /* SAMPLE_SNTP_SERVER_NAME */
 
 #ifndef SAMPLE_SNTP_SYNC_MAX
@@ -303,7 +303,11 @@ ULONG   gateway_address = 0;
     }
 
     /* Start sample.  */
-    app_startup(&ip_0, &pool_0, &dns_0);
+    bool app_status = app_startup(&ip_0, &pool_0, &dns_client);
+    printf("App exited with status %s.\r\n", app_status ? "true" : "false");
+    while (true) {
+        tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);
+    }
 }
 
 #ifndef SAMPLE_DHCP_DISABLE

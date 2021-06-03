@@ -216,9 +216,14 @@ HAL_StatusTypeDef       status;
     erase_init.TypeErase = FLASH_TYPEERASE_PAGES;
     erase_init.Banks = bank;
     erase_init.Page = 0;
-    erase_init.NbPages = (size + 2047) / 2048;
-
+    erase_init.NbPages = (size + FLASH_PAGE_SIZE - 1) / FLASH_PAGE_SIZE;
     HAL_FLASH_Unlock();
+    // This error happens if we erased or partially wrote into the bank's blocks, but it did not complete
+    // It basically means that the boot bank targeted for booting failed.
+    if (__HAL_FLASH_GET_FLAG(FLASH_FLAG_PEMPTY) != 0)
+    {
+      __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_PEMPTY);
+    }
     status = HAL_FLASHEx_Erase(&erase_init, &page_error);
     HAL_FLASH_Lock();
     if ((status != HAL_OK) || page_error != 0xFFFFFFFF)

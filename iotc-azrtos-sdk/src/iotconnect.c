@@ -14,6 +14,8 @@
 #include "iotconnect_discovery.h"
 #include "iotconnect_event.h"
 #include "azrtos_iothub_client.h"
+#include "azrtos_download_client.h"
+#include "iotconnect_certs.h"
 #include "azrtos_https_client.h"
 #include "iotconnect.h"
 
@@ -35,7 +37,7 @@ static IotConnectAzrtosConfig azrtos_config = { 0 };
 static char * hello_response_dtg = NULL;
 #endif
 
-static void dump_response(const char *message, IotConnectHttpResponse *response) {
+static void dump_response(const char *message, IotConnectHttpRequest *response) {
     printf("%s", message);
     if (response->response) {
         printf(" Response was:\r\n----\r\n%s\r\n----\r\n", response->response);
@@ -85,47 +87,47 @@ static void report_sync_error(IotclSyncResponse *response, const char *sync_resp
 }
 
 static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *env) {
-    IotclDiscoveryResponse *ret = NULL;
+    IotConnectHttpRequest req = { 0 };
+
     char resource_str_buff [ sizeof(RESOURCE_PATH_DSICOVERY) + CONFIG_IOTCONNECT_CPID_MAX_LEN + CONFIG_IOTCONNECT_ENV_MAX_LEN + 10 /* slack */ ];
     sprintf(resource_str_buff, RESOURCE_PATH_DSICOVERY, cpid, env);
-    IotConnectHttpResponse hr;
-    UINT status = iotconnect_https_request(&azrtos_config,
-            &hr,
-            IOTCONNECT_DISCOVERY_HOSTNAME,
-            resource_str_buff,
-            NULL);
+
+    req.azrtos_config = &azrtos_config;
+    req.host_name = IOTCONNECT_DISCOVERY_HOSTNAME;
+    req.resource = resource_str_buff;
+    req.tls_cert = (unsigned char*) IOTCONNECT_GODADDY_G2_ROOT_CERT;
+    req.tls_cert_len = IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
+
+    UINT status = iotconnect_https_request(&req);
+
     if (status != NX_SUCCESS) {
-        printf("Discovery: iotconnect_https_request() error code: %x data: %s\r\n", status, hr.response);
-        goto cleanup;
+        printf("Discovery: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
+        return NULL;
     }
-    if (NULL == hr.response || 0 == strlen(hr.response)) {
-        dump_response("Discovery: Unable to obtain HTTP response,", &hr);
-        goto cleanup;
+    if (NULL == req.response || 0 == strlen(req.response)) {
+        dump_response("Discovery: Unable to obtain HTTP response,", &req);
+        return NULL;
     }
 
-    char *json_start = strstr(hr.response, "{");
+    char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
-        dump_response("Discovery: No json response from server.", &hr);
-        goto cleanup;
+        dump_response("Discovery: No json response from server.", &req);
+        return NULL;
     }
-    if (json_start != hr.response) {
-        dump_response("WARN: Expected JSON to start immediately in the returned data.", &hr);
+    if (json_start != req.response) {
+        dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
     }
 
-    ret = iotcl_discovery_parse_discovery_response(json_start);
+    IotclDiscoveryResponse *ret = iotcl_discovery_parse_discovery_response(json_start);
     if (!ret) {
-        dump_response("Discovery: Unable to parse HTTP response,", &hr);
+        dump_response("Discovery: Unable to parse HTTP response,", &req);
     }
 
-    cleanup:
-    // fall through
-    iotconnect_free_https_response(&hr);
     return ret;
 }
 
 static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) {
-    IotclSyncResponse *ret = NULL;
-    IotConnectHttpResponse hr;
+    IotConnectHttpRequest req = { 0 };
     char post_data[IOTCONNECT_DISCOVERY_PROTOCOL_POST_DATA_MAX_LEN + 1] = {0};
     char sync_path [strlen(discovery_response->path) + strlen("sync?") + 1];
 
@@ -136,44 +138,46 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
              cpid,
              uniqueid
     );
-    UINT status = iotconnect_https_request(&azrtos_config,
-            &hr,
-            discovery_response->host,
-            sync_path,
-            post_data);
+
+    req.azrtos_config = &azrtos_config;
+    req.host_name = discovery_response->host;
+    req.resource = sync_path;
+    req.payload = post_data;
+    req.tls_cert = (unsigned char*) IOTCONNECT_GODADDY_G2_ROOT_CERT;
+    req.tls_cert_len = IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
+
+    UINT status = iotconnect_https_request(&req);
+
     if (status != NX_SUCCESS) {
-        printf("Sync: iotconnect_https_request() error code: %x data: %s\r\n", status, hr.response);
-        goto cleanup;
+        printf("Sync: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
+        return NULL;
     }
 
-    if (NULL == hr.response || 0 == strlen(hr.response)) {
-        dump_response("Sync: Unable to obtain HTTP response,", &hr);
-        goto cleanup;
+    if (NULL == req.response || 0 == strlen(req.response)) {
+        dump_response("Sync: Unable to obtain HTTP response,", &req);
+        return NULL;
     }
 
-    char *json_start = strstr(hr.response, "{");
+    char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
-        dump_response("Sync: No json response from server.", &hr);
-        goto cleanup;
+        dump_response("Sync: No json response from server.", &req);
+        return NULL;
     }
-    if (json_start != hr.response) {
-        dump_response("WARN: Expected JSON to start immediately in the returned data.", &hr);
+    if (json_start != req.response) {
+        dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
     }
 
-    ret = iotcl_discovery_parse_sync_response(json_start);
+    IotclSyncResponse *ret = iotcl_discovery_parse_sync_response(json_start);
     if (!ret) {
-        dump_response("Sync: Unable to parse HTTP response,", &hr);
+        dump_response("Sync: Unable to parse HTTP response,", &req);
     }
 
     if (!ret || ret->ds != IOTCL_SR_OK) {
-        report_sync_error(ret, hr.response);
+        report_sync_error(ret, req.response);
         iotcl_discovery_free_sync_response(ret);
         ret = NULL;
     }
 
-    cleanup:
-    // fall through
-    iotconnect_free_https_response(&hr);
     return ret;
 
 }
@@ -292,7 +296,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 	memcpy(&azrtos_config, ac, sizeof(azrtos_config));
     memset(&iic, 0, sizeof(iic));
 
-
 #ifndef PROTOCOL_V2_PROTOTYPE
 
     // TODO: ALLOW CACHING! ---------------------------------------------------------------------------------
@@ -372,7 +375,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 #endif
         return NX_FALSE;
     }
-
 
     ret = iothub_client_init(&iic, &azrtos_config);
     if (ret) {
