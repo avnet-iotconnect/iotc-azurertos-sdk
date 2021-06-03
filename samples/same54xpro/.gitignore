@@ -1,0 +1,12 @@
+.idea/
+/.generated_files
+/build
+/dist
+/debug
+
+/netxduo
+/threadx
+/filex
+/same54_lib
+/common_hardware_code
+

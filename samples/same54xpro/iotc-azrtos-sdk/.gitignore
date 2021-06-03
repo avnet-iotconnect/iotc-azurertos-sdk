@@ -1,0 +1,9 @@
+# Ignore everything
+*
+
+# Except not these files...
+!.gitignore
+!Makefile
+!/nbproject/configurations.xml
+!/nbproject/project.xml
+
