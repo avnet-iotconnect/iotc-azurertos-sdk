@@ -99,6 +99,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/mqtt}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/crypto_libraries/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.259180708" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.optimization.flags.1379576986" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>
@@ -263,6 +264,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/mqtt}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/crypto_libraries/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.357784706" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.optimization.flags.325558003" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>

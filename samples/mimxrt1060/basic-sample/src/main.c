@@ -303,7 +303,7 @@ ULONG   gateway_address = 0;
     }
 
     /* Start sample.  */
-    bool app_status = app_startup(&ip_0, &pool_0, &dns_client);
+    bool app_status = app_startup(&ip_0, &pool_0, &dns_0);
     printf("App exited with status %s.\r\n", app_status ? "true" : "false");
     while (true) {
         tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);
