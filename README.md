@@ -39,6 +39,10 @@ openssl ecparam -name secp256k1 -genkey -noout -out "${CPID}/${name}-key.pem"
 whith this:
 
 ```shell script
+# for mimxrt1060, the 2048 key size makes processing TLS handshake too slow to complete within 60 seconds
+# and that will cause the server to disconnect us
+openssl genrsa -out "${CPID}/${name}-key.pem" 1024
+# for all others, 2048 can be used to increase security, but 1024 will make the connection process faster:
 openssl genrsa -out "${CPID}/${name}-key.pem" 2048
 ```
 * Generate the device certificates per iotc-c-lib's [ecc-certs section](https://github.com/avnet-iotconnect/iotc-c-lib/tree/master/tools/ecc-certs) instructions
@@ -47,7 +51,7 @@ openssl genrsa -out "${CPID}/${name}-key.pem" 2048
 ```shell script
 cd <your_cpid>
 $device=<duid> # IoTConnect device unique id
-openssl rsa -inform PEM -outform DER -in $device-key.pem -out $device-key.pem.der
+openssl rsa -inform PEM -outform DER -in $device-key.pem -out $device-key.der
 openssl x509 -outform DER -inform PEM -in $device-crt.pem -out $device-crt.der
 xxd -i $device-crt.der > $device-crt.c
 xxd -i $device-key.der > $device-key.c
@@ -61,7 +65,8 @@ Use of MICROSOFT AZURE RTOS software is restricted under the corresponding licen
 This repo's derivative work from Azure RTOS distribution also falls under the same MICROSOFT AZURE RTOS license.
 
 # Notes and Known issues
-
+* When using  2048 key size mimxrt1060 is too slow to complete processing the TLS handshake within 60 seconds. 
+That will cause the server to disconnect.
 * Ofast Optimization should not be enabled in the main project because of the
 AzureRTOS issue [#14](https://github.com/azure-rtos/samples/issues/14). Os (size) optimization has been tested in the the project.
 * It appears that ES-WIFI firmware is unable to connect to IP addresses ending with 0. 
