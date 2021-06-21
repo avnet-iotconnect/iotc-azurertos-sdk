@@ -13,13 +13,15 @@ Keep subdirectories selected, but unselect the actual stm32l4 sample directory
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).
+  * It is also recommended to close the "Globals" window, next to the "Outline" in the top right dock. 
+It may be causing hangs during debugging and perspective switching.
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
 Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
 * For SAM E54 Xplaineed Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later
   * In MPLab, File > Open Project and select all projects
-  * Plug in your board AFTER opening the project, so that MPLab detects it
+  * Plug in your board AFTER opening the project, so that MPLAB detects it
 from the extracted zip file
 * Modify samples/<your_borard>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
 * Build and run or debug the project on your board.
