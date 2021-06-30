@@ -26,11 +26,6 @@
 #define SAMPLE_SNTP_UPDATE_INTERVAL       (NX_IP_PERIODIC_RATE / 2)
 #endif /* SAMPLE_SNTP_UPDATE_INTERVAL */
 
-/* Default time. GMT: Friday, Jan 1, 2021 12:00:00 AM. Epoch timestamp: 1609459200.  */
-#ifndef SAMPLE_SYSTEM_TIME
-#define SAMPLE_SYSTEM_TIME                1609459200
-#endif /* SAMPLE_SYSTEM_TIME  */
-
 /* Seconds between Unix Epoch (1/1/1970) and NTP Epoch (1/1/1999) */
 #define SAMPLE_UNIX_TO_NTP_EPOCH_SECOND   0x83AA7E80
 

@@ -265,6 +265,7 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
+    iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -278,13 +279,12 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
 
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
-    if (strcmp("your_cpid", IOTCONNECT_CPID))
-        config->cpid = IOTCONNECT_CPID;
+    config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
-    config->duid = IOTCONNECT_DUID; // custom Ddevice ID
+    config->duid = IOTCONNECT_DUID; // custom device ID
 #else
-    config->duid = (char*) compose_device_id(); // stm-<MAC Addres>
+    config->duid = (char*) compose_device_id(); // <DUID_PREFIX>-<MAC Address>
 #endif
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
