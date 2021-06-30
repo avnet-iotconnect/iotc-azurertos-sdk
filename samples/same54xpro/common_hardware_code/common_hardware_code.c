@@ -9,6 +9,7 @@
 uint32_t TRNG_ReadData(void);
 void TRNG_Initialize(void);
 uint32_t hardware_rand(void);
+void FLASH_0_init(void);
 
 VOID hardware_setup(void)
 {
@@ -27,6 +28,8 @@ VOID hardware_setup(void)
     
     /* Init the seed.  */
     srand(hardware_rand());
+    
+    FLASH_0_init();
     
 }
 

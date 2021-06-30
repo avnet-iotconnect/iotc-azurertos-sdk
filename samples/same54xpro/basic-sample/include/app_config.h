@@ -9,7 +9,7 @@
 #define IOTCONNECT_CPID ""
 #define IOTCONNECT_ENV  ""
 
-//#define IOTCONNECT_DUID "" // you can supply a custom device UID, or...
+//#define IOTCONNECT_DUID "same54xpro" // you can supply a custom device UID, or...
 #define DUID_PREFIX "mchip-" // mac address will be appended in format 012345abcdef
 
 // if it is not defined, device certs will be used in iotconnect_app.c

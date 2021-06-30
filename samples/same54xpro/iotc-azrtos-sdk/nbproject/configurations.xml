@@ -10,6 +10,7 @@
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
             <itemPath>azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
+            <itemPath>azrtos-layer/azrtos-ota/include/azrtos_ota_fw_client.h</itemPath>
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="include" displayName="include" projectFiles="true">
@@ -17,6 +18,7 @@
           <itemPath>azrtos-layer/include/azrtos_iothub_client.h</itemPath>
           <itemPath>azrtos-layer/include/azrtos_time.h</itemPath>
           <itemPath>azrtos-layer/include/nx_azure_iot_ciphersuites.h</itemPath>
+          <itemPath>azrtos-layer/include/azrtos_download_client.h</itemPath>
         </logicalFolder>
         <logicalFolder name="nx-http-client"
                        displayName="nx-http-client"
@@ -60,6 +62,9 @@
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
           </logicalFolder>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <itemPath>azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c</itemPath>
+          </logicalFolder>
         </logicalFolder>
         <logicalFolder name="include" displayName="include" projectFiles="true">
         </logicalFolder>
@@ -73,6 +78,7 @@
           <itemPath>azrtos-layer/src/azrtos_iothub_client.c</itemPath>
           <itemPath>azrtos-layer/src/azrtos_time.c</itemPath>
           <itemPath>azrtos-layer/src/nx_azure_iot_ciphersuites.c</itemPath>
+          <itemPath>azrtos-layer/src/azrtos_download_client.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="cJSON" displayName="cJSON" projectFiles="true">
@@ -121,8 +127,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -165,7 +171,7 @@
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
         <property key="make-warnings-into-errors" value="false"/>
-        <property key="optimization-level" value=""/>
+        <property key="optimization-level" value="-O1"/>
         <property key="place-data-into-section" value="false"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
@@ -261,7 +267,7 @@
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
         <property key="make-warnings-into-errors" value="false"/>
-        <property key="optimization-level" value=""/>
+        <property key="optimization-level" value="-O1"/>
         <property key="place-data-into-section" value="false"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
@@ -276,7 +282,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc"/>
+                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;azrtos-layer\azrtos-ota\include"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>
