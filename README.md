@@ -17,7 +17,7 @@ Keep subdirectories selected, but unselect the actual stm32l4 sample directory
 It may be causing hangs during debugging and perspective switching.
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
 Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
-* For SAM E54 Xplained Pro:
+* For SAM E54 Xplaineed Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.(Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
   * In MPLab, File > Open Project and select all projects
