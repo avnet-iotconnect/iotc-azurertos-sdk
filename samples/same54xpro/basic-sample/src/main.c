@@ -147,7 +147,7 @@ int main(void)
 {   
     /* Setup the hardware. */
     hardware_setup();
-    
+
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
 }
@@ -329,7 +329,7 @@ ULONG   actual_status;
 
     /* Create the DHCP instance.  */
     nx_dhcp_create(&dhcp_0, &ip_0, "DHCP Client");
-    
+
     /* Start the DHCP Client.  */
     nx_dhcp_start(&dhcp_0);
 
