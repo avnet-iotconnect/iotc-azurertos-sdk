@@ -98,8 +98,6 @@ int main(void) {
     init_sensors();
 
     // memory_test();
-    // otherwise can't read from uart?...
-    //setvbuf(stdin, NULL, _IONBF, 0);
 
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
