@@ -13,7 +13,7 @@
 #define IOTCONNECT_ENV  "your environment"
 
 //#define IOTCONNECT_DUID "custom_DUID" // you can supply a custom device UID, or...
-#define DUID_PREFIX "nxp-" // mac address will be appended in format 012345abcdef
+#define DUID_PREFIX "stm32-" // mac address will be appended in format 012345abcdef
 
 // if it is not defined, device certs will be used in iotconnect_app.c
 #define IOTCONNECT_SYMETRIC_KEY "symetric key"
