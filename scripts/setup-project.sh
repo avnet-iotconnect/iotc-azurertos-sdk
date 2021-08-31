@@ -67,7 +67,7 @@ case "$name" in
   same54xpro)
 #    wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
 	wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/rel_6.1_adu_beta/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
-    project_dir='same54Xpro/mplab/'
+    project_dir='mplab/'
     libs="same54_lib filex "
     ;;
   *)
