@@ -26,9 +26,15 @@ git clone --depth 1 --branch v1.7.13 git://github.com/DaveGamble/cJSON.git
 if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
   git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
   git update-index --no-assume-unchanged basic-sample/include/app_config.h
+  if [[ -f sensors-demo/include/app_config.h ]]; then
+    git update-index --no-assume-unchanged sensors-demo/include/app_config.h
+  fi
 else
   git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
   git update-index --assume-unchanged basic-sample/include/app_config.h
+  if [[ -f sensors-demo/include/app_config.h ]]; then
+    git update-index --assume-unchanged sensors-demo/include/app_config.h
+  fi
 fi
 
 
