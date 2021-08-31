@@ -67,7 +67,7 @@ case "$name" in
   same54xpro)
     #wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
     wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/rel_6.1_adu_beta/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
-    project_dir='mplab/'
+    project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
   *)
@@ -78,6 +78,14 @@ esac
 echo Extracting...
 unzip -q azrtos.zip
 rm -f azrtos.zip
+
+case "$name" in
+  same54xpro)
+    # only 1 level of inderection in the zip (unlike others). Shim here:
+    mkdir same54Xpro
+    mv mplab/ same54Xpro/.
+    ;;
+esac
 
 # copy  only relevant directories into corresponding locations without overwriting
 pushd "${project_dir}" >/dev/null
