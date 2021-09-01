@@ -4,7 +4,7 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
@@ -26,9 +26,15 @@ git clone --depth 1 --branch v1.7.13 git://github.com/DaveGamble/cJSON.git
 if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
   git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
   git update-index --no-assume-unchanged basic-sample/include/app_config.h
+  if [[ -f sensors-demo/include/app_config.h ]]; then
+    git update-index --no-assume-unchanged sensors-demo/include/app_config.h
+  fi
 else
   git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
   git update-index --assume-unchanged basic-sample/include/app_config.h
+  if [[ -f sensors-demo/include/app_config.h ]]; then
+    git update-index --assume-unchanged sensors-demo/include/app_config.h
+  fi
 fi
 
 
@@ -59,8 +65,8 @@ case "$name" in
     libs="mimxrt1060_library filex "
     ;;
   same54xpro)
-#    wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
-	wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/rel_6.1_adu_beta/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
+    #wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
+    wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/rel_6.1_adu_beta/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
@@ -72,6 +78,14 @@ esac
 echo Extracting...
 unzip -q azrtos.zip
 rm -f azrtos.zip
+
+case "$name" in
+  same54xpro)
+    # only 1 level of inderection in the zip (unlike others). Shim here:
+    mkdir same54Xpro
+    mv mplab/ same54Xpro/.
+    ;;
+esac
 
 # copy  only relevant directories into corresponding locations without overwriting
 pushd "${project_dir}" >/dev/null
