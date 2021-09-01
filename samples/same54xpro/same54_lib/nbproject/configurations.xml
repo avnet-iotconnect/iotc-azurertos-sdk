@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="65">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="same54_lib" displayName="same54_lib" projectFiles="true">
+        <logicalFolder name="component" displayName="component" projectFiles="true">
+          <itemPath>same54_lib/component/ac.h</itemPath>
+          <itemPath>same54_lib/component/adc.h</itemPath>
+          <itemPath>same54_lib/component/aes.h</itemPath>
+          <itemPath>same54_lib/component/can.h</itemPath>
+          <itemPath>same54_lib/component/ccl.h</itemPath>
+          <itemPath>same54_lib/component/cmcc.h</itemPath>
+          <itemPath>same54_lib/component/dac.h</itemPath>
+          <itemPath>same54_lib/component/dmac.h</itemPath>
+          <itemPath>same54_lib/component/dsu.h</itemPath>
+          <itemPath>same54_lib/component/eic.h</itemPath>
+          <itemPath>same54_lib/component/evsys.h</itemPath>
+          <itemPath>same54_lib/component/freqm.h</itemPath>
+          <itemPath>same54_lib/component/gclk.h</itemPath>
+          <itemPath>same54_lib/component/gmac.h</itemPath>
+          <itemPath>same54_lib/component/hmatrixb.h</itemPath>
+          <itemPath>same54_lib/component/i2s.h</itemPath>
+          <itemPath>same54_lib/component/icm.h</itemPath>
+          <itemPath>same54_lib/component/mclk.h</itemPath>
+          <itemPath>same54_lib/component/nvmctrl.h</itemPath>
+          <itemPath>same54_lib/component/osc32kctrl.h</itemPath>
+          <itemPath>same54_lib/component/oscctrl.h</itemPath>
+          <itemPath>same54_lib/component/pac.h</itemPath>
+          <itemPath>same54_lib/component/pcc.h</itemPath>
+          <itemPath>same54_lib/component/pdec.h</itemPath>
+          <itemPath>same54_lib/component/picop.h</itemPath>
+          <itemPath>same54_lib/component/pm.h</itemPath>
+          <itemPath>same54_lib/component/port.h</itemPath>
+          <itemPath>same54_lib/component/qspi.h</itemPath>
+          <itemPath>same54_lib/component/ramecc.h</itemPath>
+          <itemPath>same54_lib/component/rstc.h</itemPath>
+          <itemPath>same54_lib/component/rtc.h</itemPath>
+          <itemPath>same54_lib/component/sdhc.h</itemPath>
+          <itemPath>same54_lib/component/sercom.h</itemPath>
+          <itemPath>same54_lib/component/supc.h</itemPath>
+          <itemPath>same54_lib/component/tc.h</itemPath>
+          <itemPath>same54_lib/component/tcc.h</itemPath>
+          <itemPath>same54_lib/component/trng.h</itemPath>
+          <itemPath>same54_lib/component/usb.h</itemPath>
+          <itemPath>same54_lib/component/wdt.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="instance" displayName="instance" projectFiles="true">
+          <itemPath>same54_lib/instance/ac.h</itemPath>
+          <itemPath>same54_lib/instance/adc0.h</itemPath>
+          <itemPath>same54_lib/instance/adc1.h</itemPath>
+          <itemPath>same54_lib/instance/aes.h</itemPath>
+          <itemPath>same54_lib/instance/can0.h</itemPath>
+          <itemPath>same54_lib/instance/can1.h</itemPath>
+          <itemPath>same54_lib/instance/ccl.h</itemPath>
+          <itemPath>same54_lib/instance/cmcc.h</itemPath>
+          <itemPath>same54_lib/instance/dac.h</itemPath>
+          <itemPath>same54_lib/instance/dmac.h</itemPath>
+          <itemPath>same54_lib/instance/dsu.h</itemPath>
+          <itemPath>same54_lib/instance/eic.h</itemPath>
+          <itemPath>same54_lib/instance/evsys.h</itemPath>
+          <itemPath>same54_lib/instance/freqm.h</itemPath>
+          <itemPath>same54_lib/instance/gclk.h</itemPath>
+          <itemPath>same54_lib/instance/gmac.h</itemPath>
+          <itemPath>same54_lib/instance/hmatrix.h</itemPath>
+          <itemPath>same54_lib/instance/i2s.h</itemPath>
+          <itemPath>same54_lib/instance/icm.h</itemPath>
+          <itemPath>same54_lib/instance/mclk.h</itemPath>
+          <itemPath>same54_lib/instance/nvmctrl.h</itemPath>
+          <itemPath>same54_lib/instance/osc32kctrl.h</itemPath>
+          <itemPath>same54_lib/instance/oscctrl.h</itemPath>
+          <itemPath>same54_lib/instance/pac.h</itemPath>
+          <itemPath>same54_lib/instance/pcc.h</itemPath>
+          <itemPath>same54_lib/instance/pdec.h</itemPath>
+          <itemPath>same54_lib/instance/picop.h</itemPath>
+          <itemPath>same54_lib/instance/pm.h</itemPath>
+          <itemPath>same54_lib/instance/port.h</itemPath>
+          <itemPath>same54_lib/instance/pukcc.h</itemPath>
+          <itemPath>same54_lib/instance/qspi.h</itemPath>
+          <itemPath>same54_lib/instance/ramecc.h</itemPath>
+          <itemPath>same54_lib/instance/rstc.h</itemPath>
+          <itemPath>same54_lib/instance/rtc.h</itemPath>
+          <itemPath>same54_lib/instance/sdhc0.h</itemPath>
+          <itemPath>same54_lib/instance/sdhc1.h</itemPath>
+          <itemPath>same54_lib/instance/sercom0.h</itemPath>
+          <itemPath>same54_lib/instance/sercom1.h</itemPath>
+          <itemPath>same54_lib/instance/sercom2.h</itemPath>
+          <itemPath>same54_lib/instance/sercom3.h</itemPath>
+          <itemPath>same54_lib/instance/sercom4.h</itemPath>
+          <itemPath>same54_lib/instance/sercom5.h</itemPath>
+          <itemPath>same54_lib/instance/sercom6.h</itemPath>
+          <itemPath>same54_lib/instance/sercom7.h</itemPath>
+          <itemPath>same54_lib/instance/supc.h</itemPath>
+          <itemPath>same54_lib/instance/tc0.h</itemPath>
+          <itemPath>same54_lib/instance/tc1.h</itemPath>
+          <itemPath>same54_lib/instance/tc2.h</itemPath>
+          <itemPath>same54_lib/instance/tc3.h</itemPath>
+          <itemPath>same54_lib/instance/tc4.h</itemPath>
+          <itemPath>same54_lib/instance/tc5.h</itemPath>
+          <itemPath>same54_lib/instance/tc6.h</itemPath>
+          <itemPath>same54_lib/instance/tc7.h</itemPath>
+          <itemPath>same54_lib/instance/tcc0.h</itemPath>
+          <itemPath>same54_lib/instance/tcc1.h</itemPath>
+          <itemPath>same54_lib/instance/tcc2.h</itemPath>
+          <itemPath>same54_lib/instance/tcc3.h</itemPath>
+          <itemPath>same54_lib/instance/tcc4.h</itemPath>
+          <itemPath>same54_lib/instance/trng.h</itemPath>
+          <itemPath>same54_lib/instance/usb.h</itemPath>
+          <itemPath>same54_lib/instance/wdt.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="pio" displayName="pio" projectFiles="true">
+          <itemPath>same54_lib/pio/same54n19a.h</itemPath>
+          <itemPath>same54_lib/pio/same54n20a.h</itemPath>
+          <itemPath>same54_lib/pio/same54p19a.h</itemPath>
+          <itemPath>same54_lib/pio/same54p20a.h</itemPath>
+        </logicalFolder>
+        <itemPath>same54_lib/atmel_start.h</itemPath>
+        <itemPath>same54_lib/atmel_start_pins.h</itemPath>
+        <itemPath>same54_lib/compiler.h</itemPath>
+        <itemPath>same54_lib/driver_init.h</itemPath>
+        <itemPath>same54_lib/err_codes.h</itemPath>
+        <itemPath>same54_lib/ethernet_phy.h</itemPath>
+        <itemPath>same54_lib/ethernet_phy_main.h</itemPath>
+        <itemPath>same54_lib/events.h</itemPath>
+        <itemPath>same54_lib/hal_atomic.h</itemPath>
+        <itemPath>same54_lib/hal_cache.h</itemPath>
+        <itemPath>same54_lib/hal_delay.h</itemPath>
+        <itemPath>same54_lib/hal_gpio.h</itemPath>
+        <itemPath>same54_lib/hal_i2c_m_sync.h</itemPath>
+        <itemPath>same54_lib/hal_init.h</itemPath>
+        <itemPath>same54_lib/hal_io.h</itemPath>
+        <itemPath>same54_lib/hal_mac_async.h</itemPath>
+        <itemPath>same54_lib/hal_sleep.h</itemPath>
+        <itemPath>same54_lib/hal_usart_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_cmcc.h</itemPath>
+        <itemPath>same54_lib/hpl_cmcc_config.h</itemPath>
+        <itemPath>same54_lib/hpl_core.h</itemPath>
+        <itemPath>same54_lib/hpl_core_port.h</itemPath>
+        <itemPath>same54_lib/hpl_delay.h</itemPath>
+        <itemPath>same54_lib/hpl_dma.h</itemPath>
+        <itemPath>same54_lib/hpl_dmac_config.h</itemPath>
+        <itemPath>same54_lib/hpl_gclk_base.h</itemPath>
+        <itemPath>same54_lib/hpl_gclk_config.h</itemPath>
+        <itemPath>same54_lib/hpl_gmac_config.h</itemPath>
+        <itemPath>same54_lib/hpl_gpio.h</itemPath>
+        <itemPath>same54_lib/hpl_gpio_base.h</itemPath>
+        <itemPath>same54_lib/hpl_i2c_m_async.h</itemPath>
+        <itemPath>same54_lib/hpl_i2c_m_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_i2c_s_async.h</itemPath>
+        <itemPath>same54_lib/hpl_i2c_s_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_init.h</itemPath>
+        <itemPath>same54_lib/hpl_irq.h</itemPath>
+        <itemPath>same54_lib/hpl_mac_async.h</itemPath>
+        <itemPath>same54_lib/hpl_mclk_config.h</itemPath>
+        <itemPath>same54_lib/hpl_missing_features.h</itemPath>
+        <itemPath>same54_lib/hpl_osc32kctrl_config.h</itemPath>
+        <itemPath>same54_lib/hpl_oscctrl_config.h</itemPath>
+        <itemPath>same54_lib/hpl_pm_base.h</itemPath>
+        <itemPath>same54_lib/hpl_port_config.h</itemPath>
+        <itemPath>same54_lib/hpl_ramecc.h</itemPath>
+        <itemPath>same54_lib/hpl_reset.h</itemPath>
+        <itemPath>same54_lib/hpl_sercom_config.h</itemPath>
+        <itemPath>same54_lib/hpl_sleep.h</itemPath>
+        <itemPath>same54_lib/hpl_spi.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_async.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_m_async.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_m_dma.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_m_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_s_async.h</itemPath>
+        <itemPath>same54_lib/hpl_spi_s_sync.h</itemPath>
+        <itemPath>same54_lib/hpl_usart.h</itemPath>
+        <itemPath>same54_lib/hpl_usart_async.h</itemPath>
+        <itemPath>same54_lib/hpl_usart_sync.h</itemPath>
+        <itemPath>same54_lib/hri_ac_e54.h</itemPath>
+        <itemPath>same54_lib/hri_adc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_aes_e54.h</itemPath>
+        <itemPath>same54_lib/hri_can_e54.h</itemPath>
+        <itemPath>same54_lib/hri_ccl_e54.h</itemPath>
+        <itemPath>same54_lib/hri_cmcc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_dac_e54.h</itemPath>
+        <itemPath>same54_lib/hri_dmac_e54.h</itemPath>
+        <itemPath>same54_lib/hri_dsu_e54.h</itemPath>
+        <itemPath>same54_lib/hri_e54.h</itemPath>
+        <itemPath>same54_lib/hri_eic_e54.h</itemPath>
+        <itemPath>same54_lib/hri_evsys_e54.h</itemPath>
+        <itemPath>same54_lib/hri_freqm_e54.h</itemPath>
+        <itemPath>same54_lib/hri_gclk_e54.h</itemPath>
+        <itemPath>same54_lib/hri_gmac_e54.h</itemPath>
+        <itemPath>same54_lib/hri_hmatrixb_e54.h</itemPath>
+        <itemPath>same54_lib/hri_i2s_e54.h</itemPath>
+        <itemPath>same54_lib/hri_icm_e54.h</itemPath>
+        <itemPath>same54_lib/hri_mclk_e54.h</itemPath>
+        <itemPath>same54_lib/hri_nvmctrl_e54.h</itemPath>
+        <itemPath>same54_lib/hri_osc32kctrl_e54.h</itemPath>
+        <itemPath>same54_lib/hri_oscctrl_e54.h</itemPath>
+        <itemPath>same54_lib/hri_pac_e54.h</itemPath>
+        <itemPath>same54_lib/hri_pcc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_pdec_e54.h</itemPath>
+        <itemPath>same54_lib/hri_pm_e54.h</itemPath>
+        <itemPath>same54_lib/hri_port_e54.h</itemPath>
+        <itemPath>same54_lib/hri_qspi_e54.h</itemPath>
+        <itemPath>same54_lib/hri_ramecc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_rstc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_rtc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_sdhc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_sercom_e54.h</itemPath>
+        <itemPath>same54_lib/hri_supc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_tcc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_tc_e54.h</itemPath>
+        <itemPath>same54_lib/hri_trng_e54.h</itemPath>
+        <itemPath>same54_lib/hri_usb_e54.h</itemPath>
+        <itemPath>same54_lib/hri_wdt_e54.h</itemPath>
+        <itemPath>same54_lib/ieee8023_mii_standard_config.h</itemPath>
+        <itemPath>same54_lib/ieee8023_mii_standard_register.h</itemPath>
+        <itemPath>same54_lib/parts.h</itemPath>
+        <itemPath>same54_lib/peripheral_clk_config.h</itemPath>
+        <itemPath>same54_lib/sam.h</itemPath>
+        <itemPath>same54_lib/same54.h</itemPath>
+        <itemPath>same54_lib/same54p20a.h</itemPath>
+        <itemPath>same54_lib/stdio_io.h</itemPath>
+        <itemPath>same54_lib/stdio_redirect_config.h</itemPath>
+        <itemPath>same54_lib/stdio_start.h</itemPath>
+        <itemPath>same54_lib/system_same54.h</itemPath>
+        <itemPath>same54_lib/utils.h</itemPath>
+        <itemPath>same54_lib/utils_assert.h</itemPath>
+        <itemPath>same54_lib/utils_event.h</itemPath>
+        <itemPath>same54_lib/utils_increment_macro.h</itemPath>
+        <itemPath>same54_lib/utils_list.h</itemPath>
+        <itemPath>same54_lib/utils_repeat_macro.h</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="same54_lib" displayName="same54_lib" projectFiles="true">
+        <logicalFolder name="component" displayName="component" projectFiles="true">
+        </logicalFolder>
+        <logicalFolder name="instance" displayName="instance" projectFiles="true">
+        </logicalFolder>
+        <logicalFolder name="pio" displayName="pio" projectFiles="true">
+        </logicalFolder>
+        <itemPath>same54_lib/atmel_start.c</itemPath>
+        <itemPath>same54_lib/driver_init.c</itemPath>
+        <itemPath>same54_lib/ethernet_phy.c</itemPath>
+        <itemPath>same54_lib/ethernet_phy_main.c</itemPath>
+        <itemPath>same54_lib/hal_atomic.c</itemPath>
+        <itemPath>same54_lib/hal_cache.c</itemPath>
+        <itemPath>same54_lib/hal_delay.c</itemPath>
+        <itemPath>same54_lib/hal_gpio.c</itemPath>
+        <itemPath>same54_lib/hal_i2c_m_sync.c</itemPath>
+        <itemPath>same54_lib/hal_init.c</itemPath>
+        <itemPath>same54_lib/hal_io.c</itemPath>
+        <itemPath>same54_lib/hal_mac_async.c</itemPath>
+        <itemPath>same54_lib/hal_sleep.c</itemPath>
+        <itemPath>same54_lib/hal_usart_sync.c</itemPath>
+        <itemPath>same54_lib/hpl_cmcc.c</itemPath>
+        <itemPath>same54_lib/hpl_core_m4.c</itemPath>
+        <itemPath>same54_lib/hpl_dmac.c</itemPath>
+        <itemPath>same54_lib/hpl_gclk.c</itemPath>
+        <itemPath>same54_lib/hpl_gmac.c</itemPath>
+        <itemPath>same54_lib/hpl_init.c</itemPath>
+        <itemPath>same54_lib/hpl_mclk.c</itemPath>
+        <itemPath>same54_lib/hpl_osc32kctrl.c</itemPath>
+        <itemPath>same54_lib/hpl_oscctrl.c</itemPath>
+        <itemPath>same54_lib/hpl_pm.c</itemPath>
+        <itemPath>same54_lib/hpl_ramecc.c</itemPath>
+        <itemPath>same54_lib/hpl_sercom.c</itemPath>
+        <itemPath>same54_lib/read.c</itemPath>
+        <itemPath>same54_lib/stdio_io.c</itemPath>
+        <itemPath>same54_lib/stdio_start.c</itemPath>
+        <itemPath>same54_lib/system_same54.c</itemPath>
+        <itemPath>same54_lib/write.c</itemPath>
+        <itemPath>same54_lib/driver_init_flash.c</itemPath>
+        <itemPath>same54_lib/hal_flash.c</itemPath>
+        <itemPath>same54_lib/hpl_nvmctrl.c</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>same54_lib</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>ATSAME54P20A</targetDevice>
+        <targetHeader></targetHeader>
+        <targetPluginBoard></targetPluginBoard>
+        <platformTool>noID</platformTool>
+        <languageToolchain>XC32</languageToolchain>
+        <languageToolchainVersion>3.00</languageToolchainVersion>
+        <platform>3</platform>
+      </toolsSet>
+      <packs>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.2.56"/>
+      </packs>
+      <ScriptingSettings>
+      </ScriptingSettings>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <archiverTool>
+        </archiverTool>
+        <loading>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <parseOnProdLoad>false</parseOnProdLoad>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
+        <subordinates>
+        </subordinates>
+      </compileType>
+      <makeCustomizationType>
+        <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
+        <makeUseCleanTarget>false</makeUseCleanTarget>
+        <makeCustomizationPreStep></makeCustomizationPreStep>
+        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStep></makeCustomizationPostStep>
+        <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
+        <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
+        <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
+      </makeCustomizationType>
+      <C32>
+        <property key="additional-warnings" value="false"/>
+        <property key="addresss-attribute-use" value="false"/>
+        <property key="enable-app-io" value="false"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-symbols" value="true"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="exclude-floating-point" value="false"/>
+        <property key="extra-include-directories"
+                  value="same54_lib;same54_lib\component;same54_lib\instance;same54_lib\pio;..\nxd\nxd;..\tx\tx;..\basic-sample"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="make-warnings-into-errors" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="place-data-into-section" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="strict-ansi" value="false"/>
+        <property key="support-ansi" value="false"/>
+        <property key="toplevel-reordering" value=""/>
+        <property key="unaligned-access" value=""/>
+        <property key="use-cci" value="false"/>
+        <property key="use-iar" value="false"/>
+        <property key="use-indirect-calls" value="false"/>
+      </C32>
+      <C32-AR>
+        <property key="additional-options-chop-files" value="false"/>
+      </C32-AR>
+      <C32-AS>
+        <property key="assembler-symbols" value=""/>
+        <property key="enable-symbols" value="true"/>
+        <property key="exclude-floating-point-library" value="false"/>
+        <property key="expand-macros" value="false"/>
+        <property key="extra-include-directories-for-assembler" value=""/>
+        <property key="extra-include-directories-for-preprocessor" value=""/>
+        <property key="false-conditionals" value="false"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="keep-locals" value="false"/>
+        <property key="list-assembly" value="false"/>
+        <property key="list-source" value="false"/>
+        <property key="list-symbols" value="false"/>
+        <property key="oXC32asm-list-to-file" value="false"/>
+        <property key="omit-debug-dirs" value="false"/>
+        <property key="omit-forms" value="false"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="warning-level" value=""/>
+      </C32-AS>
+      <C32-CO>
+        <property key="coverage-enable" value=""/>
+      </C32-CO>
+      <C32-LD>
+        <property key="additional-options-use-response-files" value="false"/>
+        <property key="additional-options-write-sla" value="false"/>
+        <property key="allocate-dinit" value="false"/>
+        <property key="code-dinit" value="false"/>
+        <property key="ebase-addr" value=""/>
+        <property key="enable-check-sections" value="false"/>
+        <property key="exclude-floating-point-library" value="false"/>
+        <property key="exclude-standard-libraries" value="false"/>
+        <property key="extra-lib-directories" value=""/>
+        <property key="fill-flash-options-addr" value=""/>
+        <property key="fill-flash-options-const" value=""/>
+        <property key="fill-flash-options-how" value="0"/>
+        <property key="fill-flash-options-inc-const" value="1"/>
+        <property key="fill-flash-options-increment" value=""/>
+        <property key="fill-flash-options-seq" value=""/>
+        <property key="fill-flash-options-what" value="0"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-cross-reference-file" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="heap-size" value=""/>
+        <property key="input-libraries" value=""/>
+        <property key="kseg-length" value=""/>
+        <property key="kseg-origin" value=""/>
+        <property key="linker-symbols" value=""/>
+        <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
+        <property key="no-device-startup-code" value="false"/>
+        <property key="no-startup-files" value="false"/>
+        <property key="oXC32ld-extra-opts" value=""/>
+        <property key="optimization-level" value=""/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="remove-unused-sections" value="false"/>
+        <property key="report-memory-usage" value="false"/>
+        <property key="serial-length" value=""/>
+        <property key="serial-origin" value=""/>
+        <property key="stack-size" value=""/>
+        <property key="symbol-stripping" value=""/>
+        <property key="trace-symbols" value=""/>
+        <property key="warn-section-align" value="false"/>
+      </C32-LD>
+      <C32CPP>
+        <property key="additional-warnings" value="false"/>
+        <property key="addresss-attribute-use" value="false"/>
+        <property key="check-new" value="false"/>
+        <property key="eh-specs" value="true"/>
+        <property key="enable-app-io" value="false"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-symbols" value="true"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="exceptions" value="true"/>
+        <property key="exclude-floating-point" value="false"/>
+        <property key="extra-include-directories" value=""/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="make-warnings-into-errors" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="place-data-into-section" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="rtti" value="true"/>
+        <property key="strict-ansi" value="false"/>
+        <property key="toplevel-reordering" value=""/>
+        <property key="unaligned-access" value=""/>
+        <property key="use-cci" value="false"/>
+        <property key="use-iar" value="false"/>
+        <property key="use-indirect-calls" value="false"/>
+      </C32CPP>
+      <C32Global>
+        <property key="common-include-directories"
+                  value="..\basic-sample_adu;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc"/>
+        <property key="gp-relative-option" value=""/>
+        <property key="legacy-libc" value="false"/>
+        <property key="mdtcm" value=""/>
+        <property key="mitcm" value=""/>
+        <property key="mstacktcm" value="false"/>
+        <property key="omit-pack-options" value="1"/>
+        <property key="relaxed-math" value="false"/>
+        <property key="save-temps" value="false"/>
+        <property key="wpo-lto" value="false"/>
+      </C32Global>
+    </conf>
+  </confs>
+</configurationDescriptor>

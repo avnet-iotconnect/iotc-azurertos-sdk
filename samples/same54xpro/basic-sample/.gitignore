@@ -1,0 +1,5 @@
+/nbproject/*.mk
+/nbproject/*.properties
+/nbproject/*.bash
+/nbproject/private
+

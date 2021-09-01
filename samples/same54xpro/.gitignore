@@ -1,4 +1,4 @@
-/.idea/
+/.idea
 /.generated_files
 /build
 /dist
@@ -7,6 +7,5 @@
 /netxduo
 /threadx
 /filex
-/same54_lib
 /common_hardware_code
 
