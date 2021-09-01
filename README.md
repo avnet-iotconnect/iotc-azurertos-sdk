@@ -24,8 +24,10 @@ It may be causing hangs during debugging and perspective switching.
 Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
 * For SAM E54 Xplaineed Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
-  * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.(Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
-  * In MPLab, File > Open Project and select all projects
+  * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
+  (Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
+  * In MPLab, File > Open Project, navigate to the samples/same54xpro directory, select basic-sample, 
+  check the "Open Required Proejcts" checkbox, and click the "Open Project" button.   
   * Plug in your board AFTER opening the project, so that MPLAB detects it
 from the extracted zip file
 * Modify samples/<your_borard>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
