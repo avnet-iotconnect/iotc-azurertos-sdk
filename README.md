@@ -1,6 +1,8 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for STM32L4 IoT Discovery Kit,  NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro
+for STM32L4 IoT Discovery Kit,  NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro.
+
+To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=pdULxj6-R5Y) demo video on YouTube.
 
 ## Build Instructions
 
