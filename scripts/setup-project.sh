@@ -70,6 +70,8 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
+  mimxrt10xx_package)
+    ;;
   *)
     echo Invalid platform $name.
     exit 3
