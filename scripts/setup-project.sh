@@ -71,6 +71,9 @@ case "$name" in
     libs="same54_lib filex "
     ;;
   mimxrt10xx_package)
+    popd >/dev/null #samples/"${name}"
+    echo Done
+    exit 0
     ;;
   *)
     echo Invalid platform $name.
