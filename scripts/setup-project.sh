@@ -77,9 +77,24 @@ case "$name" in
     exit 3
     ;;
 esac
-echo Extracting...
-unzip -q azrtos.zip
-rm -f azrtos.zip
+
+case "$name" in
+  mimxrt1060)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+  stm32l4)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+  same54xpro)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+esac
 
 case "$name" in
   same54xpro)
