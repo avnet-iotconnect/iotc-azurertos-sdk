@@ -4,13 +4,13 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx_package>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx_package
 
 # prevent accidental commits on these files
 # need to undo if, changes to these files are actually needed
