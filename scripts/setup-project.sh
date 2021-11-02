@@ -18,8 +18,8 @@ git update-index --assume-unchanged basic-sample/include/app_config.h
 git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
 
 # clone the dependency repos
-git clone --depth 1 --branch v2.0.0 git://github.com/Avnet/iotc-c-lib.git
-git clone --depth 1 --branch v1.7.13 git://github.com/DaveGamble/cJSON.git
+git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
+git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 # prevent accidental commit of private information by default
 # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
