@@ -19,6 +19,7 @@ Implement NXP MIMXRT10x0 boards with the iotc-azrtos-sdk.
 	{workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}
 	{workspace_loc:/iotc-azrtos-sdk/azrtos-layer/include}
 	{workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}
+	{workspace_loc:/${ProjName}/include}
 
 * Add ```Library``` and Source location.
 	Property -> C/C++ General -> Paths and Symbols -> Libraries:					Add "iotc-azrtos-sdk"
