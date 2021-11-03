@@ -13,8 +13,10 @@ for STM32L4 IoT Discovery Kit,  NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplain
     The sensor-demo contains integration with sensors from a very limited port 
     of the STM32CubeExpansion_Cloud_AZURE_V1.2.1 BSP.
   * When running/debugging choose one of the demos form the project list first.
-Keep subdirectories selected, but unselect the actual stm32l4 sample directory 
-* For NXP MTIMXRT1060 EVK: 
+Keep subdirectories selected, but unselect the actual stm32l4 sample directory
+* For NXP MIMXRT1060 EVK and other boards supported by MCUXpresso integration with AzureRTOS follow 
+  the instructions at the [mimxrt10xx-package](samples/mimxrt10xx-package).
+* For NXP MIMXRT1060 EVK, you can also: 
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).

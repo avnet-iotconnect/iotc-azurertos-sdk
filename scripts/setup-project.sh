@@ -10,7 +10,7 @@ fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx_package
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package
 
 # prevent accidental commits on these files
 # need to undo if, changes to these files are actually needed
@@ -70,7 +70,7 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
-  mimxrt10xx_package)
+  mimxrt10xx-package)
     popd >/dev/null #samples/"${name}"
     echo Done
     exit 0

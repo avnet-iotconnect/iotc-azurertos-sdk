@@ -2,16 +2,18 @@
 Implement NXP MIMXRT10x0 boards with the iotc-azrtos-sdk.
 
 ## Project Setup Instructions
-* Open the MCUXpresso and "Download and install SDKs"
-* Select your board on the left screen and Add "Azure RTOS" on the bottom right screen, then install.
-* In bottom left window, Click import ```SDK example```, select the board, and choose "azure_iot_embedded_sdk" under the azure_rtos_examples.
-* Set the standard library to NewlibNano(semihost) and enable "Use floating point version of printf" and "Use floating point version of scanf". Then click Finish.
-* Exclude the ```source``` folder from build or delete it in the project.
-* Import the iotc-azrtos-sdk project into the workspace as a library.
-	Copy the iotc-azrtos-sdk into the workspace.
-	File -> Import -> General -> Existing Project into Workspace.
-	Select your workspace as the root directory and select the iotc-azrtos-sdk project.
-* Copy the "src" folder from Github into the project. You can drag the folder and drop it onto the project's root directory in the Project Explorer.
+* Open the MCUXpresso and on the *Welcome* screen, click "Download and install SDKs".
+* Select your board, then click the *Install* button.
+* On the *Welcome* screen, click ```Import SDK Examples``` and click *Go straight to the Wizard*.
+* Select your board, click *Next* and select "azure_iot_embedded_sdk" under the azure_rtos_examples and click *Next*.
+* Set the standard library to *NewlibNano(semihost)* at the top of the screen and enable "Use floating point version of printf" and "Use floating point version of scanf". Then click *Finish*.
+* Exclude the ```source``` folder from build or delete it from the project.
+* Download the project package from this repository and unzip it. 
+* Select *File -> Import... -> General -> Existing Projects into Workspace* and click *Next*.
+  
+* Browse to where the package was unzipped and *Select* that folder and ensure that *iotc-azrtos-sdk* is checked.
+
+* Copy the *src* folder from Github into the project. You can drag the folder and drop it onto the project's root directory in the Project Explorer.
 	
 * Add ```path``` into the azure_iot_embedded_sdk project.
 	Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes.
