@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Except not these files...
+!.gitignore
+!.cproject
+!.project
