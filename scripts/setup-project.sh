@@ -4,13 +4,13 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx_package>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package
 
 # prevent accidental commits on these files
 # need to undo if, changes to these files are actually needed
@@ -18,8 +18,8 @@ git update-index --assume-unchanged basic-sample/include/app_config.h
 git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
 
 # clone the dependency repos
-git clone --depth 1 --branch v2.0.0 git://github.com/Avnet/iotc-c-lib.git
-git clone --depth 1 --branch v1.7.13 git://github.com/DaveGamble/cJSON.git
+git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
+git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 # prevent accidental commit of private information by default
 # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
@@ -70,14 +70,34 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
+  mimxrt10xx-package)
+    popd >/dev/null #samples/"${name}"
+    echo Done
+    exit 0
+    ;;
   *)
     echo Invalid platform $name.
     exit 3
     ;;
 esac
-echo Extracting...
-unzip -q azrtos.zip
-rm -f azrtos.zip
+
+case "$name" in
+  mimxrt1060)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+  stm32l4)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+  same54xpro)
+    echo Extracting...
+    unzip -q azrtos.zip
+    rm -f azrtos.zip
+    ;;
+esac
 
 case "$name" in
   same54xpro)
