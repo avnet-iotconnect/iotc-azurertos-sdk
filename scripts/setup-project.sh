@@ -60,7 +60,7 @@ case "$name" in
     libs="stm32l4xx_lib "
     ;;
   mimxrt1060)
-    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOSAzure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip
+    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip
     project_dir='mimxrt1060/MCUXpresso/'
     libs="mimxrt1060_library filex "
     ;;
