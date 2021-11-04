@@ -4,7 +4,7 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx_package>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
