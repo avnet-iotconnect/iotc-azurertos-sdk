@@ -127,8 +127,6 @@
                                     									
                                     <listOptionValue builtIn="false" value="../../netxduo/crypto_libraries/inc"/>
                                     									
-                                    <listOptionValue builtIn="false" value="../../netxduo/common"/>
-                                    									
                                     <listOptionValue builtIn="false" value="../../netxduo"/>
                                     									
                                     <listOptionValue builtIn="false" value="../../netxduo/addons/dns"/>
@@ -162,6 +160,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="../../netxduo/common/inc"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/cortex_m4/gnu/inc}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -426,6 +428,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/cortex_m4/gnu/inc}&quot;"/>
                                     								
                                 </option>
                                 								

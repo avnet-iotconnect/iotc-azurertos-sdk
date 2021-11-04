@@ -133,8 +133,6 @@
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
                                     									
-                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common}&quot;"/>
-                                    									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/include}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/nx_secure/inc}&quot;"/>
@@ -154,6 +152,10 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/azrtos-ota/include}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/cortex_m4/gnu/inc}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -358,6 +360,8 @@
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
                                     									
                                     <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/azrtos-ota/include}&quot;"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/cortex_m4/gnu/inc}&quot;"/>
                                     								
                                 </option>
                                 								
