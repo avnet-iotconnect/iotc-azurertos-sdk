@@ -35,6 +35,10 @@
 #define TERMINAL_USE
 #define USE_COM_PORT
 
+#ifndef RETRY_TIMES
+#define RETRY_TIMES 3
+#endif
+
 #ifdef TERMINAL_USE
 extern ES_WIFIObject_t    EsWifiObj;
 #endif /* TERMINAL_USE */
@@ -394,6 +398,8 @@ int FB_MODE_bit;
 int  board_setup(void)
 {
 
+uint32_t  retry_connect=0;
+
   /* Enable execution profile.  */
   CoreDebug -> DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
   DWT -> CTRL |= DWT_CTRL_CYCCNTENA_Msk;
@@ -471,7 +477,10 @@ int  board_setup(void)
         return WIFI_FAIL;
       }
     
-   if( WIFI_Connect(WIFI_SSID, WIFI_PASSWORD, WIFI_SECURITY_TYPE) == WIFI_STATUS_OK)
+      while((retry_connect++) < RETRY_TIMES)
+      {
+        printf("wifi connect try %ld times\r\n",retry_connect);
+        if( (WIFI_Connect(WIFI_SSID, WIFI_PASSWORD, WIFI_SECURITY_TYPE) == WIFI_STATUS_OK))
     {
 #if defined (TERMINAL_USE)  
       printf("ES-WIFI Connected.\r\n");
@@ -524,8 +533,11 @@ int  board_setup(void)
 #endif /* TERMINAL_USE */
         return WIFI_FAIL;
       }
+
+          break;
+        }
     }
-    else
+    if(retry_connect > RETRY_TIMES)
     {
       
 #if defined (TERMINAL_USE)  

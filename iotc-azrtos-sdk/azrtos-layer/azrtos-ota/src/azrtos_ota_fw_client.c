@@ -124,7 +124,6 @@ UINT iotc_ota_fw_apply() {
     memset(&adudr,0, sizeof(adudr));
     adudr.nx_azure_iot_adu_agent_driver_command = NX_AZURE_IOT_ADU_AGENT_DRIVER_INSTALL;
     adu_driver(&adudr);
-    adu_driver(&adudr);
     if (adudr.nx_azure_iot_adu_agent_driver_status) {
         printf("OTA: Error: Failed to install firmware. Error was: error: 0x%x\r\n", adudr.nx_azure_iot_adu_agent_driver_status);
         // This should not really happen. In effect the download needs to be cancelled
