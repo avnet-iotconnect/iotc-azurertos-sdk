@@ -15,19 +15,19 @@ Implement NXP MIMXRT10x0 boards with the iotc-azrtos-sdk.
 
 * Copy the *iotc-azurertos-sdk/samples/mimxrt10xx-package/basic-sample/src* folder from the unzipped package into the target project's root directory. You can drag the folder and drop it onto the project's root directory in the Project Explorer.
 	
-* Add ```include path``` into the azure_iot_embedded_sdk project:
-	*Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes.
-	*{workspace_loc:/iotc-azrtos-sdk/include}
-	*{workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}
-	*{workspace_loc:/iotc-azrtos-sdk/azrtos-layer/include}
-	*{workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}
-	*{workspace_loc:/${ProjName}/include}
+* Add following ```include path``` into the azure_iot_embedded_sdk project:
+	* Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes.
+	* {workspace_loc:/iotc-azrtos-sdk/include}
+	* {workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}
+	* {workspace_loc:/iotc-azrtos-sdk/azrtos-layer/include}
+	* {workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}
+	* {workspace_loc:/${ProjName}/include}
 
-* Add ```Library``` and Source location:
-	*Property -> C/C++ General -> Paths and Symbols -> Libraries:					Add "iotc-azrtos-sdk"
-	*Property -> C/C++ General -> Paths and Symbols -> Library Paths:				Add "/iotc-azrtos-sdk/Debug"
-	*Property -> C/C++ General -> Paths and Symbols -> Includes -> Assembly: 		Add "/${ProjName}/src"
-	*Property -> C/C++ General -> Paths and Symbols -> Source Location: 			Add "azure_iot_embedded_sdk/src"
+* Add following ```Library``` and Source location:
+	* Property -> C/C++ General -> Paths and Symbols -> Libraries:					Add "iotc-azrtos-sdk"
+	* Property -> C/C++ General -> Paths and Symbols -> Library Paths:				Add "/iotc-azrtos-sdk/Debug"
+	* Property -> C/C++ General -> Paths and Symbols -> Includes -> Assembly: 		Add "/${ProjName}/src"
+	* Property -> C/C++ General -> Paths and Symbols -> Source Location: 			Add "azure_iot_embedded_sdk/src"
 	
 * Set up the linker for using the library
 	*Property -> C/C++ Build -> Settings -> MCU Linker -> Miscellaneous -> Other Objects (bottom right) -> Click ```+``` button -> Add path: "${workspace_loc:/iotc-azrtos-sdk/Debug/libiotc-azrtos-sdk.a}"
