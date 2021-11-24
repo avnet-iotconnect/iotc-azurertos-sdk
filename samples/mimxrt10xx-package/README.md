@@ -30,7 +30,7 @@ Implement NXP MIMXRT10x0 boards with the iotc-azrtos-sdk.
 	* Property -> C/C++ General -> Paths and Symbols -> Source Location: 			Add "azure_iot_embedded_sdk/src"
 	
 * Set up the linker for using the library
-	*Property -> C/C++ Build -> Settings -> MCU Linker -> Miscellaneous -> Other Objects (bottom right) -> Click ```+``` button -> Add path: "${workspace_loc:/iotc-azrtos-sdk/Debug/libiotc-azrtos-sdk.a}"
+	* Property -> C/C++ Build -> Settings -> MCU Linker -> Miscellaneous -> Other Objects (bottom right) -> Click ```+``` button -> Add path: "${workspace_loc:/iotc-azrtos-sdk/Debug/libiotc-azrtos-sdk.a}"
 	
 
 	
