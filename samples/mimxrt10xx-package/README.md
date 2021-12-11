@@ -8,7 +8,7 @@ Implement NXP MIMXRT10x0 boards with the iotc-azrtos-sdk.
 * Select your board, click *Next* and select "azure_iot_embedded_sdk" under the azure_rtos_examples and click *Next*.
 * Set the standard library to *NewlibNano(semihost)* at the top of the screen and enable "Use floating point version of printf" and "Use floating point version of scanf". Then click *Finish*.
 * Exclude the ```source``` folder from build or delete it from the project.
-* Download the [project package](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/actions) from this repository and unzip it.
+* Download the project [Releases](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) from this repository's Releases page and unzip it.
 * Select *File -> Import... -> General -> Existing Projects into Workspace* and click *Next*.
   
 * Browse to where the package was unzipped and *Select* that folder and ensure that *iotc-azrtos-sdk* is checked.
