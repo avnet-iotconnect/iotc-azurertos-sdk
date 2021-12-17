@@ -8,7 +8,7 @@
 /*       and in the root directory of this software.                      */
 /*                                                                        */
 /**************************************************************************/
-#ifdef maaxboard
+#ifdef CPU_MIMXRT1176DVMAA
 
 #include <time.h>
 #include <stdlib.h>
@@ -530,4 +530,4 @@ static UINT unix_time_get_ori(ULONG *unix_time)
     return(NX_SUCCESS);
 }
 
-#endif //maaxboard
+#endif //maaxboard rt

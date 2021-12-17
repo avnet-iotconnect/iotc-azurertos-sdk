@@ -8,7 +8,7 @@
 /*       and in the root directory of this software.                      */
 /*                                                                        */
 /**************************************************************************/
-#ifdef rt1060
+#ifdef CPU_MIMXRT1062DVL6A
 
 #include <time.h>
 #include <stdlib.h>

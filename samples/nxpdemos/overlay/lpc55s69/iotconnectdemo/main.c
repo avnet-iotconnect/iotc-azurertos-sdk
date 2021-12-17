@@ -1,4 +1,4 @@
-#ifdef LPC55S69
+#ifdef CPU_LPC55S69JBD100
 
 #include "ux_api.h"
 #include "ux_network_driver.h"
