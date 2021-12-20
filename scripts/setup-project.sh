@@ -17,7 +17,7 @@ git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-l
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 case "$name" in
-  rt1060)
+  nxpdemos)
     mkdir iotconnectdemo
 	mkdir iotc-azrtos-sdk
     mv overlay/rt1060/iotconnectdemo/ iotconnectdemo/.
