@@ -20,20 +20,21 @@ case "$name" in
   nxpdemos)
 	mkdir iotc-azrtos-sdk
     mv overlay/rt1060/iotconnectdemo .
+	mv overlay/rt1060/include .
 	rm -rf overlay
     ;;
   maaxboardrt)
-	mkdir iotconnectdemo
-	mkdir board
 	mkdir iotc-azrtos-sdk
-    mv overlay/maaxboardrt/iotconnectdemo iotconnectdemo/.
-	mv overlay/maaxboardrt/board board/.
+    mv overlay/maaxboardrt/iotconnectdemo .
+	mv overlay/maaxboardrt/board .
+	mv overlay/rt1060/include .
 	rm -rf overlay
     ;;
   lpc55s69)
 	mkdir iotconnectdemo
 	mkdir iotc-azrtos-sdk
-    mv overlay/lpc55s69/iotconnectdemo iotconnectdemo/.
+    mv overlay/lpc55s69/iotconnectdemo .
+	mv overlay/rt1060/include .
 	rm -rf overlay
     ;;
 esac
