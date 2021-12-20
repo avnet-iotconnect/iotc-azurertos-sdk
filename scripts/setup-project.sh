@@ -10,33 +10,7 @@ fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
-
-# prevent accidental commits on these files
-# need to undo if, changes to these files are actually needed
-git update-index --assume-unchanged basic-sample/include/app_config.h
-git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-
-# clone the dependency repos
-git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
-git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
-
-# prevent accidental commit of private information by default
-# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-  git update-index --no-assume-unchanged basic-sample/include/app_config.h
-  if [[ -f sensors-demo/include/app_config.h ]]; then
-    git update-index --no-assume-unchanged sensors-demo/include/app_config.h
-  fi
-else
-  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-  git update-index --assume-unchanged basic-sample/include/app_config.h
-  if [[ -f sensors-demo/include/app_config.h ]]; then
-    git update-index --assume-unchanged sensors-demo/include/app_config.h
-  fi
-fi
-
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package rt1060 maaxboardrt lpc55s69
 
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
