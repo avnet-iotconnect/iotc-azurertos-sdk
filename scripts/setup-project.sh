@@ -18,23 +18,22 @@ git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 case "$name" in
   nxpdemos)
-    mkdir iotconnectdemo
 	mkdir iotc-azrtos-sdk
-    mv overlay/rt1060/iotconnectdemo/. iotconnectdemo/.
+    mv overlay/rt1060/iotconnectdemo .
 	rm -rf overlay
     ;;
   maaxboardrt)
 	mkdir iotconnectdemo
 	mkdir board
 	mkdir iotc-azrtos-sdk
-    mv overlay/maaxboardrt/iotconnectdemo/. iotconnectdemo/.
-	mv overlay/maaxboardrt/board/. board/.
+    mv overlay/maaxboardrt/iotconnectdemo iotconnectdemo/.
+	mv overlay/maaxboardrt/board board/.
 	rm -rf overlay
     ;;
   lpc55s69)
 	mkdir iotconnectdemo
 	mkdir iotc-azrtos-sdk
-    mv overlay/lpc55s69/iotconnectdemo/. iotconnectdemo/.
+    mv overlay/lpc55s69/iotconnectdemo iotconnectdemo/.
 	rm -rf overlay
     ;;
 esac
