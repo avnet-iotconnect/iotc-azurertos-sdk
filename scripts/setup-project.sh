@@ -4,13 +4,13 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|rt1060|maaxboardrt|lpc55s69>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
 
 # prevent accidental commits on these files
 # need to undo if, changes to these files are actually needed
@@ -52,6 +52,28 @@ mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
 
+case "$name" in
+  rt1060)
+    mkdir iotconnectdemo
+    mv overlay/rt1060/iotconnectdemo/ iotconnectdemo/.
+	rm -rf overlay
+    ;;
+  maaxboardrt)
+	mkdir iotconnectdemo
+	mkdir board
+    mv overlay/maaxboardrt/iotconnectdemo/ iotconnectdemo/.
+	mv overlay/maaxboardrt/board/ board/.
+	rm -rf overlay
+    ;;
+  lpc55s69)
+	mkdir iotconnectdemo
+    mv overlay/lpc55s69/iotconnectdemo/ iotconnectdemo/.
+	rm -rf overlay
+    ;;
+esac
+
+exit 0
+
 echo Downloading Azure_RTOS_6...
 case "$name" in
   stm32l4)
@@ -75,6 +97,11 @@ case "$name" in
     echo Done
     exit 0
     ;;
+  nxpdemos)
+	popd >/dev/null #samples/"${name}"
+	echo Done
+	exit 0
+	;;
   *)
     echo Invalid platform $name.
     exit 3

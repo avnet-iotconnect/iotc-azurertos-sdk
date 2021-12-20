@@ -14,14 +14,16 @@ jobs:
           bash -x ./scripts/setup-project.sh mimxrt1060 &&
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
-          bash -x ./scripts/setup-project.sh mimxrt10xx-package
+          bash -x ./scripts/setup-project.sh mimxrt10xx-package &&
+          bash -x ./scripts/setup-project.sh nxpdemos
 
       - name: Copy Supporting Docs and Licenses
         run: |
           cp -r README.md azrtos-licenses/ samples/mimxrt1060 &&
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
-          cp -r README.md azrtos-licenses/ samples/mimxrt10xx-package
+          cp -r README.md azrtos-licenses/ samples/mimxrt10xx-package &&
+          cp -r README.md azrtos-licenses/ samples/nxpdemos
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
@@ -47,4 +49,22 @@ jobs:
         with:
           name: iotc-azrtos-mimxrt10xx-package
           path: sample*/mimxrt10xx-package
+
+      - name: Publish nxpdemos Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-nxpdemos
+          path: sample*/rt1060
+
+      - name: Publish nxpdemos Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-nxpdemos
+          path: sample*/maaxboardrt
+
+      - name: Publish nxpdemos Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-nxpdemos
+          path: sample*/lpc55s69
 
