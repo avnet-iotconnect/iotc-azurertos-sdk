@@ -12,6 +12,11 @@ pushd "$(dirname $0)"/../samples/"${name}"
 
 rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package rt1060 maaxboardrt lpc55s69
 
+# clone the dependency repos
+git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
+git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
+
+
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
