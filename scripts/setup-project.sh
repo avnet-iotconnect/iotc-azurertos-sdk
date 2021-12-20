@@ -4,13 +4,13 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|rt1060|maaxboardrt|lpc55s69>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|nxpdemos>"
   exit 1
 fi
 pushd "$(dirname $0)"/../samples/"${name}"
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package rt1060 maaxboardrt lpc55s69
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
 
 # clone the dependency repos
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
