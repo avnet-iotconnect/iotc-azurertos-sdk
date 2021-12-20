@@ -16,6 +16,28 @@ rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package 
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
+case "$name" in
+  rt1060)
+    mkdir iotconnectdemo
+	mkdir iotc-azrtos-sdk
+    mv overlay/rt1060/iotconnectdemo/ iotconnectdemo/.
+	rm -rf overlay
+    ;;
+  maaxboardrt)
+	mkdir iotconnectdemo
+	mkdir board
+	mkdir iotc-azrtos-sdk
+    mv overlay/maaxboardrt/iotconnectdemo/ iotconnectdemo/.
+	mv overlay/maaxboardrt/board/ board/.
+	rm -rf overlay
+    ;;
+  lpc55s69)
+	mkdir iotconnectdemo
+	mkdir iotc-azrtos-sdk
+    mv overlay/lpc55s69/iotconnectdemo/ iotconnectdemo/.
+	rm -rf overlay
+    ;;
+esac
 
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
@@ -30,26 +52,6 @@ popd >/dev/null
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
-
-case "$name" in
-  rt1060)
-    mkdir iotconnectdemo
-    mv overlay/rt1060/iotconnectdemo/ iotconnectdemo/.
-	rm -rf overlay
-    ;;
-  maaxboardrt)
-	mkdir iotconnectdemo
-	mkdir board
-    mv overlay/maaxboardrt/iotconnectdemo/ iotconnectdemo/.
-	mv overlay/maaxboardrt/board/ board/.
-	rm -rf overlay
-    ;;
-  lpc55s69)
-	mkdir iotconnectdemo
-    mv overlay/lpc55s69/iotconnectdemo/ iotconnectdemo/.
-	rm -rf overlay
-    ;;
-esac
 
 exit 0
 
