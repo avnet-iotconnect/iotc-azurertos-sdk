@@ -50,10 +50,25 @@ jobs:
           name: iotc-azrtos-mimxrt10xx-package
           path: sample*/mimxrt10xx-package
 
-      - name: Publish nxpdemos Artifacts
+      - name: Publish rt1060 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-nxpdemos
-          path: sample*/nxpdemos
+          name: iotc-azrtos-rt1060
+          path: sample*/rt1060
+          
+      - name: Publish maaxboardrt Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-maaxboardrt
+          path: sample*/maaxboardrt
+          
+      - name: Publish lpc55s69 Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-lpc55s69
+          path: sample*/lpc55s69
+
+
+
 
 

@@ -7,7 +7,31 @@ if [[ -z "$name" ]]; then
   echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|nxpdemos>"
   exit 1
 fi
-pushd "$(dirname $0)"/../samples/"${name}"
+
+case "$name" in
+  stm32l4)
+	pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  mimxrt1060)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  same54xpro)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  mimxrt10xx-package)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  rt1060)
+    pushd "$(dirname $0)"/../samples/nxpdemos
+	;;
+  maaxboardrt)
+    pushd "$(dirname $0)"/../samples/nxpdemos
+	;;
+  lpc55s69)
+    pushd "$(dirname $0)"/../samples/nxpdemos
+	;;
+esac
+
 # initial cleanup
 
 rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
@@ -17,7 +41,7 @@ git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-l
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 case "$name" in
-  nxpdemos)
+  rt1060)
 	mkdir iotc-azrtos-sdk
     mv overlay/rt1060/iotconnectdemo .
 	mv overlay/rt1060/include .
