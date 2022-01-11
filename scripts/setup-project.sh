@@ -22,13 +22,22 @@ case "$name" in
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   rt1060)
-    pushd "$(dirname $0)"/../samples/"${name}"
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   maaxboardrt)
-    pushd "$(dirname $0)"/../samples/"${name}"
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   lpc55s69)
-    pushd "$(dirname $0)"/../samples/"${name}"
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
 	;;
 esac
 
@@ -42,6 +51,7 @@ git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 case "$name" in
   rt1060)
+	
 	mkdir -p iotc-azrtos-sdk
     mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
 	mv ../nxpdemos/overlay/rt1060/include .
