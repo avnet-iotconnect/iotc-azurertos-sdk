@@ -22,13 +22,13 @@ case "$name" in
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   rt1060)
-    pushd "$(dirname $0)"/../samples/nxpdemos
+    pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   maaxboardrt)
-    pushd "$(dirname $0)"/../samples/nxpdemos
+    pushd "$(dirname $0)"/../samples/"${name}"
 	;;
   lpc55s69)
-    pushd "$(dirname $0)"/../samples/nxpdemos
+    pushd "$(dirname $0)"/../samples/"${name}"
 	;;
 esac
 
@@ -42,24 +42,20 @@ git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
 case "$name" in
   rt1060)
-	mkdir iotc-azrtos-sdk
-    mv overlay/rt1060/iotconnectdemo .
-	mv overlay/rt1060/include .
-	rm -rf overlay
+	mkdir -p iotc-azrtos-sdk
+    mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
+	mv ../nxpdemos/overlay/rt1060/include .
     ;;
   maaxboardrt)
-	mkdir iotc-azrtos-sdk
-    mv overlay/maaxboardrt/iotconnectdemo .
-	mv overlay/maaxboardrt/board .
-	mv overlay/maaxboardrt/include .
-	rm -rf overlay
+	mkdir -p iotc-azrtos-sdk
+    mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
+	mv ../nxpdemos/overlay/maaxboardrt/board .
+	mv ../nxpdemos/overlay/maaxboardrt/include .
     ;;
   lpc55s69)
-	mkdir iotconnectdemo
-	mkdir iotc-azrtos-sdk
-    mv overlay/lpc55s69/iotconnectdemo .
-	mv overlay/lpc55s69/include .
-	rm -rf overlay
+	mkdir -p iotc-azrtos-sdk
+    mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
+	mv ../nxpdemos/overlay/lpc55s69/include .
     ;;
 esac
 
