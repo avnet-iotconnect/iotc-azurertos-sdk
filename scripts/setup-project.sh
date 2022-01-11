@@ -51,14 +51,14 @@ case "$name" in
 	mkdir iotc-azrtos-sdk
     mv overlay/maaxboardrt/iotconnectdemo .
 	mv overlay/maaxboardrt/board .
-	mv overlay/rt1060/include .
+	mv overlay/maaxboardrt/include .
 	rm -rf overlay
     ;;
   lpc55s69)
 	mkdir iotconnectdemo
 	mkdir iotc-azrtos-sdk
     mv overlay/lpc55s69/iotconnectdemo .
-	mv overlay/rt1060/include .
+	mv overlay/lpc55s69/include .
 	rm -rf overlay
     ;;
 esac

@@ -15,7 +15,9 @@ jobs:
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
           bash -x ./scripts/setup-project.sh mimxrt10xx-package &&
-          bash -x ./scripts/setup-project.sh nxpdemos
+          bash -x ./scripts/setup-project.sh rt1060 &&
+          bash -x ./scripts/setup-project.sh maaxboardrt &&
+          bash -x ./scripts/setup-project.sh lpc55s69
 
       - name: Copy Supporting Docs and Licenses
         run: |
@@ -23,7 +25,9 @@ jobs:
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
           cp -r README.md azrtos-licenses/ samples/mimxrt10xx-package &&
-          cp -r README.md azrtos-licenses/ samples/nxpdemos
+          cp -r README.md azrtos-licenses/ samples/rt1060 &&
+          cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
+          cp -r README.md azrtos-licenses/ samples/lpc55s69 
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
