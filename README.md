@@ -17,7 +17,7 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
   * When running/debugging choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
 * For NXP MIMXRT1060 EVK and other boards supported by MCUXpresso integration with AzureRTOS follow 
-  the instructions at the [mimxrt10xx-package](samples/mimxrt10xx-package).
+  the instructions at the [nxpdemos](samples/nxpdemos).
 * For NXP MIMXRT1060 EVK, you can also: 
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
