@@ -14,6 +14,8 @@ Implement NXP boards with the iotc-azrtos-sdk.
 	* ```iotconnectdemo```
 	* ```include```
 	* ```board``` if exists
+	* ```phy``` if exists
+	* ```xip``` if exists
 * Add **include path** :
 	*Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes:*
 	* *"${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}"*
@@ -28,8 +30,12 @@ Implement NXP boards with the iotc-azrtos-sdk.
 	* *IOTC_NEEDS_GETTIMEOFDAY*
 * Exclude the **source** folder from build :
 	* Right click on the *source* folder -> *Resource Configurations* -> *Exclude from build* -> check both *Debug* and *Release* -> click **OK**
+	
+## For Maaxboard RT
 * Adjust heap size if needed:
 	* *Right click on the project -> C/C++ Build -> Settings -> MCU C++ Linker -> Manager Linker Script -> Change Heap size from Default to 0x2000*
+* Flash configuration
+	* *Right click on the project -> C/C++ Build -> MCU settings -> Change Flash Driver from MIMXRT1170_SFDP_QSPI.cfx to ${workspace_loc:}/${ProjName}/xip/MaaXBoard_S26KS256.cfx*
 
 	
 	

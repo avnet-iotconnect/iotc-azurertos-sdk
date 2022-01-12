@@ -61,6 +61,8 @@ case "$name" in
 	mkdir -p iotc-azrtos-sdk
     mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
 	mv ../nxpdemos/overlay/maaxboardrt/board .
+	mv ../nxpdemos/overlay/maaxboardrt/phy .
+	mv ../nxpdemos/overlay/maaxboardrt/xip .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
     ;;
