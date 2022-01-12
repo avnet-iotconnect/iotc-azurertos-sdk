@@ -15,7 +15,7 @@ Implement NXP boards with the iotc-azrtos-sdk.
 	* ```include```
 	* ```board``` if exists
 * Add **include path** :
-	* *Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes:*
+	*Property -> C/C++ Build -> Settings -> MCU C Compiler -> Includes:*
 	* *"${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}"*
 	* *"${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}"*
 	* *"${workspace_loc:/${ProjName}/iotc-azrtos-sdk/include}"*
@@ -23,11 +23,11 @@ Implement NXP boards with the iotc-azrtos-sdk.
 	* *"${workspace_loc:/${ProjName}/iotc-azrtos-sdk/cJSON}"*
 	* *"${workspace_loc:/${ProjName}/iotconnectdemo/include}"*
 * Add **preprocessors** :
-	* *Property -> C/C++ Build -> Settings -> MCU C Compiler -> Preprocessor:*
+	*Property -> C/C++ Build -> Settings -> MCU C Compiler -> Preprocessor:*
 	* *NX_WEB_HTTPS_ENABLE*
 	* *IOTC_NEEDS_GETTIMEOFDAY*
 * Exclude the **source** folder from build :
-	* Right click on the *source* folder -> *Resource Configurations* -> *Exclude from build* -> check both *Debug* and *Release* -> click *OK*
+	* Right click on the *source* folder -> *Resource Configurations* -> *Exclude from build* -> check both *Debug* and *Release* -> click **OK**
 * Adjust heap size if needed:
 	* *Right click on the project -> C/C++ Build -> Settings -> MCU C++ Linker -> Manager Linker Script -> Change Heap size from Default to 0x2000*
 
