@@ -54,18 +54,21 @@ case "$name" in
 	
 	mkdir -p iotc-azrtos-sdk
     mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
-	mv ../nxpdemos/overlay/rt1060/include .
+	mv ../nxpdemos/include .
+	mv ../nxpdemos/iotconnectdemo/ iotconnectdemo/
     ;;
   maaxboardrt)
 	mkdir -p iotc-azrtos-sdk
     mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
 	mv ../nxpdemos/overlay/maaxboardrt/board .
-	mv ../nxpdemos/overlay/maaxboardrt/include .
+	mv ../nxpdemos/include .
+	mv ../nxpdemos/iotconnectdemo/ iotconnectdemo/
     ;;
   lpc55s69)
 	mkdir -p iotc-azrtos-sdk
     mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
-	mv ../nxpdemos/overlay/lpc55s69/include .
+	mv ../nxpdemos/include .
+	mv ../nxpdemos/iotconnectdemo/ iotconnectdemo/
     ;;
 esac
 
