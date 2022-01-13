@@ -109,12 +109,17 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
-  mimxrt10xx-package)
+  rt1060)
     popd >/dev/null #samples/"${name}"
     echo Done
     exit 0
     ;;
-  nxpdemos)
+  maaxboardrt)
+	popd >/dev/null #samples/"${name}"
+	echo Done
+	exit 0
+	;;
+  lpc55s69)
 	popd >/dev/null #samples/"${name}"
 	echo Done
 	exit 0
