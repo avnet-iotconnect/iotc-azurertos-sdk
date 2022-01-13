@@ -49,30 +49,6 @@ rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package 
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
 
-case "$name" in
-  rt1060)
-	
-	mkdir -p iotc-azrtos-sdk
-    mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-    ;;
-  maaxboardrt)
-	mkdir -p iotc-azrtos-sdk
-    mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
-	mv ../nxpdemos/overlay/maaxboardrt/board .
-	mv ../nxpdemos/overlay/maaxboardrt/phy .
-	mv ../nxpdemos/overlay/maaxboardrt/xip .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-    ;;
-  lpc55s69)
-	mkdir -p iotc-azrtos-sdk
-    mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-    ;;
-esac
 
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
@@ -87,6 +63,31 @@ popd >/dev/null
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
+
+
+case "$name" in
+  rt1060)
+    mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+  maaxboardrt)
+    mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
+	mv ../nxpdemos/overlay/maaxboardrt/board .
+	mv ../nxpdemos/overlay/maaxboardrt/phy .
+	mv ../nxpdemos/overlay/maaxboardrt/xip .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+  lpc55s69)
+    mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+esac
 
 exit 0
 
