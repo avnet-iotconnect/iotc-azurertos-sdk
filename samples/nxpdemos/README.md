@@ -2,7 +2,7 @@
 Implement NXP MCUXpresso SDK projects with the iotc-azrtos-sdk library to connect to Avnet IoTConnect Platform. The supported boards are listed below:
 * **MaaxBoard RT**
 * **MIMXRT1060 EVK**
-* **LPC55S69**
+* **LPC55S69** (untested)
 	
 ## Project Setup Instructions
 * Open the MCUXpresso IDE and on the **Welcome** screen, click **"Download and install SDKs"**.
@@ -45,7 +45,7 @@ Implement NXP MCUXpresso SDK projects with the iotc-azrtos-sdk library to connec
 	* *Right click on the project -> C/C++ Build -> Settings -> MCU C++ Linker -> Manager Linker Script -> Change Heap size from Default to 0x2000*
 * If using Maaxboard RT, change flash configuration:
 	* *Right click on the project -> C/C++ Build -> MCU settings -> Change Flash Driver from MIMXRT1170_SFDP_QSPI.cfx to ${workspace_loc:}/${ProjName}/xip/MaaXBoard_S26KS256.cfx*
-
+* If using Maaxboard RT, we only support 100BASE ethernet for the internet connection.
 	
 	
 	
