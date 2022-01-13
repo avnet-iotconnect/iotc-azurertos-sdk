@@ -89,7 +89,7 @@ case "$name" in
     ;;
 esac
 
-exit 0
+#exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
