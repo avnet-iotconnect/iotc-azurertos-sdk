@@ -23,9 +23,9 @@ jobs:
           cp -r README.md azrtos-licenses/ samples/mimxrt1060 &&
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
-          cp -r README.md azrtos-licenses/ samples/rt1060 &&
-          cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
-          cp -r README.md azrtos-licenses/ samples/lpc55s69 
+          cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/rt1060 &&
+          cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/maaxboardrt &&
+          cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/lpc55s69 
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
