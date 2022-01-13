@@ -4,38 +4,50 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package>"
+  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|nxpdemos>"
   exit 1
 fi
-pushd "$(dirname $0)"/../samples/"${name}"
+
+case "$name" in
+  stm32l4)
+	pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  mimxrt1060)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  same54xpro)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  mimxrt10xx-package)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  rt1060)
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  maaxboardrt)
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+  lpc55s69)
+    pushd "$(dirname $0)"/../samples
+	mkdir -p "${name}"
+	popd >/dev/null
+	pushd "$(dirname $0)"/../samples/"${name}"
+	;;
+esac
+
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package
-
-# prevent accidental commits on these files
-# need to undo if, changes to these files are actually needed
-git update-index --assume-unchanged basic-sample/include/app_config.h
-git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
 
 # clone the dependency repos
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
-
-# prevent accidental commit of private information by default
-# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-  git update-index --no-assume-unchanged basic-sample/include/app_config.h
-  if [[ -f sensors-demo/include/app_config.h ]]; then
-    git update-index --no-assume-unchanged sensors-demo/include/app_config.h
-  fi
-else
-  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-  git update-index --assume-unchanged basic-sample/include/app_config.h
-  if [[ -f sensors-demo/include/app_config.h ]]; then
-    git update-index --assume-unchanged sensors-demo/include/app_config.h
-  fi
-fi
 
 
 # move only relevant files into corresponding locations
@@ -51,6 +63,33 @@ popd >/dev/null
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
+
+
+case "$name" in
+  rt1060)
+    mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+  maaxboardrt)
+    mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
+	mv ../nxpdemos/overlay/maaxboardrt/board .
+	mv ../nxpdemos/overlay/maaxboardrt/phy .
+	mv ../nxpdemos/overlay/maaxboardrt/xip .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+  lpc55s69)
+    mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
+	cp -r ../nxpdemos/include .
+	cp -r ../nxpdemos/iotconnectdemo .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    ;;
+esac
+
+#exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
@@ -70,11 +109,21 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
-  mimxrt10xx-package)
+  rt1060)
     popd >/dev/null #samples/"${name}"
     echo Done
     exit 0
     ;;
+  maaxboardrt)
+	popd >/dev/null #samples/"${name}"
+	echo Done
+	exit 0
+	;;
+  lpc55s69)
+	popd >/dev/null #samples/"${name}"
+	echo Done
+	exit 0
+	;;
   *)
     echo Invalid platform $name.
     exit 3

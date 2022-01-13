@@ -14,14 +14,18 @@ jobs:
           bash -x ./scripts/setup-project.sh mimxrt1060 &&
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
-          bash -x ./scripts/setup-project.sh mimxrt10xx-package
+          bash -x ./scripts/setup-project.sh rt1060 &&
+          bash -x ./scripts/setup-project.sh maaxboardrt &&
+          bash -x ./scripts/setup-project.sh lpc55s69
 
       - name: Copy Supporting Docs and Licenses
         run: |
           cp -r README.md azrtos-licenses/ samples/mimxrt1060 &&
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
-          cp -r README.md azrtos-licenses/ samples/mimxrt10xx-package
+          cp -r README.md azrtos-licenses/ samples/rt1060 &&
+          cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
+          cp -r README.md azrtos-licenses/ samples/lpc55s69 
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
@@ -42,9 +46,25 @@ jobs:
           name: iotc-azrtos-same54xpro
           path: sample*/same54xpro
 
-      - name: Publish mimxrt10xx-package Artifacts
+      - name: Publish rt1060 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-mimxrt10xx-package
-          path: sample*/mimxrt10xx-package
+          name: iotc-azrtos-rt1060
+          path: sample*/rt1060
+          
+      - name: Publish maaxboardrt Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-maaxboardrt
+          path: sample*/maaxboardrt
+          
+      - name: Publish lpc55s69 Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-lpc55s69
+          path: sample*/lpc55s69
+
+
+
+
 

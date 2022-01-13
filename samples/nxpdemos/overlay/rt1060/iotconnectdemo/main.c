@@ -8,6 +8,7 @@
 /*       and in the root directory of this software.                      */
 /*                                                                        */
 /**************************************************************************/
+#ifdef CPU_MIMXRT1062DVL6A
 
 #include <time.h>
 #include <stdlib.h>
@@ -494,3 +495,5 @@ static UINT unix_time_get_ori(ULONG *unix_time)
 
     return(NX_SUCCESS);
 }
+
+#endif  //rt1060
