@@ -9,8 +9,7 @@ Implement NXP MCUXpresso SDK projects with the iotc-azrtos-sdk library to connec
 * Select your board, then click the **Install** button.
 * On the **Welcome** screen, click **Import SDK Examples** and click **Go straight to the Wizard**.
 * Select your board, click **Next** and select ```azure_iot_embedded_sdk``` under the azure_rtos_examples and click **Next**.
-* Set the standard library to **NewlibNano(semihost)** on MIMXRT1060 and LPC55S69, **NewlibNano(nohost)** on Maaxboard RT 
-  and at the top of the screen and enable **"Use floating point 
+* Set the standard library to **NewlibNano(nohost)** and at the top of the screen and enable **"Use floating point 
   version of printf"** and **"Use floating point version of scanf"**. Then click **Finish**.
 * Download the project package for your board from this repository's [Releases](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) 
   page and unzip it.
@@ -34,7 +33,7 @@ Implement NXP MCUXpresso SDK projects with the iotc-azrtos-sdk library to connec
 * Add **preprocessors**:
   *Property -> C/C++ Build -> Settings -> MCU C Compiler -> Preprocessor:*
 	* *NX_WEB_HTTPS_ENABLE*
-	* *IOTC_NEEDS_GETTIMEOFDAY*
+	* *IOTC_NEEDS_GETTIMEOFDAY_OU*
 * Add **Source Location**:
 	*Property -> C/C++ General -> Paths and Symbols -> Source Location tab -> Add the folders below*
 	* *iotc-azrtos-sdk*
