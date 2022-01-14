@@ -1,6 +1,6 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for STM32L4 IoT Discovery Kit,  NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro.
+for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
@@ -16,7 +16,7 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
     of the STM32CubeExpansion_Cloud_AZURE_V1.2.1 BSP.
   * When running/debugging choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
-* For NXP MIMXRT1060 EVK and other boards supported by MCUXpresso integration with AzureRTOS follow 
+* For Avnet MaaxBoard RT, MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS follow 
   the instructions at the [nxpdemos](samples/nxpdemos).
 * For NXP MIMXRT1060 EVK, you can also: 
   * Download and install MCUXpresso IDE
