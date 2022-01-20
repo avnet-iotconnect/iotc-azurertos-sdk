@@ -203,11 +203,11 @@
                                     									
                                     <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="iotc-azrtos-sdk"/>
                                     									
+                                    <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="netxduo"/>
+                                    									
                                     <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="threadx"/>
                                     									
                                     <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="stm32l4xx_lib"/>
-                                    									
-                                    <listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="netxduo"/>
                                     								
                                 </option>
                                 								
