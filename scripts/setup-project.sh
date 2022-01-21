@@ -52,12 +52,6 @@ rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
 mkdir -p iotc-azrtos-sdk/iotc-c-lib
 mkdir -p iotc-azrtos-sdk/cJSON
-#pushd iotc-azrtos-sdk/ >/dev/null
-#  for f in ../../../iotc-azrtos-sdk/*; do
-#    ln -sf $f .
-#  done
-#popd >/dev/null
-cp -r ../../iotc-azrtos-sdk .
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
@@ -68,6 +62,7 @@ case "$name" in
     mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
   maaxboardrt-nxp)
@@ -77,14 +72,23 @@ case "$name" in
 	mv ../nxpdemos/overlay/maaxboardrt/xip .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
   lpc55s69-nxp)
     mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
+  stm32l4 | mimxrt1060 | same54Xpro)
+	pushd iotc-azrtos-sdk/ >/dev/null
+      for f in ../../../iotc-azrtos-sdk/*; do
+        ln -sf $f .
+      done
+    popd >/dev/null
+	;;	
 esac
 
 #exit 0
