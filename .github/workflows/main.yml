@@ -14,9 +14,9 @@ jobs:
           bash -x ./scripts/setup-project.sh mimxrt1060 &&
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
-          bash -x ./scripts/setup-project.sh rt1060 &&
-          bash -x ./scripts/setup-project.sh maaxboardrt &&
-          bash -x ./scripts/setup-project.sh lpc55s69
+          bash -x ./scripts/setup-project.sh rt1060-nxp &&
+          bash -x ./scripts/setup-project.sh maaxboardrt-nxp &&
+          bash -x ./scripts/setup-project.sh lpc55s69-nxp
 
       - name: Copy Supporting Docs and Licenses
         run: |
@@ -31,37 +31,37 @@ jobs:
       - name: Publish mimxrt1060 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-mimxrt1060
+          name: iotc-azrtos-ms-mimxrt1060
           path: sample*/mimxrt1060
 
       - name: Publish stm32l4 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-stm32l4
+          name: iotc-azrtos-ms-stm32l4
           path: sample*/stm32l4
 
       - name: Publish same54xpro Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-same54xpro
+          name: iotc-azrtos-ms-same54xpro
           path: sample*/same54xpro
 
-      - name: Publish rt1060 Artifacts
+      - name: Publish rt1060-nxp Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-rt1060
+          name: iotc-azrtos-nxp-mimxrt1060
           path: sample*/rt1060
           
-      - name: Publish maaxboardrt Artifacts
+      - name: Publish maaxboardrt-nxp Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-maaxboardrt
+          name: iotc-azrtos-nxp-maaxboardrt
           path: sample*/maaxboardrt
           
-      - name: Publish lpc55s69 Artifacts
+      - name: Publish lpc55s69-nxp Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-lpc55s69
+          name: iotc-azrtos-nxp-lpc55s69
           path: sample*/lpc55s69
 
 

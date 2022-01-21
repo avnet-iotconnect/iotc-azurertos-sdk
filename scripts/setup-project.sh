@@ -4,7 +4,7 @@ set -e
 
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <mimxrt1060|stm32l4|same54xpro|mimxrt10xx-package|nxpdemos>"
+  echo "Usge: $0 <project_name>"
   exit 1
 fi
 
@@ -18,32 +18,29 @@ case "$name" in
   same54xpro)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
-  mimxrt10xx-package)
-    pushd "$(dirname $0)"/../samples/"${name}"
-	;;
-  rt1060)
+  rt1060-nxp)
     pushd "$(dirname $0)"/../samples
-	mkdir -p "${name}"
+	mkdir -p rt1060
 	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/"${name}"
+	pushd "$(dirname $0)"/../samples/rt1060
 	;;
-  maaxboardrt)
+  maaxboardrt-nxp)
     pushd "$(dirname $0)"/../samples
-	mkdir -p "${name}"
+	mkdir -p maaxboardrt
 	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/"${name}"
+	pushd "$(dirname $0)"/../samples/maaxboardrt
 	;;
-  lpc55s69)
+  lpc55s69-nxp)
     pushd "$(dirname $0)"/../samples
-	mkdir -p "${name}"
+	mkdir -p lpc55s69
 	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/"${name}"
+	pushd "$(dirname $0)"/../samples/lpc55s69
 	;;
 esac
 
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro mimxrt10xx-package nxpdemos
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 nxpdemos
 
 # clone the dependency repos
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
@@ -55,38 +52,43 @@ rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
 mkdir -p iotc-azrtos-sdk/iotc-c-lib
 mkdir -p iotc-azrtos-sdk/cJSON
-pushd iotc-azrtos-sdk/ >/dev/null
-  for f in ../../../iotc-azrtos-sdk/*; do
-    ln -sf $f .
-  done
-popd >/dev/null
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
 
 
 case "$name" in
-  rt1060)
+  rt1060-nxp)
     mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
-  maaxboardrt)
+  maaxboardrt-nxp)
     mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
 	mv ../nxpdemos/overlay/maaxboardrt/board .
 	mv ../nxpdemos/overlay/maaxboardrt/phy .
 	mv ../nxpdemos/overlay/maaxboardrt/xip .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
-  lpc55s69)
+  lpc55s69-nxp)
     mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
 	cp -r ../nxpdemos/include .
 	cp -r ../nxpdemos/iotconnectdemo .
+	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
+  stm32l4 | mimxrt1060 | same54Xpro)
+	pushd iotc-azrtos-sdk/ >/dev/null
+      for f in ../../../iotc-azrtos-sdk/*; do
+        ln -sf $f .
+      done
+    popd >/dev/null
+	;;	
 esac
 
 #exit 0
@@ -109,17 +111,17 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
-  rt1060)
+  rt1060-nxp)
     popd >/dev/null #samples/"${name}"
     echo Done
     exit 0
     ;;
-  maaxboardrt)
+  maaxboardrt-nxp)
 	popd >/dev/null #samples/"${name}"
 	echo Done
 	exit 0
 	;;
-  lpc55s69)
+  lpc55s69-nxp)
 	popd >/dev/null #samples/"${name}"
 	echo Done
 	exit 0
