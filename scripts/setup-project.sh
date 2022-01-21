@@ -53,9 +53,10 @@ rm -rf iotc-azrtos-sdk/cJSON
 mkdir -p iotc-azrtos-sdk/iotc-c-lib
 mkdir -p iotc-azrtos-sdk/cJSON
 pushd iotc-azrtos-sdk/ >/dev/null
-  for f in ../../../iotc-azrtos-sdk/*; do
-    ln -sf $f .
-  done
+#  for f in ../../../iotc-azrtos-sdk/*; do
+#    ln -sf $f .
+#  done
+cp -r ../../../iotc-azrtos-sdk/ .
 popd >/dev/null
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
@@ -85,13 +86,13 @@ case "$name" in
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
   mimxrt1060)
-	cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
+	#cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
 	;;
   stm32l4)
-    cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
+    #cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
 	;;
   same54Xpro)
-    cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
+    #cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
 	;;
 esac
 
