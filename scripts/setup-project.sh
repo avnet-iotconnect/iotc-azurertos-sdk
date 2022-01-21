@@ -52,12 +52,12 @@ rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
 mkdir -p iotc-azrtos-sdk/iotc-c-lib
 mkdir -p iotc-azrtos-sdk/cJSON
-pushd iotc-azrtos-sdk/ >/dev/null
+#pushd iotc-azrtos-sdk/ >/dev/null
 #  for f in ../../../iotc-azrtos-sdk/*; do
 #    ln -sf $f .
 #  done
-cp -r ../../../iotc-azrtos-sdk/ .
-popd >/dev/null
+#popd >/dev/null
+cp -r ../../../iotc-azrtos-sdk .
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
