@@ -85,15 +85,6 @@ case "$name" in
 	cp -r ../nxpdemos/iotconnectdemo .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
-  mimxrt1060)
-	#cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
-	;;
-  stm32l4)
-    #cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
-	;;
-  same54Xpro)
-    #cp -rf ../../iotc-azrtos-sdk/azrtos-layer/nx-http-client iotc-azrtos-sdk/azrtos-layer
-	;;
 esac
 
 #exit 0
