@@ -6,7 +6,11 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
 
 ## Build Instructions
 
-* Download the project files from Github Actions or Releases pages in this repo.
+* Download the project files from Github Actions or Releases pages in this repo. 
+There are two sets of project files based on two different Azure RTOS baselines, 
+and depending on your board one or more packages will be available:
+  * Containing *-ms-*: Microsft Azure RTOS GitHub repo.
+  * Containing *-nxp-*: NXP MCU Expresso Azure RTOS and Samples code.
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
@@ -17,7 +21,7 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
   * When running/debugging choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
 * For Avnet MaaxBoard RT, MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS follow 
-  the instructions at the [nxpdemos](samples/nxpdemos).
+  the instructions at the [nxpdemos](samples/nxpdemos) and use the *-nxp* prefix projects.
 * For NXP MIMXRT1060 EVK, you can also: 
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
