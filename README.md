@@ -22,7 +22,7 @@ and depending on your board one or more packages will be available:
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
 * For Avnet MaaxBoard RT, MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS follow 
   the instructions at the [nxpdemos](samples/nxpdemos) and use the *-nxp* prefix projects.
-* For NXP MIMXRT1060 EVK, you can also use the *-mx-* Microsoft GitHub baseline project: 
+* For NXP MIMXRT1060 EVK, you can also use the *-ms-* Microsoft GitHub baseline project: 
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).
