@@ -57,7 +57,7 @@ mkdir -p iotc-azrtos-sdk/cJSON
 #    ln -sf $f .
 #  done
 #popd >/dev/null
-cp -r ../../../iotc-azrtos-sdk .
+cp -r ../../iotc-azrtos-sdk .
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
 rm -rf iotc-c-lib cJSON
