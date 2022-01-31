@@ -88,6 +88,15 @@ case "$name" in
         ln -sf $f .
       done
     popd >/dev/null
+	# prevent accidental commit of private information by default
+	# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+	if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+	  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
+	else
+	  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --assume-unchanged basic-sample/include/app_config.h
+	fi
 	;;	
 esac
 
