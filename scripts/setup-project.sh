@@ -93,7 +93,8 @@ case "$name" in
 #	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip	
 #   azrtos_dir='mimxrt1060/MCUXpresso/'
 	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip
-	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
+#	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
+	project_dir='mimxrt1060/MCUXpresso/'
 #	unzip -q azrtos.zip
 	unzip -q project.zip
 #	rm -f azrtos.zip
