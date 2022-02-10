@@ -110,7 +110,7 @@ case "$name" in
 
 
 #	rm -rf $(dirname "${azrtos_dir}")
-	rm -rf $(dirname "${project_dir}")
+#	rm -rf $(dirname "${project_dir}")
 
 #copy maaxboardrt hardware file
 	cp -r maaxboardrt-files/* maaxboardrt-azure-sdk
