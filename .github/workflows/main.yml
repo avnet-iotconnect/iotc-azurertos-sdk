@@ -27,7 +27,7 @@ jobs:
           cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/rt1060 &&
           cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/maaxboardrt &&
           cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/lpc55s69 &&
-          cp -r samples/maaxboardrt-project/README.md azrtos-licenses/ samples/maaxboardrt-project
+          cp -r azrtos-licenses/ samples/maaxboardrt-project
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
