@@ -87,14 +87,14 @@ case "$name" in
     ;;	
   maaxboardrt-project)
 #copy iotc-azrtos-sdk into project  
-	cp -r ../../iotc-azrtos-sdk .
-	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+	cp -r ../../iotc-azrtos-sdk maaxboardrt-azure-sdk
+	rm -rf maaxboardrt-azure-sdk/iotc-azrtos-sdk/azrtos-layer/nx-http-client
 	
 #	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip	
 #   azrtos_dir='mimxrt1060/MCUXpresso/'
-	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip
-#	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
-	project_dir='mimxrt1060/MCUXpresso/'
+	wget -q -O https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
+	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
+
 #	unzip -q azrtos.zip
 	unzip -q project.zip
 #	rm -f azrtos.zip
@@ -102,6 +102,10 @@ case "$name" in
 	
 #copy original NXP project and netxduo lib into project
     cp -r ${project_dir}/* maaxboardrt-azure-sdk
+	rm -rf maaxboardrt-azure-sdk/azure-rtos/binary/netxduo
+	rm -rf maaxboardrt-azure-sdk/azure-rtos/netxduo
+	cp maaxboardrt-azure-sdk/source/get_seed.c           maaxboardrt-azure-sdk/iotconnectdemo
+	cp maaxboardrt-azure-sdk/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
 #	cp -r ${azrtos_dir}/netxduo/* /netxduo
 
 
