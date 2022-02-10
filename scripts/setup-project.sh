@@ -101,7 +101,7 @@ case "$name" in
 	rm -f project.zip
 	
 #copy original NXP project and netxduo lib into project
-    cp -r ${project_dir}/* /maaxboardrt-azure-sdk
+    cp -r ${project_dir}/* maaxboardrt-azure-sdk
 #	cp -r ${azrtos_dir}/netxduo/* /netxduo
 
 
@@ -109,9 +109,9 @@ case "$name" in
 	rm -rf $(dirname "${project_dir}")
 
 #copy maaxboardrt hardware file
-	cp -r maaxboardrt-files/* /maaxboardrt-azure-sdk
+	cp -r maaxboardrt-files/* maaxboardrt-azure-sdk
 #delete maaxboardrt hardware file folder to generate the package
-	rm -rf maaxboardrt-azure-sdk
+	rm -rf maaxboardrt-files
 	;;
   stm32l4 | mimxrt1060 | same54Xpro)
 	exit 0
