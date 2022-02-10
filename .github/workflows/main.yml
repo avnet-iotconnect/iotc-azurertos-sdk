@@ -16,7 +16,8 @@ jobs:
           bash -x ./scripts/setup-project.sh same54xpro &&
           bash -x ./scripts/setup-project.sh rt1060-nxp &&
           bash -x ./scripts/setup-project.sh maaxboardrt-nxp &&
-          bash -x ./scripts/setup-project.sh lpc55s69-nxp
+          bash -x ./scripts/setup-project.sh lpc55s69-nxp &&
+          bash -x ./scripts/setup-project.sh maaxboardrt-project
 
       - name: Copy Supporting Docs and Licenses
         run: |
@@ -25,7 +26,8 @@ jobs:
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
           cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/rt1060 &&
           cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/maaxboardrt &&
-          cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/lpc55s69 
+          cp -r samples/nxpdemos/README.md azrtos-licenses/ samples/lpc55s69 &&
+          cp -r samples/maaxboardrt-project/README.md azrtos-licenses/ samples/maaxboardrt-project
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
@@ -63,6 +65,12 @@ jobs:
         with:
           name: iotc-azrtos-nxp-lpc55s69
           path: sample*/lpc55s69
+
+      - name: Publish maaxboardrt-project Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-maaxboardrt-project
+          path: sample*/maaxboardrt-project
 
 
 

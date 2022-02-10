@@ -36,6 +36,9 @@ case "$name" in
 	popd >/dev/null
 	pushd "$(dirname $0)"/../samples/lpc55s69
 	;;
+  maaxboardrt-project)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
 esac
 
 # initial cleanup
@@ -81,8 +84,23 @@ case "$name" in
 	cp -r ../nxpdemos/iotconnectdemo .
 	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
-    ;;
+    ;;	
+  maaxboardrt-project)
+	cp -r ../../iotc-azrtos-sdk .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+	
+	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip	
+    project_dir='mimxrt1060/MCUXpresso/'
+	unzip -q azrtos.zip
+	rm -f azrtos.zip
+	
+    rm -f azrtos.zip
+	cp -r "${project_dir}"/netxduo .
+	cp -r "${project_dir}"/docs .
+	rm -rf $(dirname "${project_dir}")
+	;;
   stm32l4 | mimxrt1060 | same54Xpro)
+	exit 0
 	pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
@@ -100,7 +118,7 @@ case "$name" in
 	;;	
 esac
 
-#exit 0
+exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
