@@ -87,8 +87,9 @@ case "$name" in
     ;;	
   maaxboardrt-project)
 #copy iotc-azrtos-sdk into project  
-	cp -r ../../iotc-azrtos-sdk maaxboardrt-azure-sdk
-	rm -rf maaxboardrt-azure-sdk/iotc-azrtos-sdk/azrtos-layer/nx-http-client
+	cp -r ../../iotc-azrtos-sdk .
+	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+	mv iotc-azrtos-sdk maaxboardrt-azure-sdk/iotc-azrtos-sdk
 	
 #	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
 #   azrtos_dir='mimxrt1060/MCUXpresso/'
@@ -110,7 +111,7 @@ case "$name" in
 
 
 #	rm -rf $(dirname "${azrtos_dir}")
-#	rm -rf $(dirname "${project_dir}")
+	rm -rf ${project_dir}
 
 #copy maaxboardrt hardware file
 	cp -r maaxboardrt-files/* maaxboardrt-azure-sdk
