@@ -109,7 +109,7 @@ case "$name" in
 	cp maaxboardrt-azure-sdk/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
 	cp -r ${azrtos_dir}/netxduo/* netxduo
 
-	rm -rf ${azrtos_dir}
+	rm -rf $(dirname "${azrtos_dir}")
 	rm -rf ${project_dir}
 	
 #copy maaxboardrt hardware file
