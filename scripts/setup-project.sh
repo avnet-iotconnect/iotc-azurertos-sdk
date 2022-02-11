@@ -105,6 +105,7 @@ case "$name" in
     cp -r ${project_dir}/* maaxboardrt-azure-sdk
 	rm -rf maaxboardrt-azure-sdk/azure-rtos/binary/netxduo
 	rm -rf maaxboardrt-azure-sdk/azure-rtos/netxduo
+	rm -rf maaxboardrt-azure-sdk/azure_iot
 	cp maaxboardrt-azure-sdk/source/get_seed.c           maaxboardrt-azure-sdk/iotconnectdemo
 	cp maaxboardrt-azure-sdk/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
 	cp -r ${azrtos_dir}/netxduo/* netxduo
