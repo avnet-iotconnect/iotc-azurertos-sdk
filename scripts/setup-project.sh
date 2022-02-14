@@ -171,8 +171,9 @@ case "$name" in
 	exit 0
 	;;
   *)
-    echo Invalid platform $name.
-    exit 3
+    popd >/dev/null
+  	echo Done
+    exit 0
     ;;
 esac
 
