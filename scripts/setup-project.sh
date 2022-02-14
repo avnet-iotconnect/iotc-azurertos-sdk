@@ -118,7 +118,6 @@ case "$name" in
 	rm -rf maaxboardrt-files
 	;;
   stm32l4 | mimxrt1060 | same54Xpro)
-	exit 0
 	pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
@@ -136,7 +135,7 @@ case "$name" in
 	;;	
 esac
 
-exit 0
+#exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
