@@ -43,7 +43,7 @@ esac
 
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 nxpdemos
+rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt
 
 # clone the dependency repos
 git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
