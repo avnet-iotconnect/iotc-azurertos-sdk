@@ -86,10 +86,13 @@ case "$name" in
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;	
   maaxboardrt-project)
-#copy iotc-azrtos-sdk into project  
-	cp -r ../../iotc-azrtos-sdk .
-	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
-	mv iotc-azrtos-sdk maaxboardrt-azure-sdk/iotc-azrtos-sdk
+#symlink iotc-azrtos-sdk into project 
+	mv iotc-azrtos-sdk basic-sample/
+	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
+      for f in ../../../iotc-azrtos-sdk/*; do
+        ln -sf $f .
+      done
+    popd >/dev/null
 	
 	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
     azrtos_dir='mimxrt1060/MCUXpresso/'
@@ -102,20 +105,16 @@ case "$name" in
 	rm -f project.zip
 	
 #copy original NXP project and netxduo lib into project
-    cp -r ${project_dir}/* maaxboardrt-azure-sdk
-	rm -rf maaxboardrt-azure-sdk/azure-rtos/binary/netxduo
-	rm -rf maaxboardrt-azure-sdk/azure-rtos/netxduo
-	rm -rf maaxboardrt-azure-sdk/azure_iot
-	cp maaxboardrt-azure-sdk/source/get_seed.c           maaxboardrt-azure-sdk/iotconnectdemo
-	cp maaxboardrt-azure-sdk/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
+    cp -nr ${project_dir}/* basic-sample
+	rm -rf basic-sample/azure-rtos/binary/netxduo
+	rm -rf basic-sample/azure-rtos/netxduo
+	rm -rf basic-sample/azure_iot
+	cp basic-sample/source/get_seed.c           maaxboardrt-azure-sdk/iotconnectdemo
+	cp basic-sample/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
 	cp -r ${azrtos_dir}/netxduo/* netxduo
 
 	rm -rf $(dirname "${azrtos_dir}")
 	rm -rf ${project_dir}
-	
-#copy maaxboardrt hardware file
-	cp -r maaxboardrt-files/* maaxboardrt-azure-sdk
-	rm -rf maaxboardrt-files
 	;;
   stm32l4 | mimxrt1060 | same54Xpro)
 	pushd iotc-azrtos-sdk/ >/dev/null
@@ -135,7 +134,7 @@ case "$name" in
 	;;	
 esac
 
-#exit 0
+exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
