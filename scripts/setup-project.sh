@@ -85,7 +85,7 @@ case "$name" in
 	cp -r ../../iotc-azrtos-sdk .
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;	
-  maaxboardrt-project)
+  maaxboardrt)
 #symlink iotc-azrtos-sdk into project 
 	mv iotc-azrtos-sdk basic-sample/
 	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
@@ -109,8 +109,8 @@ case "$name" in
 	rm -rf basic-sample/azure-rtos/binary/netxduo
 	rm -rf basic-sample/azure-rtos/netxduo
 	rm -rf basic-sample/azure_iot
-	cp basic-sample/source/get_seed.c           maaxboardrt-azure-sdk/iotconnectdemo
-	cp basic-sample/source/semihost_hardfault.c maaxboardrt-azure-sdk/iotconnectdemo
+	cp basic-sample/source/get_seed.c           basic-sample/src
+	cp basic-sample/source/semihost_hardfault.c basic-sample/src
 	cp -r ${azrtos_dir}/netxduo/* netxduo
 
 	rm -rf $(dirname "${azrtos_dir}")
