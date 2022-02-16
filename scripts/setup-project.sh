@@ -88,11 +88,11 @@ case "$name" in
   maaxboardrt)
 #symlink iotc-azrtos-sdk into project 
 	mv iotc-azrtos-sdk basic-sample/
-	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
-      for f in ../../../../iotc-azrtos-sdk/*; do
-        ln -sf $f .
-      done
-    popd >/dev/null
+#	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
+#      for f in ../../../../iotc-azrtos-sdk/*; do
+#        ln -sf $f .
+#      done
+#    popd >/dev/null
 	
 	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
     azrtos_dir='mimxrt1060/MCUXpresso/'
