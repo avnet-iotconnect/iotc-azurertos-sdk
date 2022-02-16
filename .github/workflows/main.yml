@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: iotc-azrtos-nxp-maaxboardrt
-          path: sample*/maaxboardrt
+          path: sample*/maaxboardrt-nxp
           
       - name: Publish lpc55s69-nxp Artifacts
         uses: actions/upload-artifact@v2
