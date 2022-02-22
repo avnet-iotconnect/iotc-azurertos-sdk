@@ -21,6 +21,7 @@ and depending on your board one or more packages will be available:
   * When running/debugging choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
 * For Avnet MaaxBoardRT and NXP MIMXRT1060 EVK: 
+  * Note that for the MaaxBoardRT, the WiFi and gigabit Ethernet are not supported.
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).

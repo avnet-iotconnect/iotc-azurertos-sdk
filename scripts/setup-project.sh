@@ -99,6 +99,12 @@ case "$name" in
 	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
 	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
 
+	rm -rf project_dir/azure-rtos/binary/netxduo
+	rm -rf project_dir/azure-rtos/netxduo
+	rm -rf project_dir/azure_iot
+#	cp basic-sample/source/get_seed.c           basic-sample/src
+#	cp basic-sample/source/semihost_hardfault.c basic-sample/src
+	
 	unzip -q azrtos.zip
 	unzip -q project.zip
 	rm -f azrtos.zip
@@ -106,12 +112,7 @@ case "$name" in
 	
 #copy original NXP project and netxduo lib into project
     cp -nr ${project_dir}/* basic-sample
-	rm -rf basic-sample/azure-rtos/binary/netxduo
-	rm -rf basic-sample/azure-rtos/netxduo
-	rm -rf basic-sample/azure_iot
-	cp basic-sample/source/get_seed.c           basic-sample/src
-	cp basic-sample/source/semihost_hardfault.c basic-sample/src
-	cp -r ${azrtos_dir}/netxduo/* netxduo
+	cp -nr ${azrtos_dir}/netxduo/* netxduo
 
 	rm -rf $(dirname "${azrtos_dir}")
 	rm -rf ${project_dir}
