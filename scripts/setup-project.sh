@@ -102,9 +102,7 @@ case "$name" in
 	rm -rf project_dir/azure-rtos/binary/netxduo
 	rm -rf project_dir/azure-rtos/netxduo
 	rm -rf project_dir/azure_iot
-#	cp basic-sample/source/get_seed.c           basic-sample/src
-#	cp basic-sample/source/semihost_hardfault.c basic-sample/src
-	
+
 	unzip -q azrtos.zip
 	unzip -q project.zip
 	rm -f azrtos.zip
@@ -134,8 +132,6 @@ case "$name" in
 	fi
 	;;	
 esac
-
-exit 0
 
 echo Downloading Azure_RTOS_6...
 case "$name" in
