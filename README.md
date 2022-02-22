@@ -9,8 +9,8 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
 * Download the project files from Github Actions or Releases pages in this repo. 
 There are two sets of project files based on two different Azure RTOS baselines, 
 and depending on your board one or more packages will be available:
-  * Containing *-ms-*: Microsft Azure RTOS GitHub repo.
   * Containing *-nxp-*: NXP MCU Expresso Azure RTOS and Samples code.
+  * All other packages: Standalone packages.
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
@@ -20,16 +20,18 @@ and depending on your board one or more packages will be available:
     of the STM32CubeExpansion_Cloud_AZURE_V1.2.1 BSP.
   * When running/debugging choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory
-* For Avnet MaaxBoard RT, MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS follow 
-  the instructions at the [nxpdemos](samples/nxpdemos) and use the *-nxp* prefix projects.
-* For NXP MIMXRT1060 EVK, you can also use the *-ms-* Microsoft GitHub baseline project: 
+* For Avnet MaaxBoardRT and NXP MIMXRT1060 EVK: 
+  * Note that for the MaaxBoardRT, the WiFi and gigabit Ethernet are not supported.
   * Download and install MCUXpresso IDE
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
   * Make sure to switch to IDE view (top right IDE icon).
-  * It is also recommended to close the "Globals" window, next to the "Outline" in the top right dock. 
+  * It is also recommended to close the "Globals" window, next to the "Outline" in the top right dock.
 It may be causing hangs during debugging and perspective switching.
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
 Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
+* For Avnet MaaxBoardRT, NXP MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS,
+you can also use the *-nxp* prefix projects. For those types of projects,
+follow the instructions at the [nxpdemos](samples/nxpdemos).
 * For SAM E54 Xplaineed Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
