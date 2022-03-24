@@ -102,6 +102,7 @@ case "$name" in
 	rm -rf project_dir/azure-rtos/binary/netxduo
 	rm -rf project_dir/azure-rtos/netxduo
 	rm -rf project_dir/azure_iot
+	rm -rf project_dir/drivers
 
 	unzip -q azrtos.zip
 	unzip -q project.zip
