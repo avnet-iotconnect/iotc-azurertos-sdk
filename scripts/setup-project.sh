@@ -99,13 +99,14 @@ case "$name" in
 	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
 	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
 
+	unzip -q azrtos.zip
+	unzip -q project.zip
+	
 	rm -rf project_dir/azure-rtos/binary/netxduo
 	rm -rf project_dir/azure-rtos/netxduo
 	rm -rf project_dir/azure_iot
 	rm -rf project_dir/drivers
-
-	unzip -q azrtos.zip
-	unzip -q project.zip
+	
 	rm -f azrtos.zip
 	rm -f project.zip
 	
