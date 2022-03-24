@@ -101,13 +101,6 @@ status_t PHY_KSZ9131RNX_Init(phy_handle_t *handle, const phy_config_t *config)
         return result;
     }
 
-    /* delay setting */
-#if 0
-    result = PHY_KSZ9131RNX_MMD_Write(handle, PHY_MDIO_MMD_DEVICE, PHY_RGMII_RX_DELAY_REG, 0); if (result != kStatus_Success) {return result;}
-    result = PHY_KSZ9131RNX_MMD_Write(handle, PHY_MDIO_MMD_DEVICE, PHY_RGMII_TX_DELAY_REG, 0); if (result != kStatus_Success) {return result;}
-    result = PHY_KSZ9131RNX_MMD_Write(handle, PHY_MDIO_MMD_DEVICE, PHY_RGMII_CLK_DELAY_REG, 0x3fff);  if (result != kStatus_Success) {return result;}
-#endif
-
     if (config->autoNeg)
     {
         /* Set the auto-negotiation. */
