@@ -55,42 +55,11 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/xip}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/utilities}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/auto_ip}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/cloud}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/BSD}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/dhcp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/dns}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/ftp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/http}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/mdns}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/mqtt}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/nat}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/pop3}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/ppp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/pppoe}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/smtp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/snmp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/sntp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/telnet}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/tftp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/addons/web}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/common/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/crypto_libraries/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/nx_secure/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/nx_secure/ports}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/netxduo/ports/cortex_m7/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/filex/common/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/filex/ports/cortex_m7/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/threadx/common/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/threadx/ports/cortex_m7/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/CMSIS}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure_iot_security_module}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure_iot_security_module/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/src/runtime}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/config}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.include.files.902780288" name="Include files (-include)" superClass="gnu.cpp.compiler.option.include.files" useByScannerDiscovery="false"/>
@@ -200,6 +169,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/startup}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/xip}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/utilities}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/auto_ip}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/cloud}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/BSD}&quot;"/>
@@ -230,12 +200,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/threadx/ports/cortex_m7/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/CMSIS}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure_iot_security_module}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/src/runtime}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azure-rtos/config}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
