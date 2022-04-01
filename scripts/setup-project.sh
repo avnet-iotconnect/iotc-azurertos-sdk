@@ -99,12 +99,14 @@ case "$name" in
 	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
 	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
 
-	rm -rf project_dir/azure-rtos/binary/netxduo
-	rm -rf project_dir/azure-rtos/netxduo
-	rm -rf project_dir/azure_iot
-
 	unzip -q azrtos.zip
 	unzip -q project.zip
+	
+	rm -rf ${project_dir}/azure-rtos/binary/netxduo
+	rm -rf ${project_dir}/azure-rtos/netxduo
+	rm -rf ${project_dir}/azure_iot
+	rm -rf ${project_dir}/drivers
+	
 	rm -f azrtos.zip
 	rm -f project.zip
 	
@@ -114,6 +116,17 @@ case "$name" in
 
 	rm -rf $(dirname "${azrtos_dir}")
 	rm -rf ${project_dir}
+	
+	# prevent accidental commit of private information by default
+	# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+	if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+	  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
+	else
+	  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --assume-unchanged basic-sample/include/app_config.h
+	fi
+	
 	;;
   stm32l4 | mimxrt1060 | same54Xpro)
 	pushd iotc-azrtos-sdk/ >/dev/null

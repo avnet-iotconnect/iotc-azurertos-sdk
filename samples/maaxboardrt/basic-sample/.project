@@ -3,6 +3,7 @@
 	<name>basic-sample</name>
 	<comment></comment>
 	<projects>
+		<project>netxduo</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

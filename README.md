@@ -28,7 +28,8 @@ Keep subdirectories selected, but unselect the actual stm32l4 sample directory
   * It is also recommended to close the "Globals" window, next to the "Outline" in the top right dock.
 It may be causing hangs during debugging and perspective switching.
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
-Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
+   For example, MaaxBoardRT uses MIMX1170-EVK's SDK.
+Keep subdirectories selected, but unselect the actual project's "sample" directory
 * For Avnet MaaxBoardRT, NXP MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS,
 you can also use the *-nxp* prefix projects. For those types of projects,
 follow the instructions at the [nxpdemos](samples/nxpdemos).

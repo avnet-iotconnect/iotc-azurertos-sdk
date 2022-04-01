@@ -141,7 +141,6 @@ static NX_DNS           dns_0;
 #ifndef SAMPLE_DHCP_DISABLE
 AT_NONCACHEABLE_SECTION_ALIGN(NX_DHCP dhcp_0, 64);
 #endif /* SAMPLE_DHCP_DISABLE  */
-static NX_SNTP_CLIENT   sntp_client;
 
 /* System clock time for UTC.  */
 static ULONG            unix_time_base;
