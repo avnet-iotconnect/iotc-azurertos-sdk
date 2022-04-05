@@ -5,7 +5,18 @@
 /netxduo/*
 !/netxduo/.cproject
 
+#do not ignore board application src and board files
 /basic-sample/*
 !/basic-sample/src/*
 !/basic-sample/.cproject
 !/basic-sample/include/*
+!/basic-sample/phy/fsl_phyksz9131rnx.h
+!/basic-sample/phy/fsl_phyksz9131rnx.c
+!/basic-sample/xip/evkmimxrt1170_flexspi_nor_config.c
+!/basic-sample/xip/MaaXBoard_S26KS256.cfx
+!/basic-sample/board/clock_config.h
+!/basic-sample/board/clock_config.c
+!/basic-sample/board/dcd.h
+!/basic-sample/board/dcd.c
+!/basic-sample/board/pin_mux.h
+!/basic-sample/board/pin_mux.c
