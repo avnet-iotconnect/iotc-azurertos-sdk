@@ -5,11 +5,12 @@
 /netxduo/*
 !/netxduo/.cproject
 
-#do not ignore board application src and board files
+#do not ignore application src, drivers and board files
 /basic-sample/*
 !/basic-sample/src/*
 !/basic-sample/.cproject
 !/basic-sample/include/*
+!/basic-sample/drivers/*
 !/basic-sample/phy/fsl_phyksz9131rnx.h
 !/basic-sample/phy/fsl_phyksz9131rnx.c
 !/basic-sample/xip/evkmimxrt1170_flexspi_nor_config.c
