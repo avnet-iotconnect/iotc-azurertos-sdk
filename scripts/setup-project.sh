@@ -86,20 +86,21 @@ case "$name" in
 	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;	
   maaxboardrt)
-#symlink iotc-azrtos-sdk into project 
+#symlink iotc-azrtos-sdk into project
+  rm -rf basic-sample/iotc-azrtos-sdk
 	mv iotc-azrtos-sdk basic-sample/
 	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
       for f in ../../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
       done
     popd >/dev/null
-	
-	echo Downloading MaaxboardRT's project packages...
+
+	echo Downloading MaaxXBoardRT baseline project packages...
 	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
-    	azrtos_dir='mimxrt1060/MCUXpresso/'
+  azrtos_dir='mimxrt1060/MCUXpresso/'
 	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
-	project_dir='evkmimxrt1170_azure_iot_embedded_sdk/'
-	
+	project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
+
 	echo Extracting...
 	unzip -q azrtos.zip
 	unzip -q project.zip
