@@ -2,20 +2,35 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+#include "app_config.h"
 
 #include "nx_api.h"
 #include "wifi.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
 #include "iotconnect.h"
-#include "app_config.h"
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
+#include "iotc_auth_driver.h"
+#include "sw_auth_driver.h"
+
+// make sure this is after app_config.h
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+#include "TO.h" // for TO_HW_SN_SIZE
+#include "to_auth_driver.h"
+#include "iotconnect_di.h"
+#endif
+
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
 extern void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 
 static IotConnectAzrtosConfig azrtos_config;
+static IotcAuthInterfaceContext auth_driver_context;
+
+#define X509_COMMON_NAME_LENGTH 64
+static char common_name_buffer[X509_COMMON_NAME_LENGTH + 1];
+
 
 #define APP_VERSION "01.00.00"
 
@@ -40,6 +55,9 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
     uint8_t mac_addr[6] = { 0 };
@@ -53,6 +71,7 @@ static char* compose_device_id() {
     }
     return duid;
 }
+#pragma GCC diagnostic pop
 
 static bool download_event_handler(IotConnectDownloadEvent* event) {
     switch (event->type) {
@@ -256,6 +275,9 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         printf("IoTConnect Client ERROR\r\n");
         break;
     }
+    if (NULL != auth_driver_context) {
+    	release_sw_der_auth_driver(auth_driver_context);
+    }
 }
 
 static void publish_telemetry() {
@@ -274,11 +296,37 @@ static void publish_telemetry() {
     iotcl_destroy_serialized(str);
 }
 
+bool extract_cpid_and_duid_from_operational_cn(IotConnectClientConfig *config, char * operational_cn) {
+	if (!operational_cn) {
+		printf("Unable to extract the operational certificate common name.\r\n");
+		return false;
+	}
+	strcpy(common_name_buffer, operational_cn);
+	bool found_dash = false;
+	for (int i = -0; i < strlen(common_name_buffer); i++) {
+		if (common_name_buffer[i] == '-') {
+			config->cpid = common_name_buffer;
+			config->duid = &common_name_buffer[i+1];
+			common_name_buffer[i] = 0;
+			found_dash = true;
+			break;
+		}
+	}
+	if (!found_dash || 0 == strlen(config->cpid) || 0 == strlen(config->duid)) {
+		printf("Unable to extract CPID and DUID from common name.\r\n");
+		return false;
+	}
+	return true;
+}
+
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
-
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
+    azrtos_config.ip_ptr = ip_ptr;
+	azrtos_config.pool_ptr = pool_ptr;
+	azrtos_config.dns_ptr = dns_ptr;
+
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
@@ -294,20 +342,96 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
+    config->auth.type = IOTC_X509;
+
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+    struct to_driver_parameters parameters = {0};
+    parameters.operational_identity_slot = 2;
+    parameters.operational_csr_slot = 2;
+    parameters.bootstrap_identity_slot = 1;
+    IotcDdimInterface ddim_interface;
+    IotcAuthInterfaceContext auth_context;
+    if(to_create_auth_driver( //
+            &(config->auth.data.x509.auth_interface), //
+            &ddim_interface, //
+			&auth_context, //
+			&parameters)) { //
+    	return false;
+    }
+    config->auth.data.x509.auth_interface_context = auth_context;
+    uint8_t serial[TO_HW_SN_SIZE];
+    size_t serial_size;
+    if(config->auth.data.x509.auth_interface.get_serial(
+    		auth_context, //
+			serial, //
+			&serial_size//
+			)) {
+    	return false;
+    }
+    printf("DDIM:   SN: ");
+	for (int i=0; i < serial_size; i++) {
+		printf("%02X", serial[i]);
+	}
+	printf("\r\n");
+
+#ifdef DDIM_TEST
+    int failed = 0;
+    for (int test_num = 1; test_num < 100; test_num++) {
+    	if(iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, config->auth.data.x509.auth_interface_context)) {
+    		printf("Test #%d failed\r\n", test_num);
+    		failed++;
+    	} else {
+    		printf("Test #%d success\r\n", test_num);
+    	}
+        tx_thread_sleep(30 * NX_IP_PERIODIC_RATE);
+    }
+    printf("Failed %d tests\r\n", failed);
+    return false;
+
+#endif
+
+   uint8_t* op_cert;
+   size_t op_cert_size;
+
+   config->auth.data.x509.auth_interface.get_cert(
+		   	auth_context,
+			&op_cert,
+			&op_cert_size
+			);
+
+    // ignore error, try to get operational cert if cert size 0
+    //if (0 == op_cert_size) {
+        printf("Obtaining the operational certificate via DDIM.\r\n");
+        if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, auth_context, config->env)) {
+            printf("Failed to obtain operational certificate via DDIM.\r\n");
+            return false;
+        }
+    //}
+    if (false == extract_cpid_and_duid_from_operational_cn(config, ddim_interface.extract_operational_cn(auth_context))) {
+    	return false;
+    }
+
+#else
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
     extern const UINT sample_device_private_key_len;
-    config->auth.type = IOTC_X509_RSA;
-    config->auth.data.identity.client_private_key = (UCHAR*) sample_device_private_key_ptr;
-    config->auth.data.identity.client_private_key_len = sample_device_private_key_len;
-    config->auth.data.identity.client_certificate = (UCHAR*) sample_device_cert_ptr;
-    config->auth.data.identity.client_certificate_len = sample_device_cert_len;
-#endif
+	struct sw_der_driver_parameters dp = {0};
+	dp.cert = (uint8_t *) (sample_device_cert_ptr);
+	dp.cert_size = sample_device_cert_len;
+	dp.key = (uint8_t *) (sample_device_private_key_ptr);
+	dp.key_size = sample_device_private_key_len;
+	dp.crypto_method = &crypto_method_ec_secp256;
+	if(create_sw_der_auth_driver( //
+	    		&(config->auth.data.x509.auth_interface), //
+				&(config->auth.data.x509.auth_interface_context), //
+				&dp)) { //
+	    	return false;
+	    }
+	auth_driver_context = config->auth.data.x509.auth_interface_context;
+#endif // ENABLE_DDIM_TO_DRIVER_SAMPLE
 
-    azrtos_config.ip_ptr = ip_ptr;
-    azrtos_config.pool_ptr = pool_ptr;
-    azrtos_config.dns_ptr = dns_ptr;
+#endif  // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
 #ifdef MEMORY_TEST
@@ -315,6 +439,21 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
         memory_test();
 #endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+        	// We should try obtain a new operational identity
+        	IotclSyncResult sync_result = iotconnect_get_last_sync_result();
+        	if (IOTCL_SR_DEVICE_NOT_REGISTERED == sync_result || IOTCL_SR_DEVICE_INACTIVE == sync_result) {
+                if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, auth_context, config->env)) {
+                	printf("Operational certificate is missing. Obtaining it via DDIM.\r\n");
+                	return false;
+                }
+				if (false == extract_cpid_and_duid_from_operational_cn(config, ddim_interface.extract_operational_cn(auth_context))) {
+					return false;
+				}
+				printf("Obtained new operational certificate from DDIM.\r\n");
+				continue;
+        	}
+#endif
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }

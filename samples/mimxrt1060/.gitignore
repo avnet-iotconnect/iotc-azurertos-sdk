@@ -7,7 +7,16 @@
 !/netxduo/.cproject
 /threadx/*
 !/threadx/.cproject
+
 /mimxrt1060_library/*
 !/mimxrt1060_library/.cproject
+!/mimxrt1060_library/drivers/fsl_clock.*
+!/mimxrt1060_library/drivers/fsl_common.*
+!/mimxrt1060_library/drivers/fsl_common_arm.*
+!/mimxrt1060_library/drivers/fsl_gpio.*
+!/mimxrt1060_library/drivers/fsl_iomuxc.h
+!/mimxrt1060_library/drivers/fsl_lp2c.*
+!/mimxrt1060_library/drivers/fsl_lpuart.*
+
 /filex/*
 !/filex/.cproject

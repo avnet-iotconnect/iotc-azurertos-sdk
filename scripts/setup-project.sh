@@ -43,110 +43,125 @@ esac
 
 # initial cleanup
 
-rm -rf iotc-c-lib cJSON b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt
+rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt
 
 # clone the dependency repos
-git clone --depth 1 --branch v2.0.0 https://github.com/avnet-iotconnect/iotc-c-lib.git
+git clone --depth 1 --branch v2.0.4 https://github.com/avnet-iotconnect/iotc-c-lib.git
 git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
-
+git clone --depth 1 --branch main https://github.com/TrustedObjects/libTO.git
+pushd libTO
+git checkout 2217696249de310b15b17b1a262422de9b3a7d04 #as of April 2022
+popd
 
 # move only relevant files into corresponding locations
 rm -rf iotc-azrtos-sdk/iotc-c-lib
 rm -rf iotc-azrtos-sdk/cJSON
+rm -rf iotc-azrtos-sdk/libTO
+
 mkdir -p iotc-azrtos-sdk/iotc-c-lib
 mkdir -p iotc-azrtos-sdk/cJSON
+mkdir -p iotc-azrtos-sdk/libTO
+
 mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
 mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
-rm -rf iotc-c-lib cJSON
+mv libTO/Sources/*  iotc-azrtos-sdk/libTO
+# remove libTO examples:
+rm -rf iotc-azrtos-sdk/libTO/examples
+rm -rf iotc-azrtos-sdk/libTO/src/wrapper
+
+rm -rf iotc-c-lib cJSON libTO
 
 
 case "$name" in
   rt1060-nxp)
     mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-	cp -r ../../iotc-azrtos-sdk .
-	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    cp -r ../nxpdemos/include .
+    cp -r ../nxpdemos/iotconnectdemo .
+    cp -r ../../iotc-azrtos-sdk .
+    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
   maaxboardrt-nxp)
     mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
-	mv ../nxpdemos/overlay/maaxboardrt/board .
-	mv ../nxpdemos/overlay/maaxboardrt/phy .
-	mv ../nxpdemos/overlay/maaxboardrt/xip .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-	cp -r ../../iotc-azrtos-sdk .
-	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    mv ../nxpdemos/overlay/maaxboardrt/board .
+    mv ../nxpdemos/overlay/maaxboardrt/phy .
+    mv ../nxpdemos/overlay/maaxboardrt/xip .
+    cp -r ../nxpdemos/include .
+    cp -r ../nxpdemos/iotconnectdemo .
+    cp -r ../../iotc-azrtos-sdk .
+    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;
   lpc55s69-nxp)
     mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
-	cp -r ../nxpdemos/include .
-	cp -r ../nxpdemos/iotconnectdemo .
-	cp -r ../../iotc-azrtos-sdk .
-	rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
+    cp -r ../nxpdemos/include .
+    cp -r ../nxpdemos/iotconnectdemo .
+    cp -r ../../iotc-azrtos-sdk .
+    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
     ;;	
   maaxboardrt)
 #symlink iotc-azrtos-sdk into project
-  rm -rf basic-sample/iotc-azrtos-sdk
-	mv iotc-azrtos-sdk basic-sample/
-	pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
+    rm -rf basic-sample/iotc-azrtos-sdk
+    mv iotc-azrtos-sdk basic-sample/
+    pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
       for f in ../../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
       done
     popd >/dev/null
 
-	echo Downloading MaaxXBoardRT baseline project packages...
-	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
-  azrtos_dir='mimxrt1060/MCUXpresso/'
-	wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
-	project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
+    echo Downloading MaaxXBoardRT baseline project packages...
+    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+    azrtos_dir='mimxrt1060/MCUXpresso/'
+    wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
+    project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
 
-	echo Extracting...
-	unzip -q azrtos.zip
-	unzip -q project.zip
-	
-	rm -rf ${project_dir}/azure-rtos/binary/netxduo
-	rm -rf ${project_dir}/azure-rtos/netxduo
-	rm -rf ${project_dir}/azure_iot
-	rm -rf ${project_dir}/drivers
-	
-	rm -f azrtos.zip
-	rm -f project.zip
-	
-#copy original NXP project and netxduo lib into project
+    echo Extracting...
+    unzip -q azrtos.zip
+    unzip -q project.zip
+
+    rm -rf ${project_dir}/azure-rtos/binary/netxduo
+    rm -rf ${project_dir}/azure-rtos/netxduo
+    rm -rf ${project_dir}/azure_iot
+    rm -rf ${project_dir}/drivers
+
+    rm -f azrtos.zip
+    rm -f project.zip
+
+    #copy original NXP project and netxduo lib into project
     cp -nr ${project_dir}/* basic-sample
-	cp -nr ${azrtos_dir}/netxduo/* netxduo
+    cp -nr ${azrtos_dir}/netxduo/* netxduo
 
-	rm -rf $(dirname "${azrtos_dir}")
-	rm -rf ${project_dir}
-	
-	# prevent accidental commit of private information by default
-	# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-	if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-	  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-      git update-index --no-assume-unchanged basic-sample/include/app_config.h
-	else
-	  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-      git update-index --assume-unchanged basic-sample/include/app_config.h
-	fi
-	
-	;;
-  stm32l4 | mimxrt1060 | same54Xpro)
-	pushd iotc-azrtos-sdk/ >/dev/null
+    rm -rf $(dirname "${azrtos_dir}")
+    rm -rf ${project_dir}
+
+    # prevent accidental commit of private information by default
+    # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+    if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+      git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+        git update-index --no-assume-unchanged basic-sample/include/app_config.h
+    else
+      git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+        git update-index --assume-unchanged basic-sample/include/app_config.h
+    fi
+
+    ;;
+  stm32l4 | mimxrt1060 | same54xpro)
+    pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
       done
     popd >/dev/null
-	# prevent accidental commit of private information by default
-	# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-	if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-	  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-      git update-index --no-assume-unchanged basic-sample/include/app_config.h
-	else
-	  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-      git update-index --assume-unchanged basic-sample/include/app_config.h
-	fi
-	;;	
+    # prevent accidental commit of private information by default
+    # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+    if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+      git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+        git update-index --no-assume-unchanged basic-sample/include/app_config.h
+    else
+      git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+        git update-index --assume-unchanged basic-sample/include/app_config.h
+    fi
+    ;;
+  *)
+    echo "Unknown project name $name"
+    exit -1
 esac
 
 case "$name" in
@@ -158,7 +173,7 @@ case "$name" in
     ;;
   mimxrt1060)
     echo Downloading Azure_RTOS_6...
-    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2020_10_10.zip
+    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
     project_dir='mimxrt1060/MCUXpresso/'
     libs="mimxrt1060_library filex "
     ;;

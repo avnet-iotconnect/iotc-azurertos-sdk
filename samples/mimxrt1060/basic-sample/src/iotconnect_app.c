@@ -3,11 +3,21 @@
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
 
+#include "app_config.h"
+
 #include "nx_api.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
 #include "iotconnect.h"
-#include "app_config.h"
+#include "iotc_auth_driver.h"
+#include "sw_auth_driver.h"
+
+// make sure this is after app_config.h
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+#include "TO.h" // for TO_HW_SN_SIZE
+#include "to_auth_driver.h"
+#include "iotconnect_di.h"
+#endif
 
 extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
@@ -170,24 +180,85 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
 
+    azrtos_config.ip_ptr = ip_ptr;
+    azrtos_config.pool_ptr = pool_ptr;
+    azrtos_config.dns_ptr = dns_ptr;
+
+
 #ifdef IOTCONNECT_SYMETRIC_KEY
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
+
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+    struct to_driver_parameters parameters = {0};
+    parameters.operational_identity_slot = 2;
+    parameters.operational_csr_slot = 2;
+    parameters.bootstrap_identity_slot = 1;
+    IotcDdimInterface ddim_interface;
+    if(to_create_auth_driver( //
+            &(config->auth.data.x509.auth_interface), //
+            &ddim_interface, //
+			&(config->auth.data.x509.auth_interface_context), //
+			&parameters)) { //
+    	return false;
+    }
+
+    uint8_t serial[TO_HW_SN_SIZE];
+    size_t serial_size;
+    if(config->auth.data.x509.auth_interface.get_serial(
+    		config->auth.data.x509.auth_interface_context, //
+			serial, //
+			&serial_size//
+			)) {
+    	return false;
+    }
+    printf("TO Serial:, ");
+	for (int i=0; i < serial_size; i++) {
+		printf("%02x", serial[i]);
+	}
+	printf("\r\n");
+
+   uint8_t* op_cert;
+   size_t op_cert_size;
+
+   config->auth.data.x509.auth_interface.get_cert(
+    		config->auth.data.x509.auth_interface_context,
+			&op_cert,
+			&op_cert_size
+			);
+
+    // ignore error, try to get operational cert if cert size 0
+    if (0 == op_cert_size) {
+        if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, config->auth.data.x509.auth_interface_context, config->env)) {
+        	printf("Operational certificate is missing. Obtaining it via DDIM.\r\n");
+        	return false;
+        }
+    }
+
+#else
+
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
     extern const UINT sample_device_private_key_len;
-    config->auth.type = IOTC_X509_RSA;
-    config->auth.data.identity.client_private_key = (UCHAR*) sample_device_private_key_ptr;
-    config->auth.data.identity.client_private_key_len = sample_device_private_key_len;
-    config->auth.data.identity.client_certificate = (UCHAR*) sample_device_cert_ptr;
-    config->auth.data.identity.client_certificate_len = sample_device_cert_len;
-#endif
+	struct sw_der_driver_parameters dp = {0};
+	dp.cert = (uint8_t *) (sample_device_cert_ptr);
+	dp.cert_size = sample_device_cert_len;
+	dp.key = (uint8_t *) (sample_device_private_key_ptr);
+	dp.key_size = sample_device_private_key_len;
+	dp.crypto_method = &crypto_method_ec_secp384;
+	if(create_sw_der_auth_driver( //
+	    		&(config->auth.data.x509.auth_interface), //
+				&(config->auth.data.x509.auth_interface_context), //
+				&dp)) { //
+	    	return false;
+	    }
+	auth_driver_context = config->auth.data.x509.auth_interface_context;
 
-    azrtos_config.ip_ptr = ip_ptr;
-    azrtos_config.pool_ptr = pool_ptr;
-    azrtos_config.dns_ptr = dns_ptr;
+#endif // ENABLE_DDIM_TO_DRIVER_SAMPLE
+    config->auth.type = IOTC_X509;
+#endif // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
         if (iotconnect_sdk_init(&azrtos_config)) {

@@ -188,6 +188,8 @@ int main(void)
     SAMPLE_BOARD_SETUP();
 #endif /* SAMPLE_BOARD_SETUP */
 
+    init_sensors();
+
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
 }

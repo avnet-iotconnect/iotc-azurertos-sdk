@@ -18,6 +18,8 @@
                 <sourceRootElem>include</sourceRootElem>
                 <sourceRootElem>azrtos-layer</sourceRootElem>
                 <sourceRootElem>iotc-c-lib</sourceRootElem>
+                <sourceRootElem>authentication</sourceRootElem>
+                <sourceRootElem>libTO</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

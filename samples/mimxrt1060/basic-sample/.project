@@ -32,7 +32,7 @@
 		<link>
 			<name>common_hardware_code</name>
 			<type>2</type>
-			<location>/home/nmarkovi/azurertos/mimxrt1060/MCUXpresso/common_hardware_code</location>
+			<locationURI>PARENT-1-PROJECT_LOC/common_hardware_code</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

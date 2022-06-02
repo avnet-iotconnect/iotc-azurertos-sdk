@@ -363,7 +363,7 @@
 	</storageModule>
 	<storageModule moduleId="com.nxp.mcuxpresso.core.datamodels">
 		<sdkName>SDK_2.x_EVK-MIMXRT1060</sdkName>
-		<sdkVersion>2.9.1</sdkVersion>
+		<sdkVersion>2.11.1</sdkVersion>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

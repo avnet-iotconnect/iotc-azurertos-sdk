@@ -6,11 +6,13 @@
 #ifndef IOTCONNECT_H
 #define IOTCONNECT_H
 
+#include <iotc_auth_driver.h>
 #include <stddef.h>
 #include "nx_api.h"
 #include "nxd_dns.h"
 #include "iotconnect_event.h"
 #include "iotconnect_telemetry.h"
+#include "iotconnect_discovery.h" // for sync enums
 #include "iotconnect_lib.h"
 
 #ifdef __cplusplus
@@ -26,9 +28,8 @@ typedef enum {
 } IotConnectConnectionStatus;
 
 typedef enum {
-    IOTC_KEY,
-	IOTC_X509_RSA, // RSA key and cert in DER format
-	IOTC_X509_ECC  // ECC key and cert in DER format (not supported with AzreRTOS as of yet)
+    IOTC_KEY,			// Symmetric key
+	IOTC_X509, 		// Private key and ceritificate
 } IotConnectAuthType;
 
 typedef void (*IotConnectStatusCallback)(IotConnectConnectionStatus data);
@@ -42,13 +43,19 @@ typedef struct {
 typedef struct {
     IotConnectAuthType type;
     union { // union because we may support different types of auth
+#if 0
         struct identity { // for both IOTC_IDENTITY_RSA and IOTC_IDENTITY_ECC
             UCHAR *client_private_key; // DER format (binary to C array)
             size_t client_private_key_len;
             UCHAR *client_certificate; // DER format (binary to C array)
             size_t client_certificate_len;
         } identity;
+#endif
         char *symmetric_key; //
+        struct {
+            IotcAuthInterface auth_interface; //
+            IotcAuthInterfaceContext auth_interface_context;
+        } x509;
     } data;
 } IotConnectAuth;
 
@@ -67,6 +74,8 @@ typedef struct {
 IotConnectClientConfig *iotconnect_sdk_init_and_get_config();
 
 UINT iotconnect_sdk_init(IotConnectAzrtosConfig *config);
+
+IotclSyncResult iotconnect_get_last_sync_result();
 
 bool iotconnect_sdk_is_connected();
 

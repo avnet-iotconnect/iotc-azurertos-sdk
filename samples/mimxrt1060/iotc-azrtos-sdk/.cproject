@@ -100,6 +100,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/crypto_libraries/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/libto/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.259180708" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.optimization.flags.1379576986" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>
@@ -265,6 +268,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/crypto_libraries/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/azrtos-layer/nx-http-client}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/libto/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.357784706" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.optimization.flags.325558003" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>
@@ -390,7 +396,7 @@
 	</storageModule>
 	<storageModule moduleId="com.nxp.mcuxpresso.core.datamodels">
 		<sdkName>SDK_2.x_EVK-MIMXRT1060</sdkName>
-		<sdkVersion>2.9.1</sdkVersion>
+		<sdkVersion>2.11.1</sdkVersion>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

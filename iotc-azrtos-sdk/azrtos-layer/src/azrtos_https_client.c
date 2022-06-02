@@ -12,7 +12,7 @@
 #include "azrtos_https_client.h"
 
 #ifndef NX_WEB_HTTP_TCP_WINDOW_SIZE
-#define NX_WEB_HTTP_TCP_WINDOW_SIZE     1536
+#define NX_WEB_HTTP_TCP_WINDOW_SIZE     1000
 #endif
 
 #ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
@@ -115,7 +115,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     }
 
     if (!r->resource) {
-        printf("HTTP: Resource needs to be provided");
+        printf("HTTP: Resource needs to be provided\r\n");
         return NX_INVALID_PARAMETERS;
     }
 
@@ -250,6 +250,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     	nx_packet_release(receive_packet);
     }
     status = nx_web_http_client_delete(&http_client);
+
     return NX_SUCCESS;
 }
 

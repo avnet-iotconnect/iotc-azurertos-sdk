@@ -4,6 +4,21 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="authentication"
+                     displayName="authentication"
+                     projectFiles="true">
+        <logicalFolder name="driver" displayName="driver" projectFiles="true">
+          <itemPath>authentication/driver/iotc_auth_driver.h</itemPath>
+          <itemPath>authentication/driver/sw_auth_driver.h</itemPath>
+          <itemPath>authentication/driver/to_auth_driver.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="include" displayName="include" projectFiles="true">
+          <itemPath>authentication/include/iotc_algorithms.h</itemPath>
+          <itemPath>authentication/include/TO_cfg.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+        </logicalFolder>
+      </logicalFolder>
       <logicalFolder name="azrtos-layer"
                      displayName="azrtos-layer"
                      projectFiles="true">
@@ -12,6 +27,8 @@
             <itemPath>azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
             <itemPath>azrtos-layer/azrtos-ota/include/azrtos_ota_fw_client.h</itemPath>
           </logicalFolder>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+          </logicalFolder>
         </logicalFolder>
         <logicalFolder name="include" displayName="include" projectFiles="true">
           <itemPath>azrtos-layer/include/azrtos_https_client.h</itemPath>
@@ -19,6 +36,7 @@
           <itemPath>azrtos-layer/include/azrtos_time.h</itemPath>
           <itemPath>azrtos-layer/include/nx_azure_iot_ciphersuites.h</itemPath>
           <itemPath>azrtos-layer/include/azrtos_download_client.h</itemPath>
+          <itemPath>azrtos-layer/include/azrtos_crypto_config.h</itemPath>
         </logicalFolder>
         <logicalFolder name="nx-http-client"
                        displayName="nx-http-client"
@@ -35,6 +53,9 @@
       <logicalFolder name="include" displayName="include" projectFiles="true">
         <itemPath>include/iotconnect.h</itemPath>
         <itemPath>include/iotconnect_certs.h</itemPath>
+        <itemPath>include/iotconnect_device_identity.h</itemPath>
+        <itemPath>include/iotconnect_di.h</itemPath>
+        <itemPath>include/iotconnect_discovery_v3.h</itemPath>
       </logicalFolder>
       <logicalFolder name="iotc-c-lib" displayName="iotc-c-lib" projectFiles="true">
         <logicalFolder name="include" displayName="include" projectFiles="true">
@@ -48,6 +69,81 @@
         <logicalFolder name="src" displayName="src" projectFiles="true">
         </logicalFolder>
       </logicalFolder>
+      <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
+        <logicalFolder name="include" displayName="include" projectFiles="true">
+          <itemPath>libTO/include/TO.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_admin.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_auth.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_cfg.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_cmd.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_core.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_defs.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_encrypt.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_hash.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_i2c.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_i2c_wrapper.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_keys.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_loader.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_lora.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_mac.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_measure.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_nvm.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_seclink.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_system.h</itemPath>
+          <itemPath>libTO/include/TODRV_HSE_tls.h</itemPath>
+          <itemPath>libTO/include/TODRV_SSE.h</itemPath>
+          <itemPath>libTO/include/TODRV_SSE_cfg.h</itemPath>
+          <itemPath>libTO/include/TOH_log.h</itemPath>
+          <itemPath>libTO/include/TOP.h</itemPath>
+          <itemPath>libTO/include/TOP_cfg.h</itemPath>
+          <itemPath>libTO/include/TOP_info.h</itemPath>
+          <itemPath>libTO/include/TOP_SecureStorage.h</itemPath>
+          <itemPath>libTO/include/TOP_storage.h</itemPath>
+          <itemPath>libTO/include/TOP_vt.h</itemPath>
+          <itemPath>libTO/include/TOSE_admin.h</itemPath>
+          <itemPath>libTO/include/TOSE_auth.h</itemPath>
+          <itemPath>libTO/include/TOSE_cfg.h</itemPath>
+          <itemPath>libTO/include/TOSE_encryption.h</itemPath>
+          <itemPath>libTO/include/TOSE_hashes.h</itemPath>
+          <itemPath>libTO/include/TOSE_helper_certs.h</itemPath>
+          <itemPath>libTO/include/TOSE_helper_cfg.h</itemPath>
+          <itemPath>libTO/include/TOSE_helper_measured_boot.h</itemPath>
+          <itemPath>libTO/include/TOSE_helper_tls.h</itemPath>
+          <itemPath>libTO/include/TOSE_keys.h</itemPath>
+          <itemPath>libTO/include/TOSE_loader.h</itemPath>
+          <itemPath>libTO/include/TOSE_lora.h</itemPath>
+          <itemPath>libTO/include/TOSE_mac.h</itemPath>
+          <itemPath>libTO/include/TOSE_measured_boot.h</itemPath>
+          <itemPath>libTO/include/TOSE_misc.h</itemPath>
+          <itemPath>libTO/include/TOSE_nvm.h</itemPath>
+          <itemPath>libTO/include/TOSE_secmsg.h</itemPath>
+          <itemPath>libTO/include/TOSE_setup.h</itemPath>
+          <itemPath>libTO/include/TOSE_statuspio.h</itemPath>
+          <itemPath>libTO/include/TOSE_system.h</itemPath>
+          <itemPath>libTO/include/TOSE_tls.h</itemPath>
+          <itemPath>libTO/include/TO_aes-gcm-sw.h</itemPath>
+          <itemPath>libTO/include/TO_cfg.h</itemPath>
+          <itemPath>libTO/include/TO_defs.h</itemPath>
+          <itemPath>libTO/include/TO_driver.h</itemPath>
+          <itemPath>libTO/include/TO_endian.h</itemPath>
+          <itemPath>libTO/include/TO_helper.h</itemPath>
+          <itemPath>libTO/include/TO_legacy.h</itemPath>
+          <itemPath>libTO/include/TO_log.h</itemPath>
+          <itemPath>libTO/include/TO_retcodes.h</itemPath>
+          <itemPath>libTO/include/TO_sha256.h</itemPath>
+          <itemPath>libTO/include/TO_stdint.h</itemPath>
+          <itemPath>libTO/include/TO_utils.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
+            <itemPath>libTO/src/aes-gcm-sw/TO_aes.h</itemPath>
+            <itemPath>libTO/src/aes-gcm-sw/TO_gcm.h</itemPath>
+          </logicalFolder>
+          <itemPath>libTO/src/seclink.h</itemPath>
+          <itemPath>libTO/src/sse_driver.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -56,6 +152,20 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="authentication"
+                     displayName="authentication"
+                     projectFiles="true">
+        <logicalFolder name="driver" displayName="driver" projectFiles="true">
+          <itemPath>authentication/driver/iotc_auth_driver.c</itemPath>
+          <itemPath>authentication/driver/sw_auth_driver.c</itemPath>
+          <itemPath>authentication/driver/to_auth_driver.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="include" displayName="include" projectFiles="true">
+        </logicalFolder>
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <itemPath>authentication/src/iotc_algorithms.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
       <logicalFolder name="azrtos-layer"
                      displayName="azrtos-layer"
                      projectFiles="true">
@@ -79,6 +189,7 @@
           <itemPath>azrtos-layer/src/azrtos_time.c</itemPath>
           <itemPath>azrtos-layer/src/nx_azure_iot_ciphersuites.c</itemPath>
           <itemPath>azrtos-layer/src/azrtos_download_client.c</itemPath>
+          <itemPath>azrtos-layer/src/azrtos_crypto_config.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="cJSON" displayName="cJSON" projectFiles="true">
@@ -95,9 +206,48 @@
           <itemPath>iotc-c-lib/src/iotconnect_telemetry.c</itemPath>
         </logicalFolder>
       </logicalFolder>
+      <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
+        <logicalFolder name="include" displayName="include" projectFiles="true">
+        </logicalFolder>
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
+            <itemPath>libTO/src/aes-gcm-sw/aes-gcm-sw.c</itemPath>
+            <itemPath>libTO/src/aes-gcm-sw/aes.c</itemPath>
+            <itemPath>libTO/src/aes-gcm-sw/gcm.c</itemPath>
+          </logicalFolder>
+          <itemPath>libTO/src/api_admin.c</itemPath>
+          <itemPath>libTO/src/api_auth.c</itemPath>
+          <itemPath>libTO/src/api_core.c</itemPath>
+          <itemPath>libTO/src/api_encrypt.c</itemPath>
+          <itemPath>libTO/src/api_hash.c</itemPath>
+          <itemPath>libTO/src/api_keys.c</itemPath>
+          <itemPath>libTO/src/api_loader.c</itemPath>
+          <itemPath>libTO/src/api_lora.c</itemPath>
+          <itemPath>libTO/src/api_mac.c</itemPath>
+          <itemPath>libTO/src/api_measure.c</itemPath>
+          <itemPath>libTO/src/api_nvm.c</itemPath>
+          <itemPath>libTO/src/api_system.c</itemPath>
+          <itemPath>libTO/src/api_tls.c</itemPath>
+          <itemPath>libTO/src/driver_client.c</itemPath>
+          <itemPath>libTO/src/helper_certs.c</itemPath>
+          <itemPath>libTO/src/helper_measured_boot.c</itemPath>
+          <itemPath>libTO/src/helper_tls.c</itemPath>
+          <itemPath>libTO/src/hse_driver.c</itemPath>
+          <itemPath>libTO/src/log.c</itemPath>
+          <itemPath>libTO/src/seclink.c</itemPath>
+          <itemPath>libTO/src/seclink_none.c</itemPath>
+          <itemPath>libTO/src/selftest.c</itemPath>
+          <itemPath>libTO/src/sha256.c</itemPath>
+          <itemPath>libTO/src/sse_driver.c</itemPath>
+          <itemPath>libTO/src/utils.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>src/iotconnect.c</itemPath>
         <itemPath>src/iotconnect_certs.c</itemPath>
+        <itemPath>src/iotconnect_device_identity.c</itemPath>
+        <itemPath>src/iotconnect_di.c</itemPath>
+        <itemPath>src/iotconnect_discovery_v3.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -112,6 +262,8 @@
     <Elem>include</Elem>
     <Elem>azrtos-layer</Elem>
     <Elem>iotc-c-lib</Elem>
+    <Elem>authentication</Elem>
+    <Elem>libTO</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -166,7 +318,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="azrtos-layer\include;include;iotc-c-lib\include"/>
+                  value="azrtos-layer\include;include;iotc-c-lib\include;authentication\driver;authentication\include;azrtos-layer\azrtos-ota\include;libTO\include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
@@ -282,7 +434,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;azrtos-layer\azrtos-ota\include"/>
+                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;azrtos-layer\azrtos-ota\include;authentication\driver;authentication\include"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>

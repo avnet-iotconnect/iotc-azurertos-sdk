@@ -51,8 +51,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
         <pack name="SAME54_DFP" vendor="Microchip" version="3.2.56"/>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -158,7 +158,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\"/>
+                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\iotc-azrtos-sdk\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
@@ -275,7 +275,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client"/>
+                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>
@@ -313,8 +313,6 @@
         <property key="memories.programmemory.ranges" value="0-fffff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Microchip/samples/same54xpro/basic-sample/debug/default/default_ptg"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
