@@ -21,7 +21,6 @@
         <itemPath>src/iotconnect_app.c</itemPath>
         <itemPath>src/main.c</itemPath>
         <itemPath>src/sample_device_identity.c</itemPath>
-        <itemPath>src/nx_azure_iot_adu_agent_same54_driver.c</itemPath>
       </logicalFolder>
       <itemPath>../common_hardware_code/common_hardware_code.c</itemPath>
       <itemPath>nx_driver_same54.c</itemPath>
@@ -143,7 +142,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}\xc32-objcopy -I ihex -O binary "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.hex" "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.bin"</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
@@ -275,7 +274,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include"/>
+                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\same54_lib\same54_lib"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>

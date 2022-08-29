@@ -48,7 +48,7 @@ static NX_DRIVER_INFORMATION   nx_driver_information;
 /* Define driver specific ethernet hardware address.  */
 
 #ifndef NX_DRIVER_ETHERNET_MAC
-UCHAR   _nx_driver_hardware_address[] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x56};  
+UCHAR   _nx_driver_hardware_address[] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x50};  
 #else
 UCHAR   _nx_driver_hardware_address[] = NX_DRIVER_ETHERNET_MAC;  
 #endif
@@ -231,6 +231,14 @@ VOID  nx_driver_same54(NX_IP_DRIVER *driver_req_ptr)
         break;
     }
         
+    case NX_LINK_GET_INTERFACE_TYPE:                
+    {  
+                                     
+        /* Return the link's interface type in the supplied return pointer. */      
+        *(driver_req_ptr -> nx_ip_driver_return_ptr) = NX_INTERFACE_TYPE_ETHERNET; 
+        break; 
+    }  
+
 #ifdef NX_DRIVER_ENABLE_DEFERRED
     case NX_LINK_DEFERRED_PROCESSING:
     { 

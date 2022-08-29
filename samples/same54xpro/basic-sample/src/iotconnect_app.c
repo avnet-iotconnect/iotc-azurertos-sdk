@@ -12,9 +12,11 @@
 #include "azrtos_ota_fw_client.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
+#include "hal_gpio.h"
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
-extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+void nx_azure_iot_adu_agent_driver(void)
+{}
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
@@ -271,7 +273,12 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
-    iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
+//   iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
+    // random number 0-100, cast to int so that it removes decimals in json
+    iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
+
+    bool button_press = gpio_get_pin_level(PIN_PB31);
+    iotcl_telemetry_set_bool(msg, "button", button_press ? 0:1);
 
 //    sensors_add_telemetry(msg);
 
