@@ -131,7 +131,7 @@ case "$name" in
 	fi
 	
 	;;
-  stm32l4 | mimxrt1060 | same54Xpro)
+  stm32l4 | mimxrt1060 | same54xpro)
 	pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
