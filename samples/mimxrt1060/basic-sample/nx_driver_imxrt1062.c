@@ -1831,9 +1831,9 @@ UINT                i;
     /* Set Receive Descriptor List Address Register.  */
     ENET->RDSR = (ULONG) nx_driver_information.nx_driver_information_dma_rx_descriptors;  
 
-    for (i = 64; i; i--)
+    // FIXME maybe memset() might be suitable - maybe 64 should be #define'd
+    for (i = 0; i < 64; i++)
     {
-        
         nx_driver_information.nx_driver_information_multicast_count[i] = 0;
     }
     
@@ -2241,9 +2241,9 @@ ULONG           crc_val;
     nx_driver_information.nx_driver_information_multicast_count[h_val]++;
     
     if (h_val < 32)
-        ENET->GALR |= 1 <<  h_val;
+        ENET->GALR |= 1U <<  h_val;
     else
-        ENET->GAUR |= 1 << (h_val - 32);
+        ENET->GAUR |= 1U << (h_val - 32);
         
     /* Return success.  */
     return(NX_SUCCESS);
@@ -2317,9 +2317,9 @@ ULONG           crc_val;
     {
         
         if (h_val < 32)
-            ENET->GALR &= ~(1 <<  h_val);
+            ENET->GALR &= ~(1U <<  h_val);
         else
-            ENET->GAUR &= ~(1 << (h_val - 32));
+            ENET->GAUR &= ~(1U << (h_val - 32));
     }
     else if(nx_driver_information.nx_driver_information_multicast_count[h_val] == 0)
     {
