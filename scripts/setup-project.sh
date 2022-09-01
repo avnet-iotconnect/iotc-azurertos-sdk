@@ -226,13 +226,13 @@ case "$name" in
     ;;
 esac
 
-case "$name" in
-  same54xpro)
-    # only 1 level of inderection in the zip (unlike others). Shim here:
+# case "$name" in
+  #same54xpro)
+    # only 1 level of inderection in the zip (unlike others). Shim here: No longer needed in the latest package on github
     # mkdir same54Xpro
-    mv mplab/ same54Xpro/.
-    ;;
-esac
+    #mv mplab/ same54Xpro/.
+    #;;
+#esac
 
 # copy  only relevant directories into corresponding locations without overwriting
 pushd "${project_dir}" >/dev/null
