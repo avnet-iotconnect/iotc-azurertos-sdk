@@ -130,8 +130,8 @@ SPI_HandleTypeDef hbus_spi1 = {0};
   */
 static void     I2C2_MspInit(I2C_HandleTypeDef *hI2c);
 static void     I2C2_MspDeInit(I2C_HandleTypeDef *hI2c);
-static int32_t  I2C2_WriteReg(uint16_t DevAddr, uint16_t MemAddSize, uint16_t Reg, uint8_t *pData, uint16_t Length);
-static int32_t  I2C2_ReadReg(uint16_t DevAddr, uint16_t MemAddSize, uint16_t Reg, uint8_t *pData, uint16_t Length);
+static int32_t  I2C2_WriteReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize, uint8_t *pData, uint16_t Length);
+static int32_t  I2C2_ReadReg(uint16_t DevAddr, uint16_t Reg, uint16_t MemAddSize, uint8_t *pData, uint16_t Length);
 static uint32_t I2C_GetTiming(uint32_t clock_src_hz, uint32_t i2cfreq_hz);
 
 static void     SPI1_MspInit(SPI_HandleTypeDef* hSpi);
