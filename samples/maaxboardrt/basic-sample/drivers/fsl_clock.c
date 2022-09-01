@@ -559,6 +559,9 @@ static void ANATOP_AudioPllSwEnClk(bool enable)
 
 status_t CLOCK_InitAudioPllWithFreq(uint32_t freqInMhz, bool ssEnable, uint32_t ssRange, uint32_t ssMod)
 {
+    // declare at same scope as config, so config can't use the address of an out-of-scope local variable
+    clock_pll_ss_config_t ss = {0};
+    // FIXME config will have a NULL ss field unless ssEnable is true -- is this correct?
     clock_audio_pll_config_t config = {0};
     config.ssEnable                 = ssEnable;
 
@@ -566,7 +569,6 @@ status_t CLOCK_InitAudioPllWithFreq(uint32_t freqInMhz, bool ssEnable, uint32_t 
     {
         if (config.ssEnable)
         {
-            clock_pll_ss_config_t ss = {0};
             CLOCK_CalcPllSpreadSpectrum(config.denominator, ssRange, ssMod, &ss);
             config.ss = &ss;
         }
@@ -808,6 +810,9 @@ status_t CLOCK_CalcAvPllFreq(clock_av_pll_config_t *config, uint32_t freqInMhz)
 
 status_t CLOCK_InitVideoPllWithFreq(uint32_t freqInMhz, bool ssEnable, uint32_t ssRange, uint32_t ssMod)
 {
+    // declare at same scope as config, so config can't use the address of an out-of-scope local variable
+    clock_pll_ss_config_t ss = {0};
+    // FIXME config will have a NULL ss field unless ssEnable is true -- is this correct?
     clock_video_pll_config_t config = {0};
     config.ssEnable                 = ssEnable;
 
@@ -815,7 +820,6 @@ status_t CLOCK_InitVideoPllWithFreq(uint32_t freqInMhz, bool ssEnable, uint32_t 
     {
         if (config.ssEnable)
         {
-            clock_pll_ss_config_t ss = {0};
             CLOCK_CalcPllSpreadSpectrum(config.denominator, ssRange, ssMod, &ss);
             config.ss = &ss;
         }
