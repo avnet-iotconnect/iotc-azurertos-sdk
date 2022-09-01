@@ -170,6 +170,7 @@ case "$name" in
     wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
     project_dir='b-l4s5i-iot01a/stm32cubeide'
     libs="stm32l4xx_lib "
+	popd >/dev/null
 	echo Done
     exit 0
     ;;
@@ -178,6 +179,7 @@ case "$name" in
     wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
     project_dir='mimxrt1060/MCUXpresso/'
     libs="mimxrt1060_library filex "
+	popd >/dev/null
 	echo Done
     exit 0
     ;;
@@ -233,7 +235,7 @@ esac
 case "$name" in
   same54xpro)
     # only 1 level of inderection in the zip (unlike others). Shim here:
-    mkdir same54Xpro
+    # mkdir same54Xpro
     mv mplab/ same54Xpro/.
     ;;
 esac
