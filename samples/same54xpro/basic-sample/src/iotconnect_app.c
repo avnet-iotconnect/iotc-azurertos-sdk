@@ -176,9 +176,8 @@ static void on_ota(IotclEventData data) {
         if (!version) {
             printf("Failed to clone SW version! Out of memory?");
             message = "Failed to clone SW version";
-            free(url);
         }
-        if (is_app_version_same_as_ota(version)) {
+        else if (is_app_version_same_as_ota(version)) {
             printf("OTA request for same version %s. Sending success\r\n", version);
             success = true;
             message = "Version is matching";
