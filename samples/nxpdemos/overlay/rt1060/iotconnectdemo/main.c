@@ -110,20 +110,22 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #define SAMPLE_SNTP_SYNC_MAX              5
 #endif /* SAMPLE_SNTP_SYNC_MAX */
 
-/*
+#if 0
 #ifndef SAMPLE_SNTP_UPDATE_MAX
 #define SAMPLE_SNTP_UPDATE_MAX            10
 #endif /* SAMPLE_SNTP_UPDATE_MAX */
+#endif
 
 #ifndef SAMPLE_SNTP_UPDATE_INTERVAL
 #define SAMPLE_SNTP_UPDATE_INTERVAL       (NX_IP_PERIODIC_RATE / 2)
 #endif /* SAMPLE_SNTP_UPDATE_INTERVAL */
 
+#if 0
 /* Default time. GMT: Mon Mar 22 03:15:42 2021.  */
-/*
 #ifndef SAMPLE_SYSTEM_TIME 
 #define SAMPLE_SYSTEM_TIME                1616354142
 #endif /* SAMPLE_SYSTEM_TIME  */
+#endif
 
 /* Seconds between Unix Epoch (1/1/1970) and NTP Epoch (1/1/1999) */
 #define SAMPLE_UNIX_TO_NTP_EPOCH_SECOND   0x83AA7E80

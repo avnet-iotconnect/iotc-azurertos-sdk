@@ -682,6 +682,7 @@ static status_t caam_aes_gcm_check_input_args(CAAM_Type *base,
      * The API interface would work on 64-bit architecture as well, but as it has not been tested, let it limit to
      * 32-bits.
      */
+    // FIXME ivSize is unsigned and != 0, so must be >= 1
     if (!((ivSize >= 1u) && (sizeof(size_t) <= 4u)))
     {
         return kStatus_InvalidArgument;
@@ -1767,7 +1768,7 @@ status_t CAAM_Init(CAAM_Type *base, const caam_config_t *config)
     base->RTMCTL = CAAM_RTMCTL_ERR_MASK | CAAM_RTMCTL_SAMP_MODE(config->rngSampleMode) |
                    CAAM_RTMCTL_OSC_DIV(config->rngRingOscDiv);
 
-    caam_handle_t handle;
+    caam_handle_t handle = {0};
     handle.jobRing = kCAAM_JobRing0;
     status         = CAAM_RNG_Init(base, &handle, kCAAM_RngStateHandle0, &rngConfig);
     if (status != kStatus_Success)
@@ -1868,7 +1869,7 @@ status_t CAAM_Wait(CAAM_Type *base, caam_handle_t *handle, void *descriptor, caa
  */
 status_t CAAM_Deinit(CAAM_Type *base)
 {
-    caam_handle_t handle;
+    caam_handle_t handle = {0};
     handle.jobRing  = kCAAM_JobRing0;
     status_t status = kStatus_Fail;
     status          = CAAM_RNG_Deinit(base, &handle, kCAAM_RngStateHandle0);
