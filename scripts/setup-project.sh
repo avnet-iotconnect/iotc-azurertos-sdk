@@ -228,7 +228,7 @@ esac
 case "$name" in
   same54xpro)
     # only 1 level of inderection in the zip (unlike others). Shim here:
-    mkdir same54Xpro
+    # mkdir same54Xpro
     mv mplab/ same54Xpro/.
     ;;
 esac
