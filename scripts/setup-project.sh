@@ -242,7 +242,7 @@ pushd "${project_dir}" >/dev/null
   for dir in threadx netxduo common_hardware_code $libs; do
     echo cp -nr $dir ../../
 #    cp -nr $dir ../../
-	rsync -az --exclude=.xml $dir ../../
+	rsync -av --exclude 'nbproject' $dir ../../
   done
 popd >/dev/null
 
