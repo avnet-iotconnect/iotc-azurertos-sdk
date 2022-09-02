@@ -167,22 +167,12 @@ esac
 case "$name" in
   stm32l4)
     echo Downloading Azure_RTOS_6...
-	
-	popd >/dev/null #samples/"${name}"
-    echo Done
-    exit 0
-	
     wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
     project_dir='b-l4s5i-iot01a/stm32cubeide'
     libs="stm32l4xx_lib "
     ;;
   mimxrt1060)
     echo Downloading Azure_RTOS_6...
-	
-	popd >/dev/null #samples/"${name}"
-    echo Done
-    exit 0
-	
     wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
     project_dir='mimxrt1060/MCUXpresso/'
     libs="mimxrt1060_library filex "
@@ -240,7 +230,7 @@ esac
 # copy  only relevant directories into corresponding locations without overwriting
 pushd "${project_dir}" >/dev/null
   for dir in threadx netxduo common_hardware_code $libs; do
-    echo cp -nr $dir ../../
+#    echo cp -nr $dir ../../
 #    cp -nr $dir ../../
 	rsync -av --exclude 'nbproject' $dir ../../
   done
