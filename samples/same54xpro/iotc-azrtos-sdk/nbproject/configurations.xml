@@ -53,9 +53,7 @@
       <logicalFolder name="include" displayName="include" projectFiles="true">
         <itemPath>include/iotconnect.h</itemPath>
         <itemPath>include/iotconnect_certs.h</itemPath>
-        <itemPath>include/iotconnect_device_identity.h</itemPath>
         <itemPath>include/iotconnect_di.h</itemPath>
-        <itemPath>include/iotconnect_discovery_v3.h</itemPath>
       </logicalFolder>
       <logicalFolder name="iotc-c-lib" displayName="iotc-c-lib" projectFiles="true">
         <logicalFolder name="include" displayName="include" projectFiles="true">
@@ -65,6 +63,8 @@
           <itemPath>iotc-c-lib/include/iotconnect_lib.h</itemPath>
           <itemPath>iotc-c-lib/include/iotconnect_lib_config.h</itemPath>
           <itemPath>iotc-c-lib/include/iotconnect_telemetry.h</itemPath>
+          <itemPath>iotc-c-lib/include/iotconnect_device_identity.h</itemPath>
+          <itemPath>iotc-c-lib/include/iotconnect_discovery_v3.h</itemPath>
         </logicalFolder>
         <logicalFolder name="src" displayName="src" projectFiles="true">
         </logicalFolder>
@@ -204,6 +204,8 @@
           <itemPath>iotc-c-lib/src/iotconnect_event.c</itemPath>
           <itemPath>iotc-c-lib/src/iotconnect_lib.c</itemPath>
           <itemPath>iotc-c-lib/src/iotconnect_telemetry.c</itemPath>
+          <itemPath>iotc-c-lib/src/iotconnect_device_identity.c</itemPath>
+          <itemPath>iotc-c-lib/src/iotconnect_discovery_v3.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
@@ -245,9 +247,7 @@
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>src/iotconnect.c</itemPath>
         <itemPath>src/iotconnect_certs.c</itemPath>
-        <itemPath>src/iotconnect_device_identity.c</itemPath>
         <itemPath>src/iotconnect_di.c</itemPath>
-        <itemPath>src/iotconnect_discovery_v3.c</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -279,8 +279,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
         <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -445,6 +445,10 @@
         <property key="save-temps" value="false"/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <item path="src/iotconnect_device_identity.c" ex="true" overriding="false">
+      </item>
+      <item path="src/iotconnect_discovery_v3.c" ex="true" overriding="false">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
