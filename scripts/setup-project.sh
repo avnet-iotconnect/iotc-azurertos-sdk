@@ -263,7 +263,7 @@ echo 'Applying patches for AzureRTOS component directory name references...'
     ;;
   same54xpro)
     # Microsoft's samples point the lib to the common_hardware_code from the sample, so we point it to ours
-    sed -i 's#sample_azure_iot_embedded_sdk#basic-sample#g' ./same54_lib/nbproject/configurations.xml
+    # sed -i 's#sample_azure_iot_embedded_sdk#basic-sample#g' ./same54_lib/nbproject/configurations.xml
     ;;
 esac
 
