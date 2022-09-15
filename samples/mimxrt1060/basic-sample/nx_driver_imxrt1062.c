@@ -56,7 +56,7 @@ static NX_DRIVER_INFORMATION   nx_driver_information;
 /* Define driver specific ethernet hardware address.  */
 
 #ifndef NX_DRIVER_ETHERNET_MAC
-UCHAR   _nx_driver_hardware_address[] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x56};  
+UCHAR   _nx_driver_hardware_address[] = {0x00, 0x11, 0x22, 0x33, 0x44, 0x52};  
 #else
 UCHAR   _nx_driver_hardware_address[] = NX_DRIVER_ETHERNET_MAC;  
 #endif
@@ -237,6 +237,15 @@ VOID  nx_driver_imx(NX_IP_DRIVER *driver_req_ptr)
         _nx_driver_get_status(driver_req_ptr);
         break;
     }
+                                     
+    case NX_LINK_GET_INTERFACE_TYPE: 
+    {                
+                                     
+        /* Return the link's interface type in the supplied return pointer. */      
+        *(driver_req_ptr -> nx_ip_driver_return_ptr) = NX_INTERFACE_TYPE_ETHERNET; 
+        break; 
+    }  
+
 #ifdef NX_DRIVER_ENABLE_DEFERRED        
     case NX_LINK_DEFERRED_PROCESSING:
     { 
@@ -1604,7 +1613,7 @@ void enet_init_imx(ENET_CONFIG_IMX *config)
 #endif
 
 }
-void enet_init()
+UINT enet_init()
 {
 
     bool link = false;
@@ -1612,8 +1621,10 @@ void enet_init()
     phy_duplex_t duplex;  
     uint32_t sysClock;
     int32_t    status;
- ENET_CONFIG_IMX     econf;   
-/* Hardware Initialization. */
+    ENET_CONFIG_IMX     econf;   
+    int32_t  unique_id;
+    
+    /* Hardware Initialization. */
     gpio_pin_config_t gpio_config = {kGPIO_DigitalOutput, 0, kGPIO_NoIntmode};
     IOMUXC_EnableMode(IOMUXC_GPR, kIOMUXC_GPR_ENET1TxClkOutputDir, true);
 
@@ -1623,9 +1634,25 @@ void enet_init()
     GPIO_WritePinOutput(GPIO1, 10, 1);
     GPIO_WritePinOutput(GPIO1, 9, 0);
     //delay();
-   
-
     GPIO_WritePinOutput(GPIO1, 9, 1);
+
+#ifndef NX_DRIVER_ETHERNET_MAC    
+    /* Use unique id as mac address*/    
+    unique_id = OCOTP->CFG0;
+    _nx_driver_hardware_address[2]=(UCHAR)unique_id;
+    _nx_driver_hardware_address[3]= (UCHAR)(unique_id >> 8); 
+    _nx_driver_hardware_address[4]= (UCHAR)(unique_id >> 16); 
+    _nx_driver_hardware_address[5]= (UCHAR)(unique_id >> 24); 
+    
+#ifdef NX_DEBUG
+    printf("MAC address : %x:%x:%x:%x:%x:%x\r\n", _nx_driver_hardware_address[0],
+                                                  _nx_driver_hardware_address[1],
+                                                  _nx_driver_hardware_address[2],
+                                                  _nx_driver_hardware_address[3],
+                                                  _nx_driver_hardware_address[4],
+                                                  _nx_driver_hardware_address[5]); 
+#endif
+#endif
  
     econf.interface = kENET_RmiiMode;
     econf.neg = 0; /*autoneg on */
@@ -1638,23 +1665,20 @@ void enet_init()
     econf.mac[4] = _nx_driver_hardware_address[4];
     econf.mac[5] = _nx_driver_hardware_address[5];
  
- 
-    /* Get default configuration. */
-    /*
-     * config.miiMode = kENET_RmiiMode;
-     * config.miiSpeed = kENET_MiiSpeed100M;
-     * config.miiDuplex = kENET_MiiFullDuplex;
-     * config.rxMaxFrameLen = ENET_FRAME_MAX_FRAMELEN;
-     */
-   // ENET_GetDefaultConfig(&config);
 
     /* Set SMI to get PHY link status. */
     sysClock = CLOCK_GetFreq(kCLOCK_AhbClk);
     status = PHY_Init(EXAMPLE_ENET, EXAMPLE_PHY, sysClock);
-    while (status != kStatus_Success)
-    {
-        PRINTF("\r\nPHY Auto-negotiation failed. Please check the cable connection and link partner setting.\r\n");
+    if (status != kStatus_Success)
+    {      
         status = PHY_Init(EXAMPLE_ENET, EXAMPLE_PHY, sysClock);
+        if (status != kStatus_Success)
+        {
+#ifdef NX_DEBUG
+            printf("\r\nPHY Auto-negotiation failed. Please check the cable connection and link partner setting.\r\n");
+#endif
+            return(NX_DRIVER_ERROR);
+        }
     }
 
     PHY_GetLinkStatus(EXAMPLE_ENET, EXAMPLE_PHY, &link);
@@ -1668,6 +1692,8 @@ void enet_init()
     }
 
    enet_init_imx(&econf);
+   
+   return(NX_SUCCESS);
 }
 
 /**************************************************************************/ 
@@ -1738,10 +1764,10 @@ UINT                i;
     }
    
         
-    enet_init();
-    
-
-    
+    if (enet_init()== NX_DRIVER_ERROR)
+    {    
+        return(NX_DRIVER_ERROR);
+    }
    
     /* Initialize TX Descriptors list: Ring Mode.  */
     
