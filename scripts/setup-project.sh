@@ -230,9 +230,9 @@ esac
 # copy  only relevant directories into corresponding locations without overwriting
 pushd "${project_dir}" >/dev/null
   for dir in threadx netxduo common_hardware_code $libs; do
-#    echo cp -nr $dir ../../
-#    cp -nr $dir ../../
-	rsync -av --exclude 'nbproject' $dir ../../
+    echo cp -nr $dir ../../
+    cp -nr $dir ../../
+#	rsync -av --exclude 'nbproject' $dir ../../
   done
 popd >/dev/null
 
