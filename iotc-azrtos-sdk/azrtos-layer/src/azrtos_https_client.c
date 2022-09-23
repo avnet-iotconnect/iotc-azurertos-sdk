@@ -12,7 +12,7 @@
 #include "azrtos_https_client.h"
 
 #ifndef NX_WEB_HTTP_TCP_WINDOW_SIZE
-#define NX_WEB_HTTP_TCP_WINDOW_SIZE     1536
+#define NX_WEB_HTTP_TCP_WINDOW_SIZE     1000
 #endif
 
 #ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
@@ -46,6 +46,7 @@ static NX_SECURE_X509_CERT trusted_certificate;
 static NX_SECURE_X509_CERT remote_certificate, remote_issuer;
 static UCHAR remote_cert_buffer[IOTCONNECT_HTTPS_CERT_BUFFERSIZE];
 static UCHAR remote_issuer_buffer[IOTCONNECT_HTTPS_CERT_BUFFERSIZE];
+static NX_SECURE_X509_DNS_NAME dns_name;
 
 // single request only support. Record current request for tls callback
 static IotConnectHttpRequest *current_request = NULL;
@@ -115,7 +116,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     }
 
     if (!r->resource) {
-        printf("HTTP: Resource needs to be provided");
+        printf("HTTP: Resource needs to be provided\r\n");
         return NX_INVALID_PARAMETERS;
     }
 
@@ -250,9 +251,24 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     	nx_packet_release(receive_packet);
     }
     status = nx_web_http_client_delete(&http_client);
+
     return NX_SUCCESS;
 }
 
+static ULONG iotc_https_certificate_verify(NX_SECURE_TLS_SESSION *session, NX_SECURE_X509_CERT* certificate)
+{
+    UINT status = nx_secure_x509_common_name_dns_check(
+    		certificate,
+			(const UCHAR *)current_request->host_name,
+			(UINT)strlen(current_request->host_name));
+
+    if (status != NX_SUCCESS) {
+        printf("HTTP failed to set TLS common name DNS check, error: 0x%x\r\n", status);
+        return (status);
+    }
+
+    return(status);
+}
 
 /* Callback to setup TLS parameters for secure HTTPS. */
 static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SESSION *tls_session) {
@@ -264,21 +280,21 @@ static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SES
     status = nx_secure_tls_session_create(tls_session, &nx_crypto_tls_ciphers, crypto_client_metadata,
             sizeof(crypto_client_metadata));
 
-    /* Check status.  */
     if (status) {
+        printf("HTTP failed to create TLS session, error: 0x%x\r\n", status);
         return (status);
     }
 
     /* Allocate space for packet reassembly. */
     status = nx_secure_tls_session_packet_buffer_set(tls_session, tls_packet_buffer, sizeof(tls_packet_buffer));
 
-    /* Check status.  */
     if (status != NX_SUCCESS) {
+        printf("HTTP failed to set TLS buffer size, error: 0x%x\r\n", status);
         return (status);
     }
 
     /* Add a CA Certificate to our trusted store for verifying incoming server certificates. */
-    nx_secure_x509_certificate_initialize(&trusted_certificate,
+    status = nx_secure_x509_certificate_initialize(&trusted_certificate,
             (UCHAR*) current_request->tls_cert,
             (USHORT) current_request->tls_cert_len,
             NX_NULL,
@@ -286,6 +302,35 @@ static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SES
             NULL,
             0,
             NX_SECURE_X509_KEY_TYPE_NONE);
+
+    if (status != NX_SUCCESS) {
+        printf("HTTP failed to initialize the TLS certificate, error: 0x%x\r\n", status);
+        return (status);
+    }
+    /* Initialize DNS name. */
+    status = nx_secure_x509_dns_name_initialize(
+    		&dns_name,
+			(const UCHAR *)current_request->host_name,
+			(UINT)strlen(current_request->host_name));
+    if (status != NX_SUCCESS) {
+		printf("HTTP failed to initialize the DNS name, error: 0x%x\r\n", status);
+		return (status);
+    }
+
+    status = nx_secure_tls_session_sni_extension_set(tls_session, &dns_name);
+    if (status != NX_SUCCESS) {
+		printf("HTTP failed to set SNI extension, error: 0x%x\r\n", status);
+		return (status);
+    }
+
+    status = nx_secure_tls_session_certificate_callback_set(
+    		tls_session,
+			iotc_https_certificate_verify);
+	if (status != NX_SUCCESS) {
+		printf("HTTP failed to set TLS cert callback, error: 0x%x\r\n", status);
+		return(status);
+	}
+
     nx_secure_tls_trusted_certificate_add(tls_session, &trusted_certificate);
 
     /* Need to allocate space for the certificate coming in from the remote host. */
