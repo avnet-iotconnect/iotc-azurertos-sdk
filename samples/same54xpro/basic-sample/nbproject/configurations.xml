@@ -142,7 +142,11 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
+<<<<<<< HEAD
         <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+=======
+        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
+>>>>>>> origin/tls-sni-and-identity-fix
         <makeCustomizationPostStep>${MP_CC_DIR}/xc32-objcopy -I ihex -O binary "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.hex" "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.bin"</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>

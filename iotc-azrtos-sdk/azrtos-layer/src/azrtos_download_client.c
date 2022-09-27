@@ -71,8 +71,11 @@ static VOID header_file_size_callback(NX_WEB_HTTP_CLIENT *client_ptr, CHAR *fiel
     char content_length_buff[MAX_DATA_LENGTH_DIGITS + 1];
     memcpy(content_length_buff, field_value, field_value_length);
     content_length_buff[field_value_length] = 0;
-    sscanf(content_length_buff, "%i",  &file_size);
 
+    // workaround size_t reading as an int using %i
+    int dummy;
+    sscanf(content_length_buff, "%i",  &dummy);
+    file_size = (size_t) dummy;
 }
 
 static UINT get_response(IotConnectHttpRequest *r, NX_WEB_HTTP_CLIENT *http_client) {
@@ -318,9 +321,7 @@ UINT iotc_download(IotConnectHttpRequest *r, IotConnectDownloadHandler event_cal
     if (event_cb) {
         printf("download client: Error: A download is already in progress!\r\n");
         evt.status = NX_NOT_SUPPORTED; // unable to support multiple downloads
-        if (event_callback) {
-            event_callback(&evt);
-        }
+        event_callback(&evt);
         return evt.status;
     }
     event_cb = event_callback;
@@ -328,7 +329,7 @@ UINT iotc_download(IotConnectHttpRequest *r, IotConnectDownloadHandler event_cal
     r->custom_handler_cb = request_handler;
 
 #ifdef IOTC_DOWNLOAD_CLIENT_DEBUG
-    printf("download client: Download started for host:%s resource:%s %i\r\n", r->host_name, r->resource);
+    printf("download client: Download started for host:%s resource:%s\r\n", r->host_name, r->resource);
 #endif
     evt.status = iotconnect_https_request(r);
     event_cb(&evt);

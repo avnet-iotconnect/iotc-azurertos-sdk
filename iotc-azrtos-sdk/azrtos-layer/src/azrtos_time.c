@@ -12,6 +12,8 @@
 // Copyright: Avnet 2021
 // Modified by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+
+#include <sys/time.h>
 #include "nx_api.h"
 #include "tx_api.h"
 #include "nxd_dns.h"

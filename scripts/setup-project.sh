@@ -127,6 +127,7 @@ case "$name" in
 
     #copy original NXP project and netxduo lib into project
     cp -nr ${project_dir}/* basic-sample
+<<<<<<< HEAD
     cp -nr ${azrtos_dir}/netxduo/* netxduo
 
     rm -rf $(dirname "${azrtos_dir}")
@@ -145,6 +146,26 @@ case "$name" in
     ;;
   stm32l4 | mimxrt1060 | same54xpro)
     pushd iotc-azrtos-sdk/ >/dev/null
+=======
+	cp -nr ${azrtos_dir}/netxduo/* netxduo
+
+	rm -rf $(dirname "${azrtos_dir}")
+	rm -rf ${project_dir}
+	
+	# prevent accidental commit of private information by default
+	# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+	if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+	  git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
+	else
+	  git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --assume-unchanged basic-sample/include/app_config.h
+	fi
+	
+	;;
+  stm32l4 | mimxrt1060 | same54xpro)
+	pushd iotc-azrtos-sdk/ >/dev/null
+>>>>>>> origin/tls-sni-and-identity-fix
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
       done
