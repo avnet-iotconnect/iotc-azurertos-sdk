@@ -127,7 +127,6 @@ case "$name" in
 
     #copy original NXP project and netxduo lib into project
     cp -nr ${project_dir}/* basic-sample
-<<<<<<< HEAD
     cp -nr ${azrtos_dir}/netxduo/* netxduo
 
     rm -rf $(dirname "${azrtos_dir}")
@@ -146,7 +145,7 @@ case "$name" in
     ;;
   stm32l4 | mimxrt1060 | same54xpro)
     pushd iotc-azrtos-sdk/ >/dev/null
-=======
+	
 	cp -nr ${azrtos_dir}/netxduo/* netxduo
 
 	rm -rf $(dirname "${azrtos_dir}")
@@ -165,7 +164,6 @@ case "$name" in
 	;;
   stm32l4 | mimxrt1060 | same54xpro)
 	pushd iotc-azrtos-sdk/ >/dev/null
->>>>>>> origin/tls-sni-and-identity-fix
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .
       done
