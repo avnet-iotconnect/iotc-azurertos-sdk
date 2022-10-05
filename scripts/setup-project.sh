@@ -18,24 +18,6 @@ case "$name" in
   same54xpro)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
-  rt1060-nxp)
-    pushd "$(dirname $0)"/../samples
-	mkdir -p rt1060
-	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/rt1060
-	;;
-  maaxboardrt-nxp)
-    pushd "$(dirname $0)"/../samples
-	mkdir -p maaxboardrt-nxp
-	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/maaxboardrt-nxp
-	;;
-  lpc55s69-nxp)
-    pushd "$(dirname $0)"/../samples
-	mkdir -p lpc55s69
-	popd >/dev/null
-	pushd "$(dirname $0)"/../samples/lpc55s69
-	;;
   maaxboardrt)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -73,30 +55,6 @@ rm -rf iotc-c-lib cJSON libTO
 
 
 case "$name" in
-  rt1060-nxp)
-    mv ../nxpdemos/overlay/rt1060/iotconnectdemo .
-    cp -r ../nxpdemos/include .
-    cp -r ../nxpdemos/iotconnectdemo .
-    cp -r ../../iotc-azrtos-sdk .
-    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
-    ;;
-  maaxboardrt-nxp)
-    mv ../nxpdemos/overlay/maaxboardrt/iotconnectdemo .
-    mv ../nxpdemos/overlay/maaxboardrt/board .
-    mv ../nxpdemos/overlay/maaxboardrt/phy .
-    mv ../nxpdemos/overlay/maaxboardrt/xip .
-    cp -r ../nxpdemos/include .
-    cp -r ../nxpdemos/iotconnectdemo .
-    cp -r ../../iotc-azrtos-sdk .
-    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
-    ;;
-  lpc55s69-nxp)
-    mv ../nxpdemos/overlay/lpc55s69/iotconnectdemo .
-    cp -r ../nxpdemos/include .
-    cp -r ../nxpdemos/iotconnectdemo .
-    cp -r ../../iotc-azrtos-sdk .
-    rm -rf iotc-azrtos-sdk/azrtos-layer/nx-http-client
-    ;;	
   maaxboardrt)
 #symlink iotc-azrtos-sdk into project
     rm -rf basic-sample/iotc-azrtos-sdk
@@ -186,21 +144,6 @@ case "$name" in
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
-  rt1060-nxp)
-    popd >/dev/null #samples/"${name}"
-    echo Done
-    exit 0
-    ;;
-  maaxboardrt-nxp)
-	popd >/dev/null #samples/"${name}"
-	echo Done
-	exit 0
-	;;
-  lpc55s69-nxp)
-	popd >/dev/null #samples/"${name}"
-	echo Done
-	exit 0
-	;;
   *)
     popd >/dev/null
   	echo Done
