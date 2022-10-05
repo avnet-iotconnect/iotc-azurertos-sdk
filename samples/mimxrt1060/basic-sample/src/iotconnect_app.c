@@ -2,31 +2,32 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+
 #include "app_config.h"
 
 #include "nx_api.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
 #include "iotconnect.h"
-#include "iotconnect_certs.h"
-#include "azrtos_ota_fw_client.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
-#include "hal_gpio.h"
 
-// from nx_azure_iot_adu_agent_<boardname>_driver.c
-void nx_azure_iot_adu_agent_driver(void)
-{}
+// make sure this is after app_config.h
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+#include "TO.h" // for TO_HW_SN_SIZE
+#include "to_auth_driver.h"
+#include "iotconnect_di.h"
+#endif
 
+extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
-static IotcAuthInterfaceContext auth_driver_context;
 
 #define APP_VERSION "01.00.00"
 
-//#define MEMORY_TEST
+#define MEMORY_TEST
 #ifdef MEMORY_TEST
-#define TEST_BLOCK_SIZE  10 * 1024
-#define TEST_BLOCK_COUNT 100
+#define TEST_BLOCK_SIZE  1 * 1024
+#define TEST_BLOCK_COUNT 30
 static void *blocks[TEST_BLOCK_COUNT];
 void memory_test() {
     int i = 0;
@@ -44,116 +45,22 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-static char* compose_device_id() {
+char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
-    uint8_t mac_addr[6] = { 0 };
+	UCHAR mac_addr[6] = {
+    	    _nx_driver_hardware_address[0],
+    	    _nx_driver_hardware_address[1],
+    	    _nx_driver_hardware_address[2],
+    	    _nx_driver_hardware_address[3],
+    	    _nx_driver_hardware_address[4],
+    	    _nx_driver_hardware_address[5]
+
+    };
     static char duid[PREFIX_LEN + sizeof(mac_addr) * 2 + 1 /* null */] = DUID_PREFIX;
 	for (int i = 0; i < sizeof(mac_addr); i++) {
 		sprintf(&duid[PREFIX_LEN + i * 2], "%02x", mac_addr[i]);
 	}
-    printf("DUID: %s\r\n", duid);
     return duid;
-}
-#pragma GCC diagnostic pop
-
-static bool download_event_handler(IotConnectDownloadEvent* event) {
-    switch (event->type) {
-    case IOTC_DL_STATUS:
-        if (event->status == NX_SUCCESS) {
-            printf("Download success\r\n");
-        } else {
-            printf("Download failed with code 0x%x\r\n", event->status);
-        }
-        break;
-    case IOTC_DL_FILE_SIZE:
-        printf("Download file size is %i\r\n", event->file_size);
-        break;
-    case IOTC_DL_DATA:
-        printf("%i%%\r\n", (event->data.offset + event->data.data_size) * 100 / event->data.file_size);
-        break;
-    default:
-        printf("Unknown event type %d received from download client!\r\n", event->type);
-        break;
-    }
-    return true;
-}
-
-// Parses the URL into host and resource strings which will be malloced
-// Ensure to free the two pointers on success
-static UINT split_url(const char *url, char **host_name, char**resource) {
-    int host_name_start = 0;
-    size_t url_len = strlen(url);
-
-    if (!host_name || !resource) {
-        printf("split_url: Invalid usage\r\n");
-        return NX_INVALID_PARAMETERS;
-    }
-    *host_name = NULL;
-    *resource = NULL;
-    int slash_count = 0;
-    for (size_t i = 0; i < url_len; i++) {
-        if (url[i] == '/') {
-            slash_count++;
-            if (slash_count == 2) {
-                host_name_start = i + 1;
-            } else if (slash_count == 3) {
-                const size_t slash_start = i;
-                const size_t host_name_len = i - host_name_start;
-                const size_t resource_len = url_len - i;
-                *host_name = malloc(host_name_len + 1); //+1 for null
-                if (NULL == *host_name) {
-                    return NX_POOL_ERROR;
-                }
-                memcpy(*host_name, &url[host_name_start], host_name_len);
-                (*host_name)[host_name_len] = 0; // terminate the string
-
-                *resource = malloc(resource_len + 1); //+1 for null
-                if (NULL == *resource) {
-                    free(*host_name);
-                    return NX_POOL_ERROR;
-                }
-                memcpy(*resource, &url[slash_start], resource_len);
-                (*resource)[resource_len] = 0; // terminate the string
-
-                return NX_SUCCESS;
-            }
-        }
-    }
-    return NX_INVALID_PARAMETERS; // URL could not be parsed
-}
-
-// Parses the URL into host and path strings.
-// It re-uses the URL storage by splitting it into two null-terminated strings.
-static UINT start_ota(char *url) {
-    IotConnectHttpRequest req = { 0 };
-
-    UINT status = split_url(url, &req.host_name, &req.resource);
-    if (status) {
-        printf("start_ota: Error while splitting the URL, code: 0x%x\r\n", status);
-        return status;
-    }
-
-    req.azrtos_config = &azrtos_config;
-    // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
-
-    status = iotc_ota_fw_download(
-            &req,
-            nx_azure_iot_adu_agent_driver,
-            false,
-            download_event_handler);
-    if (status) {
-        printf("OTA Failed with code 0x%x\r\n", status);
-    } else {
-        printf("OTA Download Success\r\n");
-    }
-    free(req.host_name);
-    free(req.resource);
-    return status;
 }
 
 static bool is_app_version_same_as_ota(const char *version) {
@@ -166,31 +73,19 @@ static bool app_needs_ota_update(const char *version) {
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
-    bool needs_ota_commit = false;
     char *url = iotcl_clone_download_url(data, 0);
     bool success = false;
     if (NULL != url) {
         printf("Download URL is: %s\r\n", url);
         const char *version = iotcl_clone_sw_version(data);
-        if (!version) {
-            printf("Failed to clone SW version! Out of memory?");
-            message = "Failed to clone SW version";
-            free(url);
-        }
         if (is_app_version_same_as_ota(version)) {
             printf("OTA request for same version %s. Sending success\r\n", version);
             success = true;
             message = "Version is matching";
         } else if (app_needs_ota_update(version)) {
             printf("OTA update is required for version %s.\r\n", version);
-
-            if (start_ota(url)) {
-                message = "OTA Failed";
-            } else {
-                success = true;
-                needs_ota_commit = true;
-                message = NULL;
-            }
+            success = false;
+            message = "Not implemented";
         } else {
             printf("Device firmware version %s is newer than OTA version %s. Sending failure\r\n", APP_VERSION,
                     version);
@@ -219,14 +114,6 @@ static void on_ota(IotclEventData data) {
         printf("Sent OTA ack: %s\r\n", ack);
         iotconnect_sdk_send_packet(ack);
         free((void*) ack);
-    }
-    if (needs_ota_commit) {
-        printf("Waiting for ack to be sent by the network\r\n.,,");
-        tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
-        UINT status = iotc_ota_fw_apply();
-        if (status) {
-            printf("Failed to apply firmware! Error was: %d\r\n", status);
-        }
     }
 }
 
@@ -261,9 +148,6 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         printf("IoTConnect Client ERROR\r\n");
         break;
     }
-    if (NULL != auth_driver_context) {
-    	release_sw_der_auth_driver(auth_driver_context);
-    }
 }
 
 static void publish_telemetry() {
@@ -273,14 +157,7 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
-//   iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
-    // random number 0-100, cast to int so that it removes decimals in json
-    iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
-
-    bool button_press = gpio_get_pin_level(PIN_PB31);
-    iotcl_telemetry_set_bool(msg, "button", button_press ? 0:1);
-
-//    sensors_add_telemetry(msg);
+    iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -291,12 +168,7 @@ static void publish_telemetry() {
 
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
-    printf("Starting App Version %s\r\n", APP_VERSION);
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
-    azrtos_config.ip_ptr = ip_ptr;
-	azrtos_config.pool_ptr = pool_ptr;
-	azrtos_config.dns_ptr = dns_ptr;
-
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
@@ -308,11 +180,63 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
 
+    azrtos_config.ip_ptr = ip_ptr;
+    azrtos_config.pool_ptr = pool_ptr;
+    azrtos_config.dns_ptr = dns_ptr;
+
+
 #ifdef IOTCONNECT_SYMETRIC_KEY
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
-    config->auth.type = IOTC_X509;
+
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+    struct to_driver_parameters parameters = {0};
+    parameters.operational_identity_slot = 2;
+    parameters.operational_csr_slot = 2;
+    parameters.bootstrap_identity_slot = 1;
+    IotcDdimInterface ddim_interface;
+    if(to_create_auth_driver( //
+            &(config->auth.data.x509.auth_interface), //
+            &ddim_interface, //
+			&(config->auth.data.x509.auth_interface_context), //
+			&parameters)) { //
+    	return false;
+    }
+
+    uint8_t serial[TO_HW_SN_SIZE];
+    size_t serial_size;
+    if(config->auth.data.x509.auth_interface.get_serial(
+    		config->auth.data.x509.auth_interface_context, //
+			serial, //
+			&serial_size//
+			)) {
+    	return false;
+    }
+    printf("TO Serial:, ");
+	for (int i=0; i < serial_size; i++) {
+		printf("%02x", serial[i]);
+	}
+	printf("\r\n");
+
+   uint8_t* op_cert;
+   size_t op_cert_size;
+
+   config->auth.data.x509.auth_interface.get_cert(
+    		config->auth.data.x509.auth_interface_context,
+			&op_cert,
+			&op_cert_size
+			);
+
+    // ignore error, try to get operational cert if cert size 0
+    if (0 == op_cert_size) {
+        if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, config->auth.data.x509.auth_interface_context, config->env)) {
+        	printf("Operational certificate is missing. Obtaining it via DDIM.\r\n");
+        	return false;
+        }
+    }
+
+#else
 
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
@@ -323,7 +247,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	dp.cert_size = sample_device_cert_len;
 	dp.key = (uint8_t *) (sample_device_private_key_ptr);
 	dp.key_size = sample_device_private_key_len;
-	dp.crypto_method = &crypto_method_ec_secp256;
+	dp.crypto_method = &crypto_method_ec_secp384;
 	if(create_sw_der_auth_driver( //
 	    		&(config->auth.data.x509.auth_interface), //
 				&(config->auth.data.x509.auth_interface_context), //
@@ -332,27 +256,29 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	    }
 	auth_driver_context = config->auth.data.x509.auth_interface_context;
 
-#endif  // IOTCONNECT_SYMETRIC_KEY
+#endif // ENABLE_DDIM_TO_DRIVER_SAMPLE
+    config->auth.type = IOTC_X509;
+#endif // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
-#ifdef MEMORY_TEST
-        // check for leaks
-        memory_test();
-#endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
         // send telemetry approximately ever 5 seconds for 5 minutes
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 30; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(2000);
+                iotconnect_sdk_poll(5000);
             } else {
                 return false;
             }
         }
         iotconnect_sdk_disconnect();
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
     }
     printf("Done.\r\n");
     return true;
