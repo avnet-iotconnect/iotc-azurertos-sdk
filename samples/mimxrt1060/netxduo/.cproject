@@ -5,11 +5,11 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.crt.advproject.config.lib.debug.744346196" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/nxd"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/netxduo"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/nxd/Debug"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/netxduo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/netxduo/Debug"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="nxd" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/netxduo/Debug"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="netxduo" srcPrefixMapping="" srcRootPath=""/>
 						<entry flags="RESOLVED" kind="libraryFile" name="netxduo" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
@@ -28,7 +28,7 @@
 					<folderInfo id="com.crt.advproject.config.lib.debug.744346196." name="/" resourcePath="">
 						<toolChain id="com.crt.advproject.toolchain.lib.debug.617260524" name="NXP MCU Tools" superClass="com.crt.advproject.toolchain.lib.debug">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.GNU_ELF" id="com.crt.advproject.platform.lib.debug.1385436627" name="ARM-based MCU (Debug)" superClass="com.crt.advproject.platform.lib.debug"/>
-							<builder buildPath="${workspace_loc:/nxd}/Debug" id="com.crt.advproject.builder.lib.debug.2056361844" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="12" superClass="com.crt.advproject.builder.lib.debug"/>
+							<builder buildPath="${workspace_loc:/netxduo}/Debug" id="com.crt.advproject.builder.lib.debug.2056361844" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="12" superClass="com.crt.advproject.builder.lib.debug"/>
 							<tool id="com.crt.advproject.cpp.lib.debug.1254624102" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.lib.debug">
 								<option id="com.crt.advproject.cpp.hdrlib.2070671126" name="Library headers" superClass="com.crt.advproject.cpp.hdrlib" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.cpp.fpu.1207171896" name="Floating point" superClass="com.crt.advproject.cpp.fpu" useByScannerDiscovery="false" value="com.crt.advproject.cpp.fpu.fpv5sp.hard" valueType="enumerated"/>
@@ -203,11 +203,11 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.crt.advproject.config.lib.release.1398519339" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings>
 					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/nxd"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/netxduo"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/nxd/Release"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/netxduo"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/netxduo/Release"/>
-						<entry flags="RESOLVED" kind="libraryFile" name="nxd" srcPrefixMapping="" srcRootPath=""/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/netxduo/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="netxduo" srcPrefixMapping="" srcRootPath=""/>
 						<entry flags="RESOLVED" kind="libraryFile" name="netxduo" srcPrefixMapping="" srcRootPath=""/>
 					</externalSetting>
 				</externalSettings>
@@ -226,7 +226,7 @@
 					<folderInfo id="com.crt.advproject.config.lib.release.1398519339." name="/" resourcePath="">
 						<toolChain id="com.crt.advproject.toolchain.lib.release.1057751231" name="NXP MCU Tools" superClass="com.crt.advproject.toolchain.lib.release">
 							<targetPlatform binaryParser="org.eclipse.cdt.core.ELF;org.eclipse.cdt.core.GNU_ELF" id="com.crt.advproject.platform.lib.release.280601385" name="ARM-based MCU (Debug)" superClass="com.crt.advproject.platform.lib.release"/>
-							<builder buildPath="${workspace_loc:/nxd}/Release" id="com.crt.advproject.builder.lib.release.1919699416" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="com.crt.advproject.builder.lib.release"/>
+							<builder buildPath="${workspace_loc:/netxduo}/Release" id="com.crt.advproject.builder.lib.release.1919699416" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="com.crt.advproject.builder.lib.release"/>
 							<tool id="com.crt.advproject.cpp.lib.release.740972362" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.lib.release">
 								<option id="com.crt.advproject.cpp.arch.420902521" name="Architecture" superClass="com.crt.advproject.cpp.arch" useByScannerDiscovery="false" value="com.crt.advproject.cpp.target.cm7" valueType="enumerated"/>
 								<option id="com.crt.advproject.cpp.misc.dialect.1426362169" name="Language standard" superClass="com.crt.advproject.cpp.misc.dialect" useByScannerDiscovery="true"/>
@@ -369,7 +369,7 @@
 		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-		<project id="nxd.null.1257011983" name="nxd" projectType="com.crt.advproject.projecttype.lib"/>
+		<project id="netxduo.null.1257011983" name="netxduo" projectType="com.crt.advproject.projecttype.lib"/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
@@ -417,7 +417,7 @@
 			<resource resourceType="PROJECT" workspacePath="/netxduo"/>
 		</configuration>
 		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/nxd"/>
+			<resource resourceType="PROJECT" workspacePath="/netxduo"/>
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="com.nxp.mcuxpresso.core.datamodels">
