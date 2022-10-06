@@ -7,10 +7,7 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
 ## Build Instructions
 
 * Download the project files from Github Actions or Releases pages in this repo. 
-There are two sets of project files based on two different Azure RTOS baselines, 
-and depending on your board one or more packages will be available:
-  * Containing *-nxp-*: NXP MCU Expresso Azure RTOS and Samples code.
-  * All other packages: Standalone packages.
+  * All board packages: Standalone packages.
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
