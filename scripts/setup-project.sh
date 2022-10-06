@@ -139,8 +139,8 @@ case "$name" in
     echo Downloading Azure_RTOS_6...
     #wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2020_10_10.zip
     #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
-	#wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
-	wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
+	  #wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
+	  wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
     project_dir='same54Xpro/mplab/'
     libs="same54_lib filex "
     ;;
@@ -152,17 +152,7 @@ case "$name" in
 esac
 
 case "$name" in
-  mimxrt1060)
-    echo Extracting...
-    unzip -q azrtos.zip
-    rm -f azrtos.zip
-    ;;
-  stm32l4)
-    echo Extracting...
-    unzip -q azrtos.zip
-    rm -f azrtos.zip
-    ;;
-  same54xpro)
+  mimxrt1060 | stm32l4 | same54xpro)
     echo Extracting...
     unzip -q azrtos.zip
     rm -f azrtos.zip
@@ -193,10 +183,6 @@ echo 'Applying patches for AzureRTOS component directory name references...'
     echo 'Applying patches for AzureRTOS component directory name references...'
     sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
     sed -i 's#tx#threadx#g' ./threadx/.cproject
-    ;;
-  same54xpro)
-    # Microsoft's samples point the lib to the common_hardware_code from the sample, so we point it to ours
-    # sed -i 's#sample_azure_iot_embedded_sdk#basic-sample#g' ./same54_lib/nbproject/configurations.xml
     ;;
 esac
 
