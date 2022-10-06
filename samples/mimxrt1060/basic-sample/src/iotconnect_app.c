@@ -24,7 +24,7 @@ static IotConnectAzrtosConfig azrtos_config;
 
 #define APP_VERSION "01.00.00"
 
-#define MEMORY_TEST
+//#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  1 * 1024
 #define TEST_BLOCK_COUNT 30
