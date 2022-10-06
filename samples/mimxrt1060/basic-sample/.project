@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>sample_azure_iot_embedded_sdk</name>
+	<name>basic-sample</name>
 	<comment></comment>
 	<projects>
 		<project>mimxrt1060_library</project>
