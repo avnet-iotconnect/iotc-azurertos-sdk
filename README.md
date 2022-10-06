@@ -7,7 +7,6 @@ To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.y
 ## Build Instructions
 
 * Download the project files from Github Actions or Releases pages in this repo. 
-  * All board packages: Standalone packages.
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
