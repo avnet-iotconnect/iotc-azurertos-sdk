@@ -14,7 +14,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+//Refer to the DDIM sequence in the file iotc-c-lib/include/iotconnect_device_identity.h
 int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, IotcDdimInterface* ddim_interface, IotcAuthInterfaceContext auth_interface_context, const char* env);
 
 #ifdef __cplusplus

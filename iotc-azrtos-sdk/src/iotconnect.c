@@ -171,8 +171,11 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
     IotclSyncResponse *ret = iotcl_discovery_parse_sync_response(json_start);
     if (!ret) {
         dump_response("Sync: Unable to parse HTTP response,", &req);
-    }
-    last_sync_result = ret->ds;
+		last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
+    } else {
+		last_sync_result = ret->ds;
+	}
+
     if (!ret || ret->ds != IOTCL_SR_OK) {
         report_sync_error(ret, req.response);
         iotcl_discovery_free_sync_response(ret);
@@ -220,6 +223,7 @@ static void on_message_intercept(IotclEventData data, IotclEventType type) {
 #endif
     switch (type) {
     case ON_FORCE_SYNC:
+	    printf("IOTC: Got ON_FORCE_SYNC. Disconnecting.\r\n");
         iotconnect_sdk_disconnect();
         iotcl_discovery_free_discovery_response(discovery_response);
         iotcl_discovery_free_sync_response(sync_response);
@@ -234,12 +238,11 @@ static void on_message_intercept(IotclEventData data, IotclEventType type) {
             printf("IOTC: Unable to run HTTP sync on ON_FORCE_SYNC \r\n");
             return;
         }
-        printf("IOTC: Got ON_FORCE_SYNC. Disconnecting.\r\n");
-        iotconnect_sdk_disconnect(); // client will get notification that we disconnected and will reinit
-
+		break;
     case ON_CLOSE:
         printf("IOTC: Got a disconnect request. Closing the mqtt connection. Device restart is required.\r\n");
         iotconnect_sdk_disconnect();
+		break;
     default:
         break; // not handling nay other messages
     }
@@ -304,22 +307,21 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
 #ifndef PROTOCOL_V2_PROTOTYPE
 
-    // TODO: ALLOW CACHING! --------------------------------------------------------------------------------
 	iotcl_discovery_free_discovery_response(discovery_response);
 	iotcl_discovery_free_sync_response(sync_response);
 	discovery_response = NULL;
 	sync_response = NULL;
-    //if (!discovery_response) {
-		printf("IOTC: Performing discovery.\r\n");
+    if (!discovery_response) {
+        printf("IOTC: Performing discovery.\r\n");
         discovery_response = run_http_discovery(config.cpid, config.env);
         if (NULL == discovery_response) {
             // get_base_url will print the error
             return -1;
         }
         printf("IOTC: Discovery response parsing successful.\r\n");
-    //}
+    }
 
-    //if (!sync_response) {
+    if (!sync_response) {
         printf("IOTC: Performing sync.\r\n");
         sync_response = run_http_sync(config.cpid, config.duid);
         if (NULL == sync_response) {
@@ -327,7 +329,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
             return -2;
         }
         printf("IOTC: Sync response parsing successful.\r\n");
-    //}
+    }
     // We want to print only first 5 characters of cpid. %.5s doesn't seem to work with prink
     char cpid_buff[6];
     strncpy(cpid_buff, sync_response->cpid, 5);

@@ -71,6 +71,9 @@ int hex_digit_to_int(char digit) {
 static uint8_t* hex_to_bin(char* hex_str) {
 	int bin_idx = 0;
 	int hex_idx = 0;
+	if (hex_str == NULL){
+		return NULL;
+	}
 	size_t hex_len = strlen(hex_str);
 
 	work_buffer_size = 0;
@@ -90,7 +93,7 @@ static uint8_t* hex_to_bin(char* hex_str) {
 			return NULL;
 		}
 		work_buffer[bin_idx] = (uint8_t)(dmsb * 16 + dlsb);
-		if (bin_idx >= WORK_BUFFER_SIZE -2 /* 1 for null and 2 for the next byte */) {
+		if (bin_idx >= WORK_BUFFER_SIZE -2 /* 1 for the next byte */) {
 			printf("DDIM: hex_to_bin: buffer overflow!\r\n");
 			return NULL;
 		}
@@ -128,9 +131,9 @@ static int ddim_call_auth(//
 	http_req.azrtos_config = azrtos_config;
 	http_req.payload = (char *)iotcl_ddim_auth_request_create_serialized_string(request);
 
-	//TODO: Remove this debug
-	printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
-	printf("DDIM: Payload: %s\r\n", http_req.payload);
+	//Sensitive data & only for debugging
+	//printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
+	//printf("DDIM: Payload: %s\r\n", http_req.payload);
 
 	*resp = NULL;
 
@@ -182,9 +185,9 @@ static int ddim_call_sign( //
 	http_req.azrtos_config = azrtos_config;
 	http_req.payload = (char *)iotcl_ddim_sign_request_create_serialized_string(request);
 
-	//TODO: Remove this debug
-	printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
-	printf("DDIM: Payload: %s\r\n", http_req.payload);
+	//Sensitive data & only for debugging
+	//printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
+	//printf("DDIM: Payload: %s\r\n", http_req.payload);
 
 	*resp = NULL;
 
@@ -225,9 +228,9 @@ static int ddim_call_ack( //
 	http_req.azrtos_config = azrtos_config;
 	http_req.payload = (char *)iotcl_ddim_ack_request_create_serialized_string(request);
 
-	//TODO: Remove this debug
-	printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
-	printf("DDIM: Payload: %s\r\n", http_req.payload);
+	//Sensitive data & only for debugging
+	//printf("DDIM: Calling: https://%s%s\r\n", http_req.host_name, http_req.resource);
+	//printf("DDIM: Payload: %s\r\n", http_req.payload);
 
 	*resp = NULL;
 
@@ -369,8 +372,9 @@ static int discovery_call( //
     	iotcl_free_discovery_v3_response(r);
     	return -6;
     }
-
+	
     printf("DDIM: Discovery result: %s %s\r\n", discovery_agent_host, discovery_agent_path);
+	free(agent_url);
     iotcl_free_discovery_v3_response(r);
 	return 0;
 }
@@ -425,7 +429,8 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 	{  // scope block
 		uint8_t* csr_bin;
 		size_t csr_len;
-		printf("DDIM: Received new CN: %s\r\n", auth_rsp->cn);
+		//Sensitive data & only for debugging
+		//printf("DDIM: Received new CN: %s\r\n", auth_rsp->cn);
 		printf("DDIM: Generating CSR...\r\n");
 		if (ddim_interface->generate_csr(auth_interface_context, auth_rsp->cn, &csr_bin, &csr_len)) {
 			ret = -6; goto cleanup; // called function with print errors
@@ -433,25 +438,25 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 
 		//  --- SIGN HASH ---
 		NX_CRYPTO_SHA256 ctx;
-		printf("----DEBUG Sizeof NX_CRYPTO_SHA256: %lu\r\n", sizeof(ctx));
-		UINT ret;
-		ret = _nx_crypto_sha256_initialize(&ctx, NX_CRYPTO_HASH_SHA256);
-		if (ret) {
+		//printf("----DEBUG Sizeof NX_CRYPTO_SHA256: %lu\r\n", sizeof(ctx));
+		UINT status;
+		status = _nx_crypto_sha256_initialize(&ctx, NX_CRYPTO_HASH_SHA256);
+		if (status) {
 			printf("DDIM: Unable to initialize sha256 hash function\r\n");
 			ret = -7; goto cleanup;
 		}
-		ret |= _nx_crypto_sha256_update(&ctx, (UCHAR*)auth_rsp->rn, strlen(auth_rsp->rn));
-		ret |= _nx_crypto_sha256_update(&ctx, (UCHAR*)auth_rsp->cid, strlen(auth_rsp->cid));
-		ret |= _nx_crypto_sha256_update(&ctx, csr_bin, csr_len);
-		if (ret) {
+		status |= _nx_crypto_sha256_update(&ctx, (UCHAR*)auth_rsp->rn, strlen(auth_rsp->rn));
+		status |= _nx_crypto_sha256_update(&ctx, (UCHAR*)auth_rsp->cid, strlen(auth_rsp->cid));
+		status |= _nx_crypto_sha256_update(&ctx, csr_bin, csr_len);
+		if (status) {
 			printf("DDIM: Unable to update the hash\r\n");
 			ret = -8; goto cleanup;
 		}
-		// TODO: Remove this for obvious security reasons
-		printf("DDIM: Signing: %s + %s + hex_to_binary(\"%s\")\r\n", auth_rsp->rn, auth_rsp->cid, bin_to_hex(csr_bin, csr_len));
+		//Sensitive data & only for debugging
+		//printf("DDIM: Signing: %s + %s + hex_to_binary(\"%s\")\r\n", auth_rsp->rn, auth_rsp->cid, bin_to_hex(csr_bin, csr_len));
 		uint8_t sha_hash[TO_SHA256_HASHSIZE];
-		ret = _nx_crypto_sha256_digest_calculate(&ctx, sha_hash, NX_CRYPTO_HASH_SHA256);
-		if (ret) {
+		status = _nx_crypto_sha256_digest_calculate(&ctx, sha_hash, NX_CRYPTO_HASH_SHA256);
+		if (status) {
 			printf("DDIM: Unable to compute the hash\r\n");
 			ret = -9; goto cleanup;
 		}
@@ -464,13 +469,13 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 		// --- CONVERT SIG TO DER ----
 		size_t signature_size = 0;
 		uint8_t asn1_sig[TO_SIGNATURE_SIZE + 10]; // 2 bytes for header + 2 for each integer header + 4 bytes slack];
-		ret = sig_to_asn1_der(
+		status = sig_to_asn1_der(
 				asn1_sig, //
 				sizeof(asn1_sig),  //
 				&signature_size, //
 				&s_r_buffer[0], &s_r_buffer[TO_SIGNATURE_SIZE/2], TO_ECC_PRIV_KEYSIZE * 8 //
 				);
-		if (ret) {
+		if (status) {
 			printf("DDIM: Unable to convert signature S&R to der format\r\n");
 			ret = -11; goto cleanup;
 		}
@@ -502,8 +507,8 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 			ret = -15; goto cleanup; // called function with print errors
 		}
 	}
-
-	printf("DDIM: Received cert: %s\r\n", sign_rsp->cert);
+	//Sensitive data & only for debugging
+	//printf("DDIM: Received cert: %s\r\n", sign_rsp->cert);
 	hex_to_bin(sign_rsp->cert);
 	if (0 == work_buffer_size) {
 		printf("DDIM: Unable to convert cert to bin\r\n");
@@ -515,7 +520,8 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 	}
 
 	ack_req.cid = auth_rsp->cid;
-	printf("DDIM: Acknowledging cert: %s\r\n", sign_rsp->cert);
+	//Sensitive data & only for debugging
+	//printf("DDIM: Acknowledging cert: %s\r\n", sign_rsp->cert);
 	if (ddim_call_ack(azrtos_config, &ack_req, &ack_rsp)) {
 		ret = -18; goto cleanup; // called function with print errors
 	}
@@ -529,9 +535,9 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 		iotcl_ddim_free_sign_response(sign_rsp);
 	}
 	if (ack_rsp) {
-		iotcl_ddim_free_ack_response(sign_rsp);
+		iotcl_ddim_free_ack_response(ack_rsp);
 	}
-	if (sign_req.csr) {
+	if (sign_req.sig) {
 		free(sign_req.sig); // the malloc'd copy
 	}
 	return ret;
