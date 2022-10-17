@@ -8,7 +8,7 @@
 #define WIFI_PASSWORD   ""
 #define IOTCONNECT_CPID ""
 #define IOTCONNECT_ENV  ""
-//#define IOTCONNECT_DUID "custom ID" // you can supply a custom device UID, or...
+//#define IOTCONNECT_DUID "custom_DUID" // you can supply a custom device UID, or...
 #define DUID_PREFIX "nxp-" // mac address will be appended in format 012345abcdef
 // if it is not defined, device certs will be used in iotconnect_app.c
 #define IOTCONNECT_SYMETRIC_KEY ""
