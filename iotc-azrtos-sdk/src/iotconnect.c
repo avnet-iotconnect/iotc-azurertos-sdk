@@ -311,25 +311,21 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 	iotcl_discovery_free_sync_response(sync_response);
 	discovery_response = NULL;
 	sync_response = NULL;
-    if (!discovery_response) {
-        printf("IOTC: Performing discovery.\r\n");
-        discovery_response = run_http_discovery(config.cpid, config.env);
-        if (NULL == discovery_response) {
-            // get_base_url will print the error
-            return -1;
-        }
-        printf("IOTC: Discovery response parsing successful.\r\n");
+    printf("IOTC: Performing discovery...\r\n");
+    discovery_response = run_http_discovery(config.cpid, config.env);
+    if (NULL == discovery_response) {
+        // get_base_url will print the error
+        return -1;
     }
+    printf("IOTC: Discovery response parsing successful. Performing sync...\ r\n");
 
-    if (!sync_response) {
-        printf("IOTC: Performing sync.\r\n");
-        sync_response = run_http_sync(config.cpid, config.duid);
-        if (NULL == sync_response) {
-            // Sync_call will print the error
-            return -2;
-        }
-        printf("IOTC: Sync response parsing successful.\r\n");
+    sync_response = run_http_sync(config.cpid, config.duid);
+    if (NULL == sync_response) {
+        // Sync_call will print the error
+        return -2;
     }
+    printf("IOTC: Sync response parsing successful.\r\n");
+
     // We want to print only first 5 characters of cpid. %.5s doesn't seem to work with prink
     char cpid_buff[6];
     strncpy(cpid_buff, sync_response->cpid, 5);
