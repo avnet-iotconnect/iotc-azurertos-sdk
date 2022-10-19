@@ -372,22 +372,6 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	}
 	printf("\r\n");
 
-#ifdef DDIM_TEST
-    int failed = 0;
-    for (int test_num = 1; test_num < 100; test_num++) {
-    	if(iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, config->auth.data.x509.auth_interface_context)) {
-    		printf("Test #%d failed\r\n", test_num);
-    		failed++;
-    	} else {
-    		printf("Test #%d success\r\n", test_num);
-    	}
-        tx_thread_sleep(30 * NX_IP_PERIODIC_RATE);
-    }
-    printf("Failed %d tests\r\n", failed);
-    return false;
-
-#endif
-
    uint8_t* op_cert;
    size_t op_cert_size;
 
