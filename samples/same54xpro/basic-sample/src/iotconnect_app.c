@@ -341,11 +341,11 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry approximately ever 5 seconds for 5 minutes
-        for (int i = 0; i < 10000; i++) {
+        // send telemetry periodically
+        for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(2000);
+                iotconnect_sdk_poll(5000);
             } else {
                 return false;
             }
