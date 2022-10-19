@@ -102,11 +102,15 @@ static NX_CRYPTO_KEEP UINT  to_ecdsa_operation(UINT op,      /* Encrypt, Decrypt
 	    	printf("ADTO: TOSE_sign error 0x%04X\r\n", ret);
 			return NX_CRYPTO_NOT_SUCCESSFUL;
 		}
+
+		// Uncommenting the the section may help with debugging but is a security risk:
+#if 0
 		printf("ADTO: ECDSA(");
 		for (int i=0; input && i <input_length_in_byte; i++) {
 							printf("%02x", input[i]);
 			}
 		printf(")=");
+#endif
 
 		NX_CRYPTO_EXTENDED_OUTPUT* eo = (NX_CRYPTO_EXTENDED_OUTPUT *)output;
 		size_t signature_size;
