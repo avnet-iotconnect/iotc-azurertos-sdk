@@ -103,7 +103,7 @@ static NX_CRYPTO_KEEP UINT  to_ecdsa_operation(UINT op,      /* Encrypt, Decrypt
 			return NX_CRYPTO_NOT_SUCCESSFUL;
 		}
 
-		// Uncommenting the the section may help with debugging but is a security risk:
+		// Uncommenting this section may help debugging but is a security risk:
 #if 0
 		printf("ADTO: ECDSA(");
 		for (int i=0; input && i <input_length_in_byte; i++) {
