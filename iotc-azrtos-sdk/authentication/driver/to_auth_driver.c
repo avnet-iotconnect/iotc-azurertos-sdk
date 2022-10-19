@@ -99,7 +99,7 @@ static NX_CRYPTO_KEEP UINT  to_ecdsa_operation(UINT op,      /* Encrypt, Decrypt
 		static uint8_t s_r_buffer[SR_BUFFER_SIZE];
 		TO_ret_t ret = TOSE_sign_hash(to_context->to_ctx, to_context->driver_parameters.operational_identity_slot, input, s_r_buffer);
 		if (TORSP_SUCCESS != ret) {
-	    	printf("ADTO: TOSE_sign error 0x%04X\r\n", ret);
+			printf("ADTO: TOSE_sign error 0x%04X\r\n", ret);
 			return NX_CRYPTO_NOT_SUCCESSFUL;
 		}
 
