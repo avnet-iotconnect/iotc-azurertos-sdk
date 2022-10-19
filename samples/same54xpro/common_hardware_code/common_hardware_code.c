@@ -1,17 +1,18 @@
 #include "common_hardware_code.h"
 
 #include "atmel_start.h"
+#include "hal_gpio.h"
 
 /*TRNG Registers Address  */
 #define TRNG_REGS       ((trng_registers_t*)0x42002800)    
 
+const char output_string[]="sample runs successfully!";
 /*function prototype*/
 uint32_t TRNG_ReadData(void);
 void TRNG_Initialize(void);
 uint32_t hardware_rand(void);
-void FLASH_0_init(void);
 
-VOID hardware_setup(void)
+VOID board_setup(void)
 {
   
 #ifdef TX_ENABLE_EXECUTION_CHANGE_NOTIFY
@@ -26,10 +27,11 @@ VOID hardware_setup(void)
     
     TRNG_Initialize();
     
+    gpio_set_pin_pull_mode(PIN_PB31, GPIO_PULL_OFF);
+    gpio_set_pin_function(PIN_PB31, PINMUX_PB31A_EIC_EXTINT15);
+    
     /* Init the seed.  */
     srand(hardware_rand());
-    
-    FLASH_0_init();
     
 }
 

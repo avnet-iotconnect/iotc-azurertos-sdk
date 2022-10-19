@@ -247,6 +247,7 @@
         </logicalFolder>
         <itemPath>same54_lib/atmel_start.c</itemPath>
         <itemPath>same54_lib/driver_init.c</itemPath>
+        <itemPath>same54_lib/driver_init_flash.c</itemPath>
         <itemPath>same54_lib/ethernet_phy.c</itemPath>
         <itemPath>same54_lib/ethernet_phy_main.c</itemPath>
         <itemPath>same54_lib/hal_atomic.c</itemPath>
@@ -276,7 +277,6 @@
         <itemPath>same54_lib/stdio_start.c</itemPath>
         <itemPath>same54_lib/system_same54.c</itemPath>
         <itemPath>same54_lib/write.c</itemPath>
-        <itemPath>same54_lib/driver_init_flash.c</itemPath>
         <itemPath>same54_lib/hal_flash.c</itemPath>
         <itemPath>same54_lib/hpl_nvmctrl.c</itemPath>
       </logicalFolder>
@@ -305,7 +305,7 @@
       </toolsSet>
       <packs>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
-        <pack name="SAME54_DFP" vendor="Microchip" version="3.2.56"/>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -469,6 +469,12 @@
         <property key="save-temps" value="false"/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <item path="same54_lib/driver_init_flash.c" ex="true" overriding="false">
+      </item>
+      <item path="same54_lib/hal_flash.c" ex="true" overriding="false">
+      </item>
+      <item path="same54_lib/hpl_nvmctrl.c" ex="true" overriding="false">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

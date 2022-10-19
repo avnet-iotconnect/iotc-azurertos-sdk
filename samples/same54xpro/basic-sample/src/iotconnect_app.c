@@ -2,28 +2,31 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+#include "app_config.h"
 
 #include "nx_api.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
 #include "iotconnect.h"
-#include "app_config.h"
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
-#include "nxd_dns.h"
+#include "iotc_auth_driver.h"
+#include "sw_auth_driver.h"
+#include "hal_gpio.h"
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
-extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+void nx_azure_iot_adu_agent_driver(void)
+{}
 
-extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
+static IotcAuthInterfaceContext auth_driver_context;
 
 #define APP_VERSION "01.00.00"
 
-#define MEMORY_TEST
+//#define MEMORY_TEST
 #ifdef MEMORY_TEST
-#define TEST_BLOCK_SIZE  1 * 1024
-#define TEST_BLOCK_COUNT 30
+#define TEST_BLOCK_SIZE  10 * 1024
+#define TEST_BLOCK_COUNT 100
 static void *blocks[TEST_BLOCK_COUNT];
 void memory_test() {
     int i = 0;
@@ -41,17 +44,12 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
-	UCHAR mac_addr[6] = {
-    	    _nx_driver_hardware_address[0],
-    	    _nx_driver_hardware_address[1],
-    	    _nx_driver_hardware_address[2],
-    	    _nx_driver_hardware_address[3],
-    	    _nx_driver_hardware_address[4],
-    	    _nx_driver_hardware_address[5]
-
-    };
+    uint8_t mac_addr[6] = { 0 };
     static char duid[PREFIX_LEN + sizeof(mac_addr) * 2 + 1 /* null */] = DUID_PREFIX;
 	for (int i = 0; i < sizeof(mac_addr); i++) {
 		sprintf(&duid[PREFIX_LEN + i * 2], "%02x", mac_addr[i]);
@@ -59,8 +57,9 @@ static char* compose_device_id() {
     printf("DUID: %s\r\n", duid);
     return duid;
 }
+#pragma GCC diagnostic pop
 
-static bool download_event_handler (IotConnectDownloadEvent* event) {
+static bool download_event_handler(IotConnectDownloadEvent* event) {
     switch (event->type) {
     case IOTC_DL_STATUS:
         if (event->status == NX_SUCCESS) {
@@ -224,7 +223,7 @@ static void on_ota(IotclEventData data) {
         tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
         UINT status = iotc_ota_fw_apply();
         if (status) {
-            printf("Failed to apply fifmware! Error was: %d\r\n", status);
+            printf("Failed to apply firmware! Error was: %d\r\n", status);
         }
     }
 }
@@ -260,6 +259,9 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         printf("IoTConnect Client ERROR\r\n");
         break;
     }
+    if (NULL != auth_driver_context) {
+    	release_sw_der_auth_driver(auth_driver_context);
+    }
 }
 
 static void publish_telemetry() {
@@ -269,6 +271,14 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
+//   iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
+    // random number 0-100, cast to int so that it removes decimals in json
+    iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
+
+    bool button_press = gpio_get_pin_level(PIN_PB31);
+    iotcl_telemetry_set_bool(msg, "button", button_press ? 0:1);
+
+//    sensors_add_telemetry(msg);
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -281,13 +291,16 @@ static void publish_telemetry() {
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
-    if (strcmp("your_cpid", IOTCONNECT_CPID))
-        config->cpid = IOTCONNECT_CPID;
+    azrtos_config.ip_ptr = ip_ptr;
+	azrtos_config.pool_ptr = pool_ptr;
+	azrtos_config.dns_ptr = dns_ptr;
+
+    config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
-    config->duid = IOTCONNECT_DUID; // custom Ddevice ID
+    config->duid = IOTCONNECT_DUID; // custom device ID
 #else
-    config->duid = (char*) compose_device_id(); // stm-<MAC Addres>
+    config->duid = (char*) compose_device_id(); // <DUID_PREFIX>-<MAC Address>
 #endif
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
@@ -297,28 +310,39 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
+    config->auth.type = IOTC_X509;
+
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
     extern const UINT sample_device_private_key_len;
-    config->auth.type = IOTC_X509_RSA;
-    config->auth.data.identity.client_private_key = (UCHAR*) sample_device_private_key_ptr;
-    config->auth.data.identity.client_private_key_len = sample_device_private_key_len;
-    config->auth.data.identity.client_certificate = (UCHAR*) sample_device_cert_ptr;
-    config->auth.data.identity.client_certificate_len = sample_device_cert_len;
-#endif
+	struct sw_der_driver_parameters dp = {0};
+	dp.cert = (uint8_t *) (sample_device_cert_ptr);
+	dp.cert_size = sample_device_cert_len;
+	dp.key = (uint8_t *) (sample_device_private_key_ptr);
+	dp.key_size = sample_device_private_key_len;
+	dp.crypto_method = &crypto_method_ec_secp256;
+	if(create_sw_der_auth_driver( //
+	    		&(config->auth.data.x509.auth_interface), //
+				&(config->auth.data.x509.auth_interface_context), //
+				&dp)) { //
+	    	return false;
+	    }
+	auth_driver_context = config->auth.data.x509.auth_interface_context;
 
-    azrtos_config.ip_ptr = ip_ptr;
-    azrtos_config.pool_ptr = pool_ptr;
-    azrtos_config.dns_ptr = dns_ptr;
+#endif  // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry approximately ever 5 seconds for 5 minutes
-        for (int i = 0; i < 30; i++) {
+        // send telemetry periodically
+        for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(5000);
@@ -327,10 +351,6 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             }
         }
         iotconnect_sdk_disconnect();
-#ifdef MEMORY_TEST
-        // check for leaks
-        memory_test();
-#endif //MEMORY_TEST
     }
     printf("Done.\r\n");
     return true;

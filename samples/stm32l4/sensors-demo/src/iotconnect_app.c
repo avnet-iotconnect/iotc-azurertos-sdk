@@ -2,20 +2,24 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+#include "app_config.h"
 
 #include "nx_api.h"
 #include "wifi.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
 #include "iotconnect.h"
-#include "app_config.h"
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
+#include "iotc_auth_driver.h"
+#include "sw_auth_driver.h"
+#include "sensors_data.h"
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
 extern void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 
 static IotConnectAzrtosConfig azrtos_config;
+static IotcAuthInterfaceContext auth_driver_context;
 
 #define APP_VERSION "01.00.00"
 
@@ -40,6 +44,9 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
     uint8_t mac_addr[6] = { 0 };
@@ -53,6 +60,7 @@ static char* compose_device_id() {
     }
     return duid;
 }
+#pragma GCC diagnostic pop
 
 static bool download_event_handler(IotConnectDownloadEvent* event) {
     switch (event->type) {
@@ -254,6 +262,9 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         printf("IoTConnect Client ERROR\r\n");
         break;
     }
+    if (NULL != auth_driver_context) {
+    	release_sw_der_auth_driver(auth_driver_context);
+    }
 }
 
 static void publish_telemetry() {
@@ -277,8 +288,11 @@ static void publish_telemetry() {
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
-
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
+    azrtos_config.ip_ptr = ip_ptr;
+	azrtos_config.pool_ptr = pool_ptr;
+	azrtos_config.dns_ptr = dns_ptr;
+
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
@@ -294,20 +308,27 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
+    config->auth.type = IOTC_X509;
+
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
     extern const UINT sample_device_private_key_len;
-    config->auth.type = IOTC_X509_RSA;
-    config->auth.data.identity.client_private_key = (UCHAR*) sample_device_private_key_ptr;
-    config->auth.data.identity.client_private_key_len = sample_device_private_key_len;
-    config->auth.data.identity.client_certificate = (UCHAR*) sample_device_cert_ptr;
-    config->auth.data.identity.client_certificate_len = sample_device_cert_len;
-#endif
+	struct sw_der_driver_parameters dp = {0};
+	dp.cert = (uint8_t *) (sample_device_cert_ptr);
+	dp.cert_size = sample_device_cert_len;
+	dp.key = (uint8_t *) (sample_device_private_key_ptr);
+	dp.key_size = sample_device_private_key_len;
+	dp.crypto_method = &crypto_method_ec_secp256;
+	if(create_sw_der_auth_driver( //
+	    		&(config->auth.data.x509.auth_interface), //
+				&(config->auth.data.x509.auth_interface_context), //
+				&dp)) { //
+	    	return false;
+	    }
+	auth_driver_context = config->auth.data.x509.auth_interface_context;
 
-    azrtos_config.ip_ptr = ip_ptr;
-    azrtos_config.pool_ptr = pool_ptr;
-    azrtos_config.dns_ptr = dns_ptr;
+#endif  // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
 #ifdef MEMORY_TEST
@@ -318,7 +339,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry approximately ever 5 seconds for 5 minutes
+        // send telemetry periodically
         for (int i = 0; i < 10000; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error

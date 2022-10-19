@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="65">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="common" displayName="common" projectFiles="true">
+        <logicalFolder name="inc" displayName="inc" projectFiles="true">
+          <itemPath>common/inc/fx_api.h</itemPath>
+          <itemPath>common/inc/fx_directory.h</itemPath>
+          <itemPath>common/inc/fx_directory_exFAT.h</itemPath>
+          <itemPath>common/inc/fx_fault_tolerant.h</itemPath>
+          <itemPath>common/inc/fx_file.h</itemPath>
+          <itemPath>common/inc/fx_media.h</itemPath>
+          <itemPath>common/inc/fx_system.h</itemPath>
+          <itemPath>common/inc/fx_unicode.h</itemPath>
+          <itemPath>common/inc/fx_user_sample.h</itemPath>
+          <itemPath>common/inc/fx_utility.h</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+      <logicalFolder name="ports" displayName="ports" projectFiles="true">
+        <logicalFolder name="cortex_m4" displayName="cortex_m4" projectFiles="true">
+          <logicalFolder name="gnu" displayName="gnu" projectFiles="true">
+            <logicalFolder name="inc" displayName="inc" projectFiles="true">
+              <itemPath>ports/cortex_m4/gnu/inc/fx_port.h</itemPath>
+            </logicalFolder>
+          </logicalFolder>
+        </logicalFolder>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="common" displayName="common" projectFiles="true">
+        <logicalFolder name="src" displayName="src" projectFiles="true">
+          <itemPath>common/src/fx_directory_attributes_read.c</itemPath>
+          <itemPath>common/src/fx_directory_attributes_set.c</itemPath>
+          <itemPath>common/src/fx_directory_create.c</itemPath>
+          <itemPath>common/src/fx_directory_default_get.c</itemPath>
+          <itemPath>common/src/fx_directory_default_get_copy.c</itemPath>
+          <itemPath>common/src/fx_directory_default_set.c</itemPath>
+          <itemPath>common/src/fx_directory_delete.c</itemPath>
+          <itemPath>common/src/fx_directory_entry_read.c</itemPath>
+          <itemPath>common/src/fx_directory_entry_write.c</itemPath>
+          <itemPath>common/src/fx_directory_exFAT_entry_read.c</itemPath>
+          <itemPath>common/src/fx_directory_exFAT_entry_write.c</itemPath>
+          <itemPath>common/src/fx_directory_exFAT_free_search.c</itemPath>
+          <itemPath>common/src/fx_directory_exFAT_unicode_entry_write.c</itemPath>
+          <itemPath>common/src/fx_directory_first_entry_find.c</itemPath>
+          <itemPath>common/src/fx_directory_first_full_entry_find.c</itemPath>
+          <itemPath>common/src/fx_directory_free_search.c</itemPath>
+          <itemPath>common/src/fx_directory_information_get.c</itemPath>
+          <itemPath>common/src/fx_directory_local_path_clear.c</itemPath>
+          <itemPath>common/src/fx_directory_local_path_get.c</itemPath>
+          <itemPath>common/src/fx_directory_local_path_get_copy.c</itemPath>
+          <itemPath>common/src/fx_directory_local_path_restore.c</itemPath>
+          <itemPath>common/src/fx_directory_local_path_set.c</itemPath>
+          <itemPath>common/src/fx_directory_long_name_get.c</itemPath>
+          <itemPath>common/src/fx_directory_long_name_get_extended.c</itemPath>
+          <itemPath>common/src/fx_directory_name_extract.c</itemPath>
+          <itemPath>common/src/fx_directory_name_test.c</itemPath>
+          <itemPath>common/src/fx_directory_next_entry_find.c</itemPath>
+          <itemPath>common/src/fx_directory_next_full_entry_find.c</itemPath>
+          <itemPath>common/src/fx_directory_rename.c</itemPath>
+          <itemPath>common/src/fx_directory_search.c</itemPath>
+          <itemPath>common/src/fx_directory_short_name_get.c</itemPath>
+          <itemPath>common/src/fx_directory_short_name_get_extended.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_add_FAT_log.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_add_bitmap_log.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_add_checksum_log.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_add_dir_log.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_apply_logs.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_calculate_checksum.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_cleanup_FAT_chain.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_create_log_file.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_enable.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_read_FAT.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_read_directory_sector.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_read_log_file.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_recover.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_reset_log_file.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_set_FAT_chain.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_transaction_end.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_transaction_fail.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_transaction_start.c</itemPath>
+          <itemPath>common/src/fx_fault_tolerant_write_log_file.c</itemPath>
+          <itemPath>common/src/fx_file_allocate.c</itemPath>
+          <itemPath>common/src/fx_file_attributes_read.c</itemPath>
+          <itemPath>common/src/fx_file_attributes_set.c</itemPath>
+          <itemPath>common/src/fx_file_best_effort_allocate.c</itemPath>
+          <itemPath>common/src/fx_file_close.c</itemPath>
+          <itemPath>common/src/fx_file_create.c</itemPath>
+          <itemPath>common/src/fx_file_date_time_set.c</itemPath>
+          <itemPath>common/src/fx_file_delete.c</itemPath>
+          <itemPath>common/src/fx_file_extended_allocate.c</itemPath>
+          <itemPath>common/src/fx_file_extended_best_effort_allocate.c</itemPath>
+          <itemPath>common/src/fx_file_extended_relative_seek.c</itemPath>
+          <itemPath>common/src/fx_file_extended_seek.c</itemPath>
+          <itemPath>common/src/fx_file_extended_truncate.c</itemPath>
+          <itemPath>common/src/fx_file_extended_truncate_release.c</itemPath>
+          <itemPath>common/src/fx_file_open.c</itemPath>
+          <itemPath>common/src/fx_file_read.c</itemPath>
+          <itemPath>common/src/fx_file_relative_seek.c</itemPath>
+          <itemPath>common/src/fx_file_rename.c</itemPath>
+          <itemPath>common/src/fx_file_seek.c</itemPath>
+          <itemPath>common/src/fx_file_truncate.c</itemPath>
+          <itemPath>common/src/fx_file_truncate_release.c</itemPath>
+          <itemPath>common/src/fx_file_write.c</itemPath>
+          <itemPath>common/src/fx_file_write_notify_set.c</itemPath>
+          <itemPath>common/src/fx_media_abort.c</itemPath>
+          <itemPath>common/src/fx_media_boot_info_extract.c</itemPath>
+          <itemPath>common/src/fx_media_cache_invalidate.c</itemPath>
+          <itemPath>common/src/fx_media_check.c</itemPath>
+          <itemPath>common/src/fx_media_check_FAT_chain_check.c</itemPath>
+          <itemPath>common/src/fx_media_check_lost_cluster_check.c</itemPath>
+          <itemPath>common/src/fx_media_close.c</itemPath>
+          <itemPath>common/src/fx_media_close_notify_set.c</itemPath>
+          <itemPath>common/src/fx_media_exFAT_format.c</itemPath>
+          <itemPath>common/src/fx_media_extended_space_available.c</itemPath>
+          <itemPath>common/src/fx_media_flush.c</itemPath>
+          <itemPath>common/src/fx_media_format.c</itemPath>
+          <itemPath>common/src/fx_media_format_oem_name_set.c</itemPath>
+          <itemPath>common/src/fx_media_format_type_set.c</itemPath>
+          <itemPath>common/src/fx_media_format_volume_id_set.c</itemPath>
+          <itemPath>common/src/fx_media_open.c</itemPath>
+          <itemPath>common/src/fx_media_open_notify_set.c</itemPath>
+          <itemPath>common/src/fx_media_read.c</itemPath>
+          <itemPath>common/src/fx_media_space_available.c</itemPath>
+          <itemPath>common/src/fx_media_volume_get.c</itemPath>
+          <itemPath>common/src/fx_media_volume_get_extended.c</itemPath>
+          <itemPath>common/src/fx_media_volume_set.c</itemPath>
+          <itemPath>common/src/fx_media_write.c</itemPath>
+          <itemPath>common/src/fx_partition_offset_calculate.c</itemPath>
+          <itemPath>common/src/fx_ram_driver.c</itemPath>
+          <itemPath>common/src/fx_system_date_get.c</itemPath>
+          <itemPath>common/src/fx_system_date_set.c</itemPath>
+          <itemPath>common/src/fx_system_initialize.c</itemPath>
+          <itemPath>common/src/fx_system_time_get.c</itemPath>
+          <itemPath>common/src/fx_system_time_set.c</itemPath>
+          <itemPath>common/src/fx_system_timer_entry.c</itemPath>
+          <itemPath>common/src/fx_trace_event_insert.c</itemPath>
+          <itemPath>common/src/fx_trace_event_update.c</itemPath>
+          <itemPath>common/src/fx_trace_object_register.c</itemPath>
+          <itemPath>common/src/fx_trace_object_unregister.c</itemPath>
+          <itemPath>common/src/fx_unicode_directory_create.c</itemPath>
+          <itemPath>common/src/fx_unicode_directory_entry_change.c</itemPath>
+          <itemPath>common/src/fx_unicode_directory_entry_read.c</itemPath>
+          <itemPath>common/src/fx_unicode_directory_rename.c</itemPath>
+          <itemPath>common/src/fx_unicode_directory_search.c</itemPath>
+          <itemPath>common/src/fx_unicode_file_create.c</itemPath>
+          <itemPath>common/src/fx_unicode_file_rename.c</itemPath>
+          <itemPath>common/src/fx_unicode_length_get.c</itemPath>
+          <itemPath>common/src/fx_unicode_length_get_extended.c</itemPath>
+          <itemPath>common/src/fx_unicode_name_get.c</itemPath>
+          <itemPath>common/src/fx_unicode_name_get_extended.c</itemPath>
+          <itemPath>common/src/fx_unicode_short_name_get.c</itemPath>
+          <itemPath>common/src/fx_unicode_short_name_get_extended.c</itemPath>
+          <itemPath>common/src/fx_utility_16_unsigned_read.c</itemPath>
+          <itemPath>common/src/fx_utility_16_unsigned_write.c</itemPath>
+          <itemPath>common/src/fx_utility_32_unsigned_read.c</itemPath>
+          <itemPath>common/src/fx_utility_32_unsigned_write.c</itemPath>
+          <itemPath>common/src/fx_utility_64_unsigned_read.c</itemPath>
+          <itemPath>common/src/fx_utility_64_unsigned_write.c</itemPath>
+          <itemPath>common/src/fx_utility_FAT_entry_read.c</itemPath>
+          <itemPath>common/src/fx_utility_FAT_entry_write.c</itemPath>
+          <itemPath>common/src/fx_utility_FAT_flush.c</itemPath>
+          <itemPath>common/src/fx_utility_FAT_map_flush.c</itemPath>
+          <itemPath>common/src/fx_utility_FAT_sector_get.c</itemPath>
+          <itemPath>common/src/fx_utility_absolute_path_get.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_allocate_new_cluster.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_cache_prepare.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_cache_update.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_flush.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_free_cluster_find.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_initialize.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_bitmap_start_sector_get.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_cluster_free.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_cluster_state_get.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_cluster_state_set.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_geometry_check.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_name_hash_get.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_size_calculate.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_system_area_checksum_verify.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_system_area_checksum_write.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_system_area_format.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_system_sector_write.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_unicode_name_hash_get.c</itemPath>
+          <itemPath>common/src/fx_utility_exFAT_upcase_table.c</itemPath>
+          <itemPath>common/src/fx_utility_logical_sector_cache_entry_read.c</itemPath>
+          <itemPath>common/src/fx_utility_logical_sector_flush.c</itemPath>
+          <itemPath>common/src/fx_utility_logical_sector_read.c</itemPath>
+          <itemPath>common/src/fx_utility_logical_sector_write.c</itemPath>
+          <itemPath>common/src/fx_utility_memory_copy.c</itemPath>
+          <itemPath>common/src/fx_utility_memory_set.c</itemPath>
+          <itemPath>common/src/fx_utility_string_length_get.c</itemPath>
+          <itemPath>common/src/fx_utility_token_length_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_attributes_read.c</itemPath>
+          <itemPath>common/src/fxe_directory_attributes_set.c</itemPath>
+          <itemPath>common/src/fxe_directory_create.c</itemPath>
+          <itemPath>common/src/fxe_directory_default_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_default_get_copy.c</itemPath>
+          <itemPath>common/src/fxe_directory_default_set.c</itemPath>
+          <itemPath>common/src/fxe_directory_delete.c</itemPath>
+          <itemPath>common/src/fxe_directory_first_entry_find.c</itemPath>
+          <itemPath>common/src/fxe_directory_first_full_entry_find.c</itemPath>
+          <itemPath>common/src/fxe_directory_information_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_local_path_clear.c</itemPath>
+          <itemPath>common/src/fxe_directory_local_path_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_local_path_get_copy.c</itemPath>
+          <itemPath>common/src/fxe_directory_local_path_restore.c</itemPath>
+          <itemPath>common/src/fxe_directory_local_path_set.c</itemPath>
+          <itemPath>common/src/fxe_directory_long_name_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_long_name_get_extended.c</itemPath>
+          <itemPath>common/src/fxe_directory_name_test.c</itemPath>
+          <itemPath>common/src/fxe_directory_next_entry_find.c</itemPath>
+          <itemPath>common/src/fxe_directory_next_full_entry_find.c</itemPath>
+          <itemPath>common/src/fxe_directory_rename.c</itemPath>
+          <itemPath>common/src/fxe_directory_short_name_get.c</itemPath>
+          <itemPath>common/src/fxe_directory_short_name_get_extended.c</itemPath>
+          <itemPath>common/src/fxe_fault_tolerant_enable.c</itemPath>
+          <itemPath>common/src/fxe_file_allocate.c</itemPath>
+          <itemPath>common/src/fxe_file_attributes_read.c</itemPath>
+          <itemPath>common/src/fxe_file_attributes_set.c</itemPath>
+          <itemPath>common/src/fxe_file_best_effort_allocate.c</itemPath>
+          <itemPath>common/src/fxe_file_close.c</itemPath>
+          <itemPath>common/src/fxe_file_create.c</itemPath>
+          <itemPath>common/src/fxe_file_date_time_set.c</itemPath>
+          <itemPath>common/src/fxe_file_delete.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_allocate.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_best_effort_allocate.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_relative_seek.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_seek.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_truncate.c</itemPath>
+          <itemPath>common/src/fxe_file_extended_truncate_release.c</itemPath>
+          <itemPath>common/src/fxe_file_open.c</itemPath>
+          <itemPath>common/src/fxe_file_read.c</itemPath>
+          <itemPath>common/src/fxe_file_relative_seek.c</itemPath>
+          <itemPath>common/src/fxe_file_rename.c</itemPath>
+          <itemPath>common/src/fxe_file_seek.c</itemPath>
+          <itemPath>common/src/fxe_file_truncate.c</itemPath>
+          <itemPath>common/src/fxe_file_truncate_release.c</itemPath>
+          <itemPath>common/src/fxe_file_write.c</itemPath>
+          <itemPath>common/src/fxe_file_write_notify_set.c</itemPath>
+          <itemPath>common/src/fxe_media_abort.c</itemPath>
+          <itemPath>common/src/fxe_media_cache_invalidate.c</itemPath>
+          <itemPath>common/src/fxe_media_check.c</itemPath>
+          <itemPath>common/src/fxe_media_close.c</itemPath>
+          <itemPath>common/src/fxe_media_close_notify_set.c</itemPath>
+          <itemPath>common/src/fxe_media_exFAT_format.c</itemPath>
+          <itemPath>common/src/fxe_media_extended_space_available.c</itemPath>
+          <itemPath>common/src/fxe_media_flush.c</itemPath>
+          <itemPath>common/src/fxe_media_format.c</itemPath>
+          <itemPath>common/src/fxe_media_open.c</itemPath>
+          <itemPath>common/src/fxe_media_open_notify_set.c</itemPath>
+          <itemPath>common/src/fxe_media_read.c</itemPath>
+          <itemPath>common/src/fxe_media_space_available.c</itemPath>
+          <itemPath>common/src/fxe_media_volume_get.c</itemPath>
+          <itemPath>common/src/fxe_media_volume_get_extended.c</itemPath>
+          <itemPath>common/src/fxe_media_volume_set.c</itemPath>
+          <itemPath>common/src/fxe_media_write.c</itemPath>
+          <itemPath>common/src/fxe_system_date_get.c</itemPath>
+          <itemPath>common/src/fxe_system_date_set.c</itemPath>
+          <itemPath>common/src/fxe_system_time_get.c</itemPath>
+          <itemPath>common/src/fxe_system_time_set.c</itemPath>
+          <itemPath>common/src/fxe_unicode_directory_create.c</itemPath>
+          <itemPath>common/src/fxe_unicode_directory_rename.c</itemPath>
+          <itemPath>common/src/fxe_unicode_file_create.c</itemPath>
+          <itemPath>common/src/fxe_unicode_file_rename.c</itemPath>
+          <itemPath>common/src/fxe_unicode_name_get.c</itemPath>
+          <itemPath>common/src/fxe_unicode_name_get_extended.c</itemPath>
+          <itemPath>common/src/fxe_unicode_short_name_get.c</itemPath>
+          <itemPath>common/src/fxe_unicode_short_name_get_extended.c</itemPath>
+        </logicalFolder>
+      </logicalFolder>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>fx</Elem>
+    <Elem>common</Elem>
+    <Elem>ports</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="3">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>ATSAME54P20A</targetDevice>
+        <targetHeader></targetHeader>
+        <targetPluginBoard></targetPluginBoard>
+        <platformTool>noID</platformTool>
+        <languageToolchain>XC32</languageToolchain>
+        <languageToolchainVersion>3.00</languageToolchainVersion>
+        <platform>3</platform>
+      </toolsSet>
+      <packs>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+      </packs>
+      <ScriptingSettings>
+      </ScriptingSettings>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+        <archiverTool>
+        </archiverTool>
+        <loading>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <parseOnProdLoad>false</parseOnProdLoad>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
+        <subordinates>
+        </subordinates>
+      </compileType>
+      <makeCustomizationType>
+        <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
+        <makeUseCleanTarget>false</makeUseCleanTarget>
+        <makeCustomizationPreStep></makeCustomizationPreStep>
+        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStep></makeCustomizationPostStep>
+        <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
+        <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
+        <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
+      </makeCustomizationType>
+      <C32>
+        <property key="additional-warnings" value="false"/>
+        <property key="addresss-attribute-use" value="false"/>
+        <property key="enable-app-io" value="false"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-symbols" value="true"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="exclude-floating-point" value="false"/>
+        <property key="extra-include-directories" value="..\tx\tx;fx"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="make-warnings-into-errors" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="place-data-into-section" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="strict-ansi" value="false"/>
+        <property key="support-ansi" value="false"/>
+        <property key="toplevel-reordering" value=""/>
+        <property key="unaligned-access" value=""/>
+        <property key="use-cci" value="false"/>
+        <property key="use-iar" value="false"/>
+        <property key="use-indirect-calls" value="false"/>
+      </C32>
+      <C32-AR>
+        <property key="additional-options-chop-files" value="false"/>
+      </C32-AR>
+      <C32-AS>
+        <property key="assembler-symbols" value=""/>
+        <property key="enable-symbols" value="true"/>
+        <property key="exclude-floating-point-library" value="false"/>
+        <property key="expand-macros" value="false"/>
+        <property key="extra-include-directories-for-assembler" value=""/>
+        <property key="extra-include-directories-for-preprocessor" value=""/>
+        <property key="false-conditionals" value="false"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="keep-locals" value="false"/>
+        <property key="list-assembly" value="false"/>
+        <property key="list-source" value="false"/>
+        <property key="list-symbols" value="false"/>
+        <property key="oXC32asm-list-to-file" value="false"/>
+        <property key="omit-debug-dirs" value="false"/>
+        <property key="omit-forms" value="false"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="warning-level" value=""/>
+      </C32-AS>
+      <C32-CO>
+        <property key="coverage-enable" value=""/>
+      </C32-CO>
+      <C32-LD>
+        <property key="additional-options-use-response-files" value="false"/>
+        <property key="additional-options-write-sla" value="false"/>
+        <property key="allocate-dinit" value="false"/>
+        <property key="code-dinit" value="false"/>
+        <property key="ebase-addr" value=""/>
+        <property key="enable-check-sections" value="false"/>
+        <property key="exclude-floating-point-library" value="false"/>
+        <property key="exclude-standard-libraries" value="false"/>
+        <property key="extra-lib-directories" value=""/>
+        <property key="fill-flash-options-addr" value=""/>
+        <property key="fill-flash-options-const" value=""/>
+        <property key="fill-flash-options-how" value="0"/>
+        <property key="fill-flash-options-inc-const" value="1"/>
+        <property key="fill-flash-options-increment" value=""/>
+        <property key="fill-flash-options-seq" value=""/>
+        <property key="fill-flash-options-what" value="0"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-cross-reference-file" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="heap-size" value=""/>
+        <property key="input-libraries" value=""/>
+        <property key="kseg-length" value=""/>
+        <property key="kseg-origin" value=""/>
+        <property key="linker-symbols" value=""/>
+        <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
+        <property key="no-device-startup-code" value="false"/>
+        <property key="no-startup-files" value="false"/>
+        <property key="oXC32ld-extra-opts" value=""/>
+        <property key="optimization-level" value=""/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="remove-unused-sections" value="false"/>
+        <property key="report-memory-usage" value="false"/>
+        <property key="serial-length" value=""/>
+        <property key="serial-origin" value=""/>
+        <property key="stack-size" value=""/>
+        <property key="symbol-stripping" value=""/>
+        <property key="trace-symbols" value=""/>
+        <property key="warn-section-align" value="false"/>
+      </C32-LD>
+      <C32CPP>
+        <property key="additional-warnings" value="false"/>
+        <property key="addresss-attribute-use" value="false"/>
+        <property key="check-new" value="false"/>
+        <property key="eh-specs" value="true"/>
+        <property key="enable-app-io" value="false"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-symbols" value="true"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="exceptions" value="true"/>
+        <property key="exclude-floating-point" value="false"/>
+        <property key="extra-include-directories" value=""/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-micro-compressed-code" value="false"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="make-warnings-into-errors" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="place-data-into-section" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="rtti" value="true"/>
+        <property key="strict-ansi" value="false"/>
+        <property key="toplevel-reordering" value=""/>
+        <property key="unaligned-access" value=""/>
+        <property key="use-cci" value="false"/>
+        <property key="use-iar" value="false"/>
+        <property key="use-indirect-calls" value="false"/>
+      </C32CPP>
+      <C32Global>
+        <property key="common-include-directories"
+                  value="..\threadx\common\inc;..\filex\common\inc;..\filex\ports\cortex_m4\gnu\inc;..\threadx\ports\cortex_m4\gnu\inc"/>
+        <property key="gp-relative-option" value=""/>
+        <property key="legacy-libc" value="false"/>
+        <property key="mdtcm" value=""/>
+        <property key="mitcm" value=""/>
+        <property key="mstacktcm" value="false"/>
+        <property key="omit-pack-options" value="1"/>
+        <property key="relaxed-math" value="false"/>
+        <property key="save-temps" value="false"/>
+        <property key="wpo-lto" value="false"/>
+      </C32Global>
+      <mEdbgTool>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="communication.activationmode" value="nohv"/>
+        <property key="communication.interface"
+                  value="${communication.interface.default}"/>
+        <property key="communication.speed" value="${communication.speed.default}"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.path"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="firmware.toolpack"
+                  value="Press to select which tool pack to use"/>
+        <property key="firmware.update.action" value="firmware.update.use.latest"/>
+        <property key="freeze.timers" value="false"/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="0-fffff"/>
+        <property key="memories.rww" value="true"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value=""/>
+      </mEdbgTool>
+    </conf>
+  </confs>
+</configurationDescriptor>

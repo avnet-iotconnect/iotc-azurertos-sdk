@@ -28,6 +28,7 @@
 
 static IotclDiscoveryResponse *discovery_response = NULL;
 static IotclSyncResponse *sync_response = NULL;
+static IotclSyncResult last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
 
 static IotConnectClientConfig config = { 0 };
 static IotclConfig lib_config = { 0 };
@@ -38,52 +39,52 @@ static char * hello_response_dtg = NULL;
 #endif
 
 static void dump_response(const char *message, IotConnectHttpRequest *response) {
-    printf("%s", message);
+    printf("IOTC: %s", message);
     if (response->response) {
-        printf(" Response was:\r\n----\r\n%s\r\n----\r\n", response->response);
+        printf("IOTC:  Response was:\r\n----\r\n%s\r\n----\r\n", response->response);
     } else {
-        printf(" Response was empty\r\n");
+        printf("IOTC:  Response was empty\r\n");
     }
 }
 
 static void report_sync_error(IotclSyncResponse *response, const char *sync_response_str) {
     if (NULL == response) {
-        printf("Failed to obtain sync response?\r\n");
+        printf("IOTC: Failed to obtain sync response?\r\n");
         return;
     }
     switch (response->ds) {
     case IOTCL_SR_DEVICE_NOT_REGISTERED:
-        printf("IOTC_SyncResponse error: Not registered\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Not registered\r\n");
         break;
     case IOTCL_SR_AUTO_REGISTER:
-        printf("IOTC_SyncResponse error: Auto Register\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Auto Register\r\n");
         break;
     case IOTCL_SR_DEVICE_NOT_FOUND:
-        printf("IOTC_SyncResponse error: Device not found\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Device not found\r\n");
         break;
     case IOTCL_SR_DEVICE_INACTIVE:
-        printf("IOTC_SyncResponse error: Device inactive\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Device inactive\r\n");
         break;
     case IOTCL_SR_DEVICE_MOVED:
-        printf("IOTC_SyncResponse error: Device moved\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Device moved\r\n");
         break;
     case IOTCL_SR_CPID_NOT_FOUND:
-        printf("IOTC_SyncResponse error: CPID not found\r\n");
+        printf("IOTC: IOTC_SyncResponse error: CPID not found\r\n");
         break;
     case IOTCL_SR_UNKNOWN_DEVICE_STATUS:
-        printf("IOTC_SyncResponse error: Unknown device status error from server\r\n");
+        printf("IOTC: IOTC_SyncResponse error: Unknown device status error from server\r\n");
         break;
     case IOTCL_SR_ALLOCATION_ERROR:
-        printf("IOTC_SyncResponse internal error: Allocation Error\r\n");
+        printf("IOTC: IOTC_SyncResponse internal error: Allocation Error\r\n");
         break;
     case IOTCL_SR_PARSING_ERROR:
-        printf("IOTC_SyncResponse internal error: Parsing error. Please check parameters passed to the request.\r\n");
+        printf("IOTC: IOTC_SyncResponse internal error: Parsing error. Please check parameters passed to the request.\r\n");
         break;
     default:
-        printf("WARN: report_sync_error called, but no error returned?\r\n");
+        printf("IOTC: WARN: report_sync_error called, but no error returned?\r\n");
         break;
     }
-    printf("Raw server response was:\r\n--------------\r\n%s\r\n--------------\r\n", sync_response_str);
+    printf("IOTC: Raw server response was:\r\n--------------\r\n%s\r\n--------------\r\n", sync_response_str);
 }
 
 static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *env) {
@@ -101,7 +102,7 @@ static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *
     UINT status = iotconnect_https_request(&req);
 
     if (status != NX_SUCCESS) {
-        printf("Discovery: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
+        printf("IOTC: Discovery: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
         return NULL;
     }
     if (NULL == req.response || 0 == strlen(req.response)) {
@@ -149,7 +150,7 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
     UINT status = iotconnect_https_request(&req);
 
     if (status != NX_SUCCESS) {
-        printf("Sync: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
+        printf("IOTC: Sync: iotconnect_https_request() error code: %x data: %s\r\n", status, req.response);
         return NULL;
     }
 
@@ -170,7 +171,10 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
     IotclSyncResponse *ret = iotcl_discovery_parse_sync_response(json_start);
     if (!ret) {
         dump_response("Sync: Unable to parse HTTP response,", &req);
-    }
+		last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
+    } else {
+		last_sync_result = ret->ds;
+	}
 
     if (!ret || ret->ds != IOTCL_SR_OK) {
         report_sync_error(ret, req.response);
@@ -187,9 +191,9 @@ static void on_iothub_data(UCHAR *data, size_t len) {
     char *str = malloc(len + 1);
     memcpy(str, data, len);
     str[len] = 0;
-    printf("event>>> %s\r\n", str);
+    printf("IOTC: event>>> %s\r\n", str);
     if (!iotcl_process_event(str)) {
-        printf("Error encountered while processing %s\r\n", str);
+        printf("IOTC: Error encountered while processing %s\r\n", str);
     }
     free(str);
 }
@@ -202,13 +206,13 @@ static void on_iotconnect_status(IotConnectConnectionStatus status) {
 ///////////////////////////////////////////////////////////////////////////////////
 // Get All twin property from C2D
 void iotconnect_sdk_disconnect() {
-    printf("Disconnecting...\r\n");
+    printf("IOTC: Disconnecting...\r\n");
     iothub_client_disconnect();
 }
 
 void iotconnect_sdk_send_packet(const char *data) {
     if (iothub_send_message(data)) {
-        printf("Failed to send message %s\r\n", data);
+        printf("IOTC: Failed to send message %s\r\n", data);
     }
 }
 
@@ -219,26 +223,26 @@ static void on_message_intercept(IotclEventData data, IotclEventType type) {
 #endif
     switch (type) {
     case ON_FORCE_SYNC:
+	    printf("IOTC: Got ON_FORCE_SYNC. Disconnecting.\r\n");
         iotconnect_sdk_disconnect();
         iotcl_discovery_free_discovery_response(discovery_response);
         iotcl_discovery_free_sync_response(sync_response);
         sync_response = NULL;
         discovery_response = run_http_discovery(config.cpid, config.env);
         if (NULL == discovery_response) {
-            printf("Unable to run HTTP discovery on ON_FORCE_SYNC \r\n");
+            printf("IOTC: Unable to run HTTP discovery on ON_FORCE_SYNC \r\n");
             return;
         }
         sync_response = run_http_sync(config.cpid, config.duid);
         if (NULL == sync_response) {
-            printf("Unable to run HTTP sync on ON_FORCE_SYNC \r\n");
+            printf("IOTC: Unable to run HTTP sync on ON_FORCE_SYNC \r\n");
             return;
         }
-        printf("Got ON_FORCE_SYNC. Disconnecting.\r\n");
-        iotconnect_sdk_disconnect(); // client will get notification that we disconnected and will reinit
-
+		break;
     case ON_CLOSE:
-        printf("Got a disconnect request. Closing the mqtt connection. Device restart is required.\r\n");
+        printf("IOTC: Got a disconnect request. Closing the mqtt connection. Device restart is required.\r\n");
         iotconnect_sdk_disconnect();
+		break;
     default:
         break; // not handling nay other messages
     }
@@ -276,16 +280,20 @@ static void hello_response_callback(IotclEventData data, IotclEventType type) {
 	case REQ_HELLO:
         hello_response_dtg = iotcl_clone_response_dtg(data);
         if (NULL != hello_response_dtg) {
-            printf("Hello response DTG is: %s\r\n", hello_response_dtg);
+            printf("IOTC: Hello response DTG is: %s\r\n", hello_response_dtg);
         } else {
-        	printf("Error from hello response. DTG is null.\r\n");
+        	printf("IOTC: Error from hello response. DTG is null.\r\n");
         }
         break;
      default:
-    	 printf("Warning: Received an unknown hello response type %d\r\n", type);
+    	 printf("IOTC: Warning: Received an unknown hello response type %d\r\n", type);
 	}
 }
 #endif
+
+IotclSyncResult iotconnect_get_last_sync_result() {
+	return last_sync_result;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////
 // this the Initialization os IoTConnect SDK
@@ -296,36 +304,34 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 	memcpy(&azrtos_config, ac, sizeof(azrtos_config));
     memset(&iic, 0, sizeof(iic));
 
+    last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
 #ifndef PROTOCOL_V2_PROTOTYPE
 
-    // TODO: ALLOW CACHING! ---------------------------------------------------------------------------------
 	iotcl_discovery_free_discovery_response(discovery_response);
 	iotcl_discovery_free_sync_response(sync_response);
 	discovery_response = NULL;
 	sync_response = NULL;
-    //if (!discovery_response) {
-        discovery_response = run_http_discovery(config.cpid, config.env);
-        if (NULL == discovery_response) {
-            // get_base_url will print the error
-            return -1;
-        }
-        printf("Discovery response parsing successful.\r\n");
-    //}
+    printf("IOTC: Performing discovery...\r\n");
+    discovery_response = run_http_discovery(config.cpid, config.env);
+    if (NULL == discovery_response) {
+        // get_base_url will print the error
+        return -1;
+    }
+    printf("IOTC: Discovery response parsing successful. Performing sync...\r\n");
 
-    //if (!sync_response) {
-        sync_response = run_http_sync(config.cpid, config.duid);
-        if (NULL == sync_response) {
-            // Sync_call will print the error
-            return -2;
-        }
-        printf("Sync response parsing successful.\r\n");
-    //}
-    // We want to print only first 4 characters of cpid. %.4s doesn't seem to work with prink
-    char cpid_buff[5];
-    strncpy(cpid_buff, sync_response->cpid, 4);
-    cpid_buff[4] = 0;
-    printf("CPID: %s***\r\n", cpid_buff);
-    printf("ENV:  %s\r\n", config.env);
+    sync_response = run_http_sync(config.cpid, config.duid);
+    if (NULL == sync_response) {
+        // Sync_call will print the error
+        return -2;
+    }
+    printf("IOTC: Sync response parsing successful.\r\n");
+
+    // We want to print only first 5 characters of cpid. %.5s doesn't seem to work with prink
+    char cpid_buff[6];
+    strncpy(cpid_buff, sync_response->cpid, 5);
+    cpid_buff[5] = 0;
+    printf("IOTC: CPID: %s***\r\n", cpid_buff);
+    printf("IOTC: ENV:  %s\r\n", config.env);
 
     iic.c2d_msg_cb = on_iothub_data;
 
@@ -369,16 +375,17 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 #endif
 
     if (!iotcl_init(&lib_config)) {
-        printf("Failed to initialize the IoTConnect Lib\r\n");
+        printf("IOTC: Failed to initialize the IoTConnect Lib\r\n");
 #ifdef PROTOCOL_V2_PROTOTYPE
         free (client_id);
 #endif
         return NX_FALSE;
     }
 
+    printf("IOTC: Connecting to IoTHub.\r\n");
     ret = iothub_client_init(&iic, &azrtos_config);
     if (ret) {
-        printf("Failed to connect!\r\n");
+        printf("IOTC: Failed to connect!\r\n");
         #ifdef PROTOCOL_V2_PROTOTYPE
                 free (client_id);
         #endif
@@ -391,20 +398,20 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     free(hello_request);
     ret = iothub_c2d_receive(false, 5 * NX_IP_PERIODIC_RATE);
     if (ret) {
-        printf("Timed out while receiving hello response\r\n");
+        printf("IOTC: Timed out while receiving hello response\r\n");
     } else {
-        printf("Received response...!\r\n");
+        printf("IOTC: Received response...!\r\n");
     }
 
     if (!hello_response_dtg) {
-        printf("Failed to obtain DTG from hello request!\r\n");
+        printf("IOTC: Failed to obtain DTG from hello request!\r\n");
         iothub_client_disconnect();
         return NX_FALSE;
     }
     lib_config.telemetry.dtg = hello_response_dtg;
     // get dtg and reconfig with telemetry configuration
     if (!iotcl_init(&lib_config)) {
-        printf("Failed to initialize the IoTConnect Lib\r\n");
+        printf("IOTC: Failed to initialize the IoTConnect Lib\r\n");
         iothub_client_disconnect();
         return NX_FALSE;
     }

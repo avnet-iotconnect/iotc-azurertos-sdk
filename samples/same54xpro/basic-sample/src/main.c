@@ -11,6 +11,7 @@
 
 #include <stdbool.h>
 #include "nx_api.h"
+#include "hal_gpio.h"
 #ifndef SAMPLE_DHCP_DISABLE
 #include "nxd_dhcp_client.h"
 #endif /* SAMPLE_DHCP_DISABLE */
@@ -18,6 +19,7 @@
 #include "nxd_sntp_client.h"
 #include "nx_secure_tls_api.h"
 #include "azrtos_time.h"
+
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 
@@ -140,14 +142,16 @@ static UINT dns_create();
 /* Include the platform IP driver. */
 VOID  nx_driver_same54(NX_IP_DRIVER *driver_req_ptr);
 
-VOID hardware_setup(void);
+#ifdef SAMPLE_BOARD_SETUP
+void SAMPLE_BOARD_SETUP();
+#endif /* SAMPLE_BOARD_SETUP */
 
 /* Define main entry point.  */
 int main(void)
 {   
-    /* Setup the hardware. */
-    hardware_setup();
-
+#ifdef SAMPLE_BOARD_SETUP
+    SAMPLE_BOARD_SETUP();
+#endif /* SAMPLE_BOARD_SETUP */
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
 }

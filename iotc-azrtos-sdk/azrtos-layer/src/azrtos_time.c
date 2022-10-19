@@ -37,6 +37,12 @@ static NX_SNTP_CLIENT   sntp_client;
 /* System clock time offset for UTC.  */
 static ULONG            unix_time_base;
 
+
+void set_time(ULONG unix_seconds) {
+	ULONG system_time_in_seconds = tx_time_get() / TX_TIMER_TICKS_PER_SECOND;
+    unix_time_base = (unix_seconds - system_time_in_seconds);
+}
+
 /* Sync up the local time.  */
 UINT sntp_time_sync(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr, const char *sntp_server_name)
 {
@@ -46,9 +52,16 @@ UINT    server_status;
 ULONG   sntp_server_address;
 UINT    i;
 
-
-    printf("SNTP Time Sync...\r\n");
-    status = nx_dns_host_by_name_get(dns_ptr, (UCHAR *)sntp_server_name, &sntp_server_address, 5 * NX_IP_PERIODIC_RATE);
+    // For some reason we can't handle SNTP servers that have 0 as their lowest address byte
+    // So we loop until we get one that has a non zero value as the lowest byte.
+    do {
+    	status = nx_dns_host_by_name_get(dns_ptr, (UCHAR *)sntp_server_name, &sntp_server_address, 5 * NX_IP_PERIODIC_RATE);
+		printf("SNTP Time Sync...%lu.%lu.%lu.%lu (DHCP)\r\n",
+			   (sntp_server_address >> 24),
+			   (sntp_server_address >> 16 & 0xFF),
+			   (sntp_server_address >> 8 & 0xFF),
+			   (sntp_server_address & 0xFF));
+    } while((sntp_server_address & 0xFF) == 0);
 
     /* Check status.  */
     if (status)

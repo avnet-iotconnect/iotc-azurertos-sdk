@@ -21,7 +21,6 @@
         <itemPath>src/iotconnect_app.c</itemPath>
         <itemPath>src/main.c</itemPath>
         <itemPath>src/sample_device_identity.c</itemPath>
-        <itemPath>src/nx_azure_iot_adu_agent_same54_driver.c</itemPath>
       </logicalFolder>
       <itemPath>../common_hardware_code/common_hardware_code.c</itemPath>
       <itemPath>nx_driver_same54.c</itemPath>
@@ -51,8 +50,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
-        <pack name="SAME54_DFP" vendor="Microchip" version="3.2.56"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -143,7 +142,7 @@
         <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
         <makeUseCleanTarget>false</makeUseCleanTarget>
         <makeCustomizationPreStep></makeCustomizationPreStep>
-        <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep>${MP_CC_DIR}/xc32-objcopy -I ihex -O binary "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.hex" "${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.bin"</makeCustomizationPostStep>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
@@ -158,7 +157,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\"/>
+                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\iotc-azrtos-sdk\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
@@ -275,7 +274,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client"/>
+                  value="..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;..\netxduo;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\same54_lib\same54_lib;..\netxduo\addons\dhcp;..\netxduo\addons\mqtt;..\netxduo\addons\dns;..\netxduo\addons\sntp;..\netxduo\addons\cloud;..\netxduo\addons\azure_iot;..\iotc-azrtos-sdk\iotc-c-lib\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\include;include;src;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;..\iotc-azrtos-sdk\azrtos-layer\nx-http-client;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\same54_lib\same54_lib"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>
@@ -288,6 +287,8 @@
       </C32Global>
       <EdbgTool>
         <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="arm.use_vtor" value="false"/>
+        <property key="arm.vtor_adr" value="exception_table"/>
         <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="swd"/>
         <property key="communication.speed" value="2.000"/>
@@ -298,6 +299,7 @@
                   value="Press to select which tool pack to use"/>
         <property key="firmware.update.action" value="firmware.update.use.latest"/>
         <property key="freeze.timers" value="false"/>
+        <property key="lastid" value=""/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -313,8 +315,6 @@
         <property key="memories.programmemory.ranges" value="0-fffff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Microchip/samples/same54xpro/basic-sample/debug/default/default_ptg"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
@@ -325,6 +325,9 @@
         <property key="programoptions.preserveprogramrange" value="false"/>
         <property key="programoptions.preserveuserid" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
+        <property key="script.log_level" value="0"/>
+        <property key="script.reset_delay" value="0"/>
+        <property key="script.show_output" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.uselatestoolpack"/>
         <property key="toolpack.updateoptions.packversion"

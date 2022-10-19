@@ -12,6 +12,7 @@
 // Copyright: Avnet 2021
 // Modified by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+#include <iotc_auth_driver.h>
 #include <stdio.h>
 
 #include "nx_api.h"
@@ -21,6 +22,7 @@
 #include "iotconnect_certs.h"
 #include "iotconnect.h"
 #include "azrtos_iothub_client.h"
+
 
 /* Define the Azure RTOS IOT thread stack and priority.  */
 #ifndef NX_AZURE_IOT_STACK_SIZE
@@ -60,8 +62,8 @@ static VOID connection_status_callback(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr, 
         if (is_disconnect_requested) {
             is_disconnect_requested = false;
         } else {
-            nx_azure_iot_hub_client_deinitialize(&iothub_client);
-            nx_azure_iot_delete(&nx_azure_iot);
+            //nx_azure_iot_hub_client_deinitialize(&iothub_client);
+            //nx_azure_iot_delete(&nx_azure_iot);
             printf("Received a disconnect!\r\n");
 
         }
@@ -84,44 +86,21 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
     UINT status;
 
     /* Initialize IoTHub client. */
-    if ((status = nx_azure_iot_hub_client_initialize(iothub_client_ptr, &nx_azure_iot, //
-            (UCHAR*) config.host, strlen(config.host), //
-            (UCHAR*) config.device_name, strlen(config.device_name), //
-            (UCHAR*) "", 0, // modules are not supported
-            _nx_azure_iot_tls_supported_crypto, //
-            _nx_azure_iot_tls_supported_crypto_size, //
-            _nx_azure_iot_tls_ciphersuite_map, //
-            _nx_azure_iot_tls_ciphersuite_map_size, //
-            nx_azure_iot_tls_metadata_buffer, //
-            sizeof(nx_azure_iot_tls_metadata_buffer), //
-            &root_ca_cert))) {
-        printf("Failed on nx_azure_iot_hub_client_initialize!: error code = 0x%08x\r\n", status);
-        return (status);
-    }
-    if (config.auth->type != IOTC_KEY) {
-        printf("Using x509 authentication.\r\n");
-        const UINT key_type = (config.auth->type == IOTC_X509_RSA ? //
-        NX_SECURE_X509_KEY_TYPE_RSA_PKCS1_DER : //
-        NX_SECURE_X509_KEY_TYPE_EC_DER //
-                );
-        /* Initialize the device certificate.  */
-        if ((status = nx_secure_x509_certificate_initialize(&device_certificate, //
-                config.auth->data.identity.client_certificate, //
-                config.auth->data.identity.client_certificate_len, //
-                NX_NULL, 0, //
-                config.auth->data.identity.client_private_key, //
-                config.auth->data.identity.client_private_key_len, //
-                key_type))) {
-            printf("Failed on nx_secure_x509_certificate_initialize!: error code = 0x%08x\r\n", status);
-            return status;
+    if (config.auth->type == IOTC_KEY) {
+        if ((status = nx_azure_iot_hub_client_initialize(iothub_client_ptr, &nx_azure_iot, //
+                (UCHAR*) config.host, strlen(config.host), //
+                (UCHAR*) config.device_name, strlen(config.device_name), //
+                (UCHAR*) "", 0, // modules are not supported
+                _nx_azure_iot_tls_supported_crypto, //
+                _nx_azure_iot_tls_supported_crypto_size, //
+                _nx_azure_iot_tls_ciphersuite_map, //
+                _nx_azure_iot_tls_ciphersuite_map_size, //
+                nx_azure_iot_tls_metadata_buffer, //
+                sizeof(nx_azure_iot_tls_metadata_buffer), //
+                &root_ca_cert))) {
+            printf("Failed on nx_azure_iot_hub_client_initialize!: error code = 0x%08x\r\n", status);
+            return (status);
         }
-
-        /* Set device certificate.  */
-        if ((status = nx_azure_iot_hub_client_device_cert_set(iothub_client_ptr, &device_certificate))) {
-            printf("Failed on nx_azure_iot_hub_client_device_cert_set!: error code = 0x%08x\r\n", status);
-            return status;
-        }
-    } else {
         printf("Using key based authentication....\r\n");
         /* Set symmetric key.  */
         if ((status = nx_azure_iot_hub_client_symmetric_key_set(iothub_client_ptr, //
@@ -130,6 +109,56 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
             printf("Failed on nx_azure_iot_hub_client_symmetric_key_set!\r\n");
             return status;
         }
+    } else if (config.auth->type == IOTC_X509){
+        printf("Using x509 authentication.\r\n");
+        IotcAuthInterface* ai = &(config.auth->data.x509.auth_interface);
+        IotcAuthInterfaceContext aic = config.auth->data.x509.auth_interface_context;
+        if ((status = nx_azure_iot_hub_client_initialize(iothub_client_ptr, &nx_azure_iot, //
+                (UCHAR*) config.host, strlen(config.host), //
+                (UCHAR*) config.device_name, strlen(config.device_name), //
+                (UCHAR*) "", 0, // modules are not supported
+                ai->get_crypto_config(aic)->crypto_methods, //
+				ai->get_crypto_config(aic)->crypto_methods_length, //
+				ai->get_crypto_config(aic)->tls_ciphersuites, //
+				ai->get_crypto_config(aic)->tls_ciphersuites_length, //
+                nx_azure_iot_tls_metadata_buffer, //
+                sizeof(nx_azure_iot_tls_metadata_buffer), //
+                &root_ca_cert))) {
+            printf("Failed on nx_azure_iot_hub_client_initialize!: error code = 0x%08x\r\n", status);
+            return (status);
+        }
+        /* Initialize the device certificate.  */
+        uint8_t *cert, *key;
+        size_t cert_len, key_len;
+        if (ai->get_cert(aic, &cert, &cert_len)) {
+        	printf("Failed get cert from the auth interface\r\n");
+        	return NX_NO_MAPPING;
+        }
+        if (ai->get_private_key(aic, &key, &key_len)) {
+        	printf("Failed get key from the auth interface\r\n");
+        	return NX_NO_MAPPING;
+        }
+        if ((status = nx_secure_x509_certificate_initialize(&device_certificate, //
+                cert, //
+                cert_len, //
+                NX_NULL, 0, //
+                key, //
+                key_len, //
+                ai->get_azrtos_private_key_type(aic)))) {
+            printf("Failed on nx_secure_x509_certificate_initialize!: error code = 0x%08x\r\n", status);
+            return status;
+        }
+
+        /* Set device certificate.  */
+        if ((status = nx_azure_iot_hub_client_device_cert_set(iothub_client_ptr, &device_certificate))) {
+            printf("Failed on nx_azure_iot_hub_client_device_cert_set!: error code = 0x%08x\r\n", status);
+            //TODO: this is not sufficient of a cleanup. Other error cases deserve a deinit of the client.
+            nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
+            return status;
+        }
+    } else {
+    	printf("initialize_iothub: Unknown authentication type provided. Aborting...");
+    	return NX_OPTION_ERROR;
     }
     /* Set connection status callback. */
     if ((status = nx_azure_iot_hub_client_connection_status_callback_set(iothub_client_ptr, connection_status_callback))) {
@@ -191,9 +220,6 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
         return status;
     }
 
-    if (config.auth->type == IOTC_X509_RSA) {
-        printf("Using RSA device keys. Key exchange may take over 40 seconds.\r\n");
-    }
     printf("Connecting...\r\n");
     if (nx_azure_iot_hub_client_connect(&iothub_client, NX_TRUE, NX_WAIT_FOREVER)) {
         printf("Failed on nx_azure_iot_hub_client_connect!\r\n");

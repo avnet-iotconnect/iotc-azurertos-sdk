@@ -1,16 +1,12 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK and Microchip SAM E54 Xplained Pro.
+for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK and Microchip SAME54 Xplained Pro.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
 ## Build Instructions
 
 * Download the project files from Github Actions or Releases pages in this repo. 
-There are two sets of project files based on two different Azure RTOS baselines, 
-and depending on your board one or more packages will be available:
-  * Containing *-nxp-*: NXP MCU Expresso Azure RTOS and Samples code.
-  * All other packages: Standalone packages.
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
@@ -28,12 +24,8 @@ Keep subdirectories selected, but unselect the actual stm32l4 sample directory
   * It is also recommended to close the "Globals" window, next to the "Outline" in the top right dock.
 It may be causing hangs during debugging and perspective switching.
   * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
-   For MaaxBoardRT board, it uses MIMX1170-EVK's SDK.
-Keep subdirectories selected, but unselect the actual project's "sample" directory
-* For Avnet MaaxBoardRT, NXP MIMXRT1060 and other boards supported by MCUXpresso integration with AzureRTOS,
-you can also use the *-nxp* prefix projects. For those types of projects,
-follow the instructions at the [nxpdemos](samples/nxpdemos).
-* For SAM E54 Xplaineed Pro:
+Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
+* For SAM E54 Xplained Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
   (Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)

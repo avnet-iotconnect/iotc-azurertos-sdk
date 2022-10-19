@@ -22,7 +22,7 @@
 // -----------------------------
 #include "iotconnect.h"
 #include "azrtos_time.h"
-#include "app_config.h"
+#include "app_config.h" // for ENABLE_DDIM_TO_DRIVER_SAMPLE flag only
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 extern CHAR* http_entry(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr, CHAR *host_name, CHAR *resource);
@@ -91,7 +91,7 @@ extern CHAR* http_entry(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #endif /* SAMPLE_DHCP_DISABLE */
 
 #ifndef SAMPLE_SNTP_SYNC_MAX
-#define SAMPLE_SNTP_SYNC_MAX            30
+#define SAMPLE_SNTP_SYNC_MAX            3
 #endif /* SAMPLE_SNTP_SYNC_MAX */
 
 #ifndef SAMPLE_SNTP_UPDATE_MAX
@@ -183,6 +183,11 @@ int main(void)
 #ifdef SAMPLE_BOARD_SETUP
     SAMPLE_BOARD_SETUP();
 #endif /* SAMPLE_BOARD_SETUP */
+
+#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+    extern void check_libTO(void);
+    check_libTO();
+#endif
 
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
@@ -365,6 +370,13 @@ UINT    dns_server_address_size = sizeof(dns_server_address);
         /* Check status.  */
         if (status == NX_SUCCESS)
             break;
+    }
+    if (status != NX_SUCCESS) {
+    	extern void set_time(ULONG sntp_seconds);
+    	const ULONG override_time = 1648579665ul;
+    	set_time(override_time);
+    	printf("Unable to obtain SNTP. Setting time to %lu\r\n", override_time);
+    	status = NX_SUCCESS;
     }
 
     /* Check status.  */

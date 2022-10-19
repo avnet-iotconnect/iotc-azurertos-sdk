@@ -36,6 +36,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #include "fsl_iomuxc.h"
 
 #include "azrtos_time.h"
+#include "app_config.h" // for ENABLE_DDIM_TO_DRIVER_SAMPLE flag only
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
@@ -230,6 +231,7 @@ void main(void)
 
     BOARD_ConfigMPU();
     BOARD_InitPins();
+    BOARD_InitMipiPanelPins();
     BOARD_BootClockRUN();
     BOARD_InitDebugConsole();
     BOARD_InitModuleClock();
@@ -258,7 +260,12 @@ void main(void)
     SDK_DelayAtLeastUs(6, CLOCK_GetFreq(kCLOCK_CpuClk));
 #endif
 
-    PRINTF("Start the azure_iot_embedded_sdk example...\r\n");
+    #ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
+        extern void check_libTO(void);
+        check_libTO();
+    #endif
+
+    PRINTF("Starting the IoTConnect App...\r\n");
 
     /* Enter the ThreadX kernel.  */
     tx_kernel_enter();
