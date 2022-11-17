@@ -11,6 +11,7 @@
 #include "iotconnect.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
+#include "weather.h"
 
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 #include "pkcs11_atca_auth_driver.h"
@@ -20,9 +21,6 @@
 extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
-
-#define X509_COMMON_NAME_LENGTH 64
-static char common_name_buffer[X509_COMMON_NAME_LENGTH + 1];
 
 #define APP_VERSION "01.00.00"
 
@@ -167,37 +165,19 @@ static void publish_telemetry() {
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
 
+    
+#ifdef IOTCONNECT_APP_USE_WEATHER_CLICK
+    Weather_readSensors();
+    iotcl_telemetry_set_number(msg, "temperature", Weather_getTemperatureDegC());
+    iotcl_telemetry_set_number(msg, "pressure", Weather_getPressureKPa());
+    iotcl_telemetry_set_number(msg, "humidity", Weather_getHumidityRH());
+#endif    
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
     printf("Sending: %s\r\n", str);
     iotconnect_sdk_send_packet(str); // underlying code will report an error
     iotcl_destroy_serialized(str);
 }
-
-#ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-bool extract_cpid_and_duid_from_operational_cn(IotConnectClientConfig *config, char * operational_cn) {
-	if (!operational_cn) {
-		printf("Unable to extract the operational certificate common name.\r\n");
-		return false;
-	}
-	strcpy(common_name_buffer, operational_cn);
-	bool found_dash = false;
-	for (int i = -0; i < strlen(common_name_buffer); i++) {
-		if (common_name_buffer[i] == '-') {
-			config->cpid = common_name_buffer;
-			config->duid = &common_name_buffer[i+1];
-			common_name_buffer[i] = 0;
-			found_dash = true;
-			break;
-		}
-	}
-	if (!found_dash || 0 == strlen(config->cpid) || 0 == strlen(config->duid)) {
-		printf("Unable to extract CPID and DUID from common name.\r\n");
-		return false;
-	}
-	return true;
-}
-#endif // ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 
 /* Include the sample.  */
 bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
@@ -297,6 +277,9 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
 #endif // ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 #endif  // IOTCONNECT_SYMETRIC_KEY
 
+#ifdef IOTCONNECT_APP_USE_WEATHER_CLICK
+    Weather_initializeClick();
+#endif
     while (true) {
 #ifdef MEMORY_TEST
         // check for leaks

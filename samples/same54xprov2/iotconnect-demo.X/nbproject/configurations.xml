@@ -3100,7 +3100,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src;../src/config/sam_e54_xpro;../src/config/sam_e54_xpro/library/cryptoauthlib;../src/config/sam_e54_xpro/library/cryptoauthlib/crypto;../src/config/sam_e54_xpro/library/cryptoauthlib/pkcs11;../src/config/sam_e54_xpro/library/cryptoauthlib/test;../src/config/sam_e54_xpro/library/cryptoauthlib/tng;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src/config/sam_e54_xpro/threadx_config;../src/packs/ATSAME54P20A_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/cortex_m4/gnu/inc;../src/third_party/azure_rtos/netxduo;../src/third_party/azure_rtos/netxduo/addons;../src/third_party/azure_rtos/netxduo/addons/azure_iot;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE_UT;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include ;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc;../src/third_party/azure_rtos/netxduo/addons/cloud;../src/third_party/azure_rtos/netxduo/addons/dhcp;../src/third_party/azure_rtos/netxduo/addons/dns;../src/third_party/azure_rtos/netxduo/addons/mqtt;../src/third_party/azure_rtos/netxduo/addons/sntp;../src/third_party/azure_rtos/netxduo/common/inc;../src/third_party/azure_rtos/netxduo/crypto_libraries/inc;../src/third_party/azure_rtos/netxduo/nx_secure/inc;../src/third_party/azure_rtos/netxduo/nx_secure/ports;../src/third_party/azure_rtos/netxduo/ports/cortex_m4/gnu/inc;../src/third_party/rtos/threadx/common/inc;../src/third_party/rtos/threadx/ports/cortex_m4/mplabx/inc;../basic-sample/include;../iotc-azrtos-sdk/authentication/driver;../../../iotc-azrtos-sdk/authentication/include;../../../iotc-azrtos-sdk/azrtos-layer/include;../../../iotc-azrtos-sdk/include;../src/third_party/azure_rtos/netxduo/addons/web;../iotc-azrtos-sdk/iotc-c-lib/include;../iotc-azrtos-sdk/cJSON;../iotc-azrtos-sdk/libTO/include;../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/;../src/azure_rtos_demo/pkcs11_ciphersuites"/>
+                  value="../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src;../src/config/sam_e54_xpro;../src/config/sam_e54_xpro/library/cryptoauthlib;../src/config/sam_e54_xpro/library/cryptoauthlib/crypto;../src/config/sam_e54_xpro/library/cryptoauthlib/pkcs11;../src/config/sam_e54_xpro/library/cryptoauthlib/test;../src/config/sam_e54_xpro/library/cryptoauthlib/tng;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src/config/sam_e54_xpro/threadx_config;../src/packs/ATSAME54P20A_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/cortex_m4/gnu/inc;../src/third_party/azure_rtos/netxduo;../src/third_party/azure_rtos/netxduo/addons;../src/third_party/azure_rtos/netxduo/addons/azure_iot;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE_UT;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include ;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc;../src/third_party/azure_rtos/netxduo/addons/cloud;../src/third_party/azure_rtos/netxduo/addons/dhcp;../src/third_party/azure_rtos/netxduo/addons/dns;../src/third_party/azure_rtos/netxduo/addons/mqtt;../src/third_party/azure_rtos/netxduo/addons/sntp;../src/third_party/azure_rtos/netxduo/common/inc;../src/third_party/azure_rtos/netxduo/crypto_libraries/inc;../src/third_party/azure_rtos/netxduo/nx_secure/inc;../src/third_party/azure_rtos/netxduo/nx_secure/ports;../src/third_party/azure_rtos/netxduo/ports/cortex_m4/gnu/inc;../src/third_party/rtos/threadx/common/inc;../src/third_party/rtos/threadx/ports/cortex_m4/mplabx/inc;../basic-sample/include;../iotc-azrtos-sdk/authentication/driver;../../../iotc-azrtos-sdk/authentication/include;../../../iotc-azrtos-sdk/azrtos-layer/include;../../../iotc-azrtos-sdk/include;../src/third_party/azure_rtos/netxduo/addons/web;../iotc-azrtos-sdk/iotc-c-lib/include;../iotc-azrtos-sdk/cJSON;../iotc-azrtos-sdk/libTO/include;../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/;../src/azure_rtos_demo/pkcs11_ciphersuites;../src/azure_rtos_demo/WeatherClick"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -3250,6 +3250,7 @@
         <property key="firmware.update.action" value="firmware.update.use.latest"/>
         <property key="freeze.timers" value="false"/>
         <property key="lastid" value=""/>
+        <property key="loader.board_file" value="${ProjectDir}/board.xboard"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -3283,6 +3284,7 @@
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
         <property key="voltagevalue" value=""/>
+        <property key="x.erase.clearprot" value="true"/>
       </EdbgTool>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
@@ -3822,6 +3824,7 @@
         <property key="firmware.update.action" value="firmware.update.use.latest"/>
         <property key="freeze.timers" value="false"/>
         <property key="lastid" value=""/>
+        <property key="loader.board_file" value="${ProjectDir}/board.xboard"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
         <property key="memories.configurationmemory" value="true"/>
@@ -3858,6 +3861,7 @@
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
         <property key="voltagevalue" value=""/>
+        <property key="x.erase.clearprot" value="true"/>
       </Tool>
     </conf>
   </confs>

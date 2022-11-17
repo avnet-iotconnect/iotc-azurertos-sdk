@@ -3,11 +3,13 @@
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
 
+#define IOTCONNECT_APP_USE_WEATHER_CLICK
+
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
-#define IOTCONNECT_CPID ""
-#define IOTCONNECT_ENV  ""
+#define IOTCONNECT_CPID "avtds"
+#define IOTCONNECT_ENV  "avnetpoc"
 
 // If using the ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE define, the DUID will be automatically generated
 //#define IOTCONNECT_DUID "same54xpro" // you can supply a custom device UID, or...
