@@ -22,7 +22,6 @@
 #define SR_BUFFER_SIZE TO_SIGNATURE_SIZE // two big integers (32 bytes each)
 #define DC_MAGIC 0x3d
 
-#define REGISTRATION_ID_MAX_LEN     32
 #define CERT_BUF_MAX_SIZE           1024
 
 static const char* pkcs11_trust_device_label = "device";
@@ -32,7 +31,7 @@ struct pkcs11_atca_driver_context {
     IotcAzccCryptoConfig crypto_config;
     uint8_t cert[CERT_BUF_MAX_SIZE];
     size_t cert_size;
-    char cn_buffer[REGISTRATION_ID_MAX_LEN + 1];
+    char cn_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
     char magic;
 };
 
@@ -216,7 +215,7 @@ static char* pkcs11_atca_extract_cn(IotcAuthInterfaceContext context, int cert_i
     }
     
     USHORT cn_length = dev_certificate.nx_secure_x509_distinguished_name.nx_secure_x509_common_name_length;
-    if (cn_length < REGISTRATION_ID_MAX_LEN) {
+    if (cn_length <= IOTC_COMMON_NAME_MAX_LEN) {
         NX_CRYPTO_MEMCPY(
                 pkcs11_atca_context->cn_buffer, 
                 dev_certificate.nx_secure_x509_distinguished_name.nx_secure_x509_common_name, 
