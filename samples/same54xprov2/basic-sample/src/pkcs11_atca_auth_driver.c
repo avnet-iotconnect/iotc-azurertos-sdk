@@ -225,8 +225,6 @@ static char* pkcs11_atca_extract_cn(IotcAuthInterfaceContext context, int cert_i
         return NULL;
     }
     
-    printf("Device Certificate Subject Common Name is %s\r\n", pkcs11_atca_context->cn_buffer);
-
 	return pkcs11_atca_context->cn_buffer;
 }
 
