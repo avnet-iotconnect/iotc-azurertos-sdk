@@ -317,7 +317,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
         // get_base_url will print the error
         return -1;
     }
-    printf("IOTC: Discovery response parsing successful. Performing sync...\ r\n");
+    printf("IOTC: Discovery response parsing successful. Performing sync...\r\n");
 
     sync_response = run_http_sync(config.cpid, config.duid);
     if (NULL == sync_response) {
