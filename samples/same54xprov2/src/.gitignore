@@ -1,0 +1,6 @@
+/packs
+/third_party
+/*.c
+/*.h
+
+!.gitignore

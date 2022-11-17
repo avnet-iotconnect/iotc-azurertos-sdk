@@ -18,6 +18,9 @@ case "$name" in
   same54xpro)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
+  same54xprov2)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
   maaxboardrt)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -55,6 +58,20 @@ rm -rf iotc-c-lib cJSON libTO
 
 
 case "$name" in
+  same54xprov2)
+    pushd iotc-azrtos-sdk/ >/dev/null
+      for f in ../../../iotc-azrtos-sdk/*; do
+        ln -sf $f .
+      done
+    popd >/dev/null
+
+    rm -rf ATSAME54-XPRO
+    git clone --depth 1 https://github.com/Microchip-Azure-Demos/ATSAME54-XPRO.git
+    cp -nr  ATSAME54-XPRO/firmware/src .
+    rm -rf ATSAME54-XPRO
+
+     ;;
+
   maaxboardrt)
 #symlink iotc-azrtos-sdk into project
     rm -rf basic-sample/iotc-azrtos-sdk
