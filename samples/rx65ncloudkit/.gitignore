@@ -1,0 +1,17 @@
+/build
+/dist
+/debug
+
+/netxduo
+/threadx
+/filex
+/netxduo_addons
+
+/iotc-azrtos-sdk/cJSON
+/iotc-azrtos-sdk/iotc-c-lib
+/iotc-azrtos-sdk/libTO
+
+.generated_files
+*.o
+*.d
+*.pdf
