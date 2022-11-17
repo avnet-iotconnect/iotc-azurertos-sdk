@@ -2,3 +2,4 @@
 !.gitignore
 !sample_azure_iot_entry.c
 !sample_read_device_cert.c
+!sample_netx_duo.c
