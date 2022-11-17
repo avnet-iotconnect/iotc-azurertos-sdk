@@ -15,6 +15,9 @@
 extern   "C" {
 #endif
 
+// useful defines:
+#define IOTC_COMMON_NAME_MAX_LEN 64
+#define IOTC_256_BIT_SIGNATURE_SIZE (32 * 2) // two 256-bit intergers
 
 typedef void * IotcAuthInterfaceContext;
 
