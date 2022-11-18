@@ -220,6 +220,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     config->auth.type = IOTC_KEY;
     config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
 #else
+    config->auth.type = IOTC_X509;
 
 #ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
     struct to_driver_parameters parameters = {0};
@@ -245,7 +246,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 			)) {
     	return false;
     }
-    printf("TO Serial:, ");
+    printf("DDIM:   SN: ");
 	for (int i=0; i < serial_size; i++) {
 		printf("%02x", serial[i]);
 	}
@@ -265,13 +266,14 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
         printf("Obtaining the operational certificate via DDIM.\r\n");
         if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, auth_context, config->env)) {
             printf("Failed to obtain the operational certificate via DDIM.\r\n");
+            return false;
         }
     //}
     if (false == extract_cpid_and_duid_from_operational_cn(config, ddim_interface.extract_operational_cn(auth_context))) {
     	return false;
     }
 
-#else
+#else // not ENABLE_DDIM_TO_DRIVER_SAMPLE (software x509)
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
@@ -281,7 +283,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	dp.cert_size = sample_device_cert_len;
 	dp.key = (uint8_t *) (sample_device_private_key_ptr);
 	dp.key_size = sample_device_private_key_len;
-	dp.crypto_method = &crypto_method_ec_secp384;
+	dp.crypto_method = &crypto_method_ec_secp256;
 	if(create_sw_der_auth_driver( //
 	    		&(config->auth.data.x509.auth_interface), //
 				&(config->auth.data.x509.auth_interface_context), //
@@ -291,7 +293,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	auth_driver_context = config->auth.data.x509.auth_interface_context;
 
 #endif // ENABLE_DDIM_TO_DRIVER_SAMPLE
-    config->auth.type = IOTC_X509;
+
 #endif // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
@@ -318,7 +320,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry approximately ever 5 seconds for 5 minutes
+        // send telemetry periodically
         for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error

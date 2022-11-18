@@ -71,7 +71,7 @@ typedef struct  {
 
 typedef struct  {
 	IotcDriverGetCryptoConfig get_crypto_config;
-    IotcDriverGetSerial get_serial;
+	IotcDriverGetSerial get_serial;
 	IotcDriverGetCert get_cert;
 	IotcDriverGetPrivateKey get_private_key;
 	IotcDriverGetKeyType get_azrtos_private_key_type;

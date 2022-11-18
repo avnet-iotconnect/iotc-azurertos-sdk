@@ -368,25 +368,9 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     }
     printf("DDIM:   SN: ");
 	for (int i=0; i < serial_size; i++) {
-		printf("%02X", serial[i]);
+		printf("%02x", serial[i]);
 	}
 	printf("\r\n");
-
-#ifdef DDIM_TEST
-    int failed = 0;
-    for (int test_num = 1; test_num < 100; test_num++) {
-    	if(iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, config->auth.data.x509.auth_interface_context)) {
-    		printf("Test #%d failed\r\n", test_num);
-    		failed++;
-    	} else {
-    		printf("Test #%d success\r\n", test_num);
-    	}
-        tx_thread_sleep(30 * NX_IP_PERIODIC_RATE);
-    }
-    printf("Failed %d tests\r\n", failed);
-    return false;
-
-#endif
 
    uint8_t* op_cert;
    size_t op_cert_size;
@@ -401,7 +385,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     //if (0 == op_cert_size) {
         printf("Obtaining the operational certificate via DDIM.\r\n");
         if (iotcdi_obtain_operational_identity(&azrtos_config, &ddim_interface, auth_context, config->env)) {
-            printf("Failed to obtain operational certificate via DDIM.\r\n");
+            printf("Failed to obtain the operational certificate via DDIM.\r\n");
             return false;
         }
     //}
@@ -409,7 +393,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     	return false;
     }
 
-#else
+#else // not ENABLE_DDIM_TO_DRIVER_SAMPLE (software x509)
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
@@ -427,9 +411,10 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	    	return false;
 	    }
 	auth_driver_context = config->auth.data.x509.auth_interface_context;
+
 #endif // ENABLE_DDIM_TO_DRIVER_SAMPLE
 
-#endif  // IOTCONNECT_SYMETRIC_KEY
+#endif // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
 #ifdef MEMORY_TEST
@@ -455,7 +440,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry approximately ever 5 seconds for 5 minutes
+        // send telemetry periodically
         for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
