@@ -16,7 +16,7 @@ extern   "C" {
 #endif
 
 // useful defines:
-#define IOTC_COMMON_NAME_MAX_           LEN 64
+#define IOTC_COMMON_NAME_MAX_LEN        64
 #define IOTC_256_BIT_KEY_SIZE           32 // size of a 256-bit private key in bytes
 #define IOTC_256_BIT_SIGNATURE_SIZE     (32 * 2) // two 256-bit intergers
 #define IOTC_SHA256_HASH_SIZE           32
