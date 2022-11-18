@@ -22,6 +22,9 @@ extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
+#ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
+static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
+#endif
 #define APP_VERSION "01.00.00"
 
 //#define MEMORY_TEST
@@ -246,12 +249,14 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     }
 
     printf("Obtained device certificate:\r\n\r\n");
-    config->duid = ddim_interface.extract_operational_cn(auth_context);
-    if (NULL == config->duid) {
+    char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+    if (NULL == operational_cn) {
         pkcs11_atca_release_auth_driver(auth_context);
         printf("Unable to get the certificate common name.\r\n");
         return false;
     }
+    strcpy(duid_buffer, operational_cn);
+    config->duid = duid_buffer;
     printf("DUID: %s\r\n", config->duid);
     
     auth_driver_context = auth_context;
