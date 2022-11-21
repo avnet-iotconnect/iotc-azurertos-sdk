@@ -1,0 +1,11 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+arg1 = $(1)
+export PATH=C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf\bin\;C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf\libexec\gcc\rx-elf\8.3.0.202202-GNURX\;C:\Users\rbateman\AppData\Local\Programs\Renesas\e2_studio\eclipse\plugins\com.renesas.ide.exttools.busybox.win32.x86_64_1.3.5.v20220125-0945\bin\;C:\Users\rbateman\AppData\Local\Programs\Renesas\e2_studio\eclipse\plugins\com.renesas.ide.exttools.gnumake.win32.x86_64_4.3.0.v20220121-1024\mk\;C:/Users/rbateman/AppData/Local/Programs/Renesas/e2_studio/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_11.0.15.v20220515-1236/jre/bin/server;C:/Users/rbateman/AppData/Local/Programs/Renesas/e2_studio/eclipse//plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_11.0.15.v20220515-1236/jre/bin;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\CMake\bin;C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf\bin;C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf\bin;C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf\bin;C:\Users\rbateman\AppData\Local\Microsoft\WindowsApps;C:\Users\rbateman\.dotnet\tools;C:\Users\rbateman\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\rbateman\AppData\Local\Programs\Renesas\e2_studio\eclipse
+export TCINSTALL=C:\Users\rbateman\AppData\Roaming\GCC for Renesas RX 8.3.0.202202-GNURX-ELF\rx-elf\rx-elf$(call arg1,\)
+export CWD=$(CURDIR)
+export TC_VERSION=8.3.0.202202
+export PWD=$(CURDIR)
+export GCC_VERSION=8.3.0.202202-GNURX

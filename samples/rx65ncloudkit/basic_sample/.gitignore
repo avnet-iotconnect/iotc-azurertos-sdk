@@ -1,0 +1,9 @@
+/trash
+
+*.o
+*.o.in
+*.elf
+*.elf.in
+*.map
+*.lst
+*.mot
