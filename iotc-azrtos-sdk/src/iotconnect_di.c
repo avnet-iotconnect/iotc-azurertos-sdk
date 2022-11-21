@@ -36,7 +36,7 @@ static char resource_buffer[URL_RESOUCE_BUFFER_SIZE];
 static char * bin_to_hex(uint8_t* bin_array, size_t bin_len) {
 	work_buffer_size = 0;
 	int hex_idx = 0;
-	for (int i = 0; i < bin_len; i++) {
+	for (size_t i = 0; i < bin_len; i++) {
 		work_buffer[hex_idx] = 0; // empty string
 		int ret = sprintf((char*)&work_buffer[hex_idx], "%02x", bin_array[i]);
 		if (ret != 2) {
@@ -78,7 +78,7 @@ static uint8_t* hex_to_bin(char* hex_str) {
 
 	work_buffer_size = 0;
 
-	for (int i = 0; i < hex_len; i++) {
+	for (size_t i = 0; i < hex_len; i++) {
 		hex_str[i] = tolower(hex_str[i]);
 	}
 	while (hex_str[hex_idx] != 0) {

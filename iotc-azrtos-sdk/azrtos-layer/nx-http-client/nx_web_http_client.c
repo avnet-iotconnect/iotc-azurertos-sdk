@@ -1881,6 +1881,11 @@ UINT status;
         client_ptr -> nx_web_http_client_chunked_response_remaining_size = client_ptr -> nx_web_http_client_response_packet -> nx_packet_length;
     }
 
+    if((*current_packet_pptr) == NULL)
+    {
+        return(NX_INVALID_PACKET);
+    }
+
     /* Process the packet chain.  */
     if ((*current_data_pptr) == (*current_packet_pptr) -> nx_packet_append_ptr)
     {
@@ -2234,6 +2239,10 @@ UCHAR     *current_data_ptr = NX_NULL;
     *packet_pptr = client_ptr -> nx_web_http_client_response_packet;
     client_ptr -> nx_web_http_client_response_packet = NX_NULL;
     packet_ptr = *packet_pptr;
+    if(packet_ptr == NULL)
+    {
+        return(NX_INVALID_PACKET);
+    }
     packet_ptr -> nx_packet_prepend_ptr = current_data_ptr;
     remaining_size = client_ptr -> nx_web_http_client_chunked_response_remaining_size;
 
