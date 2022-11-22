@@ -424,7 +424,8 @@ VOID sample_network_configure(NX_IP *ip_ptr, ULONG *dns_server_address)
 	/* Connect to Wifi.  */
 	if (wifi_connect())
 	{
-		return;
+		printf("Could not connect to WiFi. Exiting.");
+		exit(1);
 	}
 
 #if 0

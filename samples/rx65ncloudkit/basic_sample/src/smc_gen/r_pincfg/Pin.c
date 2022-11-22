@@ -55,6 +55,14 @@ void R_Pins_Create(void)
 {
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_MPC);
 
+    /* Set CTS0# pin */
+    MPC.P23PFS.BYTE = 0x0BU;
+    PORT2.PMR.BYTE |= 0x08U;
+
+    /* Set RXD0 pin */
+    MPC.P21PFS.BYTE = 0x0AU;
+    PORT2.PMR.BYTE |= 0x02U;
+
     /* Set RXD1 pin */
     MPC.P30PFS.BYTE = 0x0AU;
     PORT3.PMR.BYTE |= 0x01U;
@@ -62,6 +70,12 @@ void R_Pins_Create(void)
     /* Set RXD5 pin */
     MPC.PA3PFS.BYTE = 0x0AU;
     PORTA.PMR.BYTE |= 0x08U;
+
+    /* Set TXD0 pin */
+    PORT2.PODR.BYTE |= 0x01U;
+    MPC.P20PFS.BYTE = 0x0AU;
+    PORT2.PDR.BYTE |= 0x01U;
+    // PORT2.PMR.BIT.B0 = 1U; // Please set the PMR bit after TE bit is set to 1.
 
     /* Set TXD1 pin */
     PORT2.PODR.BYTE |= 0x40U;

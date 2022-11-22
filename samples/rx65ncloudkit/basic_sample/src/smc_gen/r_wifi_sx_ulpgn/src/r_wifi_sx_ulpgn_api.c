@@ -282,6 +282,7 @@ wifi_err_t R_WIFI_SX_ULPGN_Open(void)
     /* Open command port */
     if (E_OK != cmd_port_open(g_cmd_port, cb_sci_hsuart1_initial))
     {
+    	printf("Failed to open serial port...");
         api_ret = WIFI_ERR_SERIAL_OPEN;
         goto END_INITIALIZE;
     }
