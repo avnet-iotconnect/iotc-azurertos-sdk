@@ -21,4 +21,3 @@
 #define WIFI_PASSWORD ""
 
 #endif // APP_CONFIG_H
-

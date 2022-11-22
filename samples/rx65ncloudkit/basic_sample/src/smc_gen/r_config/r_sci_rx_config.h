@@ -105,7 +105,7 @@ Configuration Options
  * CH12  X   X   X   X    X  X    X                X   X   Xs  X   X   X   X   X   X   X    X     X   X
 */
                                    
-#define SCI_CFG_CH0_INCLUDED    (0)
+#define SCI_CFG_CH0_INCLUDED    (1)
 #define SCI_CFG_CH1_INCLUDED    (1)
 #define SCI_CFG_CH2_INCLUDED    (0)
 #define SCI_CFG_CH3_INCLUDED    (0)
