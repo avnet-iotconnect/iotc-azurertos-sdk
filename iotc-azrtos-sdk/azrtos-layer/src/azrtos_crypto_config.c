@@ -41,6 +41,7 @@ int iotcazcc_register_crypto_method(IotcAzccCryptoConfig* crypto, NX_CRYPTO_METH
 }
 
 int iotcazcc_crypto_init(IotcAzccCryptoConfig *crypto, UINT key_type) {
+        (void) key_type; // unused
 	memset(crypto, 0, sizeof(IotcAzccCryptoConfig));
 	return 0;
 }
@@ -79,6 +80,7 @@ int iotcazcc_crypto_init_with_ec_defaults(IotcAzccCryptoConfig *crypto){
 
 int iotcazcc_register_crypto_sw_method_rsa(IotcAzccCryptoConfig* crypto) {
 	// NOOP:  return iotcazcc_register_crypto_method(crypto, &crypto_method_ec_secp256);
+        (void) crypto; // unused
 	return 0;
 }
 

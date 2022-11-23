@@ -66,7 +66,7 @@ static TO_ret_t build_dn_from_cn(uint8_t *dn, const char* cn, uint16_t *size)
 
 static bool is_context_valid(IotcAuthInterfaceContext context) {
 	struct to_driver_context *to_context = (struct to_driver_context*) context;
-	bool ret = DC_MAGIC == to_context->magic;
+	bool ret = (DC_MAGIC == to_context->magic);
 	if (!ret) {
 		printf("ADTO: Context is invalid\r\n");
 	}
@@ -103,7 +103,7 @@ static NX_CRYPTO_KEEP UINT  to_ecdsa_operation(UINT op,      /* Encrypt, Decrypt
 			return NX_CRYPTO_NOT_SUCCESSFUL;
 		}
 		printf("ADTO: ECDSA(");
-		for (int i=0; input && i <input_length_in_byte; i++) {
+		for (ULONG i=0; input && i <input_length_in_byte; i++) {
 							printf("%02x", input[i]);
 			}
 		printf(")=");
@@ -121,7 +121,7 @@ static NX_CRYPTO_KEEP UINT  to_ecdsa_operation(UINT op,      /* Encrypt, Decrypt
 			return NX_CRYPTO_NOT_SUCCESSFUL;
 		}
 		UCHAR* t = eo->nx_crypto_extended_output_data;
-		for (int i=0; t && i < eo->nx_crypto_extended_output_actual_size; i++) {
+		for (ULONG i=0; t && i < eo->nx_crypto_extended_output_actual_size; i++) {
 			printf("%02x", t[i]);
 		}
 		printf("\r\n");
@@ -137,7 +137,7 @@ static int to_get_cert(IotcAuthInterfaceContext context, uint8_t cert_slot, uint
 	if (!is_context_valid(context)) return -1;
 	struct to_driver_context *to_context = (struct to_driver_context*) context;
 
-	if (cert_slot < 0 || cert_slot > 2) {
+	if (cert_slot > 2) {
 		printf("ADTO: get_cert: Slot must be 0, 1 or 2 \r\n");
 		return -2;
 	}
@@ -189,6 +189,7 @@ static int to_get_private_key(IotcAuthInterfaceContext context, uint8_t** key, s
 
 // Return a DER formatted certificate that will be used to authenticate the IoTConnect connection
 static unsigned int to_get_azrtos_private_key_type(IotcAuthInterfaceContext context) {
+        (void) context; // unused
 	return NX_SECURE_X509_KEY_TYPE_HARDWARE;
 }
 
@@ -217,7 +218,9 @@ static int to_generate_csr(IotcAuthInterfaceContext context, const char *cn, uin
 	TO_ret_t ret;
 	uint8_t dn[TO_CERT_DN_MAXSIZE];
 
-	*len = 0;
+	if (len) {
+		*len = 0;
+        }
 
 	if ((to_context == NULL) || (to_context->to_ctx == NULL)) {
 		return TO_ERROR;
@@ -233,13 +236,13 @@ static int to_generate_csr(IotcAuthInterfaceContext context, const char *cn, uin
 		return -3;
 	}
 
-	uint16_t dn_size;
+	uint16_t dn_size = 0;
 	ret = build_dn_from_cn(dn, cn, &dn_size);
 	if (dn_size > TO_CERT_DN_MAXSIZE) {
 		printf("ADTO: error: dn_size exceeded TO_CERT_DN_MAXSIZE!\r\n");
 		return ret;
 	}
-	if (ret) {
+	if (ret != TO_OK) {
 		printf("ADTO: Failed to build DN from requested CN\r\n");
 		return ret;
 	}
@@ -347,11 +350,11 @@ int to_create_auth_driver(IotcAuthInterface* driver_interface, IotcDdimInterface
 	}
 
 	struct to_driver_context *c = (struct to_driver_context*) malloc(sizeof(struct to_driver_context));
-	c->magic = DC_MAGIC;
 	if (!c) {
 		printf("ADTO: Unable to allocate context!\r\n");
 		return -3;
 	}
+	c->magic = DC_MAGIC;
     memcpy(&(c->driver_parameters), driver_parameters, sizeof(struct to_driver_parameters));
 
     if (!driver_interface || !context) {
@@ -418,7 +421,7 @@ int to_release_auth_driver(IotcAuthInterfaceContext* context) {
 		return -1; // not sure what to do here
 	}
 	TO_lib_ret_t ret = TOSE_fini(to_context->to_ctx);
-	to_context->magic = 0xdf; // to be able to detect a double free
+	to_context->magic = (char) 0xdf; // to be able to detect a double free
 	free(to_context);
 	return ret;
 }
