@@ -77,7 +77,7 @@ int8_t *_last_heap_object=(int8_t *)&s_heap_area;
 * Return value : Start address of allocated area (pass)
 *                -1 (failure)
 ***********************************************************************************************************************/
-int8_t  *sbrk(size_t size)
+__attribute__ ((optimize(0))) int8_t  *sbrk(size_t size)
 {
     int8_t  *p_area;
 
