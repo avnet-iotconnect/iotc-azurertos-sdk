@@ -468,7 +468,7 @@ VOID sample_network_configure(NX_IP *ip_ptr, ULONG *dns_server_address)
 
 static UINT wifi_connect()
 {
-UINT    status;
+	UINT    status;
 
 	printf("Initializing Wi-Fi\r\n");
 
@@ -480,6 +480,8 @@ UINT    status;
 		printf("Error connecting to Wi-Fi network.\r\n");
 		return(status);
 	}
+
+	printf("Connecting to Wi-Fi Network: %s\r\n", WIFI_SSID);
 
 	status = R_WIFI_SX_ULPGN_Connect(WIFI_SSID, WIFI_PASSWORD, WIFI_SECURITY_WPA2, 1, &ip_cfg);
 
@@ -502,22 +504,6 @@ UINT    status;
 		return(status);
 	}
 
-	/* Output IP address and gateway address. */
-	printf("IP address: %lu.%lu.%lu.%lu\r\n",
-		   (ip_cfg.ipaddress >> 24),
-		   (ip_cfg.ipaddress >> 16 & 0xFF),
-		   (ip_cfg.ipaddress >> 8 & 0xFF),
-		   (ip_cfg.ipaddress & 0xFF));
-	printf("Mask: %lu.%lu.%lu.%lu\r\n",
-		   (ip_cfg.subnetmask >> 24),
-		   (ip_cfg.subnetmask >> 16 & 0xFF),
-		   (ip_cfg.subnetmask >> 8 & 0xFF),
-		   (ip_cfg.subnetmask & 0xFF));
-	printf("Gateway: %lu.%lu.%lu.%lu\r\n",
-		   (ip_cfg.gateway >> 24),
-		   (ip_cfg.gateway >> 16 & 0xFF),
-		   (ip_cfg.gateway >> 8 & 0xFF),
-		   (ip_cfg.gateway & 0xFF));
 	return(status);
 }
 
