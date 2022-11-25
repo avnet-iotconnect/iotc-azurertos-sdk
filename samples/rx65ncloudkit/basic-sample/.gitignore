@@ -1,0 +1,11 @@
+/trash
+/HardwareDebug
+/output
+
+*.o
+*.o.in
+*.elf
+*.elf.in
+*.map
+*.lst
+*.mot
