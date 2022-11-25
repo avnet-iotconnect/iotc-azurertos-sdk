@@ -2,9 +2,31 @@
 
 set -e
 
+# All the IDEs offically support Windows, so it is likely that a developer
+# will be running it. This script can execute fine on WSL, however symlinks 
+# are not working correctly there. Detect if we are running on Windows and invoke
+# the appropriate program to create the symlink.
+make_sym_link() {
+  if [ $(uname -r | grep "Microsoft") ];
+  then
+        cmd.exe /c "mklink /J "${2//\//\\}" "${1//\//\\}
+  else
+        ln -sf $1 $2
+  fi
+}
+
+# The "." operator does not work with mklink, instead
+# get the filename from the directory path e.g. 
+# ../../../iotc-azrtos-sdk\authentication -> authentication
+get_file_name() {
+  echo $1 | rev | cut -d '/' -f1 | rev
+}
+
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usge: $0 <project_name>"
+  echo "Usage: $0 <project_name>"
+  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
+      "maaxboardrt, rx65ncloudkit"
   exit 1
 fi
 
@@ -109,20 +131,17 @@ case "$name" in
   stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
     pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
-        ln -sf $f .
+        make_sym_link $f $(get_file_name $f)
       done
     popd >/dev/null
     # prevent accidental commit of private information by default
     # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
     if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-      # FIXME: RX65N does not have these files in its Git index. Skip this step for now.
-      echo "Skipping this..."
-      #git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-      #git update-index --no-assume-unchanged basic-sample/include/app_config.h
+      git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
     else
-      echo "Skipping this..."
-      #git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-      #git update-index --assume-unchanged basic-sample/include/app_config.h
+      git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+      git update-index --assume-unchanged basic-sample/include/app_config.h
     fi
     ;;
   *)
@@ -158,8 +177,8 @@ case "$name" in
   rx65ncloudkit)
     echo Downloading Azure_RTOS_6...
 	  wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
-    project_target_dir='e2studio_gnurx/'
-    project_ide_dir=''
+    project_target_dir=''
+    project_ide_dir='e2studio_gnurx/'
     libs="filex netxduo_addons "
     ;;
   *)
@@ -189,7 +208,7 @@ pushd "${project_dir}" >/dev/null
   done
 popd >/dev/null
 
-rm -rf ${project_target_dir}
+rm -rf ${project_dir}
 
   echo 'Applying patches for AzureRTOS component directory name references...'
 case "$name" in
