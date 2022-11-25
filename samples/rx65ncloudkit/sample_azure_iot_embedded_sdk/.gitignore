@@ -1,7 +1,0 @@
-HardwareDebug/
-*.mk
-*.properties
-*.bash
-*.lst
-*.elf
-*.in
