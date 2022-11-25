@@ -18,10 +18,10 @@
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
-* File Name        : r_cg_hardware_setup.c
-* Version          : 1.2.111
+* File Name        : Config_PORT_user.c
+* Component Version: 2.4.0
 * Device(s)        : R5F565NEDxFP
-* Description      : Initialization file for code generation configurations.
+* Description      : This file implements device driver for Config_PORT.
 ***********************************************************************************************************************/
 
 /***********************************************************************************************************************
@@ -34,10 +34,7 @@ Pragma directive
 Includes
 ***********************************************************************************************************************/
 #include "r_cg_macrodriver.h"
-#include "Config_SCI5.h"
 #include "Config_PORT.h"
-#include "r_smc_cgc.h"
-#include "r_smc_interrupt.h"
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
@@ -49,64 +46,17 @@ Global variables and functions
 /* End user code. Do not edit comment generated here */
 
 /***********************************************************************************************************************
-* Function Name: r_undefined_exception
-* Description  : This function is undefined interrupt service routine
+* Function Name: R_Config_PORT_Create_UserInit
+* Description  : This function adds user code after initializing PORT
 * Arguments    : None
 * Return Value : None
 ***********************************************************************************************************************/
 
-void r_undefined_exception(void)
+void R_Config_PORT_Create_UserInit(void)
 {
-    /* Start user code for r_undefined_exception. Do not edit comment generated here */
+    /* Start user code for user init. Do not edit comment generated here */
     /* End user code. Do not edit comment generated here */
-}
-
-/***********************************************************************************************************************
-* Function Name: R_Systeminit
-* Description  : This function initializes every configuration
-* Arguments    : None
-* Return Value : None
-***********************************************************************************************************************/
-
-void R_Systeminit(void)
-{
-    /* Enable writing to registers related to operating modes, LPC, CGC and software reset */
-    SYSTEM.PRCR.WORD = 0xA50BU;
-
-    /* Enable writing to MPC pin function control registers */
-    MPC.PWPR.BIT.B0WI = 0U;
-    MPC.PWPR.BIT.PFSWE = 1U;
-
-    /* Write 0 to the target bits in the POECR2 registers */
-    POE3.POECR2.WORD = 0x0000U;
-
-    /* Initialize clocks settings */
-    R_CGC_Create();
-
-    /* Set peripheral settings */
-    R_Config_PORT_Create();
-    R_Config_SCI5_Create();
-
-    /* Set interrupt settings */
-    R_Interrupt_Create();
-
-    /* Register undefined interrupt */
-    R_BSP_InterruptWrite(BSP_INT_SRC_UNDEFINED_INTERRUPT,(bsp_int_cb_t)r_undefined_exception);
-
-    /* Register group BL0 interrupt TEI5 (SCI5) */
-    R_BSP_InterruptWrite(BSP_INT_SRC_BL0_SCI5_TEI5,(bsp_int_cb_t)r_Config_SCI5_transmitend_interrupt);
-
-    /* Register group BL0 interrupt ERI5 (SCI5) */
-    R_BSP_InterruptWrite(BSP_INT_SRC_BL0_SCI5_ERI5,(bsp_int_cb_t)r_Config_SCI5_receiveerror_interrupt);
-
-    /* Disable writing to MPC pin function control registers */
-    MPC.PWPR.BIT.PFSWE = 0U;
-    MPC.PWPR.BIT.B0WI = 1U;
-
-    /* Enable protection */
-    SYSTEM.PRCR.WORD = 0xA500U;
 }
 
 /* Start user code for adding. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
-

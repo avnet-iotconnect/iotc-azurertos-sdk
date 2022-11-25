@@ -13,6 +13,9 @@
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 
+#include "r_gpio_rx_config.h"
+#include "r_gpio_rx_if.h"
+
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
 void nx_azure_iot_adu_agent_driver(void)
 {}
@@ -274,8 +277,9 @@ static void publish_telemetry() {
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
 
-    //bool button_press = gpio_get_pin_level(PIN_PB31);
-    iotcl_telemetry_set_bool(msg, "button", 1);
+    bool button_press = !R_GPIO_PinRead(GPIO_PORT_3_PIN_1);
+
+    iotcl_telemetry_set_bool(msg, "button", button_press);
 
 //    sensors_add_telemetry(msg);
 

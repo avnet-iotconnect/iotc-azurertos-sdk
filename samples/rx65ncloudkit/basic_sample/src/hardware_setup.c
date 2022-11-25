@@ -3,6 +3,7 @@
 #include <platform.h>
 
 #include <Config_SCI5.h>
+#include <Config_PORT.h>
 #include <r_cmt_rx_if.h>
 
 #include <tx_api.h>
@@ -25,6 +26,9 @@ void platform_setup(void)
 
     /* Setup SCI5 for printf output. */
     R_Config_SCI5_Start();
+
+    /* Setup user switch */
+    R_Config_PORT_Create();
 
     /* Create periodic timer for the system tick. */
     R_CMT_CreatePeriodic(100u, timer_callback, &chan);
