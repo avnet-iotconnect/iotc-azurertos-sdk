@@ -524,7 +524,7 @@
         <pinnumItem comment="Silex RST" id="86"/>
     </tool>
     <tool id="Summary" version="1.0.0.0">
-        <option id="com.renesas.smc.code.path" value="src\smc_gen"/>
+        <option id="com.renesas.smc.code.path" value="src/smc_gen"/>
         <option id="com.renesas.smc.code.type" value="Normal Folder"/>
     </tool>
     <tool id="SWComponent" version="1.0.0.0">
