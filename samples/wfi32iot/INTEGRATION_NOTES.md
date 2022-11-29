@@ -1,9 +1,12 @@
+### Integration Notes
+This file is intended to be for record keeping by the developers working on this project.
+
+
+### Project Integration Notes
+* Comment out most of sample_azure_iot_embedded_sdk.c, except the azureGlue_crypto_hmac_256_calculate function.
 * Remove sntp_time_sync and unix_time_get in sample azure iot entry
-* replace static declarations with #include "azrtos_time.h", "app_config.h" and add SNTP host to the time_sync call.
-* Edit tasks.c and set:
-```C
-#define TX_BYTE_POOL_SIZE   (20480 + 512)
-```
+* replace static declarations with #include "azrtos_time.h", "app_config.h" and add SNTP host to the time_sync call. Comment out //#define RUN_AZURE
+* Edit tasks.c and remove references to CMD task
 * Remove references to sample_device_private_key* from sample_read_device_cert.c
 * OR---- remove code after the globals define
 * Call iotconnect_app in sample_azure_iot_entry.:
@@ -14,9 +17,8 @@ extern bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DN
     /* Start sample.  */
     iotconnect_sample_app(ip_ptr, pool_ptr, dns_ptr);
 ```
-* remove calls to sample_read_device_cert() from sample_netx_duo.c
 
-Project File Integration Notes (for reference)
+### Project File Integration Notes (for reference)
 * Overwrite sample device identity so that it's a proper array
 * Rename the project to "iotconnect-demo"
 * "Add existing items from folders" at top level and point o basic-sample and iot-azurertos-sdk

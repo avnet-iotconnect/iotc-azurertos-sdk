@@ -9,20 +9,12 @@ if [[ -z "$name" ]]; then
 fi
 
 case "$name" in
-  stm32l4)
+  stm32l4|mimxrt1060|maaxboardrt|same54xpro|same54xprov2|wfi32iot)
 	pushd "$(dirname $0)"/../samples/"${name}"
 	;;
-  mimxrt1060)
-    pushd "$(dirname $0)"/../samples/"${name}"
-	;;
-  same54xpro)
-    pushd "$(dirname $0)"/../samples/"${name}"
-	;;
-  same54xprov2)
-    pushd "$(dirname $0)"/../samples/"${name}"
-	;;
-  maaxboardrt)
-    pushd "$(dirname $0)"/../samples/"${name}"
+  *)
+  echo Error: Unsuppored project $name
+  exit -1
 	;;
 esac
 
@@ -58,6 +50,22 @@ rm -rf iotc-c-lib cJSON libTO
 
 
 case "$name" in
+  wfi32iot)
+    pushd iotc-azrtos-sdk/ >/dev/null
+      for f in ../../../iotc-azrtos-sdk/*; do
+        ln -sf $f .
+      done
+    popd >/dev/null
+
+    rm -rf WFI32-IoT
+    git clone --depth 1 https://github.com/Microchip-Azure-Demos/WFI32-IoT.git
+    cd WFI32-IoT
+    git reset --hard 6eac75b57a18296d9ff0713a5803a9c633aec5b1
+    cd ..
+    cp -nr  WFI32-IoT/firmware/src .
+    #rm -rf WFI32-IoT
+    ;;
+
   same54xprov2)
     pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
@@ -73,7 +81,7 @@ case "$name" in
     cp -nr  ATSAME54-XPRO/firmware/src .
     rm -rf ATSAME54-XPRO
 
-     ;;
+    ;;
 
   maaxboardrt)
 #symlink iotc-azrtos-sdk into project

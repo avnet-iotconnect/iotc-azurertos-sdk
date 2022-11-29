@@ -1,0 +1,6 @@
+/clicks
+/third_party
+/*.c
+/*.h
+
+!.gitignore

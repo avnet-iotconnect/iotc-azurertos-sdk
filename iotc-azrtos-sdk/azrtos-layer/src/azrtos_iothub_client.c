@@ -12,9 +12,9 @@
 // Copyright: Avnet 2021
 // Modified by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
-#include <iotc_auth_driver.h>
 #include <stdio.h>
 
+#include "tx_api.h"
 #include "nx_api.h"
 #include "nx_azure_iot_hub_client.h"
 #include "nx_azure_iot_ciphersuites.h"
@@ -22,6 +22,7 @@
 #include "iotconnect_certs.h"
 #include "iotconnect.h"
 #include "azrtos_iothub_client.h"
+#include "iotc_auth_driver.h"
 
 
 /* Define the Azure RTOS IOT thread stack and priority.  */

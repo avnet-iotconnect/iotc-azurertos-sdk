@@ -2,6 +2,8 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 5/24/21.
 //
+
+#include <stdio.h>
 #include "nx_web_http_client.h"
 #include "azrtos_https_client.h"
 #include "iotconnect.h"
