@@ -54,25 +54,24 @@
 							</tool>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compiler.906791010" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compiler">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.1924147200" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/dhcp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/ports/rxv2/gnu/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/dns}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure-sdk-for-c/sdk/inc/azure/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc/azure/core}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/common/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/ports/generic/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/cloud}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/ports}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/crypto_libraries/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/common/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>

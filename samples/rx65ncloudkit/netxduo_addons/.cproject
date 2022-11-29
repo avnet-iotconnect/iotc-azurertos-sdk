@@ -59,7 +59,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rxv2/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rx/gnu/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/dns}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
@@ -74,7 +73,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/cloud}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/ports}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/crypto_libraries/inc}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/nx_secure/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>
