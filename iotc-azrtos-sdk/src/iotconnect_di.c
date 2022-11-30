@@ -21,9 +21,8 @@
 
 #define URL_RESOUCE_BUFFER_SIZE 40
 
-// some certs can be more than 512 bytes, so we ought to have enough space for all of 
-// it the hex characters. 
-#define WORK_BUFFER_SIZE (1500) 
+// see IOTC_X509_CERT_MAX_SIZE
+#define WORK_BUFFER_SIZE (IOTC_X509_CERT_MAX_SIZE * 2 + 1)
 // Buffer that we will malloc and free when we are done.
 // Buffer will be used for conversions between binary and hex data.
 // 1 for null

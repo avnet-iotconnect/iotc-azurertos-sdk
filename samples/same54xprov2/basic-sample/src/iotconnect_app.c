@@ -23,7 +23,7 @@ static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
+static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN + 1]; // from ATECC608 common name
 #endif
 #define APP_VERSION "01.00.00"
 
@@ -236,7 +236,9 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
         pkcs11_atca_release_auth_driver(auth_context);
         return false;
     }
-    char* b64_string_buffer = malloc(1024); // cert should be around 500, so this should not exceed 1024
+    // bas64 will be less than double, so this should be an approximate safe value.
+    // Tune this value based on your project's secure element.
+    char* b64_string_buffer = malloc(IOTC_X509_CERT_MAX_SIZE * 2);
     if (NULL == b64_string_buffer) {
         pkcs11_atca_release_auth_driver(auth_context);
         printf("WARNING: Unable to allocate memory to display the certificate.\r\n");
