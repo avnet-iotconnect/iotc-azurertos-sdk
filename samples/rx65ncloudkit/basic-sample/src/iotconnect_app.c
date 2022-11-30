@@ -238,13 +238,14 @@ static void command_status(IotclEventData data, bool status, const char *command
 }
 
 static void on_command(IotclEventData data) {
+	char* context = NULL;
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-    	char* token = strtok(command, " ");
-    	if(!strcmp(token, "led")) {
-    		token = strtok(NULL, " ");
+    	char* token = strtok_r(command, " ", &context);
+    	if(!strncmp(token, "led", 3)) {
+    		token = strtok_r(NULL, " ", &context);
     		RX65N_LED_STATE state = (token[0] == '1') ||
-    								(strcmp(token, "true") == 0 ) ?
+    								(strncmp(token, "true", 4) == 0 ) ?
     								ON : OFF;
     		set_led(LED2, state);
     		command_status(data, true, command, "LED set");
@@ -286,8 +287,6 @@ static void publish_telemetry() {
 //   iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
-
-    //bool button_press = read_user_switch();
 
     iotcl_telemetry_set_bool(msg, "button", read_user_switch());
 
