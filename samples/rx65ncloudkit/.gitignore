@@ -22,8 +22,7 @@
 /iotc-azrtos-sdk/cJSON/
 /iotc-azrtos-sdk/Debug/
 /iotc-azrtos-sdk/include/
-/iotc-azrtos-sdk/iotc-c-lib/
-/iotc-azrtos-sdk/LibTO/
+/iotc-azrtos-sdk/deps/
 /iotc-azrtos-sdk/src/
 
 *.html

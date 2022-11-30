@@ -64,7 +64,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/deps/iotc-c-lib/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
