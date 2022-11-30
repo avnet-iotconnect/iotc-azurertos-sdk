@@ -27,9 +27,22 @@ void platform_setup(void)
     /* Setup SCI5 for printf output. */
     R_Config_SCI5_Start();
 
-    /* Setup user switch */
+    /* Setup user switch and LEDs*/
     R_Config_PORT_Create();
 
     /* Create periodic timer for the system tick. */
     R_CMT_CreatePeriodic(100u, timer_callback, &chan);
+
+    set_led(LED1, OFF);
+    set_led(LED2, OFF);
+}
+
+inline void set_led(RX65N_LED_PIN led, RX65N_LED_STATE state)
+{
+	R_GPIO_PinWrite(led, state);
+}
+
+inline int read_user_switch()
+{
+	return !R_GPIO_PinRead(GPIO_PORT_3_PIN_1);
 }

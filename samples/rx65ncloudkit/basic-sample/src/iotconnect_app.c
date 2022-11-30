@@ -13,8 +13,7 @@
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 
-#include "r_gpio_rx_config.h"
-#include "r_gpio_rx_if.h"
+#include "hardware_setup.h"
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
 void nx_azure_iot_adu_agent_driver(void)
@@ -241,7 +240,18 @@ static void command_status(IotclEventData data, bool status, const char *command
 static void on_command(IotclEventData data) {
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-        command_status(data, false, command, "Not implemented");
+    	char* token = strtok(command, " ");
+    	if(!strcmp(token, "led")) {
+    		token = strtok(NULL, " ");
+    		RX65N_LED_STATE state = (token[0] == '1') ||
+    								(strcmp(token, "true") == 0 ) ?
+    								ON : OFF;
+    		set_led(LED2, state);
+    		command_status(data, true, command, "LED set");
+    	}
+    	else {
+    		command_status(data, false, command, "Not implemented");
+    	}
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -277,9 +287,9 @@ static void publish_telemetry() {
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
 
-    bool button_press = !R_GPIO_PinRead(GPIO_PORT_3_PIN_1);
+    //bool button_press = read_user_switch();
 
-    iotcl_telemetry_set_bool(msg, "button", button_press);
+    iotcl_telemetry_set_bool(msg, "button", read_user_switch());
 
 //    sensors_add_telemetry(msg);
 
