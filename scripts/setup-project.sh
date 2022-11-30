@@ -57,32 +57,6 @@ sample_dir=$(pwd)
 
 rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt rx65ncloudkit
 
-# clone the dependency repos
-git clone --depth 1 --branch v2.0.4 https://github.com/avnet-iotconnect/iotc-c-lib.git
-git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
-git clone --depth 1 --branch main https://github.com/TrustedObjects/libTO.git
-pushd libTO
-git checkout 2217696249de310b15b17b1a262422de9b3a7d04 #as of April 2022
-popd
-
-# move only relevant files into corresponding locations
-rm -rf iotc-azrtos-sdk/iotc-c-lib
-rm -rf iotc-azrtos-sdk/cJSON
-rm -rf iotc-azrtos-sdk/libTO
-
-mkdir -p iotc-azrtos-sdk/iotc-c-lib
-mkdir -p iotc-azrtos-sdk/cJSON
-mkdir -p iotc-azrtos-sdk/libTO
-
-mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
-mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
-mv libTO/Sources/*  iotc-azrtos-sdk/libTO
-# remove libTO examples:
-rm -rf iotc-azrtos-sdk/libTO/examples
-rm -rf iotc-azrtos-sdk/libTO/src/wrapper
-
-rm -rf iotc-c-lib cJSON libTO
-
 
 case "$name" in
   same54xprov2)
