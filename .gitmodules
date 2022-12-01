@@ -7,3 +7,12 @@
 [submodule "libTO"]
 	path = iotc-azrtos-sdk/deps/libTO
 	url = https://github.com/TrustedObjects/libTO.git
+[submodule "threadx"]
+	path = os/threadx
+	url = https://github.com/azure-rtos/threadx.git
+[submodule "netxduo"]
+	path = os/netxduo
+	url = https://github.com/azure-rtos/netxduo.git
+[submodule "filex"]
+	path = os/filex
+	url = https://github.com/azure-rtos/filex.git
