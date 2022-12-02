@@ -129,23 +129,25 @@ legacy_threadx_setup() {
   esac
 }
 
+link_directories() {
+  for f in $1/*; do
+    if [ -d $f ]; then
+      make_sym_link $f $(get_file_name $f)
+    fi
+  done
+}
+
 create_threadx_sym_links() {
   pushd threadx/ >/dev/null
-    for f in ../../../os/threadx/*; do
-      make_sym_link $f $(get_file_name $f)
-    done
+  link_directories ../../../os/threadx
   popd >/dev/null
 
   pushd netxduo/ >/dev/null
-    for f in ../../../os/netxduo/*; do
-      make_sym_link $f $(get_file_name $f)
-    done
+  link_directories ../../../os/netxduo
   popd >/dev/null
 
   pushd filex/ >/dev/null
-    for f in ../../../os/filex/*; do
-      make_sym_link $f $(get_file_name $f)
-    done
+  link_directories ../../../os/filex
   popd >/dev/null
 }
 

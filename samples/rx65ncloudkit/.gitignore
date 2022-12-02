@@ -1,21 +1,35 @@
+# Ignore all netxduo aside from .project/.cproject
+/netxduo/addons/
+/netxduo/cmake/
 /netxduo/common/
-/netxduo/Debug/
+/netxduo/crypto_libraries/
+/netxduo/docs/
+/netxduo/nx_secure/
 /netxduo/ports/
+/netxduo/samples/
+/netxduo/utility/
+/netxduo/Debug/
+/netxduo/Release/
 
-/netxduo_addons/common/
-/netxduo_addons/Debug/
-/netxduo_addons/ports/
-/netxduo_addons/addons/
-/netxduo_addons/crypto_libraries/
-/netxduo_addons/nx_secure/
-
+/threadx/cmake/
 /threadx/common/
-/threadx/Debug/
+/threadx/common_modules/
+/threadx/common_smp/
+/threadx/docs/
 /threadx/ports/
+/threadx/ports_module/
+/threadx/ports_smp/
+/threadx/samples/
+/threadx/utility/
+/threadx/Debug/
+/threadx/Release/
 
 /filex/common/
-/filex/Debug/
 /filex/ports/
+/filex/cmake/
+/filex/docs/
+/filex/samples/
+/filex/Debug/
 
 /iotc-azrtos-sdk/authentication/
 /iotc-azrtos-sdk/azrtos-layer/
