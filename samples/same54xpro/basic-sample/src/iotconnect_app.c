@@ -15,8 +15,7 @@
 #include "hal_gpio.h"
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
-void nx_azure_iot_adu_agent_driver(void)
-{}
+extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
@@ -175,6 +174,7 @@ static void on_ota(IotclEventData data) {
         if (!version) {
             printf("Failed to clone SW version! Out of memory?");
             message = "Failed to clone SW version";
+            free(url);
         } else if (is_app_version_same_as_ota(version)) {
             printf("OTA request for same version %s. Sending success\r\n", version);
             success = true;
