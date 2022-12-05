@@ -243,7 +243,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
         pkcs11_atca_release_auth_driver(auth_context);
         printf("WARNING: Unable to allocate memory to display the certificate.\r\n");
     } else {
-        size_t b64_string_len = 1024; // in/out parameter. See atcacert_encode_pem_cert()
+        size_t b64_string_len = IOTC_X509_CERT_MAX_SIZE * 2; // in/out parameter. See atcacert_encode_pem_cert()
         atcacert_encode_pem_cert(cert, cert_size, b64_string_buffer, &b64_string_len);
         b64_string_buffer[b64_string_len] = 0;
         printf("Device certificate ( %u bytes):\r\n%s\r\n", cert_size, b64_string_buffer);
