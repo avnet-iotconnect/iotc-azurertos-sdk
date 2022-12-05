@@ -1,4 +1,6 @@
 # Ignore all netxduo aside from .project/.cproject
+/netxduo/*.md
+/netxduo/*.txt
 /netxduo/addons/
 /netxduo/cmake/
 /netxduo/common/
@@ -11,6 +13,9 @@
 /netxduo/Debug/
 /netxduo/Release/
 
+# Ignore all threadx aside from .project/.cproject
+/threadx/*.md
+/threadx/*.txt
 /threadx/cmake/
 /threadx/common/
 /threadx/common_modules/
@@ -24,6 +29,9 @@
 /threadx/Debug/
 /threadx/Release/
 
+# Ignore all filex aside from .project/.cproject
+/filex/*.md
+/filex/*.txt
 /filex/common/
 /filex/ports/
 /filex/cmake/
@@ -31,6 +39,7 @@
 /filex/samples/
 /filex/Debug/
 
+# Ignore all iotc-azrtos-sdk aside from .project/.cproject
 /iotc-azrtos-sdk/authentication/
 /iotc-azrtos-sdk/azrtos-layer/
 /iotc-azrtos-sdk/cJSON/

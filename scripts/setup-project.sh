@@ -95,7 +95,7 @@ git_hide_config_files() {
 show_help() {
   echo "Usage: setup-project.sh <project_name>"
   echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
-      "maaxboardrt, rx65ncloudkit"
+      "same54xprov2, maaxboardrt, rx65ncloudkit"
 }
 
 # If the project does not currently have a project file that supports Git submodules
@@ -161,7 +161,7 @@ legacy_threadx_setup() {
       ;;
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
       project_target_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
