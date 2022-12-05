@@ -7,7 +7,6 @@ set -e
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  echo "Create symlink ${1} -> ${2}"
   if [ $(uname -r | grep "Microsoft") ];
   then
         cmd.exe /c "mklink /J "${2//\//\\}" "${1//\//\\}
@@ -23,37 +22,113 @@ get_file_name() {
   echo $1 | rev | cut -d '/' -f1 | rev
 }
 
+# Create symbolic links from the contents of the source directory ($1) to the current
+# working directory.
+link_directories() {
+  for f in $1/*; do
+    target=$(get_file_name $f)
+
+    # If the file to a link is a directory and already exists within the destination,
+    # enter the destination directory and symlink its children that aren't present. 
+    # Else, just create the symlink at this directory.
+    if [ -d $f ]; then
+      if [ -d $target ]; then
+        pushd $target >/dev/null
+        link_directories ../$f
+        popd >/dev/null
+      else
+        make_sym_link $f $target
+      fi
+    # If the file to link is a regular file and doesn't exist in the destination,
+    # create the link. Avoiding linking pre-existing files allows for custom files 
+    # to be added per-project.
+    elif [ -f $f ]; then
+      if [ ! -f $target ]; then
+        make_sym_link $f $target
+      fi
+    fi
+  done
+}
+
+# Symlink the contents of iotc-azrtos-sdk into the current working
+# directory (e.g. the azure sdk eclipse project)
+create_iotc_azure_sdk_sym_links() {
+  pushd iotc-azrtos-sdk/ >/dev/null
+  link_directories ../../../iotc-azrtos-sdk
+  popd >/dev/null
+}
+
+# Symlink the contents of iotc-azrtos-sdk into the current working
+# directory (e.g. the azure sdk eclipse project)
+create_threadx_sym_links() {
+  pushd threadx/ >/dev/null
+  link_directories ../../../os/threadx
+  popd >/dev/null
+
+  pushd netxduo/ >/dev/null
+  link_directories ../../../os/netxduo
+  popd >/dev/null
+
+  pushd filex/ >/dev/null
+  link_directories ../../../os/filex
+  popd >/dev/null
+}
+
+# Prevent accidental commit of private information by default
+# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
+git_hide_config_files() {
+  if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
+    git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
+    git update-index --no-assume-unchanged basic-sample/include/app_config.h
+  else
+    git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
+    git update-index --assume-unchanged basic-sample/include/app_config.h
+  fi
+}
+
+show_help() {
+  echo "Usage: setup-project.sh <project_name>"
+  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
+      "maaxboardrt, rx65ncloudkit"
+}
+
+# If the project does not currently have a project file that supports Git submodules
+# for the iotc-azure-sdk dependencies, it can use this function to pull the nessesary resources
+# directly from the Github repos.
+legacy_iotc_deps_setup() {
+  # clone the dependency repos
+  git clone --depth 1 --branch v2.0.4 https://github.com/avnet-iotconnect/iotc-c-lib.git
+  git clone --depth 1 --branch v1.7.13 https://github.com/DaveGamble/cJSON.git
+  git clone --depth 1 --branch main https://github.com/TrustedObjects/libTO.git
+  pushd libTO
+  git checkout 2217696249de310b15b17b1a262422de9b3a7d04 #as of April 2022
+  popd
+
+  # move only relevant files into corresponding locations
+  rm -rf iotc-azrtos-sdk/iotc-c-lib
+  rm -rf iotc-azrtos-sdk/cJSON
+  rm -rf iotc-azrtos-sdk/libTO
+
+  mkdir -p iotc-azrtos-sdk/iotc-c-lib
+  mkdir -p iotc-azrtos-sdk/cJSON
+  mkdir -p iotc-azrtos-sdk/libTO
+
+  mv iotc-c-lib/include iotc-c-lib/src iotc-azrtos-sdk/iotc-c-lib/
+  mv cJSON/cJSON.* iotc-azrtos-sdk/cJSON/
+  mv libTO/Sources/*  iotc-azrtos-sdk/libTO
+  # remove libTO examples:
+  rm -rf iotc-azrtos-sdk/libTO/examples
+  rm -rf iotc-azrtos-sdk/libTO/src/wrapper
+
+  rm -rf iotc-c-lib cJSON libTO
+}
+
+# If the project does not currently have a project file that supports the Git submodules
+# for threadx components, it can use this function to pull the nessesary resources 
+# from the pre-packaged zip files.
 legacy_threadx_setup() {
   name = $1
   case "$name" in
-  maaxboardrt)
-  #symlink iotc-azrtos-sdk into project
-      echo Downloading MaaxXBoardRT baseline project packages...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
-      azrtos_dir='mimxrt1060/MCUXpresso/'
-      wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
-      project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
-
-      echo Extracting...
-      unzip -q azrtos.zip
-      unzip -q project.zip
-
-      rm -rf ${project_dir}/azure-rtos/binary/netxduo
-      rm -rf ${project_dir}/azure-rtos/netxduo
-      rm -rf ${project_dir}/azure_iot
-      rm -rf ${project_dir}/drivers
-
-      rm -f azrtos.zip
-      rm -f project.zip
-
-      #copy original NXP project and netxduo lib into project
-      cp -nr ${project_dir}/* basic-sample
-      cp -nr ${azrtos_dir}/netxduo/* netxduo
-
-      rm -rf $(dirname "${azrtos_dir}")
-      rm -rf ${project_dir}
-
-      ;;
     stm32l4)
       echo Downloading Azure_RTOS_6...
       wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
@@ -130,76 +205,59 @@ legacy_threadx_setup() {
   esac
 }
 
-link_directories() {
-  directory=$1
-  if [ $(get_file_name $1) != "*" ]; then
-    directory=$(echo "${1}/*")
-  fi
-
-  for f in $directory; do
-    target=$(get_file_name $f)
-    echo "f is ${f} target is ${target}"
-    if [ -d $f ]; then
-      if [ -d $target ]; then
-        echo "${target} already exists"
-        pushd $target >/dev/null
-        link_directories ../$f
-        popd >/dev/null
-      else
-        echo "Linking directory... ${target}"
-        make_sym_link $f $target
-      fi
-    elif [ -f $f ]; then
-      echo "check if ${target} already exists..."
-      if [ ! -f $target ]; then
-        echo "Linking file... ${target}"
-        make_sym_link $f $target
-      fi
-    fi
-  done
-}
-
-create_threadx_sym_links() {
-  pushd threadx/ >/dev/null
-  link_directories ../../../os/threadx
+legacy_maaxboardrt_setup() {
+  #symlink iotc-azrtos-sdk into project
+  rm -rf basic-sample/iotc-azrtos-sdk
+  mv iotc-azrtos-sdk basic-sample/
+  pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
+    for f in ../../../../iotc-azrtos-sdk/*; do
+      ln -sf $f .
+    done
   popd >/dev/null
 
-  pushd netxduo/ >/dev/null
-  link_directories ../../../os/netxduo
-  popd >/dev/null
+  echo Downloading MaaxXBoardRT baseline project packages...
+  wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+  azrtos_dir='mimxrt1060/MCUXpresso/'
+  wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
+  project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
 
-  pushd filex/ >/dev/null
-  link_directories ../../../os/filex
-  popd >/dev/null
+  echo Extracting...
+  unzip -q azrtos.zip
+  unzip -q project.zip
+
+  rm -rf ${project_dir}/azure-rtos/binary/netxduo
+  rm -rf ${project_dir}/azure-rtos/netxduo
+  rm -rf ${project_dir}/azure_iot
+  rm -rf ${project_dir}/drivers
+
+  rm -f azrtos.zip
+  rm -f project.zip
+
+  #copy original NXP project and netxduo lib into project
+  cp -nr ${project_dir}/* basic-sample
+  cp -nr ${azrtos_dir}/netxduo/* netxduo
+
+  rm -rf $(dirname "${azrtos_dir}")
+  rm -rf ${project_dir}
 }
 
-# prevent accidental commit of private information by default
-# export NO_ASSUME_UNCHANGED=yes to allow commits to these files
-git_hide_config_files() {
-  if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-    git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --no-assume-unchanged basic-sample/include/app_config.h
-  else
-    git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --assume-unchanged basic-sample/include/app_config.h
-  fi
-}
 
+#################################################################################################
+# Script start
+#################################################################################################
 name="${1}"
 if [[ -z "$name" ]]; then
-  echo "Usage: $0 <project_name>"
-  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
-      "maaxboardrt, rx65ncloudkit"
+  show_help
   exit 1
 fi
 
 case "$name" in
   stm32l4)
-	pushd "$(dirname $0)"/../samples/"${name}"
-	;;
+	  pushd "$(dirname $0)"/../samples/"${name}"
+	  ;;
   mimxrt1060)
     pushd "$(dirname $0)"/../samples/"${name}"
-	;;
+	  ;;
   same54xpro)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -211,7 +269,11 @@ case "$name" in
     ;;
   rx65ncloudkit)
     pushd "$(dirname $0)"/../samples/"${name}"
-	;;
+	  ;;
+  *)
+    show_help
+    exit 1
+    ;;
 esac
 
 sample_dir=$(pwd)
@@ -220,6 +282,7 @@ sample_dir=$(pwd)
 
 rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt rx65ncloudkit
 
+# Perform setup steps for the required project
 case "$name" in
   same54xprov2)
     pushd iotc-azrtos-sdk/ >/dev/null
@@ -239,65 +302,26 @@ case "$name" in
      ;;
 
   maaxboardrt)
-#symlink iotc-azrtos-sdk into project
-    rm -rf basic-sample/iotc-azrtos-sdk
-    mv iotc-azrtos-sdk basic-sample/
-    pushd basic-sample/iotc-azrtos-sdk/ >/dev/null
-      for f in ../../../../iotc-azrtos-sdk/*; do
-        ln -sf $f .
-      done
-    popd >/dev/null
-
-    echo Downloading MaaxXBoardRT baseline project packages...
-    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
-    azrtos_dir='mimxrt1060/MCUXpresso/'
-    wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
-    project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
-
-    echo Extracting...
-    unzip -q azrtos.zip
-    unzip -q project.zip
-
-    rm -rf ${project_dir}/azure-rtos/binary/netxduo
-    rm -rf ${project_dir}/azure-rtos/netxduo
-    rm -rf ${project_dir}/azure_iot
-    rm -rf ${project_dir}/drivers
-
-    rm -f azrtos.zip
-    rm -f project.zip
-
-    #copy original NXP project and netxduo lib into project
-    cp -nr ${project_dir}/* basic-sample
-    cp -nr ${azrtos_dir}/netxduo/* netxduo
-
-    rm -rf $(dirname "${azrtos_dir}")
-    rm -rf ${project_dir}
-
+    legacy_iotc_deps_setup
+    legacy_maaxboardrt_setup
     git_hide_config_files
     ;;
-  stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
-    pushd iotc-azrtos-sdk/ >/dev/null
-    link_directories ../../../iotc-azrtos-sdk
-    popd >/dev/null
-    git_hide_config_files
-    ;;
-  *)
-    echo "Unknown project name $name"
-    exit -1
-esac
-
-case "$name" in
   stm32l4 | mimxrt1060 | same54xpro)
+    legacy_iotc_deps_setup
+    create_iotc_azure_sdk_sym_links
     legacy_threadx_setup $name
+    git_hide_config_files
     ;;
   rx65ncloudkit)
+    git submodule update --init --recursive
+    create_iotc_azure_sdk_sym_links
     create_threadx_sym_links
+    git_hide_config_files
     ;;
   *)
     popd >/dev/null
-  	echo Done
-    exit 0
-    ;;
+    echo "No implemented build steps for: $name"
+    exit 1
 esac
 
 popd >/dev/null #samples/"${name}"
