@@ -7,6 +7,7 @@ set -e
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
+  echo "Create symlink ${1} -> ${2}"
   if [ $(uname -r | grep "Microsoft") ];
   then
         cmd.exe /c "mklink /J "${2//\//\\}" "${1//\//\\}
@@ -130,9 +131,30 @@ legacy_threadx_setup() {
 }
 
 link_directories() {
-  for f in $1/*; do
+  directory=$1
+  if [ $(get_file_name $1) != "*" ]; then
+    directory=$(echo "${1}/*")
+  fi
+
+  for f in $directory; do
+    target=$(get_file_name $f)
+    echo "f is ${f} target is ${target}"
     if [ -d $f ]; then
-      make_sym_link $f $(get_file_name $f)
+      if [ -d $target ]; then
+        echo "${target} already exists"
+        pushd $target >/dev/null
+        link_directories ../$f
+        popd >/dev/null
+      else
+        echo "Linking directory... ${target}"
+        make_sym_link $f $target
+      fi
+    elif [ -f $f ]; then
+      echo "check if ${target} already exists..."
+      if [ ! -f $target ]; then
+        echo "Linking file... ${target}"
+        make_sym_link $f $target
+      fi
     fi
   done
 }
@@ -255,9 +277,7 @@ case "$name" in
     ;;
   stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
     pushd iotc-azrtos-sdk/ >/dev/null
-      for f in ../../../iotc-azrtos-sdk/*; do
-        make_sym_link $f $(get_file_name $f)
-      done
+    link_directories ../../../iotc-azrtos-sdk
     popd >/dev/null
     git_hide_config_files
     ;;
