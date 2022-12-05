@@ -9,9 +9,15 @@ set -e
 make_sym_link() {
   if [ $(uname -r | grep "Microsoft") ];
   then
-        cmd.exe /c "mklink /J "${2//\//\\}" "${1//\//\\}
+    if [ -d $1 ]; then
+      # Create a Windows directory junction
+      cmd.exe /c "mklink /J "${2//\//\\}" "${1//\//\\}
+    else
+      # Create a Windows file hardlink
+      cmd.exe /c "mklink /h "${2//\//\\}" "${1//\//\\}
+    fi
   else
-        ln -sf $1 $2
+    ln -sf $1 $2
   fi
 }
 
