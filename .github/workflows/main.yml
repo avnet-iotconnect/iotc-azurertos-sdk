@@ -14,14 +14,16 @@ jobs:
           bash -x ./scripts/setup-project.sh mimxrt1060 &&
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
-          bash -x ./scripts/setup-project.sh maaxboardrt
+          bash -x ./scripts/setup-project.sh maaxboardrt &&
+          bash -x ./scripts/setup-project.sh rx65ncloudkit
 
       - name: Copy Supporting Docs and Licenses
         run: |
           cp -r README.md azrtos-licenses/ samples/mimxrt1060 &&
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
-          cp -r README.md azrtos-licenses/ samples/maaxboardrt
+          cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
+          cp -r README.md azrtos-licenses/ samples/rx65ncloudkit
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
@@ -48,7 +50,10 @@ jobs:
           name: iotc-azrtos-maaxboardrt
           path: sample*/maaxboardrt
 
-
-
+      - name: Publish rx65ncloudkit Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-rx65ncloudkit
+          path: sample*/rx65ncloudkit
 
 
