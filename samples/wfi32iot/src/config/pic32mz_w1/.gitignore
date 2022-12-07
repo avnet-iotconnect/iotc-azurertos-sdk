@@ -1,3 +1,4 @@
 *
 !.gitignore
 !tasks.c
+!third_party_adapter/

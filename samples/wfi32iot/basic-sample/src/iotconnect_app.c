@@ -49,7 +49,6 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
@@ -171,7 +170,10 @@ static void publish_telemetry() {
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
-    printf("Sending: %s\r\n", str);
+    
+    // The string would be too long due to issues with UART.
+    // No point in printing it, as it would scramble the output.
+    printf("Sending message length %u\r\n", strlen(str));
     iotconnect_sdk_send_packet(str); // underlying code will report an error
     iotcl_destroy_serialized(str);
 }

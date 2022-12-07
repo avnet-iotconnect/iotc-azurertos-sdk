@@ -23,8 +23,7 @@
 /* Definitions and function prototypes required by the application */
 #include "app.h"
 
-
-
+#if 0
 /* Maximum number of characters in a telemetry message */
 #define TELEMETRY_MSGLEN_MAX 90
 
@@ -33,9 +32,10 @@ static NX_SECURE_X509_CERT root_ca_cert;
 static NX_SECURE_X509_CERT root_ca_cert_2;
 static NX_SECURE_X509_CERT root_ca_cert_3;
 static UCHAR nx_azure_iot_tls_metadata_buffer[NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE];
+
+
 static ULONG nx_azure_iot_thread_stack[NX_AZURE_IOT_STACK_SIZE / sizeof(ULONG)];
 
-#if 0
 /* Define the prototypes for AZ IoT.  */
 static NX_AZURE_IOT                                 nx_azure_iot;
 
@@ -1426,18 +1426,20 @@ UINT azureGlue_crypto_hmac_256_calculate(UCHAR *key, UINT key_length, const UCHA
     //NX_CRYPTO_METHOD *crypto_method = &crypto_method_hmac_sha256;
     extern NX_CRYPTO_METHOD crypto_method_hmac_sha1;
     NX_CRYPTO_METHOD *crypto_method = &crypto_method_hmac_sha1;
-    
+    const UINT buffer_size = 1024;
+    UCHAR tls_metadata_buffer_tmp[buffer_size];
     /* Initialize.  */
     status = crypto_method->nx_crypto_init((NX_CRYPTO_METHOD *)crypto_method,
                                                           key, (key_length << 3),
                                                           &handler,
-                                                          nx_azure_iot_tls_metadata_buffer,
-                                                          NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE);
+                                                          tls_metadata_buffer_tmp,
+                                                          buffer_size);
     if (status!=NX_CRYPTO_SUCCESS)
     {
         printf("[Err]%s:status = %d\r\n", __FUNCTION__, status);
         return(status);
     }
+        
 
     /* Authenticate.  */
     status = crypto_method->nx_crypto_operation(NX_CRYPTO_AUTHENTICATE,
@@ -1450,8 +1452,8 @@ UINT azureGlue_crypto_hmac_256_calculate(UCHAR *key, UINT key_length, const UCHA
                                                                NX_CRYPTO_NULL,
                                                                output,
                                                                32,
-                                                               nx_azure_iot_tls_metadata_buffer,
-                                                               NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE,
+                                                               tls_metadata_buffer_tmp,
+                                                               buffer_size,
                                                                NX_CRYPTO_NULL,
                                                                NX_CRYPTO_NULL);
     if (status!=NX_CRYPTO_SUCCESS)
@@ -1461,7 +1463,7 @@ UINT azureGlue_crypto_hmac_256_calculate(UCHAR *key, UINT key_length, const UCHA
     }
 
     /* Cleanup.  */
-    status = crypto_method->nx_crypto_cleanup(nx_azure_iot_tls_metadata_buffer);
+    status = crypto_method->nx_crypto_cleanup(tls_metadata_buffer_tmp);
     
     //printf("[Ret]%s:status = %d\r\n", __FUNCTION__, status);
     return(status);

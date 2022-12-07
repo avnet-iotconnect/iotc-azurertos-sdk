@@ -58,6 +58,12 @@
 
 #define PIC32MZW_TASK_STACK_SIZE    4*1024
 
+unsigned char* get_byte_pool(void) {
+    // this should make the byte pool not be initialized
+    static unsigned char byte_pool_storage[TX_BYTE_POOL_SIZE];
+    return byte_pool_storage;
+}
+
 TX_BYTE_POOL   byte_pool_0;
 
 // *****************************************************************************
@@ -183,19 +189,19 @@ static void _WDRV_PIC32MZW_Tasks(ULONG thread_input)
 
 void tx_application_define(void* first_unused_memory)
 {
+    (void)first_unused_memory;
     /* Create a byte memory pool from which to allocate the thread stacks. */
-    tx_byte_pool_create(&byte_pool_0, "byte pool 0", first_unused_memory, TX_BYTE_POOL_SIZE);
+    tx_byte_pool_create(&byte_pool_0, "byte pool 0", get_byte_pool(), TX_BYTE_POOL_SIZE);
 
     /* Maintain system services */
-    
 
+#if 0
     tx_byte_allocate(&byte_pool_0,
         (VOID **) &_SYS_CMD_Task_Stk_Ptr,
         SYS_CMD_RTOS_STACK_SIZE,
         TX_NO_WAIT
     );
 
-#if 0
     tx_thread_create(&_SYS_CMD_Task_TCB,
         "SYS_CMD_TASKS",
         _SYS_CMD_Tasks,
@@ -207,9 +213,10 @@ void tx_application_define(void* first_unused_memory)
         TX_NO_TIME_SLICE,
         TX_AUTO_START
     );
+
+    if (status) { while (1); };
 #endif
-
-
+    
     tx_byte_allocate(&byte_pool_0,
         (VOID **) &_SYS_FS_Task_Stk_Ptr,
         SYS_FS_STACK_SIZE,
@@ -227,13 +234,13 @@ void tx_application_define(void* first_unused_memory)
         TX_NO_TIME_SLICE,
         TX_AUTO_START
     );
-    
+
     tx_byte_allocate(&byte_pool_0,
         (VOID **) &_WDRV_PIC32MZW_Task_Stk_Ptr,
         PIC32MZW_TASK_STACK_SIZE,
         TX_NO_WAIT
     );
-    
+
     /* create the _WDRV_WINC_Tasks thread */
     tx_thread_create(&_WDRV_PIC32MZW_Task_TCB,
         (char*)"_WDRV_PIC32MZW_Tasks",

@@ -63,7 +63,7 @@ case "$name" in
     git reset --hard 6eac75b57a18296d9ff0713a5803a9c633aec5b1
     cd ..
     cp -nr  WFI32-IoT/firmware/src .
-    #rm -rf WFI32-IoT
+    rm -rf WFI32-IoT
     ;;
 
   same54xprov2)
@@ -122,10 +122,10 @@ case "$name" in
     # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
     if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
       git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-        git update-index --no-assume-unchanged basic-sample/include/app_config.h
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
     else
       git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-        git update-index --assume-unchanged basic-sample/include/app_config.h
+      git update-index --assume-unchanged basic-sample/include/app_config.h
     fi
 
     ;;
@@ -139,10 +139,10 @@ case "$name" in
     # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
     if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
       git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-        git update-index --no-assume-unchanged basic-sample/include/app_config.h
+      git update-index --no-assume-unchanged basic-sample/include/app_config.h
     else
       git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-        git update-index --assume-unchanged basic-sample/include/app_config.h
+      git update-index --assume-unchanged basic-sample/include/app_config.h
     fi
     ;;
   *)
