@@ -15,6 +15,19 @@
 extern   "C" {
 #endif
 
+/////////////////////////////
+// useful defines:
+
+// some certs can be more than 512 bytes, but not by much, so we ought to have enough space for all of
+// it the hex characters.
+#ifndef IOTC_X509_CERT_MAX_SIZE
+#define IOTC_X509_CERT_MAX_SIZE 750
+#endif
+#define IOTC_COMMON_NAME_MAX_LEN        64
+#define IOTC_256_BIT_KEY_SIZE           32 // size of a 256-bit private key in bytes
+#define IOTC_256_BIT_SIGNATURE_SIZE     (32 * 2) // two 256-bit intergers
+#define IOTC_SHA256_HASH_SIZE           32
+/////////////////////////////
 
 typedef void * IotcAuthInterfaceContext;
 

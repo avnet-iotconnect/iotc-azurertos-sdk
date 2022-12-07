@@ -251,12 +251,16 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     	nx_packet_release(receive_packet);
     }
     status = nx_web_http_client_delete(&http_client);
+    if (status != NX_SUCCESS) {
+        printf("Warning to delete web client: 0x%x\r\n", status);
+    }
 
     return NX_SUCCESS;
 }
 
 static ULONG iotc_https_certificate_verify(NX_SECURE_TLS_SESSION *session, NX_SECURE_X509_CERT* certificate)
 {
+    (void) session; // unused
     UINT status = nx_secure_x509_common_name_dns_check(
     		certificate,
 			(const UCHAR *)current_request->host_name,
