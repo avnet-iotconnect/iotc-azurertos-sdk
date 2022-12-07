@@ -66,7 +66,7 @@ case "$name" in
     popd >/dev/null
 
     rm -rf ATSAME54-XPRO
-    git clone --depth 1 https://github.com/Microchip-Azure-Demos/ATSAME54-XPRO.git
+    git clone https://github.com/Microchip-Azure-Demos/ATSAME54-XPRO.git
     cd ATSAME54-XPRO
     git reset --hard b1431c287f2d3eb60c4ef4463abcf367257d0b16
     cd ..
