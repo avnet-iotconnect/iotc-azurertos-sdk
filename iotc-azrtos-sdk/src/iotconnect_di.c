@@ -7,8 +7,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <ctype.h>
-//TODO: remove remaining dependencies to TO
-#include "TO.h"
 #include "nx_crypto_sha2.h"
 #include "iotconnect_certs.h"
 #include "iotconnect_discovery_v3.h"
@@ -23,7 +21,8 @@
 
 #define URL_RESOUCE_BUFFER_SIZE 40
 
-#define WORK_BUFFER_SIZE (TO_CERT_X509_MAXSIZE * 2 + 1)
+// see IOTC_X509_CERT_MAX_SIZE
+#define WORK_BUFFER_SIZE (IOTC_X509_CERT_MAX_SIZE * 2 + 1)
 // Buffer that we will malloc and free when we are done.
 // Buffer will be used for conversions between binary and hex data.
 // 1 for null
@@ -36,7 +35,7 @@ static char resource_buffer[URL_RESOUCE_BUFFER_SIZE];
 static char * bin_to_hex(uint8_t* bin_array, size_t bin_len) {
 	work_buffer_size = 0;
 	int hex_idx = 0;
-	for (int i = 0; i < bin_len; i++) {
+	for (size_t i = 0; i < bin_len; i++) {
 		work_buffer[hex_idx] = 0; // empty string
 		int ret = sprintf((char*)&work_buffer[hex_idx], "%02x", bin_array[i]);
 		if (ret != 2) {
@@ -78,7 +77,7 @@ static uint8_t* hex_to_bin(char* hex_str) {
 
 	work_buffer_size = 0;
 
-	for (int i = 0; i < hex_len; i++) {
+	for (size_t i = 0; i < hex_len; i++) {
 		hex_str[i] = tolower(hex_str[i]);
 	}
 	while (hex_str[hex_idx] != 0) {
@@ -379,13 +378,6 @@ static int discovery_call( //
 	return 0;
 }
 
-TO_ret_t ret_code(TO_ret_t ret) {
-	if (ret == TORSP_SUCCESS) {
-		return 0;
-	}
-	return ret;
-}
-
 int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, IotcDdimInterface* ddim_interface, IotcAuthInterfaceContext auth_interface_context, const char* env) {
 	int ret = 0;
 	IotclDdimAuthRequest auth_req = {0};
@@ -454,13 +446,13 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 		}
 		//Sensitive data & only for debugging
 		//printf("DDIM: Signing: %s + %s + hex_to_binary(\"%s\")\r\n", auth_rsp->rn, auth_rsp->cid, bin_to_hex(csr_bin, csr_len));
-		uint8_t sha_hash[TO_SHA256_HASHSIZE];
+		uint8_t sha_hash[IOTC_SHA256_HASH_SIZE];
 		status = _nx_crypto_sha256_digest_calculate(&ctx, sha_hash, NX_CRYPTO_HASH_SHA256);
 		if (status) {
 			printf("DDIM: Unable to compute the hash\r\n");
 			ret = -9; goto cleanup;
 		}
-		uint8_t s_r_buffer[TO_SIGNATURE_SIZE];
+		uint8_t s_r_buffer[IOTC_256_BIT_SIGNATURE_SIZE];
 		if (ddim_interface->sign_hash(auth_interface_context, sha_hash, s_r_buffer)) {
 			printf("DDIM: Unable to sign the hash\r\n");
 			ret = -10; goto cleanup; // called function with print errors
@@ -468,12 +460,13 @@ int iotcdi_obtain_operational_identity(IotConnectAzrtosConfig* azrtos_config, Io
 
 		// --- CONVERT SIG TO DER ----
 		size_t signature_size = 0;
-		uint8_t asn1_sig[TO_SIGNATURE_SIZE + 10]; // 2 bytes for header + 2 for each integer header + 4 bytes slack];
+		uint8_t asn1_sig[IOTC_256_BIT_SIGNATURE_SIZE + 10]; // 2 bytes for header + 2 for each integer header + 4 bytes slack];
 		status = sig_to_asn1_der(
 				asn1_sig, //
 				sizeof(asn1_sig),  //
 				&signature_size, //
-				&s_r_buffer[0], &s_r_buffer[TO_SIGNATURE_SIZE/2], TO_ECC_PRIV_KEYSIZE * 8 //
+				&s_r_buffer[0], &s_r_buffer[IOTC_256_BIT_SIGNATURE_SIZE/2], //
+                IOTC_256_BIT_KEY_SIZE * 8 //
 				);
 		if (status) {
 			printf("DDIM: Unable to convert signature S&R to der format\r\n");

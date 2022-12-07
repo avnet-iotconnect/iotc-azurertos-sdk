@@ -3,7 +3,7 @@
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/9/21.
 //
 
-#include <iotc_auth_driver.h>
+#include "iotc_auth_driver.h"
 #include <stddef.h>
 #include <stdbool.h>
 #include "nx_secure_x509.h"
@@ -20,7 +20,7 @@ struct sw_der_driver_context {
 
 static bool is_context_valid(IotcAuthInterfaceContext context) {
 	struct sw_der_driver_context *c = (struct sw_der_driver_context*) context;
-	bool ret = DC_MAGIC == c->magic;
+	bool ret = (DC_MAGIC == c->magic);
 	if (!ret) {
 		printf("SW Auth Driver: Context is invalid\r\n");
 	}
@@ -58,6 +58,9 @@ static unsigned int sw_get_azrtos_private_key_type(IotcAuthInterfaceContext cont
 }
 
 static int get_serial_not_implemented(IotcAuthInterfaceContext context, uint8_t *serial, size_t *size) {
+	(void) context; // unused
+	(void) serial; // unused
+	(void) size; // unused
 	return -1;
 }
 
@@ -69,11 +72,11 @@ static IotcAzccCryptoConfig* sw_get_crypto_config(IotcAuthInterfaceContext conte
 
 int create_sw_der_auth_driver(IotcAuthInterface* driver_interface, IotcAuthInterfaceContext* context, struct sw_der_driver_parameters* driver_parameters) {
 	struct sw_der_driver_context *c = (struct sw_der_driver_context*) malloc(sizeof(struct sw_der_driver_context));
-	c->magic = DC_MAGIC;
 	if (!c) {
 		printf("create_sw_der_auth_driver: Unable to allocate context!\r\n");
 		return -3;
 	}
+	c->magic = DC_MAGIC;
     memcpy(&(c->driver_parameters), driver_parameters, sizeof(struct sw_der_driver_parameters));
 
     if (driver_parameters->crypto_method->nx_crypto_algorithm ==  NX_CRYPTO_KEY_EXCHANGE_RSA) {
@@ -108,8 +111,8 @@ int create_sw_der_auth_driver(IotcAuthInterface* driver_interface, IotcAuthInter
 
 int release_sw_der_auth_driver(IotcAuthInterfaceContext* context) {
 	if (!is_context_valid(context)) return -1;
-	struct sw_der_driver_context *c = (struct sw_der_driver_context*) malloc(sizeof(struct sw_der_driver_context));
-	c->magic = 0xdf; // to be able to detect a double free
+	struct sw_der_driver_context *c = (struct sw_der_driver_context *) context;
+	c->magic = (char) 0xdf; // to be able to detect a double free
 	free(c);
 	return 0;
 }

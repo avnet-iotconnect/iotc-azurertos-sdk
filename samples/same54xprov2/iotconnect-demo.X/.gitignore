@@ -1,0 +1,9 @@
+/nbproject/*.mk
+/nbproject/*.properties
+/nbproject/*.bash
+/nbproject/private
+
+/build
+/dist
+/debug
+/.generated_files
