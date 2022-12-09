@@ -21,18 +21,11 @@ make_sym_link() {
   fi
 }
 
-# The "." operator does not work with mklink, instead
-# get the filename from the directory path e.g. 
-# ../../../iotc-azrtos-sdk\authentication -> authentication
-get_file_name() {
-  echo $1 | rev | cut -d '/' -f1 | rev
-}
-
 # Create symbolic links from the contents of the source directory ($1) to the current
 # working directory.
 link_directories() {
   for f in $1/*; do
-    target=$(get_file_name $f)
+    target=$(basename $f)
 
     # If the file to a link is a directory and already exists within the destination,
     # enter the destination directory and symlink its children that aren't present. 
