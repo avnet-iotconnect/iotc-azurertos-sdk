@@ -1,6 +1,7 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK and Microchip SAME54 Xplained Pro.
+for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK, Microchip SAME54 Xplained Pro and
+Renesas RX65N Cloud Kit.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
@@ -33,7 +34,16 @@ Keep subdirectories selected, but unselect the actual mimxrt1060 sample director
   check the "Open Required Proejcts" checkbox, and click the "Open Project" button.   
   * Plug in your board AFTER opening the project, so that MPLAB detects it
 from the extracted zip file
-* Modify samples/<your_borard>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
+* For Renesas RX65N Cloud Kit:
+  * Download and install Renesas e2 Studio 2022-10 or later
+  * Download and install GCC for Renesas RX v8.3 or later, this can be done as part of the e2 studio install or after
+  * Note the sample project is currently only supports the old (green) Cloud Kit with the Wi-Fi module. The "Blue" board
+    with Ethernet and Cellular is not supported yet.
+  * In e2 Studio, open a workspace and click "Import projects into workspace". Then select the samples/rx65ncloudkit directory,
+  and import the projects.
+  * To run/debug the application you will need to generate your own debug .launch file, or copy one from an existing application.
+
+* Modify samples/<your_board>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
 * Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
