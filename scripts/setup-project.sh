@@ -126,7 +126,7 @@ legacy_iotc_deps_setup() {
 # for threadx components, it can use this function to pull the nessesary resources 
 # from the pre-packaged zip files.
 legacy_threadx_setup() {
-  name = $1
+  name=$1
   case "$name" in
     stm32l4)
       echo Downloading Azure_RTOS_6...
