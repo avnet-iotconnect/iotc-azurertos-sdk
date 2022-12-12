@@ -4,3 +4,4 @@
 /*.h
 
 !.gitignore
+!app_pic32mz_w1.c
