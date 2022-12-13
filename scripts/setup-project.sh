@@ -110,14 +110,14 @@ create_threadx_projects() {
     stm32l4)
       echo Downloading Azure_RTOS_6...
       wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
-      project_target_dir='b-l4s5i-iot01a/'
+      project_platform_dir='b-l4s5i-iot01a/'
       project_ide_dir='stm32cubeide/'
       libs="stm32l4xx_lib common_hardware_code "
       ;;
     mimxrt1060)
       echo Downloading Azure_RTOS_6...
       wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
-      project_target_dir='mimxrt1060/'
+      project_platform_dir='mimxrt1060/'
       project_ide_dir='MCUXpresso/'
       libs="mimxrt1060_library filex common_hardware_code "
       ;;
@@ -127,14 +127,14 @@ create_threadx_projects() {
       #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
       #wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/v6.1_rel/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
       wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
-      project_target_dir='same54Xpro/'
+      project_platform_dir='same54Xpro/'
       project_ide_dir='mplab/'
       libs="same54_lib filex common_hardware_code "
       ;;
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
       wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
-      project_target_dir=''
+      project_platform_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
       ;;
@@ -145,7 +145,7 @@ create_threadx_projects() {
       ;;
   esac
 
-  project_dir="${project_target_dir}${project_ide_dir}"
+  project_dir="${project_platform_dir}${project_ide_dir}"
 
   case "$name" in
     mimxrt1060 | stm32l4 | same54xpro | rx65ncloudkit)
@@ -164,7 +164,9 @@ create_threadx_projects() {
     done
   popd >/dev/null
 
-  rm -rf ${project_dir}
+  # Delete the extracted zip archive
+  rm -rf ${project_ide_dir}
+  rm -rf ${project_platform_dir}
 
   echo 'Applying patches for AzureRTOS component directory name references...'
   case "$name" in
@@ -224,14 +226,13 @@ git submodule update --init --recursive
 case "$name" in
   same54xprov2)
     create_iotc_azrtos_symlinks
-    rm -rf ATSAME54-XPRO
-    git clone https://github.com/Microchip-Azure-Demos/ATSAME54-XPRO.git
-    cd ATSAME54-XPRO
+    rm -rf AzureDemo_ATSAME54-XPRO
+    git clone https://github.com/MicrochipTech/AzureDemo_ATSAME54-XPRO.git
+    cd AzureDemo_ATSAME54-XPRO
     git reset --hard b1431c287f2d3eb60c4ef4463abcf367257d0b16
     cd ..
-    cp -nr  ATSAME54-XPRO/firmware/src .
-    rm -rf ATSAME54-XPRO
-    git_hide_config_files
+    cp -nr  AzureDemo_ATSAME54-XPRO/firmware/src .
+    rm -rf AzureDemo_ATSAME54-XPRO/
   ;;
   maaxboardrt)
     #symlink iotc-azrtos-sdk into project
