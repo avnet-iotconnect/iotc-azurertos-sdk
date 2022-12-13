@@ -1,0 +1,9 @@
+[submodule "iotc-c-lib"]
+	path = iotc-azrtos-sdk/iotc-c-lib
+	url = https://github.com/avnet-iotconnect/iotc-c-lib.git
+[submodule "cJSON"]
+	path = iotc-azrtos-sdk/cJSON
+	url = https://github.com/DaveGamble/cJSON.git
+[submodule "libTO"]
+	path = iotc-azrtos-sdk/libTO
+	url = https://github.com/TrustedObjects/libTO.git
