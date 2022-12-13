@@ -21,6 +21,7 @@
         <itemPath>src/iotconnect_app.c</itemPath>
         <itemPath>src/main.c</itemPath>
         <itemPath>src/sample_device_identity.c</itemPath>
+        <itemPath>src/nx_azure_iot_adu_agent_same54_driver.c</itemPath>
       </logicalFolder>
       <itemPath>../common_hardware_code/common_hardware_code.c</itemPath>
       <itemPath>nx_driver_same54.c</itemPath>
@@ -222,7 +223,7 @@
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="heap-size" value="32768"/>
+        <property key="heap-size" value="8000"/>
         <property key="input-libraries" value=""/>
         <property key="kseg-length" value=""/>
         <property key="kseg-origin" value=""/>
