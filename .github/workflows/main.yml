@@ -14,33 +14,43 @@ jobs:
           bash -x ./scripts/setup-project.sh mimxrt1060 &&
           bash -x ./scripts/setup-project.sh stm32l4 &&
           bash -x ./scripts/setup-project.sh same54xpro &&
-          bash -x ./scripts/setup-project.sh maaxboardrt
+          bash -x ./scripts/setup-project.sh maaxboardrt &&
+          bash -x ./scripts/setup-project.sh same54xprov2 &&
+          bash -x ./scripts/setup-project.sh rx65ncloudkit
 
       - name: Copy Supporting Docs and Licenses
         run: |
           cp -r README.md azrtos-licenses/ samples/mimxrt1060 &&
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
-          cp -r README.md azrtos-licenses/ samples/maaxboardrt
+          cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
+          cp -r README.md azrtos-licenses/ samples/same54xprov2 &&
+          cp -r README.md azrtos-licenses/ samples/rx65ncloudkit 
 
       #use wildcards so that directory path is preserved.
       - name: Publish mimxrt1060 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-ms-mimxrt1060
+          name: iotc-azrtos-mimxrt1060
           path: sample*/mimxrt1060
 
       - name: Publish stm32l4 Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-ms-stm32l4
+          name: iotc-azrtos-stm32l4
           path: sample*/stm32l4
 
       - name: Publish same54xpro Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-ms-same54xpro
+          name: iotc-azrtos-same54xpro
           path: sample*/same54xpro
+
+      - name: Publish same54xpro (With new Azure RTOS version) Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-same54xpr-v2
+          path: sample*/same54xprov2
 
       - name: Publish maaxboardrt Artifacts
         uses: actions/upload-artifact@v2
@@ -48,7 +58,10 @@ jobs:
           name: iotc-azrtos-maaxboardrt
           path: sample*/maaxboardrt
 
-
-
+      - name: Publish rx65ncloudkit Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-rx65ncloudkit
+          path: sample*/rx65ncloudkit
 
 

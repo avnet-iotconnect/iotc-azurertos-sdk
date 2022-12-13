@@ -106,22 +106,22 @@ static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *
         return NULL;
     }
     if (NULL == req.response || 0 == strlen(req.response)) {
-        dump_response("Discovery: Unable to obtain HTTP response,", &req);
+        dump_response("Discovery: Unable to obtain HTTP response.\r\n", &req);
         return NULL;
     }
 
     char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
-        dump_response("Discovery: No json response from server.", &req);
+        dump_response("Discovery: No json response from server.\r\n", &req);
         return NULL;
     }
     if (json_start != req.response) {
-        dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
+        dump_response("WARN: Expected JSON to start immediately in the returned data.\r\n", &req);
     }
 
     IotclDiscoveryResponse *ret = iotcl_discovery_parse_discovery_response(json_start);
     if (!ret) {
-        dump_response("Discovery: Unable to parse HTTP response,", &req);
+        dump_response("Discovery: Unable to parse HTTP response\r\n", &req);
     }
 
     return ret;
@@ -155,22 +155,22 @@ static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) 
     }
 
     if (NULL == req.response || 0 == strlen(req.response)) {
-        dump_response("Sync: Unable to obtain HTTP response,", &req);
+        dump_response("Sync: Unable to obtain HTTP response.\r\n", &req);
         return NULL;
     }
 
     char *json_start = strstr(req.response, "{");
     if (NULL == json_start) {
-        dump_response("Sync: No json response from server.", &req);
+        dump_response("Sync: No json response from server.\r\n", &req);
         return NULL;
     }
     if (json_start != req.response) {
-        dump_response("WARN: Expected JSON to start immediately in the returned data.", &req);
+        dump_response("WARN: Expected JSON to start immediately in the returned data.\r\n", &req);
     }
 
     IotclSyncResponse *ret = iotcl_discovery_parse_sync_response(json_start);
     if (!ret) {
-        dump_response("Sync: Unable to parse HTTP response,", &req);
+        dump_response("Sync: Unable to parse HTTP response.\r\n", &req);
 		last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
     } else {
 		last_sync_result = ret->ds;

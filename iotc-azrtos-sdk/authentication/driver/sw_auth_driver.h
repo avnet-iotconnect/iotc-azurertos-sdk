@@ -17,14 +17,14 @@ extern   "C" {
 
 struct sw_der_driver_parameters {
 	uint8_t * cert; // in DER format with storage that exists until release_*() is called - additional storage space will not be allocated
-	size_t cert_size;
-	uint8_t * key;  // in DER format with storage that exists until release_*() is called - additional storage space will not be allocated
-	size_t key_size;
-	// see nx_crypto_methods.c. You can use an appropriate extern and pass it to this function
-	// For RSA keys, use crypto_method_rsa
-	// For EC keys, use the appropriate curve method like crypto_method_ec_secp384
-	// EC Curve can be found in your certificate, in the NIST CURVE field (for example NIST CURVE: P-384)
-	NX_CRYPTO_METHOD* crypto_method;
+    size_t cert_size;
+    uint8_t * key;  // in DER format with storage that exists until release_*() is called - additional storage space will not be allocated
+    size_t key_size;
+    // see nx_crypto_methods.c. You can use an appropriate extern and pass it to this function
+    // For RSA keys, use crypto_method_rsa
+    // For EC keys, use the appropriate curve method like crypto_method_ec_secp384
+    // EC Curve can be found in your certificate, in the NIST CURVE field (for example NIST CURVE: P-384)
+    NX_CRYPTO_METHOD* crypto_method;
 };
 
 int create_sw_der_auth_driver(IotcAuthInterface* driver_interface, IotcAuthInterfaceContext* context, struct sw_der_driver_parameters* driver_parameters);
