@@ -5,9 +5,13 @@ Renesas RX65N Cloud Kit.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
+If contributing to this project, follow the [contributing guidelines](CONTRIBUTING.md)
+
 ## Build Instructions
 
-* Download the project files from Github Actions or Releases pages in this repo. 
+* Download the project files from Releases pages in this repo.
+* Alternatively, you can directly clone this repo. After cloning, execute [setup-project.sh](scripts/setup-project.sh]). 
+On Windows, you will need bash installed with MSYS2 or similar.  
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
@@ -47,12 +51,10 @@ from the extracted zip file
 * Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
-As the AzureRTOS does not yet support ECC certificates yet, only RSA device certificates are supported. 
-
 * Download and follow instructions at 
 iotc-c-lib's [ecc-certs section](https://github.com/avnet-iotconnect/iotc-c-lib/tree/master/tools/ecc-certs)
 to upload and validate your CA certificate in IoTConnect. Set up your device and template in IoTConnect.
-* Replace this line in `function device`:
+* If your project Azure RTOS baseline does not support ECC certificates, replace this line in `function device`:
 
 ```shell script
 openssl ecparam -name secp256k1 -genkey -noout -out "${CPID}/${name}-key.pem"
