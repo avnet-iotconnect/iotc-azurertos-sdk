@@ -112,6 +112,14 @@ extern UINT sample_device_private_key_len;
     Application strings and buffers are be defined outside this structure.
 */
 
+#include <app_config.h>
+#include <iotconnect.h>
+
+#define CLOUD_CONFIG_ENV  "ENV"
+#define CLOUD_CONFIG_CPID "CPID"
+#define CLOUD_CONFIG_DUID "DUID"
+#define CLOUD_CONFIG_SYMMETRIC_KEY "SYMMETRIC_KEY"
+
 APP_PIC32MZ_W1_DATA app_pic32mz_w1Data;
 
 /* Work buffer used by FAT FS during Format */
@@ -247,9 +255,25 @@ static bool parseWifiConfig(char *configBuffer)
     return ret;
 }
 
+extern char *iotcl_strdup(const char *str);
+static char *safe_get_string_and_strdup(cJSON *cjson, const char *value_name) {
+    cJSON *value = cJSON_GetObjectItem(cjson, value_name);
+    if (!value) {
+        return NULL;
+    }
+    const char *str_value = cJSON_GetStringValue(value);
+    if (!str_value || strlen(str_value) == 0) {
+        return NULL;
+    }
+    return iotcl_strdup(str_value);
+}
 
 /* Parse Wi-Fi configuration file */
 /* Format is CMD:SEND_UART=wifi <SSID>,<PASSPHRASE>,<AUTH>*/
+IotConnectAppConfig* get_app_config(void) {
+    static IotConnectAppConfig app_config = {0};    
+    return &app_config;
+}
 
 static bool parseCloudConfig(char *configBuffer)
 {    
@@ -263,44 +287,12 @@ static bool parseCloudConfig(char *configBuffer)
         cJSON_Delete(messageJson);
         return false;
     }
-            
-    cJSON *id_scope_ep = cJSON_GetObjectItem(messageJson, AZURE_CLOUD_IDSCOPE_JSON_TAG);
-    if (!id_scope_ep || id_scope_ep->type !=cJSON_String ) {
-        SYS_CONSOLE_PRINT("JSON "AZURE_CLOUD_IDSCOPE_JSON_TAG" parsing error\r\n");
-        cJSON_Delete(messageJson);
-        return -1;
-    }
-    memset(default_id_scope, 0, sizeof(default_id_scope));
-    sprintf((char *)default_id_scope, "%s", id_scope_ep->valuestring);
-
-    //Get the ClientID
-    cJSON *device_id_ep = cJSON_GetObjectItem(messageJson, AZURE_CLOUD_DEVICEID_JSON_TAG);
-    if (!device_id_ep || device_id_ep->type !=cJSON_String ) {
-        SYS_CONSOLE_PRINT("JSON "AZURE_CLOUD_IDSCOPE_JSON_TAG" parsing error\r\n");
-        cJSON_Delete(messageJson);
-        return false;
-    }
-    memset(default_registration_id, 0, sizeof(default_registration_id));
-    sprintf((char *)default_registration_id, "%s", device_id_ep->valuestring);
-    
-    //Get the ClientID
-    cJSON *primary_key_ep = cJSON_GetObjectItem(messageJson, AZURE_CLOUD_PRIMARY_KEY_JSON_TAG);
-    if (!primary_key_ep || primary_key_ep->type !=cJSON_String ) {
-        SYS_CONSOLE_PRINT("JSON "AZURE_CLOUD_IDSCOPE_JSON_TAG" parsing error\r\n");
-        cJSON_Delete(messageJson);
-        return false;
-    }
-    memset(default_primary_key, 0, sizeof(default_primary_key));
-    sprintf((char *)default_primary_key, "%s", primary_key_ep->valuestring);
-    
+    IotConnectAppConfig *cfg = get_app_config();
+    cfg->env = safe_get_string_and_strdup(messageJson, CLOUD_CONFIG_ENV);
+    cfg->cpid = safe_get_string_and_strdup(messageJson, CLOUD_CONFIG_CPID);
+    cfg->duid = safe_get_string_and_strdup(messageJson, CLOUD_CONFIG_DUID);
+    cfg->symmetric_key = safe_get_string_and_strdup(messageJson, CLOUD_CONFIG_SYMMETRIC_KEY);
     cJSON_Delete(messageJson);
-    SYS_CONSOLE_PRINT(
-            "Data parsed from cloud.cfg - registration id will be overwritten with data extracted from certificate if X.509 authentication method is used\r\n");
-    SYS_CONSOLE_PRINT("id_scope:%s - registration_id:%s - primary_key:%s \r\n", 
-                                        default_id_scope, 
-                                        default_registration_id, 
-                                        default_primary_key);
-    
     return true;
 }
 /* TODO:  Add any necessary local functions.
@@ -693,9 +685,10 @@ void APP_PIC32MZ_W1_Tasks ( void )
                 if(app_pic32mz_w1Data.fileHandle != SYS_FS_HANDLE_INVALID)
                 {                    
                     cJSON *jsonObj = cJSON_CreateObject();
-                    cJSON_AddItemToObject(jsonObj, AZURE_CLOUD_IDSCOPE_JSON_TAG, cJSON_CreateString((const char *)default_id_scope));
-                    cJSON_AddItemToObject(jsonObj, AZURE_CLOUD_DEVICEID_JSON_TAG, cJSON_CreateString((const char *)default_registration_id));  
-                    cJSON_AddItemToObject(jsonObj, AZURE_CLOUD_PRIMARY_KEY_JSON_TAG, cJSON_CreateString((const char *)default_primary_key));  
+                    cJSON_AddStringToObject(jsonObj, CLOUD_CONFIG_CPID, "Your_CPID");
+                    cJSON_AddStringToObject(jsonObj, CLOUD_CONFIG_ENV, "Your_Environment");
+                    cJSON_AddStringToObject(jsonObj, CLOUD_CONFIG_DUID, "");
+                    cJSON_AddStringToObject(jsonObj, CLOUD_CONFIG_SYMMETRIC_KEY, "");
                     char * printBuffer = cJSON_Print(jsonObj);
                                             
                     if(printBuffer && (SYS_FS_FileWrite(app_pic32mz_w1Data.fileHandle, printBuffer, strlen(printBuffer)) == strlen(printBuffer)))                                                  

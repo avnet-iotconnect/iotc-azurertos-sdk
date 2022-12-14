@@ -37,8 +37,6 @@ from the extracted zip file
 * Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
-As the AzureRTOS does not yet support ECC certificates yet, only RSA device certificates are supported. 
-
 * Download and follow instructions at 
 iotc-c-lib's [ecc-certs section](https://github.com/avnet-iotconnect/iotc-c-lib/tree/master/tools/ecc-certs)
 to upload and validate your CA certificate in IoTConnect. Set up your device and template in IoTConnect.

@@ -49,20 +49,6 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-static char* compose_device_id() {
-#define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
-    uint8_t mac_addr[6] = { 0 };
-    static char duid[PREFIX_LEN + sizeof(mac_addr) * 2 + 1 /* null */] = DUID_PREFIX;
-	for (int i = 0; i < sizeof(mac_addr); i++) {
-		sprintf(&duid[PREFIX_LEN + i * 2], "%02x", mac_addr[i]);
-	}
-    printf("DUID: %s\r\n", duid);
-    return duid;
-}
-#pragma GCC diagnostic pop
-
 static bool is_app_version_same_as_ota(const char *version) {
     return strcmp(APP_VERSION, version) == 0;
 }
@@ -186,97 +172,99 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
-    config->cpid = IOTCONNECT_CPID;
-    config->env = IOTCONNECT_ENV;
-#ifdef IOTCONNECT_DUID
-    config->duid = IOTCONNECT_DUID; // custom device ID
-#else
-  #ifndef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-    config->duid = (char*) compose_device_id(); // <DUID_PREFIX>-<MAC Address>
-  #endif
-#endif
+    config->cpid = get_app_config()->cpid;
+    config->env = get_app_config()->env;
+    config->duid = get_app_config()->duid;
+
+    char* symmetric_key = get_app_config()->symmetric_key;
+    if (NULL != symmetric_key && strlen(symmetric_key) == 0) {
+        config->auth.type = IOTC_KEY;
+        config->auth.data.symmetric_key = symmetric_key;
+    } else {
+        config->auth.type = IOTC_X509;
+    }
+    
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
 
-#ifdef IOTCONNECT_SYMETRIC_KEY
-    config->auth.type = IOTC_KEY;
-    config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
-#else
-    config->auth.type = IOTC_X509;
 
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-    auth_driver_context = NULL;
-    struct pkcs11_atca_driver_parameters parameters = {0}; // dummy, for now
-    IotcDdimInterface ddim_interface;
-    IotcAuthInterfaceContext auth_context;
-    if(pkcs11_atca_create_auth_driver( //
-            &(config->auth.data.x509.auth_interface), //
-            &ddim_interface, //
-			&auth_context, //
-			&parameters)) { //
-    	return false;
-    }
-    config->auth.data.x509.auth_interface_context = auth_context;
+    // we will duplicate this if guard check, so #ifdef is easier to read
+    if (config->auth.type == IOTC_X509) { 
+        auth_driver_context = NULL;
+        struct pkcs11_atca_driver_parameters parameters = {0}; // dummy, for now
+        IotcDdimInterface ddim_interface;
+        IotcAuthInterfaceContext auth_context;
+        if(pkcs11_atca_create_auth_driver( //
+                &(config->auth.data.x509.auth_interface), //
+                &ddim_interface, //
+                &auth_context, //
+                &parameters)) { //
+            return false;
+        }
+        config->auth.data.x509.auth_interface_context = auth_context;
 
-    uint8_t* cert;
-    size_t cert_size;
+        uint8_t* cert;
+        size_t cert_size;
 
-    config->auth.data.x509.auth_interface.get_cert(
-		   	auth_context, //
-			&cert, //
-			&cert_size //
-			);
-    if (0 == cert_size) {
-        printf("Unable to get the certificate from the driver.\r\n");
-        pkcs11_atca_release_auth_driver(auth_context);
-        return false;
-    }
-    char* b64_string_buffer = malloc(1024); // cert should be around 500, so this should not exceed 1024
-    if (NULL == b64_string_buffer) {
-        pkcs11_atca_release_auth_driver(auth_context);
-        printf("WARNING: Unable to allocate memory to display the certificate.\r\n");
-    } else {
-        size_t b64_string_len = 1024; // in/out parameter. See atcacert_encode_pem_cert()
-        atcacert_encode_pem_cert(cert, cert_size, b64_string_buffer, &b64_string_len);
-        b64_string_buffer[b64_string_len] = 0;
-        printf("Device certificate ( %u bytes):\r\n%s\r\n", cert_size, b64_string_buffer);
-        free(b64_string_buffer);
-    }
+        config->auth.data.x509.auth_interface.get_cert(
+                auth_context, //
+                &cert, //
+                &cert_size //
+                );
+        if (0 == cert_size) {
+            printf("Unable to get the certificate from the driver.\r\n");
+            pkcs11_atca_release_auth_driver(auth_context);
+            return false;
+        }
+        char* b64_string_buffer = malloc(1024); // cert should be around 500, so this should not exceed 1024
+        if (NULL == b64_string_buffer) {
+            pkcs11_atca_release_auth_driver(auth_context);
+            printf("WARNING: Unable to allocate memory to display the certificate.\r\n");
+        } else {
+            size_t b64_string_len = 1024; // in/out parameter. See atcacert_encode_pem_cert()
+            atcacert_encode_pem_cert(cert, cert_size, b64_string_buffer, &b64_string_len);
+            b64_string_buffer[b64_string_len] = 0;
+            printf("Device certificate ( %u bytes):\r\n%s\r\n", cert_size, b64_string_buffer);
+            free(b64_string_buffer);
+        }
 
-    printf("Obtained device certificate:\r\n\r\n");
-    char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
-    if (NULL == operational_cn) {
-        pkcs11_atca_release_auth_driver(auth_context);
-        printf("Unable to get the certificate common name.\r\n");
-        return false;
-    }
-    strcpy(duid_buffer, operational_cn);
-    config->duid = duid_buffer;
-    printf("DUID: %s\r\n", config->duid);
-    
-    auth_driver_context = auth_context;
+        printf("Obtained device certificate:\r\n\r\n");
+        char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+        if (NULL == operational_cn) {
+            pkcs11_atca_release_auth_driver(auth_context);
+            printf("Unable to get the certificate common name.\r\n");
+            return false;
+        }
+        strcpy(duid_buffer, operational_cn);
+        config->duid = duid_buffer;
+        printf("DUID: %s\r\n", config->duid);
 
+        auth_driver_context = auth_context;
+    }
 #else // not ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-    extern const UCHAR sample_device_cert_ptr[];
-    extern const UINT sample_device_cert_len;
-    extern const UCHAR sample_device_private_key_ptr[];
-    extern const UINT sample_device_private_key_len;
-	struct sw_der_driver_parameters dp = {0};
-	dp.cert = (uint8_t *) (sample_device_cert_ptr);
-	dp.cert_size = sample_device_cert_len;
-	dp.key = (uint8_t *) (sample_device_private_key_ptr);
-	dp.key_size = sample_device_private_key_len;
-	dp.crypto_method = &crypto_method_ec_secp256;
-	if(create_sw_der_auth_driver( //
-	    		&(config->auth.data.x509.auth_interface), //
-				&(config->auth.data.x509.auth_interface_context), //
-				&dp)) { //
-	    	return false;
-	    }
-	auth_driver_context = config->auth.data.x509.auth_interface_context;
+    // we will duplicate this if guard check, so #ifdef is easier to read
+    if (config->auth.type == IOTC_X509) { 
+        extern const UCHAR sample_device_cert_ptr[];
+        extern const UINT sample_device_cert_len;
+        extern const UCHAR sample_device_private_key_ptr[];
+        extern const UINT sample_device_private_key_len;
+        struct sw_der_driver_parameters dp = {0};
+        dp.cert = (uint8_t *) (sample_device_cert_ptr);
+        dp.cert_size = sample_device_cert_len;
+        dp.key = (uint8_t *) (sample_device_private_key_ptr);
+        dp.key_size = sample_device_private_key_len;
+        dp.crypto_method = &crypto_method_ec_secp256;
+        if(create_sw_der_auth_driver( //
+                    &(config->auth.data.x509.auth_interface), //
+                    &(config->auth.data.x509.auth_interface_context), //
+                    &dp)) { //
+                return false;
+            }
+        auth_driver_context = config->auth.data.x509.auth_interface_context;
+    }
 #endif // ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
-#endif  // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
 #ifdef MEMORY_TEST
