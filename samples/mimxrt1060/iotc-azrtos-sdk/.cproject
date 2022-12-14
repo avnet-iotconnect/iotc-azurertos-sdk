@@ -102,8 +102,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/authentication/libto/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libTO/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/libTO/Sources/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.259180708" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="gnu.c.compiler.option.optimization.flags.1379576986" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-common" valueType="string"/>
@@ -150,12 +149,12 @@
 								<option id="com.crt.advproject.gas.specs.1845818643" name="Specs" superClass="com.crt.advproject.gas.specs" useByScannerDiscovery="false" value="com.crt.advproject.gas.specs.newlibnano" valueType="enumerated"/>
 								<option id="com.crt.advproject.gas.config.2076003971" name="Obsolete (Config)" superClass="com.crt.advproject.gas.config" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.gas.store.1562375514" name="Obsolete (Store)" superClass="com.crt.advproject.gas.store" useByScannerDiscovery="false"/>
-								<option id="com.crt.advproject.gas.lib.debug.option.debugging.level.477179000" name="Debug level" superClass="com.crt.advproject.gas.lib.debug.option.debugging.level"/>
+								<option id="com.crt.advproject.gas.lib.debug.option.debugging.level.477179000" name="Debug level" superClass="com.crt.advproject.gas.lib.debug.option.debugging.level" useByScannerDiscovery="false"/>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.679724743" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 								<inputType id="com.crt.advproject.assembler.input.884473066" name="Additional Assembly Source Files" superClass="com.crt.advproject.assembler.input"/>
 							</tool>
 							<tool id="com.crt.advproject.ar.lib.debug.1992757077" name="MCU Archiver" superClass="com.crt.advproject.ar.lib.debug">
-								<option id="gnu.both.lib.option.flags.1500844967" name="Archiver flags" superClass="gnu.both.lib.option.flags"/>
+								<option id="gnu.both.lib.option.flags.1500844967" name="Archiver flags" superClass="gnu.both.lib.option.flags" useByScannerDiscovery="false"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
