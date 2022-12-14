@@ -11,7 +11,8 @@ If contributing to this project, follow the [contributing guidelines](CONTRIBUTI
 
 * Download the project files from Releases pages in this repo.
 * Alternatively, you can directly clone this repo. After cloning, execute [setup-project.sh](scripts/setup-project.sh]). 
-On Windows, you will need bash installed with MSYS2 or similar.  
+On Windows, you will need bash installed with MSYS2 or similar. Alternatively, install a Linux distribution through the Windows Store 
+and run it via. Windows Subsystem for Linux.   
 * For STM32L4:
   * Download and install STM32CubeIDE 
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
