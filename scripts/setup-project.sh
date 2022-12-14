@@ -13,6 +13,7 @@ show_help() {
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
+  echo "Linking $1 -> $2"
   if [ $(uname -r | grep "Microsoft") ];
   then
     # Create a Windows directory junction, or Windows file hardlink
@@ -48,6 +49,7 @@ create_iotc_azrtos_symlinks() {
   source_dir="../../../iotc-azrtos-sdk/"
   target_dir="iotc-azrtos-sdk/"
   if [ $# -gt 0 ]; then
+    source_dir=$2
     target_dir=$1
   fi
 
@@ -235,11 +237,7 @@ case "$name" in
     rm -rf AzureDemo_ATSAME54-XPRO/
   ;;
   maaxboardrt)
-    #symlink iotc-azrtos-sdk into project
-    rm -rf basic-sample/iotc-azrtos-sdk
-    mv iotc-azrtos-sdk basic-sample/
-    create_iotc_azrtos_symlinks basic-sample/iotc-azrtos-sdk/
-
+    create_iotc_azrtos_symlinks basic-sample/iotc-azrtos-sdk/ ../../../../iotc-azrtos-sdk/
     create_threadx_project_maxxboard
     git_hide_config_files
   ;;
