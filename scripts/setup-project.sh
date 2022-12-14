@@ -13,7 +13,6 @@ show_help() {
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  echo "Linking $1 -> $2"
   if [ $(uname -r | grep "Microsoft") ];
   then
     # Create a Windows directory junction, or Windows file hardlink
