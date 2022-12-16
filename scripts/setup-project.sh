@@ -8,8 +8,23 @@ show_help() {
       "same54xprov2, maaxboardrt, rx65ncloudkit"
 }
 
+# Adjust a 'source' path to make it relative to an output directory.
+# For example if the source is ../../../a-file and the output is
+# a-directory-1/a-directory-2/, the output of this function will
+# be ../../../../../a-file (notice the two additional slashes).
+get_source_relative_to_output() {
+  number_of_dirs=$(echo "$2" | tr " /" "- " | wc -w)
+  back_directories=""
+
+  for i in $(seq 1 $number_of_dirs); do
+    back_directories=$back_directories$(printf ../);
+  done
+
+  echo $back_directories/$1
+}
+
 # All the IDEs offically support Windows, so it is likely that a developer
-# will be running it. This script can execute fine on WSL, however symlinks 
+# will be running it. This script can execute fine on WSL, however symlinks
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
@@ -19,7 +34,29 @@ make_sym_link() {
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
     cmd.exe /c "mklink $link_type "${2//\//\\}" "${1//\//\\}
   else
-    ln -sf $1 $2
+    output_dir=$(dirname $2)
+    source_file=$1
+    output_file=$2
+    needs_pop="false"
+
+    # When using 'ln' we need to be relative to our output directory.
+    # For example if someone links with:
+    # $ make_sym_link ../../../a-file a-directory-1/a-directory-2/a-file
+    # We will need to move into a-directory-2/ before creating the link.
+    # Of course, the source path will need to be adjusted to reflect this,
+    # hence the call to get_source_relative_to_output.
+    if [[ $output_dir != "." && -d $output_dir ]]; then
+      pushd $output_dir >/dev/null
+      source_file=$(get_source_relative_to_output $1 $output_dir)
+      output_file=$(basename $2)
+      needs_pop="true"
+    fi
+
+    ln -sf $source_file $output_file
+
+    if [ $needs_pop == "true" ]; then
+      popd >/dev/null
+    fi
   fi
 }
 
@@ -37,7 +74,7 @@ git_hide_config_files() {
 
 create_source_file_symlinks() {
   for f in $1/*.{c,h}; do
-    target=$(echo "$2/"$(basename $f))
+    target="$2/"$(basename $f)
     make_sym_link $f $target
   done
 }
@@ -74,7 +111,6 @@ create_iotc_azrtos_symlinks() {
   # Only link the core source files for cJSON, skip the tests, cmake config etc.
   mkdir -p cJSON
   create_source_file_symlinks $source_dir/cJSON cJSON
-
   popd >/dev/null
 }
 
