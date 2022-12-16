@@ -13,13 +13,13 @@ show_help() {
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  if [ $(uname -r | grep "Microsoft") ];
-  then
+  if [ $(uname -r | grep "Microsoft") ]; then
     # Create a Windows directory junction, or Windows file hardlink
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
     cmd.exe /c "mklink $link_type "${2//\//\\}" "${1//\//\\}
   else
-    ln -sf $1 $2
+    relative_source_loc=$(realpath --relative-to="$(dirname ${2})" ${1})
+    ln -sf ${relative_source_loc} ${2}
   fi
 }
 
@@ -45,12 +45,8 @@ create_source_file_symlinks() {
 # Symlink the contents of iotc-azrtos-sdk into the current working
 # directory (e.g. the azure sdk eclipse project)
 create_iotc_azrtos_symlinks() {
-  source_dir="../../../iotc-azrtos-sdk/"
-  target_dir="iotc-azrtos-sdk/"
-  if [ $# -gt 0 ]; then
-    source_dir=$2
-    target_dir=$1
-  fi
+  source_dir="${1:-../../../iotc-azrtos-sdk/}"
+  target_dir=${2:-iotc-azrtos-sdk/}
 
   if [ ! -d $target_dir ]; then
     mkdir -p $target_dir
@@ -236,7 +232,7 @@ case "$name" in
     rm -rf AzureDemo_ATSAME54-XPRO/
   ;;
   maaxboardrt)
-    create_iotc_azrtos_symlinks basic-sample/iotc-azrtos-sdk/ ../../../../iotc-azrtos-sdk/
+    create_iotc_azrtos_symlinks ../../../../iotc-azrtos-sdk/ basic-sample/iotc-azrtos-sdk/
     create_threadx_project_maxxboard
     git_hide_config_files
   ;;
