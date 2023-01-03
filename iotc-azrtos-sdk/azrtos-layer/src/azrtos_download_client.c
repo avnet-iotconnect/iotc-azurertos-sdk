@@ -56,11 +56,17 @@ static VOID header_range_callback(NX_WEB_HTTP_CLIENT *client_ptr, CHAR *field_na
                             CHAR *field_value, UINT field_value_length)
 {
     // Don't do anything for range requests
+    (void) client_ptr; // unused
+    (void) field_name; // unused
+    (void) field_name_length; // unused
+    (void) field_value; // unused
+    (void) field_value_length; // unused
     return;
 }
 static VOID header_file_size_callback(NX_WEB_HTTP_CLIENT *client_ptr, CHAR *field_name, UINT field_name_length,
                             CHAR *field_value, UINT field_value_length)
 {
+    (void) client_ptr; // unused
     // shortcut.. likely not the field we need
     if (field_name_length != sizeof(HDR_CONTENT_LENGTH_STR) - 1 /* String has null in it */ ) {
         return;
@@ -81,6 +87,7 @@ static VOID header_file_size_callback(NX_WEB_HTTP_CLIENT *client_ptr, CHAR *fiel
 }
 
 static UINT get_response(IotConnectHttpRequest *r, NX_WEB_HTTP_CLIENT *http_client) {
+    (void) r; // unused
     /* Receive response data from the server. Loop until all data is received. */
     UINT status;
     NX_PACKET *receive_packet = NULL;

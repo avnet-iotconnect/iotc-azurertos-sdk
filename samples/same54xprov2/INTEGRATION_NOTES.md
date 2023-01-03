@@ -31,12 +31,12 @@ Project File Integration Notes (for reference)
 * Add the following to include paths:
   * ../basic-sample/include
   * ../iotc-azrtos-sdk/authentication/driver
-  * ../../../iotc-azrtos-sdk/authentication/include
+  * ../../../iotc-azrtos-sdk/authentication/include 
   * ../../../iotc-azrtos-sdk/azrtos-layer/include
   * ../../../iotc-azrtos-sdk/include
-  * ../src/third_party/azure_rtos/netxduo/addons/web
+  * ../src/third_party/azure_rtos/netxduo/addons/web 
   * ../iotc-azrtos-sdk/iotc-c-lib/include
   * ../iotc-azrtos-sdk/cJSON
-  * ../iotc-azrtos-sdk/libTO/include
+  * ../iotc-azrtos-sdk/libTO/include 
   * ../src/azure_rtos_demo/pkcs11_ciphersuites
 
