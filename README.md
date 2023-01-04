@@ -1,7 +1,7 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK, Microchip SAME54 Xplained Pro and
-Renesas RX65N Cloud Kit.
+for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK, Microchip SAME54 Xplained Pro
+Microchip WFI32-IoT (EV36W50A), and Renesas RX65N Cloud Kit.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
@@ -34,11 +34,22 @@ Keep subdirectories selected, but unselect the actual mimxrt1060 sample director
 * For SAM E54 Xplained Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
-  (Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
+  (You may need to buy the subscripiton for XC32 pro compiler as the free version optimization options may cause the code to be to large to fit)
   * In MPLab, File > Open Project, navigate to the samples/same54xpro directory, select basic-sample, 
   check the "Open Required Proejcts" checkbox, and click the "Open Project" button.   
   * Plug in your board AFTER opening the project, so that MPLAB detects it
 from the extracted zip file
+* For WFI32-IoT board:
+  * Download and install MPLAB X IDE 6.0 or newer.
+  * Download and install the MPLAB XC32/32++ Compiler 4.1.0 or later.
+  (Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
+  * The project also supports the sensors integration with VAV Press Click Board and Ultra-Low-Press Click Board. 
+  You can get  more hardware related setup info [here](https://github.com/MicrochipTech/AzureDemo_WFI32E01/blob/v0.9.1/Clicks.md).
+  * With MPLAX X IDE, Open the iotconnect-demo.X project from the [samples/wfi32iot] directory.
+  * Run or Debug the project.
+  * Once the board comes up, a new Mass Storage Device will be registered via the USB interface and the 
+  PC should detect a new drive.
+
 * For Renesas RX65N Cloud Kit:
   * Download and install Renesas e2 Studio 2022-10 or later
   * Download and install GCC for Renesas RX v8.3 or later, this can be done as part of the e2 studio install or after
