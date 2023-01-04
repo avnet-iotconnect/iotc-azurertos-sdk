@@ -15,8 +15,7 @@
 // DUID will be ignored if secure element X509 authentication is used. It can be left blank.
 // If symmetric key is left blank, then X509 authentication will be used.
 // If ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE is set, make sure that symmetric key is left blank in the document.
-
-typedef struct {
+ typedef struct {
     char *env;    // Environment name. Contact your representative for details.
     char *cpid;   // Settings -> Company Profile.
     char *duid;   // Name of the device - ignored for X509 secure element authentication.
