@@ -283,7 +283,7 @@ static bool parseCloudConfig(char *configBuffer)
         const char *error_ptr = cJSON_GetErrorPtr();            
         if (error_ptr != NULL) {
             SYS_CONSOLE_PRINT("Message JSON parse Error. Error before: %s \r\n", error_ptr);
-    }
+        }
         cJSON_Delete(messageJson);
         return false;
     }
