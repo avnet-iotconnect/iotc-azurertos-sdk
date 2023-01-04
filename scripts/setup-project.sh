@@ -3,9 +3,9 @@
 set -e
 
 show_help() {
-  echo "Usage: ./setup-project.sh <project_name>"
+  echo "Usage: $0 <project_name>"
   echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
-      "same54xprov2, maaxboardrt, rx65ncloudkit"
+      "same54xprov2, maaxboardrt, rx65ncloudkit, wfi32iot"
 }
 
 # All the IDEs offically support Windows, so it is likely that a developer
@@ -204,6 +204,9 @@ case "$name" in
   same54xprov2)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
+  wfi32iot)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
   maaxboardrt)
     pushd "$(dirname $0)"/../samples/"${name}"
   ;;
@@ -235,6 +238,16 @@ case "$name" in
     cp -nr  AzureDemo_ATSAME54-XPRO/firmware/src .
     rm -rf AzureDemo_ATSAME54-XPRO/
   ;;
+  wfi32iot)
+    create_iotc_azrtos_symlinks
+    rm -rf WFI32-IoT
+    git clone https://github.com/MicrochipTech/AzureDemo_WFI32E01.git
+    cd AzureDemo_WFI32E01
+    git reset --hard 6eac75b57a18296d9ff0713a5803a9c633aec5b1
+    cd ..
+    cp -nr  AzureDemo_WFI32E01/firmware/src .
+    rm -rf AzureDemo_WFI32E01
+    ;;
   maaxboardrt)
     create_iotc_azrtos_symlinks basic-sample/iotc-azrtos-sdk/ ../../../../iotc-azrtos-sdk/
     create_threadx_project_maxxboard
