@@ -16,6 +16,7 @@ jobs:
           bash -x ./scripts/setup-project.sh same54xpro &&
           bash -x ./scripts/setup-project.sh maaxboardrt &&
           bash -x ./scripts/setup-project.sh same54xprov2 &&
+          bash -x ./scripts/setup-project.sh wfi32iot &&
           bash -x ./scripts/setup-project.sh rx65ncloudkit
 
       - name: Copy Supporting Docs and Licenses
@@ -24,7 +25,7 @@ jobs:
           cp -r README.md azrtos-licenses/ samples/stm32l4 &&
           cp -r README.md azrtos-licenses/ samples/same54xpro &&
           cp -r README.md azrtos-licenses/ samples/maaxboardrt &&
-          cp -r README.md azrtos-licenses/ samples/same54xprov2 &&
+          cp -r README.md azrtos-licenses/ samples/wfi32iot &&
           cp -r README.md azrtos-licenses/ samples/rx65ncloudkit 
 
       #use wildcards so that directory path is preserved.
@@ -49,8 +50,14 @@ jobs:
       - name: Publish same54xpro (With new Azure RTOS version) Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: iotc-azrtos-same54xpr-v2
+          name: iotc-azrtos-same54xpro-v2
           path: sample*/same54xprov2
+
+      - name: Publish WFI32-IoT Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: iotc-azrtos-wfi32iot
+          path: sample*/wfi32iot
 
       - name: Publish maaxboardrt Artifacts
         uses: actions/upload-artifact@v2
