@@ -8,12 +8,12 @@ show_help() {
       "same54xprov2, maaxboardrt, rx65ncloudkit, wfi32iot"
 }
 
-# All the IDEs offically support Windows, so it is likely that a developer
+# All the IDEs officially support Windows, so it is likely that a developer
 # will be running it. This script can execute fine on WSL, however symlinks 
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  if [ $(uname -r | grep "Microsoft") ]; then
+  if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ]; then
     # Create a Windows directory junction, or Windows file hardlink
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
     cmd.exe /c "mklink $link_type "${2//\//\\}" "${1//\//\\}
@@ -48,9 +48,9 @@ create_iotc_azrtos_symlinks() {
   source_dir="${1:-../../../iotc-azrtos-sdk/}"
   target_dir=${2:-iotc-azrtos-sdk/}
 
-  if [ ! -d $target_dir ]; then
-    mkdir -p $target_dir
-  fi
+  # Make sure tha the script is idempotent
+  rm -rf $target_dir
+  mkdir -p $target_dir
 
   pushd $target_dir >/dev/null
   for f in $source_dir/*; do
