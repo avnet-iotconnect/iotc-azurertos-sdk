@@ -1,25 +1,31 @@
 //
-// Copyright: Avnet 2021
-// Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
+// Copyright: Avnet 2022
+// Created by Nik Markovic <nikola.markovic@avnet.com> on 12/12/22.
 //
-
-#define IOTCONNECT_APP_USE_WEATHER_CLICK
 
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
-#define IOTCONNECT_CPID "your_cpid"
-#define IOTCONNECT_ENV  "your_environment"
+#define ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 
-// If using the ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE define, the DUID will be automatically generated
-//#define IOTCONNECT_DUID "your_duid" // you can supply a custom device UID, or...
-#define DUID_PREFIX "mchip-" // mac address will be appended in format 012345abcdef
+// Unlike other applications in this repo, the configuration for this project is
+// loaded from the USB Mass Storage Device CLOUD.CFG file.
+// The default JSON of the configuration file will be pre-loaded. 
+// Fill the document's JSON values per your account settings.
+// DUID will be ignored if secure element X509 authentication is used. It can be left blank.
+// If symmetric key is left blank, then X509 authentication will be used.
+// If ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE is set, make sure that symmetric key is left blank in the document.
 
-// if it is not defined, device certs or secure element will be used in iotconnect_app.c
-// #define IOTCONNECT_SYMETRIC_KEY ""
+typedef struct {
+    char *env;    // Environment name. Contact your representative for details.
+    char *cpid;   // Settings -> Company Profile.
+    char *duid;   // Name of the device - ignored for X509 secure element authentication.
+    char *symmetric_key;   // Symmetric key specified in JSON or NULL
+} IotConnectAppConfig;
+
+// This function will return the config read from the JSON by the MSD driver.
+IotConnectAppConfig* get_app_config(void);
 
 #define SAMPLE_SNTP_SERVER_NAME "time.google.com"    /* SNTP Server.  */
-
-#define ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 
 #endif // APP_CONFIG_H
