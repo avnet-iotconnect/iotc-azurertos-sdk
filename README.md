@@ -129,6 +129,9 @@ Use of MICROSOFT AZURE RTOS software is restricted under the corresponding licen
 This repo's derivative work from Azure RTOS distribution also falls under the same MICROSOFT AZURE RTOS license.
 
 # Notes and Known issues
+* The WFI32-IoT project will cause USB devices to change serial numbers randomly in between device restarts. 
+This can affect VirtualBox (and perhaps other virtualization platforms) filters and potentially COMM port ordering. 
+To work around this issue in VirtualBox you can remove the serial to a USB device filter.
 * The WFI32-IoT project cannot print long lines in the console past a certain length. This can cause data to be lost and missing newlines to "jumble" the text.
 * The WFI32-IoT project does not have a lot of free RAM. You may need to hand-pick components when integrating your own project.
 * When using  2048 key size mimxrt1060 is too slow to complete processing the TLS handshake within 60 seconds. 
