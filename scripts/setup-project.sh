@@ -236,7 +236,7 @@ case "$name" in
   ;;
   wfi32iot)
     create_iotc_azrtos_symlinks
-    rm -rf WFI32-IoT
+    rm -rf AzureDemo_WFI32E01
     git clone https://github.com/MicrochipTech/AzureDemo_WFI32E01.git
     cd AzureDemo_WFI32E01
     git reset --hard 6eac75b57a18296d9ff0713a5803a9c633aec5b1
