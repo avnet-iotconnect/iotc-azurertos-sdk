@@ -86,7 +86,6 @@ rm -rf iotc-c-lib cJSON libTO
 
 case "$name" in
   same54xprov2)
-    exit 0
     pushd iotc-azrtos-sdk/ >/dev/null
       for f in ../../../iotc-azrtos-sdk/*; do
         ln -sf $f .

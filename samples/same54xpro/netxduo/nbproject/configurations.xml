@@ -242,6 +242,8 @@
             <itemPath>addons/azure_iot/azure_iot_security_module/nx_azure_iot_security_module.c</itemPath>
           </logicalFolder>
           <itemPath>addons/azure_iot/nx_azure_iot.c</itemPath>
+          <itemPath>addons/azure_iot/nx_azure_iot_adu_agent.c</itemPath>
+          <itemPath>addons/azure_iot/nx_azure_iot_adu_root_key.c</itemPath>
           <itemPath>addons/azure_iot/nx_azure_iot_hub_client.c</itemPath>
           <itemPath>addons/azure_iot/nx_azure_iot_hub_client_properties.c</itemPath>
           <itemPath>addons/azure_iot/nx_azure_iot_json_reader.c</itemPath>
@@ -908,6 +910,8 @@
           <itemPath>nx_secure/src/nx_secure_dtls_session_receive.c</itemPath>
           <itemPath>nx_secure/src/nx_secure_dtls_session_reset.c</itemPath>
           <itemPath>nx_secure/src/nx_secure_dtls_session_send.c</itemPath>
+          <itemPath>nx_secure/src/nx_secure_dtls_session_sliding_window_check.c</itemPath>
+          <itemPath>nx_secure/src/nx_secure_dtls_session_sliding_window_update.c</itemPath>
           <itemPath>nx_secure/src/nx_secure_dtls_session_start.c</itemPath>
           <itemPath>nx_secure/src/nx_secure_dtls_session_trusted_certificate_add.c</itemPath>
           <itemPath>nx_secure/src/nx_secure_dtls_session_trusted_certificate_remove.c</itemPath>
@@ -1317,7 +1321,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="..\threadx\common\inc;..\netxduo\common\inc;..\filex\common\inc;..\netxduo\addons\dhcp;..\netxduo\addons\http;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\threadx\ports\cortex_m4\gnu\inc;..\threadx\ports\cortex_m4\gnu\inc;..\filex\ports\cortex_m4\gnu\inc;..\netxduo\addons\cloud\;addons\azure_iot\azure-sdk-for-c\sdk\inc;addons\azure_iot;addons\azure_iot\azure_iot_security_module\inc;addons\azure_iot\azure_iot_security_module\inc\configs\RTOS_BASE;addons\azure_iot\azure_iot_security_module\iot-security-module-core;addons\azure_iot\azure_iot_security_module\iot-security-module-core\inc;addons\azure_iot\azure_iot_security_module\iot-security-module-core\deps\flatcc\include;addons\azure_iot\azure_iot_security_module\iot-security-module-core\deps\flatcc\src\runtime;addons\azure_iot\azure_iot_security_module;addons\dns;addons\mqtt"/>
+                  value="..\threadx\common\inc;..\netxduo\common\inc;..\filex\common\inc;..\netxduo\addons\dhcp;..\netxduo\addons\http;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\threadx\ports\cortex_m4\gnu\inc;..\threadx\ports\cortex_m4\gnu\inc;..\filex\ports\cortex_m4\gnu\inc;..\netxduo\addons\cloud\;addons\azure_iot\azure-sdk-for-c\sdk\inc;addons\azure_iot;addons\azure_iot\azure_iot_security_module\inc;addons\azure_iot\azure_iot_security_module\inc\configs\RTOS_BASE;addons\azure_iot\azure_iot_security_module\iot-security-module-core;addons\azure_iot\azure_iot_security_module\iot-security-module-core\inc;addons\azure_iot\azure_iot_security_module\iot-security-module-core\deps\flatcc\include;addons\azure_iot\azure_iot_security_module\iot-security-module-core\deps\flatcc\src\runtime;addons\azure_iot\azure_iot_security_module;addons\dns;addons\mqtt;addons\web"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>

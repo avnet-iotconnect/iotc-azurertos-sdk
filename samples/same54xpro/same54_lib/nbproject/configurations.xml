@@ -247,7 +247,6 @@
         </logicalFolder>
         <itemPath>same54_lib/atmel_start.c</itemPath>
         <itemPath>same54_lib/driver_init.c</itemPath>
-        <itemPath>same54_lib/driver_init_flash.c</itemPath>
         <itemPath>same54_lib/ethernet_phy.c</itemPath>
         <itemPath>same54_lib/ethernet_phy_main.c</itemPath>
         <itemPath>same54_lib/hal_atomic.c</itemPath>
@@ -277,6 +276,7 @@
         <itemPath>same54_lib/stdio_start.c</itemPath>
         <itemPath>same54_lib/system_same54.c</itemPath>
         <itemPath>same54_lib/write.c</itemPath>
+        <itemPath>same54_lib/driver_init_flash.c</itemPath>
         <itemPath>same54_lib/hal_flash.c</itemPath>
         <itemPath>same54_lib/hpl_nvmctrl.c</itemPath>
       </logicalFolder>
@@ -304,8 +304,8 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
         <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -458,7 +458,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="..\basic-sample_adu;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc"/>
+                  value="..\sample_azure_iot_embedded_sdk_adu;..\threadx\common\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>
@@ -469,12 +469,6 @@
         <property key="save-temps" value="false"/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
-      <item path="same54_lib/driver_init_flash.c" ex="true" overriding="false">
-      </item>
-      <item path="same54_lib/hal_flash.c" ex="true" overriding="false">
-      </item>
-      <item path="same54_lib/hpl_nvmctrl.c" ex="true" overriding="false">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>
