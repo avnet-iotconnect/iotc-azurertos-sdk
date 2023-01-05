@@ -187,9 +187,10 @@ case "$name" in
     ;;
   same54xpro)
     echo Downloading Azure_RTOS_6...
-    wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
-	#wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
-    project_target_dir=''
+    #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2021_03_02.zip
+    #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
+    wget -q -O azrtos.zip https://github.com/azure-rtos/samples/releases/download/rel_6.1_adu_beta_refresh/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2022_04_10.zip
+    project_target_dir='same54Xpro/'
     project_ide_dir='mplab/'
     libs="same54_lib filex common_hardware_code "
     ;;
