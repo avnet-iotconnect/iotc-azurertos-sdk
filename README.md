@@ -77,7 +77,7 @@ from the extracted zip file
   * **IMPORTANT**: Ensure that you eject the drive first and then restart the board after making any changes to the files. 
   This is so that the PC's OS can flush any cached file changes.
   * If using SelfSigned authentication with the built-in AETCC608 secure element (this authentication type is the most secure and recommended),
-  you should ensure that SYMMETRIC_KEY in CLOUD.CFG is left blank and use the device certificate's fingerprint in the sn<SERIAL>_device.pem file on the MSD: 
+  you should ensure that SYMMETRIC_KEY in CLOUD.CFG is left blank and use the device certificate's fingerprint in the snSERIAL_device.pem file on the MSD: 
 * For Renesas RX65N Cloud Kit:
   * Download and install Renesas e2 Studio 2022-10 or later
   * Download and install GCC for Renesas RX v8.3 or later, this can be done as part of the e2 studio install or after
@@ -87,7 +87,7 @@ from the extracted zip file
   and import the projects.
   * To run/debug the application you will need to generate your own debug .launch file, or copy one from an existing application.
 
-* Modify samples/<your_board>/basic-sample/include/app_config.h (not needed for WFI32-IoT) per your IoTConnect device and account info.
+* Modify samples/your_board/basic-sample/include/app_config.h (not needed for WFI32-IoT) per your IoTConnect device and account info.
 * Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
