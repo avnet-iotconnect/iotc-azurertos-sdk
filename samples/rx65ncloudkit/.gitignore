@@ -19,11 +19,11 @@
 
 /iotc-azrtos-sdk/authentication/
 /iotc-azrtos-sdk/azrtos-layer/
-/iotc-azrtos-sdk/cJSON/
 /iotc-azrtos-sdk/Debug/
 /iotc-azrtos-sdk/include/
 /iotc-azrtos-sdk/iotc-c-lib/
-/iotc-azrtos-sdk/LibTO/
+/iotc-azrtos-sdk/libTO/
+/iotc-azrtos-sdk/cJSON/
 /iotc-azrtos-sdk/src/
 
 *.html

@@ -70,78 +70,76 @@
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
-        <logicalFolder name="include" displayName="include" projectFiles="true">
-          <itemPath>libTO/include/TO.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_admin.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_auth.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_cfg.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_cmd.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_core.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_defs.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_encrypt.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_hash.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_i2c.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_i2c_wrapper.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_keys.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_loader.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_lora.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_mac.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_measure.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_nvm.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_seclink.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_system.h</itemPath>
-          <itemPath>libTO/include/TODRV_HSE_tls.h</itemPath>
-          <itemPath>libTO/include/TODRV_SSE.h</itemPath>
-          <itemPath>libTO/include/TODRV_SSE_cfg.h</itemPath>
-          <itemPath>libTO/include/TOH_log.h</itemPath>
-          <itemPath>libTO/include/TOP.h</itemPath>
-          <itemPath>libTO/include/TOP_cfg.h</itemPath>
-          <itemPath>libTO/include/TOP_info.h</itemPath>
-          <itemPath>libTO/include/TOP_SecureStorage.h</itemPath>
-          <itemPath>libTO/include/TOP_storage.h</itemPath>
-          <itemPath>libTO/include/TOP_vt.h</itemPath>
-          <itemPath>libTO/include/TOSE_admin.h</itemPath>
-          <itemPath>libTO/include/TOSE_auth.h</itemPath>
-          <itemPath>libTO/include/TOSE_cfg.h</itemPath>
-          <itemPath>libTO/include/TOSE_encryption.h</itemPath>
-          <itemPath>libTO/include/TOSE_hashes.h</itemPath>
-          <itemPath>libTO/include/TOSE_helper_certs.h</itemPath>
-          <itemPath>libTO/include/TOSE_helper_cfg.h</itemPath>
-          <itemPath>libTO/include/TOSE_helper_measured_boot.h</itemPath>
-          <itemPath>libTO/include/TOSE_helper_tls.h</itemPath>
-          <itemPath>libTO/include/TOSE_keys.h</itemPath>
-          <itemPath>libTO/include/TOSE_loader.h</itemPath>
-          <itemPath>libTO/include/TOSE_lora.h</itemPath>
-          <itemPath>libTO/include/TOSE_mac.h</itemPath>
-          <itemPath>libTO/include/TOSE_measured_boot.h</itemPath>
-          <itemPath>libTO/include/TOSE_misc.h</itemPath>
-          <itemPath>libTO/include/TOSE_nvm.h</itemPath>
-          <itemPath>libTO/include/TOSE_secmsg.h</itemPath>
-          <itemPath>libTO/include/TOSE_setup.h</itemPath>
-          <itemPath>libTO/include/TOSE_statuspio.h</itemPath>
-          <itemPath>libTO/include/TOSE_system.h</itemPath>
-          <itemPath>libTO/include/TOSE_tls.h</itemPath>
-          <itemPath>libTO/include/TO_aes-gcm-sw.h</itemPath>
-          <itemPath>libTO/include/TO_cfg.h</itemPath>
-          <itemPath>libTO/include/TO_defs.h</itemPath>
-          <itemPath>libTO/include/TO_driver.h</itemPath>
-          <itemPath>libTO/include/TO_endian.h</itemPath>
-          <itemPath>libTO/include/TO_helper.h</itemPath>
-          <itemPath>libTO/include/TO_legacy.h</itemPath>
-          <itemPath>libTO/include/TO_log.h</itemPath>
-          <itemPath>libTO/include/TO_retcodes.h</itemPath>
-          <itemPath>libTO/include/TO_sha256.h</itemPath>
-          <itemPath>libTO/include/TO_stdint.h</itemPath>
-          <itemPath>libTO/include/TO_utils.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="src" displayName="src" projectFiles="true">
-          <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
-            <itemPath>libTO/src/aes-gcm-sw/TO_aes.h</itemPath>
-            <itemPath>libTO/src/aes-gcm-sw/TO_gcm.h</itemPath>
+        <logicalFolder name="Sources" displayName="Sources" projectFiles="true">
+          <logicalFolder name="include" displayName="include" projectFiles="true">
+            <itemPath>libTO/Sources/include/TO.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_admin.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_auth.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_cmd.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_core.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_defs.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_encrypt.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_hash.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_i2c.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_i2c_wrapper.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_keys.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_loader.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_lora.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_mac.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_measure.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_nvm.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_seclink.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_system.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_HSE_tls.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_SSE.h</itemPath>
+            <itemPath>libTO/Sources/include/TODRV_SSE_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TOH_log.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP_SecureStorage.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP_info.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP_storage.h</itemPath>
+            <itemPath>libTO/Sources/include/TOP_vt.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_admin.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_auth.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_encryption.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_hashes.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_helper_certs.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_helper_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_helper_measured_boot.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_helper_tls.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_keys.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_loader.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_lora.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_mac.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_measured_boot.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_misc.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_nvm.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_secmsg.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_setup.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_statuspio.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_system.h</itemPath>
+            <itemPath>libTO/Sources/include/TOSE_tls.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_aes-gcm-sw.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_cfg.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_defs.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_driver.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_endian.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_helper.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_legacy.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_log.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_retcodes.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_sha256.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_stdint.h</itemPath>
+            <itemPath>libTO/Sources/include/TO_utils.h</itemPath>
           </logicalFolder>
-          <itemPath>libTO/src/seclink.h</itemPath>
-          <itemPath>libTO/src/sse_driver.h</itemPath>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
+            </logicalFolder>
+          </logicalFolder>
         </logicalFolder>
       </logicalFolder>
     </logicalFolder>
@@ -209,39 +207,41 @@
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
-        <logicalFolder name="include" displayName="include" projectFiles="true">
-        </logicalFolder>
-        <logicalFolder name="src" displayName="src" projectFiles="true">
-          <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
-            <itemPath>libTO/src/aes-gcm-sw/aes-gcm-sw.c</itemPath>
-            <itemPath>libTO/src/aes-gcm-sw/aes.c</itemPath>
-            <itemPath>libTO/src/aes-gcm-sw/gcm.c</itemPath>
+        <logicalFolder name="Sources" displayName="Sources" projectFiles="true">
+          <logicalFolder name="include" displayName="include" projectFiles="true">
           </logicalFolder>
-          <itemPath>libTO/src/api_admin.c</itemPath>
-          <itemPath>libTO/src/api_auth.c</itemPath>
-          <itemPath>libTO/src/api_core.c</itemPath>
-          <itemPath>libTO/src/api_encrypt.c</itemPath>
-          <itemPath>libTO/src/api_hash.c</itemPath>
-          <itemPath>libTO/src/api_keys.c</itemPath>
-          <itemPath>libTO/src/api_loader.c</itemPath>
-          <itemPath>libTO/src/api_lora.c</itemPath>
-          <itemPath>libTO/src/api_mac.c</itemPath>
-          <itemPath>libTO/src/api_measure.c</itemPath>
-          <itemPath>libTO/src/api_nvm.c</itemPath>
-          <itemPath>libTO/src/api_system.c</itemPath>
-          <itemPath>libTO/src/api_tls.c</itemPath>
-          <itemPath>libTO/src/driver_client.c</itemPath>
-          <itemPath>libTO/src/helper_certs.c</itemPath>
-          <itemPath>libTO/src/helper_measured_boot.c</itemPath>
-          <itemPath>libTO/src/helper_tls.c</itemPath>
-          <itemPath>libTO/src/hse_driver.c</itemPath>
-          <itemPath>libTO/src/log.c</itemPath>
-          <itemPath>libTO/src/seclink.c</itemPath>
-          <itemPath>libTO/src/seclink_none.c</itemPath>
-          <itemPath>libTO/src/selftest.c</itemPath>
-          <itemPath>libTO/src/sha256.c</itemPath>
-          <itemPath>libTO/src/sse_driver.c</itemPath>
-          <itemPath>libTO/src/utils.c</itemPath>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
+              <itemPath>libTO/Sources/src/aes-gcm-sw/aes-gcm-sw.c</itemPath>
+              <itemPath>libTO/Sources/src/aes-gcm-sw/aes.c</itemPath>
+              <itemPath>libTO/Sources/src/aes-gcm-sw/gcm.c</itemPath>
+            </logicalFolder>
+            <itemPath>libTO/Sources/src/api_admin.c</itemPath>
+            <itemPath>libTO/Sources/src/api_auth.c</itemPath>
+            <itemPath>libTO/Sources/src/api_core.c</itemPath>
+            <itemPath>libTO/Sources/src/api_encrypt.c</itemPath>
+            <itemPath>libTO/Sources/src/api_hash.c</itemPath>
+            <itemPath>libTO/Sources/src/api_keys.c</itemPath>
+            <itemPath>libTO/Sources/src/api_loader.c</itemPath>
+            <itemPath>libTO/Sources/src/api_lora.c</itemPath>
+            <itemPath>libTO/Sources/src/api_mac.c</itemPath>
+            <itemPath>libTO/Sources/src/api_measure.c</itemPath>
+            <itemPath>libTO/Sources/src/api_nvm.c</itemPath>
+            <itemPath>libTO/Sources/src/api_system.c</itemPath>
+            <itemPath>libTO/Sources/src/api_tls.c</itemPath>
+            <itemPath>libTO/Sources/src/driver_client.c</itemPath>
+            <itemPath>libTO/Sources/src/helper_certs.c</itemPath>
+            <itemPath>libTO/Sources/src/helper_measured_boot.c</itemPath>
+            <itemPath>libTO/Sources/src/helper_tls.c</itemPath>
+            <itemPath>libTO/Sources/src/hse_driver.c</itemPath>
+            <itemPath>libTO/Sources/src/log.c</itemPath>
+            <itemPath>libTO/Sources/src/seclink.c</itemPath>
+            <itemPath>libTO/Sources/src/seclink_none.c</itemPath>
+            <itemPath>libTO/Sources/src/selftest.c</itemPath>
+            <itemPath>libTO/Sources/src/sha256.c</itemPath>
+            <itemPath>libTO/Sources/src/sse_driver.c</itemPath>
+            <itemPath>libTO/Sources/src/utils.c</itemPath>
+          </logicalFolder>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
@@ -275,12 +275,12 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>3.00</languageToolchainVersion>
+        <languageToolchainVersion>4.20</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -331,6 +331,7 @@
                   value="IOTC_NEEDS_GETTIMEOFDAY_OU;NX_WEB_HTTPS_ENABLE"/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
+        <property key="tentative-definitions" value="-fno-common"/>
         <property key="toplevel-reordering" value=""/>
         <property key="unaligned-access" value=""/>
         <property key="use-cci" value="false"/>
@@ -362,6 +363,7 @@
       </C32-AS>
       <C32-CO>
         <property key="coverage-enable" value=""/>
+        <property key="stack-guidance" value="false"/>
       </C32-CO>
       <C32-LD>
         <property key="additional-options-use-response-files" value="false"/>
@@ -434,7 +436,7 @@
       </C32CPP>
       <C32Global>
         <property key="common-include-directories"
-                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;azrtos-layer\azrtos-ota\include;authentication\driver;authentication\include"/>
+                  value="cJSON;azrtos-layer\nx-http-client;azrtos-layer\include;iotc-c-lib\include;include;..\netxduo\addons\dns;..\netxduo\addons\azure_iot;..\netxduo\addons\sntp;..\netxduo\addons\mqtt;..\netxduo\addons\cloud;..\threadx\common\inc;..\netxduo\nx_secure\inc;..\netxduo\nx_secure\ports;..\netxduo\crypto_libraries\inc;..\threadx\ports\cortex_m4\gnu\inc;..\netxduo\common\inc;..\netxduo\ports\cortex_m4\gnu\inc;..\netxduo\addons\azure_iot\azure-sdk-for-c\sdk\inc;azrtos-layer\azrtos-ota\include;authentication\driver;authentication\include;libTO\Sources\include"/>
         <property key="gp-relative-option" value=""/>
         <property key="legacy-libc" value="false"/>
         <property key="mdtcm" value=""/>
@@ -443,12 +445,9 @@
         <property key="omit-pack-options" value="1"/>
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
+        <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
-      <item path="src/iotconnect_device_identity.c" ex="true" overriding="false">
-      </item>
-      <item path="src/iotconnect_discovery_v3.c" ex="true" overriding="false">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>

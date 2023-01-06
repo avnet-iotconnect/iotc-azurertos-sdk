@@ -209,7 +209,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/basic-sample/iotc-azrtos-sdk/authentication/driver}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/basic-sample/iotc-azrtos-sdk/authentication/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/basic-sample/iotc-azrtos-sdk/libTO/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/include}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.include.files.521694540" name="Include files (-include)" superClass="gnu.c.compiler.option.include.files" useByScannerDiscovery="false"/>
 								<option id="com.crt.advproject.gcc.exe.debug.option.optimization.level.685185410" name="Optimization Level" superClass="com.crt.advproject.gcc.exe.debug.option.optimization.level" useByScannerDiscovery="true"/>
@@ -459,6 +459,16 @@
 							<tool id="com.crt.advproject.link.cpp.exe.debug.14811107" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug.980255778"/>
 							<tool id="com.crt.advproject.link.exe.debug.2078035709" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug.1505505776"/>
 							<tool id="com.crt.advproject.tool.debug.debug.2072828259" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug.1148952252"/>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="com.crt.advproject.config.exe.debug.282996926.31565871" name="/" resourcePath="iotc-azrtos-sdk/iotc-c-lib">
+						<toolChain id="com.crt.advproject.toolchain.exe.debug.1003419351" name="NXP MCU Tools" superClass="com.crt.advproject.toolchain.exe.debug" unusedChildren="">
+							<tool id="com.crt.advproject.cpp.exe.debug.733453102" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug.371687061"/>
+							<tool id="com.crt.advproject.gcc.exe.debug.444237350" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.1290402586"/>
+							<tool id="com.crt.advproject.gas.exe.debug.1257573140" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug.85050012"/>
+							<tool id="com.crt.advproject.link.cpp.exe.debug.10123563" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug.14811107"/>
+							<tool id="com.crt.advproject.link.exe.debug.889905" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug.2078035709"/>
+							<tool id="com.crt.advproject.tool.debug.debug.26986413" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug.2072828259"/>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
