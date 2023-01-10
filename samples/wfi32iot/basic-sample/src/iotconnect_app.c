@@ -172,12 +172,13 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
-    config->cpid = get_app_config()->cpid;
-    config->env = get_app_config()->env;
-    config->duid = get_app_config()->duid;
+    IotConnectAppConfig *app_cfg = get_app_config();
+    config->cpid = app_cfg->cpid;
+    config->env = app_cfg->env;
+    config->duid = app_cfg->duid;
 
-    char* symmetric_key = get_app_config()->symmetric_key;
-    if (NULL != symmetric_key && strlen(symmetric_key) == 0) {
+    char* symmetric_key = app_cfg->symmetric_key;
+    if (NULL != symmetric_key && strlen(symmetric_key) != 0) {
         config->auth.type = IOTC_KEY;
         config->auth.data.symmetric_key = symmetric_key;
     } else {
