@@ -1,0 +1,5 @@
+*
+!sample_azure_iot_embedded_sdk/
+!.gitignore
+!sample_azure_iot_entry.c
+!sample_netx_duo.c
