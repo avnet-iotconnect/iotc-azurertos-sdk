@@ -13,6 +13,7 @@
 #include "iotconnect.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
+#include "app.h" // original Microchip app include for sensors
 
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 #include "pkcs11_atca_auth_driver.h"
@@ -20,6 +21,10 @@
 #endif
 
 extern UCHAR _nx_driver_hardware_address[];
+extern vavpress_sensor_param_data_t VAVPRESS_param_data;
+extern vavpress_return_value_t VAVPRESS_status;
+extern ultralowpress_return_value_t ULTRALOWPRESS_status;
+
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
@@ -153,7 +158,23 @@ static void publish_telemetry() {
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
-
+    
+    iotcl_telemetry_set_number(msg, "WFI32IoT_temperature", APP_SENSORS_readTemperature());
+    iotcl_telemetry_set_number(msg, "WFI32IoT_light", APP_SENSORS_readLight());
+    
+    if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK && ULTRALOWPRESS_isReady()) {
+        ULTRALOWPRESS_clearStatus();
+        iotcl_telemetry_set_number(msg, "ULP_temperature", ULTRALOWPRESS_getTemperature());
+        iotcl_telemetry_set_number(msg, "ULP_pressure", ULTRALOWPRESS_getPressure());            
+    }
+    if (VAVPRESS_status == VAVPRESS_OK) {
+        float temperature, pressure;
+        if (VAVPRESS_getSensorReadings(&VAVPRESS_param_data, &pressure, &temperature) == VAVPRESS_OK) {
+            iotcl_telemetry_set_number(msg, "VAV_temperature", temperature);
+            iotcl_telemetry_set_number(msg, "VAV_pressure", pressure);
+        }
+    }
+    
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
     
@@ -167,6 +188,23 @@ static void publish_telemetry() {
 /* Include the sample.  */
 bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
+    
+    APP_SENSORS_init();
+
+    printf("Detecting attached Click Board sensors...\r\n");
+    VAVPRESS_init();
+    if (VAVPRESS_status == VAVPRESS_OK) {
+        printf("VAV Click detected\r\n");
+    } else {
+        printf("VAV Click not detected\r\n");
+    }
+    uint32_t SM8436_serialNumber = ULTRALOWPRESS_init();
+    if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK) {
+        printf("ULP Click detected. Serial Number = %u\r\n", SM8436_serialNumber);
+    } else {
+        printf("VULPV Click not detected\r\n");
+    }
+    
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
 	azrtos_config.pool_ptr = pool_ptr;
