@@ -48,7 +48,7 @@ create_iotc_azrtos_symlinks() {
   source_dir="${1:-../../../iotc-azrtos-sdk/}"
   target_dir=${2:-iotc-azrtos-sdk/}
 
-  # Make sure tha the script is idempotent
+  # Make sure that the script is idempotent
   rm -rf $target_dir
   mkdir -p $target_dir
 
