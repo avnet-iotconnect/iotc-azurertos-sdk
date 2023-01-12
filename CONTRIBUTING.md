@@ -1,4 +1,4 @@
-###Contributing To This Project
+## Contributing To This Project
 When contributing to this project, please follow the contributing guidelines 
 for [iotc-c-lib](https://github.com/avnet-iotconnect/iotc-c-lib/blob/master/CONTRIBUTING.md)
 where applicable and possible.
