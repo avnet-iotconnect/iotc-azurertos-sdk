@@ -24,7 +24,7 @@ directly supported by the demo software and allow you to send the sensor reading
 * Once the board boots up, new USB devices will be available. 
   * You can optionally connect a terminal program (like TeraTerm) to one of the two COMM ports
 which is named "USB Serial". Use defaults for 115200 baud: 8 bits 1 stop bit. no flow control or parity. 
-Firmware logs will be available on that COMM port. Use trial and error to determine which one of the two ports. 
+Firmware logs will be available on that COMM port. 
   * The MSD should appear as a new removable drive some time after the board boots up.
 
 ## Propgramming the Firmware
