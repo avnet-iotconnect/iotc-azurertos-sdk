@@ -1,43 +1,44 @@
 ## Introduction
 
-This document is aiming to provide an easy way to test out and evaluate the 
+This document aims to provide an easy way to test and evaluate the 
 [WFI32-IoT](https://www.microchip.com/en-us/development-tool/ev36w50a) board 
-along with IoTConnect, without the need to compile the source code.
+with IoTConnect, without the need to compile the source code.
 
-The board features USB Mass Storage Device (MSD) support, which makes quick IoTConnect setup possible without the need
+The board features USB Mass Storage Device (MSD) support, which makes the IoTConnect setup simple and without the need
 to change the source code.
 
-The built-in ATECC608 secure element provides a secure and quick way 
+The built-in ATECC608 secure element provides a quick and secure way 
 to set up the device with IoTConnect.
 
-The Click Board interface makes it possible to make use of hundreds of different Click Boards from MikroE.
-The [VAV Press Click](https://www.mikroe.com/vav-press-click) and [Ultra-Low Press Click]() boards are
-directly supported by the demo software and allow you to send the sensor readings from these boards to IoTConnect.
+The Click board interface makes it possible to make use of hundreds of different Click boards from MikroE.
+The [VAV Press Click](https://www.mikroe.com/vav-press-click) and [Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click) boards are
+directly supported by the demo software and provide the ability to send sensor readings from these boards directly to IoTConnect.
 
 ## Hardware Setup
 
-* You can plug in either the VAV Press Click or Ultra-Low Press Click bard onto Click interface of the board.
+* Plug the VAV Press Click or Ultra-Low Press Click board onto Click interface of the board.
 * To have both Click boards connected at the same time to WFI32-IoT, you can connect them via the
 [Shuttle Click](https://www.mikroe.com/shuttle-click) adapter.
-* When connecting Click Boards, ensure that the pin markings on the Click boards are matching to the header markings on the WFI32-IoT.
+* When connecting Click boards, ensure that the pin markings on the Click boards are matching to the header markings on the WFI32-IoT.
 * The WFI32-IoT board needs to be connected to a USB port on your PC via the Micro USB cable.
-* Once the board boots up, new USB devices will be available. 
-  * You can optionally connect a terminal program (like TeraTerm) to one of the two COMM ports
-which is named "USB Serial". Use defaults for 115200 baud: 8 bits 1 stop bit. no flow control or parity. 
-Firmware logs will be available on that COMM port. 
+* Once the board boots up, a new USB devices will be available. 
+  * Optionally, connect a terminal program (like TeraTerm) to one of the two COM ports
+which is named "USB Serial". Use defaults for 115200 baud: 8 bits, 1 stop bit, no flow control or parity. 
+Firmware logs will be available on that COM port. 
   * The MSD should appear as a new removable drive some time after the board boots up.
 
-## Propgramming the Firmware
+## Programming the Firmware
 
 * Download and install the [MPLAB X IDE package](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide). 
-You only need to select MPLAB IPE and 32-bit device support during the installation.
+MPLAB IPE and 32-bit device support are the only required options during the installation.
 * Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-011123.zip)
 * Extract the iotconnect-demo.X.production.hex file from the zip.
 * Open the Microchip IPE application in order to program the firmware: 
-  * Enter WFI32E01 in the **Device** entry box
-  * Select "Curiosity/Starter Kits (PKBO4)" for the **Tool**. Click the **Connect** button next to the entry.
-  * Ignore any DFP related warnings in the logs.
-  * Once the device connects, for the **Hex file** filed, click the **Browse** button on the right and select your iotconnect-demo.X.production.hex file that was extracted in the previous step.
+  * In the **Device** entry box, select "WFI32E01"
+  * In the **Tool** entry box, select "Curiosity/Starter Kits (PKBO4)"
+  * Click the **Connect** button
+  * Wait for any updates to complete and ignore any DFP related warnings in the output.
+  * After the device is connected, updated and verified (as reported in the output), click the **Browse** button next to the **Hex file** field and select your iotconnect-demo.X.production.hex file that was extracted in a previous step.
   * Click the **Program** button.
   * Screenshot below shows an example of what the IPE would look like once the device has been programmed successfully:
 
@@ -45,12 +46,12 @@ You only need to select MPLAB IPE and 32-bit device support during the installat
 
 ### IoTConnect Template Setup
 
-* At your IoTConnect account web page, navigate to Devices->Device->Templates(dock at the bottom) and click Create Template on that page.
-  * Enter a desired name like "wfi32demo" for **Template Code** and **Template Name**. 
+* Login to the IoTConnect platform, navigate to Devices -> Device -> Templates and click "Create Template."
+  * Enter a name like "wfi32demo" for **Template Code** and **Template Name**. 
   * Select *Self Signed Certificate* in the **Authentication Type** pulldown.
   * Ensure that **Device Message Version** is **1.0**
   * Click **Save**
-* At the same page, click the Attributes tab.
+* On the same page, click the Attributes tab.
 * Add a field to the list of attributes called "version" of type **STRING** 
 * Add the following **NUMERIC** fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
   * *WFI32IoT_temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the WFI32-IoT.
@@ -65,16 +66,16 @@ You only need to select MPLAB IPE and 32-bit device support during the installat
 
 ## Obtaining the Device Certificate Fingerprint
 
-This document outlines how to set up your device for Self Signed Certificate IoTConnect authentication type.
-Steps for other authentication types are of scope for this gide and are available in the main README.md.
+This section outlines how to set up the device for IoTConnect Self Signed Certificate authentication type.
+Steps for other authentication types are out of scope for this guide and are available in the main README.md.
 
-* In order to complete the next steps, we need to obtain the fingerprint of our device certificate.
-The device certificate is located on the MSD file named snXXXXXX_device.pem.
+* In order to complete the next steps, obtain the fingerprint of device certificate.
+The device certificate is located in the MSD in the file named snXXXXXX_device.pem.
 The fingerprint of the certificate can be either SHA256 or SHA1.
 There are a couple of ways to go about that:
    * One can execute ``` openssl x509 -noout -fingerprint -inform pem -in snxXXXX_device.pem ``` if openssl is installed.
-   * The contents of snxXXXX_device.pem can be pasted into a public
-web site online like [this one](https://www.samltool.com/fingerprint.php). 
+   * The contents of snxXXXX_device.pem can be pasted into an online
+fingerprint calculator such as [this one](https://www.samltool.com/fingerprint.php). 
 Note that publishing the device certificate or fingerprint online is not technically unsafe 
 because the certificate must be paired by the private key derived data during authentication. 
 The private key is securely stored on the device and cannot be accessed even programmatically.
@@ -83,13 +84,13 @@ manufacturer data, including the device serial number. Below is a sample screens
 
 ![Fingerprint Web Site Screenshot](media/fingerprint.png "Fingerprint Web Site Screenshot")
 
-### Setting up The Device in IoTConnect
+### Setting up the Device in IoTConnect
  
-* Navigate to Device->Device and click the **Create Device** button.
+* Navigate to Device -> Device and click the **Create Device** button.
 * Your device unique ID is the "snXXXXXXXX" collection numbers and letters by which the files on the MSD are created. 
 Enter that name (including "sn") as the device name and display name.
 * Choose your entity where you will create the device.
-* Select the Template that was created in the previous step.
+* Select the Template that was created in a previous step.
 * Enter the fingerprint obtained in the previous step (without colons) as the **Primary Thumbprint**. See screenshot below.
 * Click **Save**.
 
@@ -97,7 +98,8 @@ Enter that name (including "sn") as the device name and display name.
 
 ### Setting up the WIFI.CFG file.
 
-* The WIFI.CFG file is located on the MSD. Open the file in a text editor and write your WiFi credentials into it like this:
+* The WIFI.CFG file is located on the MSD. Open the file in a text editor and input the WiFi credentials using one of the
+following templates per the network configuration:
    - Open Unsecured Network (no password protection)
         ```bash
         CMD:SEND_UART=wifi MY_SSID,,1
@@ -119,14 +121,11 @@ Enter that name (including "sn") as the device name and display name.
 
 ### Setting up the CLOUD.CFG file
 
-* Ensure that you eject the drive, and then restart the board after making any changes to the files and restarting the board.
+* Ensure that you eject the drive after making any changes to the files, and then restarting the board.
 The PC filesystem may be caching the file contents and it may not allow the device to complete writing to the device before a restart.
 * Open the CLOUD.CFG file in a text editor. If the contents of CLOUD.CFG do not have text like CPID and ENV, 
 delete the file, eject the drive, restart the board and re-open the file.
 Restarting will populate the defaults.
-* Set the CPID and Environment per your IoTConnect account settings, which can be found in Settings->Key Vault at your IoTConnect portal.
+* Set the CPID and Environment per your IoTConnect account settings, which can be found in Settings -> Key Vault in your IoTConnect portal.
 * Save the file, eject the drive and restart the board.
 * Your device should connect to your IoTConnect account and publish sensor data periodically.
-
-
-
