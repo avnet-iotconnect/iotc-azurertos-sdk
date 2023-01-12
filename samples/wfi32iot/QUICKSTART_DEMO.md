@@ -37,7 +37,7 @@ You only need to select MPLAB IPE and 32-bit device support during the installat
   * Enter WFI32E01 in the **Device** entry box
   * Select "Curiosity/Starter Kits (PKBO4)" for the **Tool**. Click the **Connect** button next to the entry.
   * Ignore any DFP related warnings in the logs.
-  * Once the device connect, for the **Hex file** filed, click the **Browse** button on the right and select your iotconnect-demo.X.production.hex file that was extracted in the previous step.
+  * Once the device connects, for the **Hex file** filed, click the **Browse** button on the right and select your iotconnect-demo.X.production.hex file that was extracted in the previous step.
   * Click the **Program** button.
   * Screenshot below shows an example of what the IPE would look like once the device has been programmed successfully:
 
@@ -46,26 +46,26 @@ You only need to select MPLAB IPE and 32-bit device support during the installat
 ### IoTConnect Template Setup
 
 * At your IoTConnect account web page, navigate to Devices->Device->Templates(dock at the bottom) and click Create Template on that page.
-  * Enter a desired name like "wfi32demo" for Template Code and Template Name. 
-  * Select *Self Signed Certificate* in the Authentication Type pulldown.
+  * Enter a desired name like "wfi32demo" for **Template Code** and **Template Name**. 
+  * Select *Self Signed Certificate* in the **Authentication Type** pulldown.
   * Ensure that **Device Message Version** is **1.0**
-  * Click "Save"
+  * Click **Save**
 * At the same page, click the Attributes tab.
-* Add a field to the list of attributes called "Version" of type ***STRING** 
-* Add the following NUMERIC fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
+* Add a field to the list of attributes called "version" of type **STRING** 
+* Add the following **NUMERIC** fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
   * *WFI32IoT_temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the WFI32-IoT.
   * *WFI32IoT_light* - The amount light value reported by the light sensor on the WFI32-IoTboard.
   * *ULP_pressure* - Air pressure measured on the Ultra-Low Press Click Board.
   * *ULP_temperature* - Temperature measured on the Ultra-Low Press Click Board.
   * *VAV_pressure* - Air pressure measured on the VAV Press Click Board.
   * *VAV_temperature* - Temperature measured on the VAV Press Click Board.
-* the screenshot below shows an example template:
+* The screenshot below shows an example template:
 
 ![Template Screenshot](media/template.png "Template Screenshot")
 
 ## Obtaining the Device Certificate Fingerprint
 
-We will be explaining how to set up your device for Self Signed Certificate IoTConnect authentication type.
+This document outlines how to set up your device for Self Signed Certificate IoTConnect authentication type.
 Steps for other authentication types are of scope for this gide and are available in the main README.md.
 
 * In order to complete the next steps, we need to obtain the fingerprint of our device certificate.
@@ -91,7 +91,7 @@ Enter that name (including "sn") as the device name and display name.
 * Choose your entity where you will create the device.
 * Select the Template that was created in the previous step.
 * Enter the fingerprint obtained in the previous step (without colons) as the **Primary Thumbprint**. See screenshot below.
-* Click the *Save*.
+* Click **Save**.
 
 ![Device Creation Screenshot](media/iotc-device.png "Device Creation Screenshot")
 
