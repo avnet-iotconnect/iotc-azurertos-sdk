@@ -7,13 +7,16 @@ along with IoTConnect, without the need to compile the source code.
 The board features USB Mass Storage Device (MSD) support, which makes quick IoTConnect setup possible without the need
 to change the source code.
 
+The built-in ATECC608 secure element provides a secure and quick way 
+to set up the device with IoTConnect.
+
 The Click Board interface makes it possible to make use of hundreds of different Click Boards from MikroE.
 The [VAV Press Click](https://www.mikroe.com/vav-press-click) and [Ultra-Low Press Click]() boards are
 directly supported by the demo software and allow you to send the sensor readings from these boards to IoTConnect.
 
 ## Hardware Setup
 
-* You can plug in tither the VAV Press Click or Ultra-Low Press Click bard onto Click interface of the board.
+* You can plug in either the VAV Press Click or Ultra-Low Press Click bard onto Click interface of the board.
 * To have both Click boards connected at the same time to WFI32-IoT, you can connect them via the
 [Shuttle Click](https://www.mikroe.com/shuttle-click) adapter.
 * When connecting Click Boards, ensure that the pin markings on the Click boards are matching to the header markings on the WFI32-IoT.
