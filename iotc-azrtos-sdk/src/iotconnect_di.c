@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <stdio.h>
 #include "nx_crypto_sha2.h"
 #include "iotconnect_certs.h"
 #include "iotconnect_discovery_v3.h"

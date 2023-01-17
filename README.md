@@ -1,7 +1,7 @@
 ## About
 This repo contains the IoTConnect C SDK and samples for AzureRTOS, 
-for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK, Microchip SAME54 Xplained Pro and
-Renesas RX65N Cloud Kit.
+for Avnet MaaxBoard RT, STM32L4 IoT Discovery Kit, NXP MTIMXRT1060 EVK, Microchip SAME54 Xplained Pro,
+Microchip WFI32-IoT (EV36W50A), and Renesas RX65N Cloud Kit.
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
@@ -39,6 +39,45 @@ Keep subdirectories selected, but unselect the actual mimxrt1060 sample director
   check the "Open Required Proejcts" checkbox, and click the "Open Project" button.   
   * Plug in your board AFTER opening the project, so that MPLAB detects it
 from the extracted zip file
+* For WFI32-IoT board:
+  * Download and install MPLAB X IDE 6.0 or newer.
+  * Download and install the MPLAB XC32/32++ Compiler 4.1.0 or later.
+  (Buy the subscripiton for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
+  * The project also supports the sensors integration with VAV Press Click Board and Ultra-Low-Press Click Board. 
+  You can get  more hardware related setup info [here](https://github.com/MicrochipTech/AzureDemo_WFI32E01/blob/v0.9.1/Clicks.md).
+  * With MPLAX X IDE, Open the iotconnect-demo.X project from the [samples/wfi32iot] directory.
+  * Run or Debug the project.
+  * Once the board comes up, a new Mass Storage Device (MSD) will be registered via the USB interface and the 
+  PC should detect a new disk drive.
+  * If the contents of CLOUD.CFG do not have values like CPID and ENV, delete the file and restart the board. 
+  Restarting will populate the defaults.
+  * In CLOUD.CFG JSON document, fill in your CPID and ENV values.
+  You should generally omit specifying Device ID (DUID) in the config file as the default name will be based on the serial of the 
+  ATECC608 chip that's built into the module. The default name will be in format snSERIAL, where serial is a 16-character hex string like sn12ABCD...
+  The PEM files on the MSD will be named by the device's serial.
+  If using SymmetricKey auth type, you can enter your Symmetric key in the file, otherwise you should leave it blank.
+  * Edit WIFI.CFG per Wi-Fi network settings. The file should look like one of the following examples:
+    - Open Unsecured Network (no password protection)
+        ```bash
+        CMD:SEND_UART=wifi MY_SSID,,1
+        ```
+    - Wi-Fi Protected Access 2 (WPA2)
+        ```bash
+        CMD:SEND_UART=wifi MY_SSID,MY_PSWD,2
+        ```
+    - Wired Equivalent Privacy (WEP)
+        ```bash
+        CMD:SEND_UART=wifi MY_SSID,MY_PSWD,3
+        ```
+    - Wi-Fi Protected Access 3 (WPA3)
+        ```bash
+        CMD:SEND_UART=wifi MY_SSID,MY_PSWD,4
+        ```
+  * New values will take effect once the board is restarted. 
+  * **IMPORTANT**: Ensure that you eject the drive first and then restart the board after making any changes to the files. 
+  This is so that the PC's OS can flush any cached file changes.
+  * If using SelfSigned authentication with the built-in AETCC608 secure element (this authentication type is the most secure and recommended),
+  you should ensure that SYMMETRIC_KEY in CLOUD.CFG is left blank and use the device certificate's fingerprint in the snSERIAL_device.pem file on the MSD: 
 * For Renesas RX65N Cloud Kit:
   * Download and install Renesas e2 Studio 2022-10 or later
   * Download and install GCC for Renesas RX v8.3 or later, this can be done as part of the e2 studio install or after
@@ -48,7 +87,7 @@ from the extracted zip file
   and import the projects.
   * To run/debug the application you will need to generate your own debug .launch file, or copy one from an existing application.
 
-* Modify samples/<your_board>/basic-sample/include/app_config.h per your IoTConnect deivce and account info.
+* Modify samples/your_board/basic-sample/include/app_config.h (not needed for WFI32-IoT) per your IoTConnect device and account info.
 * Build and run or debug the project on your board.
 
 ## Creating Self-Signed x509 Device Certificates
@@ -90,6 +129,11 @@ Use of MICROSOFT AZURE RTOS software is restricted under the corresponding licen
 This repo's derivative work from Azure RTOS distribution also falls under the same MICROSOFT AZURE RTOS license.
 
 # Notes and Known issues
+* The WFI32-IoT project will cause USB devices to change serial numbers randomly in between device restarts. 
+This can affect VirtualBox (and perhaps other virtualization platforms) filters and potentially COMM port ordering. 
+To work around this issue in VirtualBox you can remove the serial to a USB device filter.
+* The WFI32-IoT project cannot print long lines in the console past a certain length. This can cause data to be lost and missing newlines to "jumble" the text.
+* The WFI32-IoT project does not have a lot of free RAM. You may need to hand-pick components when integrating your own project.
 * When using  2048 key size mimxrt1060 is too slow to complete processing the TLS handshake within 60 seconds. 
 That will cause the server to disconnect.
 * Ofast Optimization should not be enabled in the main project because of the

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <cJSON.h>
 
 // This defines enables prototype integration with iotc-c-lib v3.0.0

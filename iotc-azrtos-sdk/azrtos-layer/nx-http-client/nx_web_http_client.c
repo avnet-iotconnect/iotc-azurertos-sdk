@@ -31,6 +31,8 @@
 
 /* Include necessary system files.  */
 
+#include    <stdio.h>
+#include    "tx_api.h"
 #include    "nx_api.h"
 #include    "nx_ip.h"
 #include    "nx_ipv6.h"
