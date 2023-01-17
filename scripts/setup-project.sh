@@ -189,6 +189,9 @@ case "$name" in
   stm32l4)
 	  pushd "$(dirname $0)"/../samples/"${name}"
 	;;
+  stm32u5)
+	  pushd "$(dirname $0)"/../samples/"${name}"
+	;;
   mimxrt1060)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -246,6 +249,23 @@ case "$name" in
     create_iotc_azrtos_symlinks ../../../../iotc-azrtos-sdk/ basic-sample/iotc-azrtos-sdk/
     create_threadx_project_maxxboard
     git_hide_config_files
+  ;;
+  stm32u5)
+    cube_zip_name='en.x-cube-azure_v2-1-0.zip'
+    if [ ! -f ${cube_zip_name} ]; then
+      echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
+      exit -2
+    fi
+    create_iotc_azrtos_symlinks
+    rm -rf STM32CubeExpansion_Cloud_AZURE_*
+
+    echo "Extracting files from ${cube_zip_name}..."
+    unzip -q ${cube_zip_name}
+    pushd STM32CubeExpansion_Cloud_AZURE_*/ >/dev/null
+    echo "Copying files from the package over the repository files..."
+    cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
+    popd >/dev/null
+    rm -rf STM32CubeExpansion_Cloud_AZURE_*
   ;;
   stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
     create_iotc_azrtos_symlinks

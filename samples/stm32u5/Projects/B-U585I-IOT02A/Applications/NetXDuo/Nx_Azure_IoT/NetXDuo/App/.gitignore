@@ -1,0 +1,5 @@
+/*
+!.gitignore
+!app_netxduo.c
+!app_netxduo.h
+!app_azure_iot_config.h
