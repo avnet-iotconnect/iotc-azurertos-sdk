@@ -52,6 +52,7 @@
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level.1422527852" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols.1980474268" name="Define symbols (-D)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.definedsymbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
+									<listOptionValue builtIn="false" value="IOTC_NEEDS_GETTIMEOFDAY_OU"/>
 									<listOptionValue builtIn="false" value="NX_WEB_HTTPS_ENABLE"/>
 									<listOptionValue builtIn="false" value="USE_WIFI=1"/>
 									<listOptionValue builtIn="false" value="APPLICATION_CONFIG_FILE=&quot;app_azure_iot_config.h&quot;"/>
