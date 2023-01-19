@@ -11,8 +11,16 @@ The built-in ATECC608 secure element provides a quick and secure way
 to set up the device with IoTConnect.
 
 The Click board interface makes it possible to make use of hundreds of different Click boards from MikroE.
-The [VAV Press Click](https://www.mikroe.com/vav-press-click) and [Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click) boards are
-directly supported by the demo software and provide the ability to send sensor readings from these boards directly to IoTConnect.
+The [VAV Press Click](https://www.mikroe.com/vav-press-click) 
+,[Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click)
+,[PHT Click](https://www.mikroe.com/pht-click)
+,[TEMP&HUM 14 click](https://www.mikroe.com/temphum-14-click)
+and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
+boards are directly supported by the demo software and provide 
+the ability to send sensor readings from these boards directly to IoTConnect.
+
+Please note that when using the Altitude 2 Click board, 
+if the PHT Click board is not connected, it is falsely detected, and random data is reported for PHT sensor values. 
 
 ## Hardware Setup
 
@@ -31,7 +39,7 @@ Firmware logs will be available on that COM port.
 
 * Download and install the [MPLAB X IDE package](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide). 
 MPLAB IPE and 32-bit device support are the only required options during the installation.
-* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-011123.zip)
+* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-011923.zip)
 * Extract the iotconnect-demo.X.production.hex file from the zip.
 * Open the Microchip IPE application in order to program the firmware: 
   * In the **Device** entry box, select "WFI32E01"
@@ -60,6 +68,14 @@ MPLAB IPE and 32-bit device support are the only required options during the ins
   * *ULP_temperature* - Temperature measured on the Ultra-Low Press Click Board.
   * *VAV_pressure* - Air pressure measured on the VAV Press Click Board.
   * *VAV_temperature* - Temperature measured on the VAV Press Click Board.
+  * *ALT2_altitude* - Altitude above sea level measured on the Altitude 2 Press Click Board. 
+  * *ALT2_temperature* - Temperature measured on the Altitude 2 Press Click Board.
+  * *ALT2_pressure* - Air pressure measured on the Altitude 2 Press Click Board.
+  * *PHT_temperature* - Temperature measured on the VAV Press Click Board.
+  * *PHT_pressure* - Air pressure measured on the PHT Click Board.
+  * *PHT_humidity* - Air humidity measured on the PHT Click Board.
+  * *TEMPHUM14_temperature* - Temperature measured on the TEMP&HUM 14 Board.
+  * *TEMPHUM14_humidity* - Air humidity measured on the TEMP&HUM 14 Board.
 * The screenshot below shows an example template:
 
 ![Template Screenshot](media/template.png "Template Screenshot")
