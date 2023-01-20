@@ -20,12 +20,17 @@
 #include "iotconnect_di.h"
 #endif
 
+#include "std_component.h"
+
 extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
-#define X509_COMMON_NAME_LENGTH 64
-static char common_name_buffer[X509_COMMON_NAME_LENGTH + 1];
+// sensors
+static const CHAR std_component_name[] = "std_comp";
+static STD_COMPONENT std_comp;
+
+static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
 #define APP_VERSION "01.00.00"
 
@@ -147,7 +152,25 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
-    iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
+
+    UINT status;
+    if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
+    	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
+    	iotcl_telemetry_set_number(msg, "humidity", std_comp.Humidity);
+    	iotcl_telemetry_set_number(msg, "pressure", std_comp.Pressure);
+    	iotcl_telemetry_set_number(msg, "accelerometer.x", std_comp.Acc_X);
+    	iotcl_telemetry_set_number(msg, "accelerometer.y", std_comp.Acc_Y);
+    	iotcl_telemetry_set_number(msg, "accelerometer.z", std_comp.Acc_Z);
+    	iotcl_telemetry_set_number(msg, "magnetometer.x", std_comp.Mag_X);
+    	iotcl_telemetry_set_number(msg, "magnetometer.y", std_comp.Mag_Y);
+    	iotcl_telemetry_set_number(msg, "magnetometer.z", std_comp.Mag_Z);
+    	iotcl_telemetry_set_number(msg, "gyroscope.x", std_comp.Gyro_X);
+    	iotcl_telemetry_set_number(msg, "gyroscope.y", std_comp.Gyro_Y);
+    	iotcl_telemetry_set_number(msg, "gyroscope.z", std_comp.Gyro_Z);
+    } else {
+    	printf("Failed to read sensor values, error: %u\r\n", status);
+    }
+
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -186,6 +209,11 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     azrtos_config.ip_ptr = ip_ptr;
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
+
+	UINT status;
+    if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
+        printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
+    }
 
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
