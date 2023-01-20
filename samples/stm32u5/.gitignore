@@ -1,0 +1,8 @@
+/STM32CubeExpansion_Cloud_AZURE*
+/iotc-azrtos-sdk
+/Drivers
+/Middlewares
+/Projects/*
+/Utilities
+*.zip
+
