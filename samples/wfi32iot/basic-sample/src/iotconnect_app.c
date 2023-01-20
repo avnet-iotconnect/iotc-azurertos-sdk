@@ -21,9 +21,23 @@
 #endif
 
 extern UCHAR _nx_driver_hardware_address[];
+
+
+// Various Click Board sensors supported by the demo
+extern ALTITUDE2_RETVAL ALTITUDE2_status;
+static ALTITUDE2_Data altitude2;
+
+extern PHT_RETVAL PHT_status;
+static PHT_Data pht;
+
+extern temphum14_return_value_t TEMPHUM14_status;
+static uint32_t HTU31_serialNumber;
+
 extern vavpress_sensor_param_data_t VAVPRESS_param_data;
 extern vavpress_return_value_t VAVPRESS_status;
 extern ultralowpress_return_value_t ULTRALOWPRESS_status;
+// ///////////////////
+
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
@@ -167,6 +181,7 @@ static void publish_telemetry() {
         iotcl_telemetry_set_number(msg, "ULP_temperature", ULTRALOWPRESS_getTemperature());
         iotcl_telemetry_set_number(msg, "ULP_pressure", ULTRALOWPRESS_getPressure());            
     }
+
     if (VAVPRESS_status == VAVPRESS_OK) {
         float temperature, pressure;
         if (VAVPRESS_getSensorReadings(&VAVPRESS_param_data, &pressure, &temperature) == VAVPRESS_OK) {
@@ -174,7 +189,34 @@ static void publish_telemetry() {
             iotcl_telemetry_set_number(msg, "VAV_pressure", pressure);
         }
     }
-    
+
+    if (ALTITUDE2_status == ALTITUDE2_OK) {
+        float ALT2_temperature, ALT2_pressure, ALT2_altitude;
+        ALTITUDE2_readData(&altitude2, &ALT2_temperature, &ALT2_pressure, &ALT2_altitude);
+        iotcl_telemetry_set_number(msg, "ALT2_temperature", ALT2_temperature);
+        iotcl_telemetry_set_number(msg, "ALT2_pressure", ALT2_pressure);
+        iotcl_telemetry_set_number(msg, "ALT2_altitude", ALT2_altitude);
+    }
+
+    if (PHT_status == PHT_OK) {
+        float PHT_temperature, PHT_pressure, PHT_humidity;
+        PHT_getTemperaturePressure(&pht, &PHT_temperature, &PHT_pressure);
+        PHT_getRelativeHumidity(&PHT_humidity);
+        iotcl_telemetry_set_number(msg, "PHT_temperature", PHT_temperature);
+        iotcl_telemetry_set_number(msg, "PHT_pressure", PHT_pressure);
+        iotcl_telemetry_set_number(msg, "PHT_humidity", PHT_humidity);
+    }
+
+    if (HTU31_serialNumber != 0) {
+        float TEMPHUM14_temperature, TEMPHUM14_humidity;
+        TEMPHUM14_setConversion( TEMPHUM14_I2C_SLAVE_ADDR_GND, TEMPHUM14_CONVERSION_HUM_OSR_0_020, TEMPHUM14_CONVERSION_TEMP_0_040 );
+        TEMPHUM14_getTemperatureHumidity (TEMPHUM14_I2C_SLAVE_ADDR_GND, &TEMPHUM14_temperature, &TEMPHUM14_humidity );
+        iotcl_telemetry_set_number(msg, "TEMPHUM14_temperature", TEMPHUM14_temperature);
+        iotcl_telemetry_set_number(msg, "TEMPHUM14_humidity", TEMPHUM14_humidity);
+
+    }
+
+
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
     
@@ -192,18 +234,42 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     APP_SENSORS_init();
 
     printf("Detecting attached Click Board sensors...\r\n");
+
     VAVPRESS_init();
     if (VAVPRESS_status == VAVPRESS_OK) {
         printf("VAV Click detected\r\n");
     } else {
         printf("VAV Click not detected\r\n");
     }
+
     uint32_t SM8436_serialNumber = ULTRALOWPRESS_init();
     if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK) {
         printf("ULP Click detected. Serial Number = %u\r\n", SM8436_serialNumber);
     } else {
-        printf("VULPV Click not detected\r\n");
+        printf("ULP Click not detected\r\n");
     }
+
+    ALTITUDE2_status = ALTITUDE2_init(&altitude2);
+    if (ALTITUDE2_status == ALTITUDE2_OK) {
+        printf("ALT2 Click detected\r\n");
+    } else {
+        printf("ALT2 Click not detected\r\n");
+    }
+
+    PHT_status = PHT_init(&pht);
+    if (PHT_status == PHT_OK) {
+        printf("PHT Click detected\r\n");
+    } else {
+        printf("PHT Click not detected\r\n");
+    }
+
+    HTU31_serialNumber = TEMPHUM14_init(TEMPHUM14_I2C_SLAVE_ADDR_GND);
+    if (HTU31_serialNumber != 0) {
+        printf("TEMPHUM14 Click detected. Serial Number = %u\r\n", HTU31_serialNumber);
+    } else {
+        printf("TEMPHUM14 Click not detected\r\n");
+    }
+
     
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
