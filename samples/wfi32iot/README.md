@@ -16,7 +16,7 @@ This document describes how to connect the WFI32-IoT Development Board (featurin
 Download the [WFI32-IoT Development Board User Guide](https://www.microchip.com/content/dam/mchp/documents/WSG/ProductDocuments/UserGuides/EV36W50A-WFI32-IoT-Board-Users-Guide-DS50003262.pdf) for more details including the schematics for the board (but do not follow the setup procedure in the document)
 
 ## Adding Extra Sensors to the WFI32 IoT Board
-Even though each WFI32E01 Development Board has its own on-board light and temperature sensors, additional sensors can optionally be added relatively quickly using existing off-the-shelf hardware.  [Click here](./Clicks.md) for more details on how to add these sensors!
+Even though each WFI32E01 Development Board has its own on-board light and temperature sensors, additional sensors can optionally be added relatively quickly using existing off-the-shelf hardware.  [Click here](https://github.com/MicrochipTech/AzureDemo_WFI32E01/blob/main/Clicks.md) for more details on how to add these sensors!
 
 ## Program the WFI32-IoT Development Board
 Please refer to instructions Microchip [here](https://github.com/MicrochipTech/AzureDemo_WFI32E01#program-the-wfi32e01-development-board)
