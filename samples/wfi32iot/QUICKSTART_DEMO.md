@@ -19,9 +19,6 @@ and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
 boards are directly supported by the demo software and provide 
 the ability to send sensor readings from these boards directly to IoTConnect.
 
-Please note that when using the Altitude 2 Click board, 
-if the PHT Click board is not connected, it is falsely detected, and random data is reported for PHT sensor values. 
-
 ## Hardware Setup
 
 * Plug the VAV Press Click or Ultra-Low Press Click board onto Click interface of the board.
@@ -39,7 +36,7 @@ Firmware logs will be available on that COM port.
 
 * Download and install the [MPLAB X IDE package](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide). 
 MPLAB IPE and 32-bit device support are the only required options during the installation.
-* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-011923.zip)
+* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-012023.zip)
 * Extract the iotconnect-demo.X.production.hex file from the zip.
 * Open the Microchip IPE application in order to program the firmware: 
   * In the **Device** entry box, select "WFI32E01"
@@ -138,7 +135,7 @@ following templates per the network configuration:
 ### Setting up the CLOUD.CFG file
 
 * Ensure that you eject the drive after making any changes to the files, and then restarting the board.
-The PC filesystem may be caching the file contents and it may not allow the device to complete writing to the device before a restart.
+The PC filesystem may be caching the file contents, and it may not allow the device to complete writing to the device before a restart.
 * Open the CLOUD.CFG file in a text editor. If the contents of CLOUD.CFG do not have text like CPID and ENV, 
 delete the file, eject the drive, restart the board and re-open the file.
 Restarting will populate the defaults.

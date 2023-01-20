@@ -136,8 +136,6 @@ This can affect VirtualBox (and perhaps other virtualization platforms) filters 
 To work around this issue in VirtualBox you can remove the serial to a USB device filter.
 * The WFI32-IoT project cannot print long lines in the console past a certain length. This can cause data to be lost and missing newlines to "jumble" the text.
 * The WFI32-IoT project does not have a lot of free RAM. You may need to hand-pick components when integrating your own project.
-* When using the Altitude 2 Click board with the WFI32-IoT board, 
-if the PHT Click board is not connected, it is falsely detected, and random data is reported for PHT sensor values.
 * When using  2048 key size mimxrt1060 is too slow to complete processing the TLS handshake within 60 seconds. 
 That will cause the server to disconnect.
 * Ofast Optimization should not be enabled in the main project because of the

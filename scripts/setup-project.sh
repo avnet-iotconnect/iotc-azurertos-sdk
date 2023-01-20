@@ -238,8 +238,12 @@ case "$name" in
     git clone https://github.com/MicrochipTech/AzureDemo_WFI32E01.git
     cd AzureDemo_WFI32E01
     git reset --hard v0.9.1
+    cp -nr  firmware/src ../
+    echo "Patching Altitude 2 and PHT Click Board sources..."
+    git reset --hard 0b3c623794c1b8ce9ef48a130af6d0bb7e22bb5c
+    cp -f  firmware/src/clicks/altitude2.c ../src/clicks/
+    cp -f  firmware/src/clicks/pht.c ../src/clicks/
     cd ..
-    cp -nr  AzureDemo_WFI32E01/firmware/src .
     rm -rf AzureDemo_WFI32E01
     ;;
   maaxboardrt)
@@ -260,4 +264,4 @@ esac
 
 
 popd >/dev/null #samples/"${name}"
-echo Done
+echo Done.
