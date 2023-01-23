@@ -156,7 +156,7 @@ static void on_command(IotclEventData data) {
                 LED_BLUE_Off();
             }
             command_status(data, true, command, "OK");
-         } else if (NULL !=  strstr(command, "reset-counters") ) {
+        } else if (NULL !=  strstr(command, "reset-counters") ) {
             button_press_data.sw1_press_count = 0;
             button_press_data.sw2_press_count = 0;
             command_status(data, true, command, "OK");
