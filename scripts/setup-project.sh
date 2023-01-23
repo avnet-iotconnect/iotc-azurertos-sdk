@@ -270,6 +270,11 @@ case "$name" in
     cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
     popd >/dev/null
     rm -rf STM32CubeExpansion_Cloud_AZURE_*
+
+    # remove extra projects to make it simpler for the user to set up
+    find . -name '.cproject' | grep -v NetXDuo | xargs rm -f
+    find . -name '.project' | grep -v NetXDuo | xargs rm -f
+
   ;;
   stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
     create_iotc_azrtos_symlinks
