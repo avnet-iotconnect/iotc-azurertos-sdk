@@ -40,12 +40,18 @@ scripts/setup-project.sh stm32u5
   * *temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the chip or module.
   * *humidity* - Relaitve air humidity.
   * *pressure* - Air pressure.
+  * *button_counter* - Recorded number of button presses since board start or "reset_counters" command was issued (see below).
 * Add the following **OBJECT** fields to the list of attributes, *adding x, y, and z NUMERIC values to each object*
   * *accelerometer* - Accelerometer force measured in one-thousandth of Earth gravity relative to the board.
   * *magnetometer* - Magnetic vector direction pointing north, relative to the board.
   * *gyroscope* - World orientation vector of the board.
 
 ![Template Screenshot](media/template-screenshot.png "Template Screenshot")
+
+* Add the following commands in the *Command* tab:
+  * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the blue user button will be turned on. 
+  * *led-green* - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the green LED on the board next to the blue user button will be turned on. 
+  * *reset-counters* - When issued, this command will reset the button press counter to zero.
 
 ### IoTConnect Device Setup
 

@@ -122,7 +122,10 @@ void HAL_GPIO_EXTI_Rising_Callback(uint16_t GPIO_Pin)
 
 #endif /* USE_CELLULAR == 1 */
     case(BUTTON_USER_Pin):
-      app_azure_iot_on_user_button_pushed();
+	  { // scope braces to exten declare the function
+		  extern void app_on_user_button_pushed(void);
+		  app_on_user_button_pushed();
+	  }
       break;
     default:
       break;
