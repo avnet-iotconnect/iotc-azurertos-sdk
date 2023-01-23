@@ -81,7 +81,7 @@ MPLAB IPE and 32-bit device support are the only required options during the ins
 
 ![Template Screenshot](media/template.png "Template Screenshot")
 
-* Add the following commands in the *Command* tab:
+* Add the following commands in the *Commands* tab:
   * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 
   * *led-green* - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 
   * *led-blue*  - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on.
