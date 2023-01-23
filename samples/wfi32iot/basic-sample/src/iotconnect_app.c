@@ -23,7 +23,9 @@
 extern UCHAR _nx_driver_hardware_address[];
 
 
-// Various Click Board sensors supported by the demo
+// Various Click Board and onboard sensors/buttons supported by the demo
+extern button_press_data_t button_press_data;
+
 extern ALTITUDE2_RETVAL ALTITUDE2_status;
 static ALTITUDE2_Data altitude2;
 
@@ -133,7 +135,37 @@ static void command_status(IotclEventData data, bool status, const char *command
 static void on_command(IotclEventData data) {
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-        command_status(data, false, command, "Not implemented");
+        if(NULL != strstr(command, "led-red") ) {
+            if (NULL != strstr(command, "on")) {
+                LED_RED_On();
+            } else {
+                LED_RED_Off();
+            }
+            command_status(data, true, command, "OK");
+        } else if (NULL != strstr(command, "led-green") ) {
+            if (NULL != strstr(command, "on")) {
+                LED_GREEN_On();
+            } else {
+                LED_GREEN_Off();
+            }
+            command_status(data, true, command, "OK");
+        } else if (NULL !=  strstr(command, "led-blue") ) {
+            if (NULL != strstr(command, "on")){
+                LED_BLUE_On();
+            } else {
+                LED_BLUE_Off();
+            }
+            command_status(data, true, command, "OK");
+         } else if (NULL !=  strstr(command, "reset-counters") ) {
+            button_press_data.sw1_press_count = 0;
+            button_press_data.sw2_press_count = 0;
+            command_status(data, true, command, "OK");
+        } else {
+            tx_thread_sleep(100); // sleep because of the UART flood issue with this board
+            printf("Unknown command:%s\r\n", command);
+            tx_thread_sleep(100);
+            command_status(data, false, command, "Not implemented");
+        }
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -168,6 +200,8 @@ static void publish_telemetry() {
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
+   
+    
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
     // random number 0-100, cast to int so that it removes decimals in json
@@ -175,6 +209,13 @@ static void publish_telemetry() {
     
     iotcl_telemetry_set_number(msg, "WFI32IoT_temperature", APP_SENSORS_readTemperature());
     iotcl_telemetry_set_number(msg, "WFI32IoT_light", APP_SENSORS_readLight());
+
+    iotcl_telemetry_set_number(msg, "WFI32IoT_button1", button_press_data.flag.sw1);
+    iotcl_telemetry_set_number(msg, "WFI32IoT_button2", button_press_data.flag.sw2);
+    iotcl_telemetry_set_number(msg, "WFI32IoT_button1_count", button_press_data.sw1_press_count);
+    iotcl_telemetry_set_number(msg, "WFI32IoT_button2_count", button_press_data.sw2_press_count);
+    button_press_data.flag.sw1 = 0;
+    button_press_data.flag.sw2 = 0;
     
     if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK && ULTRALOWPRESS_isReady()) {
         ULTRALOWPRESS_clearStatus();
@@ -231,6 +272,8 @@ static void publish_telemetry() {
 bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
     
+    APP_SWITCH_init();
+
     APP_SENSORS_init();
 
     printf("Detecting attached Click Board sensors...\r\n");
@@ -384,7 +427,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
         for (int i = 0; i < 10000; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(15000);
+                iotconnect_sdk_poll(1000);
             } else {
                 return false;
             }
