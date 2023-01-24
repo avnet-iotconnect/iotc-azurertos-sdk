@@ -36,7 +36,7 @@ Firmware logs will be available on that COM port.
 
 * Download and install the [MPLAB X IDE package](https://www.microchip.com/en-us/tools-resources/develop/mplab-x-ide). 
 MPLAB IPE and 32-bit device support are the only required options during the installation.
-* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-012023.zip)
+* Download the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/iotconnect-demo-wfi32-012323.zip)
 * Extract the iotconnect-demo.X.production.hex file from the zip.
 * Open the Microchip IPE application in order to program the firmware: 
   * In the **Device** entry box, select "WFI32E01"
@@ -61,6 +61,10 @@ MPLAB IPE and 32-bit device support are the only required options during the ins
 * Add the following **NUMERIC** fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
   * *WFI32IoT_temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the WFI32-IoT.
   * *WFI32IoT_light* - The amount light value reported by the light sensor on the WFI32-IoTboard.
+  * *WFI32IoT_button1* - Will be set to 1, if button 1 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
+  * *WFI32IoT_button2* - Will be set to 1, if button 2 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
+  * *WFI32IoT_button1_count* - The number of times that button 1 was pressed since the board started or "reset-counters" command (see below) was issued. 
+  * *WFI32IoT_button1_count* - The number of times that button 2 was pressed since the board started or "reset-counters" command (see below) was issued. 
   * *ULP_pressure* - Air pressure measured on the Ultra-Low Press Click Board.
   * *ULP_temperature* - Temperature measured on the Ultra-Low Press Click Board.
   * *VAV_pressure* - Air pressure measured on the VAV Press Click Board.
@@ -76,6 +80,12 @@ MPLAB IPE and 32-bit device support are the only required options during the ins
 * The screenshot below shows an example template:
 
 ![Template Screenshot](media/template.png "Template Screenshot")
+
+* Add the following commands in the *Commands* tab:
+  * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 
+  * *led-green* - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the green LED on the board next to the reset switch will be turned on. 
+  * *led-blue*  - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the blue LED on the board next to the reset switch will be turned on.
+  * *reset-counters* - When issued, this command will reset the running counters for button 1 and 2 presses.
 
 ## Obtaining the Device Certificate Fingerprint
 
