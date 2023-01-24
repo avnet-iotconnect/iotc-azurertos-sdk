@@ -234,6 +234,7 @@ case "$name" in
     cd ..
     cp -nr  AzureDemo_ATSAME54-XPRO/firmware/src .
     rm -rf AzureDemo_ATSAME54-XPRO/
+    git_hide_config_files
   ;;
   wfi32iot)
     create_iotc_azrtos_symlinks
@@ -248,6 +249,7 @@ case "$name" in
     cp -f  firmware/src/clicks/pht.c ../src/clicks/
     cd ..
     rm -rf AzureDemo_WFI32E01
+    git_hide_config_files
     ;;
   maaxboardrt)
     create_iotc_azrtos_symlinks ../../../../iotc-azrtos-sdk/ basic-sample/iotc-azrtos-sdk/

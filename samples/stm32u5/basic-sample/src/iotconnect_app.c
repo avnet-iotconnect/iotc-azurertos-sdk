@@ -5,6 +5,9 @@
 
 #include "app_config.h"
 
+#include "stm32u5xx.h"
+#include "b_u585i_iot02a.h"
+
 #include "nx_api.h"
 #include "nxd_dns.h"
 #include "iotconnect_common.h"
@@ -120,7 +123,26 @@ static void command_status(IotclEventData data, bool status, const char *command
 static void on_command(IotclEventData data) {
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-        command_status(data, false, command, "Not implemented");
+    	if(NULL != strstr(command, "led-red") ) {
+			if (NULL != strstr(command, "on")) {
+				BSP_LED_On(LED_RED);
+			} else {
+				BSP_LED_Off(LED_RED);
+			}
+			command_status(data, true, command, "OK");
+		} else if(NULL != strstr(command, "led-green") ) {
+			if (NULL != strstr(command, "on")) {
+				BSP_LED_On(LED_GREEN);
+			} else {
+				BSP_LED_Off(LED_GREEN);
+			}
+			command_status(data, true, command, "OK");
+		} else if (NULL != strstr(command, "reset-counters") ) {
+			std_comp.ButtonCounter = 0;
+			command_status(data, true, command, "OK");
+		} else {
+			command_status(data, false, command, "Not implemented");
+		}
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -167,6 +189,10 @@ static void publish_telemetry() {
     	iotcl_telemetry_set_number(msg, "gyroscope.x", std_comp.Gyro_X);
     	iotcl_telemetry_set_number(msg, "gyroscope.y", std_comp.Gyro_Y);
     	iotcl_telemetry_set_number(msg, "gyroscope.z", std_comp.Gyro_Z);
+
+    	// note the hook into app_azure_iot.c for button interrupt handler
+    	iotcl_telemetry_set_number(msg, "button_counter", std_comp.ButtonCounter);
+
     } else {
     	printf("Failed to read sensor values, error: %u\r\n", status);
     }
@@ -201,6 +227,13 @@ bool extract_cpid_and_duid_from_operational_cn(IotConnectClientConfig *config, c
 	}
 	return true;
 }
+
+
+/* User push button callback*/
+void app_on_user_button_pushed(void) {
+    std_component_on_button_pushed(&std_comp);
+}
+
 
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
@@ -267,7 +300,7 @@ auth_driver_context = config->auth.data.x509.auth_interface_context;
         for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(5000);
+                iotconnect_sdk_poll(1000);
             } else {
                 return false;
             }
