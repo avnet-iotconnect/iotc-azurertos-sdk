@@ -30,7 +30,7 @@ the ability to send sensor readings from these boards directly to IoTConnect.
   * Optionally, connect a terminal program (like TeraTerm) to one of the two COM ports
 which is named "USB Serial". Use defaults for 115200 baud: 8 bits, 1 stop bit, no flow control or parity. 
 Firmware logs will be available on that COM port. 
-  * The MSD should appear as a new removable drive some time aft32-bit device supporter the board boots up.
+  * The MSD should appear as a new removable drive some time after the board boots up.
 
 ## Programming the Firmware
 
