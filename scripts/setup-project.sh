@@ -16,7 +16,12 @@ make_sym_link() {
   if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ]; then
     # Create a Windows directory junction, or Windows file hardlink
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
-    cmd.exe /c "mklink $link_type "${2//\//\\}" "${1//\//\\}
+    if [ $(uname -o | grep "Msys") ]; then
+      # MSYS2 thinks the /c argument is the c drive and replaces it with C:\, which is not intended.
+      cmd.exe //c "mklink $link_type "${2//\//\\}" "${1//\//\\}
+    else
+      cmd.exe /c "mklink $link_type "${2//\//\\}" "${1//\//\\}
+    fi
   else
     relative_source_loc=$(realpath --relative-to="$(dirname ${2})" ${1})
     ln -sf ${relative_source_loc} ${2}
@@ -27,11 +32,11 @@ make_sym_link() {
 # export NO_ASSUME_UNCHANGED=yes to allow commits to these files
 git_hide_config_files() {
   if [[ -n "$NO_ASSUME_UNCHANGED" ]]; then
-    git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --no-assume-unchanged basic-sample/include/app_config.h
+    git update-index --no-assume-unchanged basic-sample/src/sample_device_identity.c || true
+    git update-index --no-assume-unchanged basic-sample/include/app_config.h || true
   else
-    git update-index --assume-unchanged basic-sample/src/sample_device_identity.c
-    git update-index --assume-unchanged basic-sample/include/app_config.h
+    git update-index --assume-unchanged basic-sample/src/sample_device_identity.c || true
+    git update-index --assume-unchanged basic-sample/include/app_config.h || true
   fi
 }
 
