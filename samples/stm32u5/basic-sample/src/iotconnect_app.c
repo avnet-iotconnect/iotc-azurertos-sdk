@@ -297,7 +297,7 @@ auth_driver_context = config->auth.data.x509.auth_interface_context;
             return false;
         }
         // send telemetry periodically
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 36000; i++) { // if 1 msg per second = 10 hours
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(1000);

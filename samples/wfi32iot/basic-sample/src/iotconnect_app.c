@@ -424,7 +424,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
             return false;
         }
         // send telemetry at regular intervals
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 36000; i++) { // 10 hours if 1s delay
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(1000);
