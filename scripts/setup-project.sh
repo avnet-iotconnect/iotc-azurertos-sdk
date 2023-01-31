@@ -54,8 +54,10 @@ create_iotc_azrtos_symlinks() {
   target_dir=${2:-iotc-azrtos-sdk/}
 
   # Make sure that the script is idempotent
-  rm -rf $target_dir
   mkdir -p $target_dir
+  pushd $target_dir > /dev/null
+  git clean -Xdf;
+  popd > /dev/null
 
   pushd $target_dir >/dev/null
   for f in $source_dir/*; do
