@@ -45,7 +45,6 @@ Keep subdirectories selected, but unselect the actual mimxrt1060 sample director
 * For SAM E54 Xplained Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
-  (Buy the subscription for XC32 pro compiler if needs size optimization. OTA is dual bank updates so make sure that the program size is below half of the flash size.)
   * In MPLab, File > Open Project, navigate to the samples/same54xpro directory, select basic-sample, 
   check the "Open Required Projects" checkbox, and click the "Open Project" button.   
   * Plug in your board AFTER opening the project, so that MPLAB detects it
@@ -53,7 +52,6 @@ from the extracted zip file
 * For WFI32-IoT board:
   * Download and install MPLAB X IDE 6.0 or newer.
   * Download and install the MPLAB XC32/32++ Compiler 4.1.0 or later.
-  (Buy the subscription for XC32 pro compiler if needs OTA feature because of the size optimization for the dual bank OTA)
   * The project also supports the sensors integration with VAV Press Click Board and Ultra-Low-Press Click Board. 
   You can get  more hardware related setup info [here](https://github.com/MicrochipTech/AzureDemo_WFI32E01/blob/v0.9.1/Clicks.md).
   * With MPLAX X IDE, Open the iotconnect-demo.X project from the [samples/wfi32iot] directory.
