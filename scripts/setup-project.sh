@@ -2,6 +2,27 @@
 
 set -e
 
+if [ $(uname -o | grep "Cygwin") ]; then
+  echo "Warning: this script does not support Cygwin. Please use WSL or 'git bash'."
+  exit -1;
+fi
+
+#
+# Select download mechanism given abilities of shells, etc.
+#
+which wget >& /dev/null
+if [ $? == 0 ]; then
+  FETCH="wget -q -O"
+else
+  which wget >& /dev/null
+  if [ $? == 0 ]; then
+    FETCH="curl -s --output"
+  else
+    echo "No wget or curl present"
+    exit -1;
+  fi
+fi
+
 show_help() {
   echo "Usage: $0 <project_name>"
   echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
@@ -83,9 +104,9 @@ create_iotc_azrtos_symlinks() {
 
 create_threadx_project_maxxboard() {
   echo Downloading MaaxXBoardRT baseline project packages...
-  wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+  ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
   azrtos_dir='mimxrt1060/MCUXpresso/'
-  wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
+  ${FETCH} project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
   project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
 
   echo Extracting...
@@ -113,29 +134,29 @@ create_threadx_projects() {
   case "$name" in
     stm32l4)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
       project_platform_dir='b-l4s5i-iot01a/'
       project_ide_dir='stm32cubeide/'
       libs="stm32l4xx_lib common_hardware_code "
       ;;
     mimxrt1060)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
       project_platform_dir='mimxrt1060/'
       project_ide_dir='MCUXpresso/'
       libs="mimxrt1060_library filex common_hardware_code "
       ;;
     same54xpro)
       echo Downloading Azure_RTOS_6...
-      #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2022_04_10.zip
+      #${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2022_04_10.zip
       project_platform_dir='same54Xpro/'
       project_ide_dir='mplab/'
       libs="same54_lib filex common_hardware_code "
       ;;
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
       project_platform_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
