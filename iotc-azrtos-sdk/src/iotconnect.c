@@ -233,7 +233,7 @@ static void on_message_intercept(IotclEventData data, IotclEventType type) {
         if (NULL == discovery_response) {
             printf("IOTC: Unable to run HTTP discovery on ON_FORCE_SYNC \r\n");
             return;
-        }
+        }        
         sync_response = run_http_sync(config.cpid, config.duid);
         if (NULL == sync_response) {
             printf("IOTC: Unable to run HTTP sync on ON_FORCE_SYNC \r\n");
@@ -319,7 +319,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
         return -1;
     }
     printf("IOTC: Discovery response parsing successful. Performing sync...\r\n");
-
+    
     sync_response = run_http_sync(config.cpid, config.duid);
     if (NULL == sync_response) {
         // Sync_call will print the error
@@ -327,6 +327,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     }
     printf("IOTC: Sync response parsing successful.\r\n");
 
+    
     // We want to print only first 5 characters of cpid. %.5s doesn't seem to work with prink
     char cpid_buff[6];
     strncpy(cpid_buff, sync_response->cpid, 5);
@@ -336,8 +337,11 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 
     iic.c2d_msg_cb = on_iothub_data;
 
-    iic.device_name = sync_response->broker.client_id;
-    iic.host = sync_response->broker.host;
+    printf("IOTC: DUUD: %s\r\n", config.duid);
+    printf("IOTC: CPID: %s\r\n", config.cpid);
+    printf("IOTC: ENV:  %s\r\n", config.env);
+    iic.device_name = "avtds-fae-stm32l4";
+    iic.host = "avnet-demo2.azure-devices.net";
     iic.auth = &config.auth;
     iic.status_cb = on_iotconnect_status;
 
@@ -367,7 +371,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     lib_config.event_functions.msg_cb = on_message_intercept;
 
 #ifndef PROTOCOL_V2_PROTOTYPE
-    lib_config.telemetry.dtg = sync_response->dtg;
+    lib_config.telemetry.dtg = "dummy-dtg!";
 #else
     lib_config.event_functions.response_cb = hello_response_callback;
     // TODO: deal with workaround for telemetry config

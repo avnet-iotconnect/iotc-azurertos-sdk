@@ -8,7 +8,6 @@
         <itemPath>include/app_config.h</itemPath>
       </logicalFolder>
       <itemPath>../common_hardware_code/common_hardware_code.h</itemPath>
-      <itemPath>nx_driver_same54.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,9 +21,9 @@
         <itemPath>src/main.c</itemPath>
         <itemPath>src/sample_device_identity.c</itemPath>
         <itemPath>src/nx_azure_iot_adu_agent_same54_driver.c</itemPath>
+        <itemPath>src/nx_driver_same54.c</itemPath>
       </logicalFolder>
       <itemPath>../common_hardware_code/common_hardware_code.c</itemPath>
-      <itemPath>nx_driver_same54.c</itemPath>
       <itemPath>../common_hardware_code/tx_initialize_low_level.S</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -47,12 +46,12 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>EdbgTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>3.00</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>4.10</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <packs>
-        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
         <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
+        <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -158,24 +157,24 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\iotc-azrtos-sdk\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include"/>
+                  value="..\same54_lib\same54_lib;..\same54_lib\same54_lib\component;..\same54_lib\same54_lib\instance;..\same54_lib\same54_lib\pio;..\azure_iot;..\azure_iot\azure-sdk-for-c\sdk\inc\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\core\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\iot\internal;..\azure_iot\azure-sdk-for-c\sdk\inc\azure\storage\;..\iotc-azrtos-sdk\authentication\driver;..\iotc-azrtos-sdk\authentication\include;..\iotc-azrtos-sdk\include;..\iotc-azrtos-sdk\azrtos-layer\include;..\iotc-azrtos-sdk\azrtos-layer\azrtos-ota\include;../iotc-azrtos-sdk;../iotc-azrtos-sdk/azrtos-layer/azrtos-adu/include;include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="make-warnings-into-errors" value="false"/>
         <property key="optimization-level" value="-O1"/>
-        <property key="place-data-into-section" value="false"/>
+        <property key="place-data-into-section" value="true"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
+        <property key="tentative-definitions" value="-fno-common"/>
         <property key="toplevel-reordering" value=""/>
         <property key="unaligned-access" value=""/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
         <property key="use-indirect-calls" value="false"/>
-        <appendMe value="-ffunction-sections -fdata-sections -Wl,--gc-sections"/>
       </C32>
       <C32-AR>
         <property key="additional-options-chop-files" value="false"/>
@@ -202,6 +201,7 @@
       </C32-AS>
       <C32-CO>
         <property key="coverage-enable" value=""/>
+        <property key="stack-guidance" value="false"/>
       </C32-CO>
       <C32-LD>
         <property key="additional-options-use-response-files" value="false"/>
@@ -242,7 +242,6 @@
         <property key="symbol-stripping" value=""/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
-        <appendMe value="--gc-sections"/>
       </C32-LD>
       <C32CPP>
         <property key="additional-warnings" value="false"/>
@@ -284,6 +283,7 @@
         <property key="omit-pack-options" value="1"/>
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="false"/>
+        <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
       <EdbgTool>
@@ -293,6 +293,58 @@
         <property key="communication.activationmode" value="nohv"/>
         <property key="communication.interface" value="swd"/>
         <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.path"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="firmware.toolpack"
+                  value="Press to select which tool pack to use"/>
+        <property key="firmware.update.action" value="firmware.update.use.latest"/>
+        <property key="freeze.timers" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="0-fffff"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="script.log_level" value="0"/>
+        <property key="script.reset_delay" value="0"/>
+        <property key="script.show_output" value="false"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value=""/>
+      </EdbgTool>
+      <Tool>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="arm.use_vtor" value="false"/>
+        <property key="arm.vtor_adr" value="exception_table"/>
+        <property key="communication.activationmode" value="nohv"/>
+        <property key="communication.interface" value="swd"/>
+        <property key="communication.speed" value="2.000"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="firmware.path"
                   value="Press to browse for a specific firmware version"/>
@@ -316,6 +368,8 @@
         <property key="memories.programmemory.ranges" value="0-fffff"/>
         <property key="memories.rww" value="true"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/avnet/iotc-azurertos-sdk-same54-adu/samples/same54xpro/basic-sample/debug/default/default_ptg"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
@@ -334,7 +388,7 @@
         <property key="toolpack.updateoptions.packversion"
                   value="Press to select which tool pack to use"/>
         <property key="voltagevalue" value=""/>
-      </EdbgTool>
+      </Tool>
     </conf>
   </confs>
 </configurationDescriptor>

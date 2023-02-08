@@ -22,6 +22,13 @@
       <logicalFolder name="azrtos-layer"
                      displayName="azrtos-layer"
                      projectFiles="true">
+        <logicalFolder name="azrtos-adu" displayName="azrtos-adu" projectFiles="true">
+          <logicalFolder name="include" displayName="include" projectFiles="true">
+            <itemPath>../../../iotc-azrtos-sdk/azrtos-layer/azrtos-adu/include/azrtos_adu_agent.h</itemPath>
+          </logicalFolder>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+          </logicalFolder>
+        </logicalFolder>
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
             <itemPath>azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
@@ -167,6 +174,13 @@
       <logicalFolder name="azrtos-layer"
                      displayName="azrtos-layer"
                      projectFiles="true">
+        <logicalFolder name="azrtos-adu" displayName="azrtos-adu" projectFiles="true">
+          <logicalFolder name="include" displayName="include" projectFiles="true">
+          </logicalFolder>
+          <logicalFolder name="src" displayName="src" projectFiles="true">
+            <itemPath>../../../iotc-azrtos-sdk/azrtos-layer/azrtos-adu/src/azrtos_adu_agent.c</itemPath>
+          </logicalFolder>
+        </logicalFolder>
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
           </logicalFolder>
@@ -275,12 +289,12 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>4.20</languageToolchainVersion>
-        <platform>3</platform>
+        <languageToolchainVersion>4.10</languageToolchainVersion>
+        <platform>2</platform>
       </toolsSet>
       <packs>
-        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
         <pack name="SAME54_DFP" vendor="Microchip" version="3.3.64"/>
+        <pack name="CMSIS" vendor="ARM" version="5.4.0"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -318,17 +332,17 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="azrtos-layer\include;include;iotc-c-lib\include;authentication\driver;authentication\include;azrtos-layer\azrtos-ota\include;libTO\include"/>
+                  value="../netxduo/addons/azure_iot;azrtos-layer\include;include;iotc-c-lib\include;authentication\driver;authentication\include;azrtos-layer\azrtos-ota\include;libTO\include;azrtos-layer/azrtos-adu/include"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="make-warnings-into-errors" value="false"/>
         <property key="optimization-level" value="-O1"/>
-        <property key="place-data-into-section" value="false"/>
+        <property key="place-data-into-section" value="true"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros"
-                  value="IOTC_NEEDS_GETTIMEOFDAY_OU;NX_WEB_HTTPS_ENABLE"/>
+                  value="IOTC_NEEDS_GETTIMEOFDAY_OU;NX_WEB_HTTPS_ENABLE;IOTC_NEEDS_C_TIME;IOTC_ENABLE_ADU_SUPPORT"/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
         <property key="tentative-definitions" value="-fno-common"/>
@@ -448,6 +462,24 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <item path="azrtos-layer/nx-http-client/nx_web_http_client.c"
+            ex="true"
+            overriding="false">
+        <C32>
+        </C32>
+        <C32-AR>
+        </C32-AR>
+        <C32-AS>
+        </C32-AS>
+        <C32-CO>
+        </C32-CO>
+        <C32-LD>
+        </C32-LD>
+        <C32CPP>
+        </C32CPP>
+        <C32Global>
+        </C32Global>
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
