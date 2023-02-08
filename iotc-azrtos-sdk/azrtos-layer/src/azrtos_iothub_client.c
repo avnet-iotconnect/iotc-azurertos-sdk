@@ -177,7 +177,7 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
         printf("Client Properties enable failed!: error code = 0x%08x\r\n", status);
         return status;
     }
-#endif IOTC_ENABLE_ADU_SUPPORT
+#endif // IOTC_ENABLE_ADU_SUPPORT
     if (status) {
         nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
         return status;
