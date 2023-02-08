@@ -56,7 +56,7 @@ create_iotc_azrtos_symlinks() {
   # Make sure that the script is idempotent
   mkdir -p $target_dir
   pushd $target_dir > /dev/null
-  git clean -Xdf;
+  git clean -Xdf || true;
   popd > /dev/null
 
   pushd $target_dir >/dev/null
