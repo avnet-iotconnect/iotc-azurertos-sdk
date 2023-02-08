@@ -2,11 +2,6 @@
 
 set -e
 
-if [ $(uname -o | grep "Cygwin") ]; then
-  echo "Warning: this script does not support Cygwin. Please use WSL or 'git bash'."
-  exit -1;
-fi
-
 #
 # Select download mechanism given abilities of shells, etc.
 #
@@ -34,7 +29,10 @@ show_help() {
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ]; then
+  if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ] || [ $(uname -o | grep "Cygwin") ]; then
+    # Remove any previous link
+    rm -f ${2}
+
     # Create a Windows directory junction, or Windows file hardlink
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
     if [ $(uname -o | grep "Msys") ]; then
