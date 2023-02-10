@@ -327,7 +327,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     }
     printf("IOTC: Sync response parsing successful.\r\n");
 
-    
     // We want to print only first 5 characters of cpid. %.5s doesn't seem to work with prink
     char cpid_buff[6];
     strncpy(cpid_buff, sync_response->cpid, 5);
@@ -337,11 +336,8 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
 
     iic.c2d_msg_cb = on_iothub_data;
 
-    printf("IOTC: DUUD: %s\r\n", config.duid);
-    printf("IOTC: CPID: %s\r\n", config.cpid);
-    printf("IOTC: ENV:  %s\r\n", config.env);
-    iic.device_name = "avtds-fae-stm32l4";
-    iic.host = "avnet-demo2.azure-devices.net";
+    iic.device_name = sync_response->broker.client_id;
+    iic.host = sync_response->broker.host;
     iic.auth = &config.auth;
     iic.status_cb = on_iotconnect_status;
 
@@ -371,7 +367,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     lib_config.event_functions.msg_cb = on_message_intercept;
 
 #ifndef PROTOCOL_V2_PROTOTYPE
-    lib_config.telemetry.dtg = "dummy-dtg!";
+    lib_config.telemetry.dtg = sync_response->dtg;
 #else
     lib_config.event_functions.response_cb = hello_response_callback;
     // TODO: deal with workaround for telemetry config
