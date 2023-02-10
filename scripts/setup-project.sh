@@ -4,7 +4,7 @@ set -e
 
 show_help() {
   echo "Usage: $0 <project_name>"
-  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
+  echo "Available projects: stm32l4, stm32u5, mimxrt1060, same54xpro, " \
       "same54xprov2, maaxboardrt, rx65ncloudkit, wfi32iot"
 }
 
@@ -113,7 +113,7 @@ create_threadx_projects() {
   case "$name" in
     stm32l4)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
+      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_STM32L4+-DISCO_STM32CubeIDE_Sample_2022_04_10.zip
       project_platform_dir='b-l4s5i-iot01a/'
       project_ide_dir='stm32cubeide/'
       libs="stm32l4xx_lib common_hardware_code "

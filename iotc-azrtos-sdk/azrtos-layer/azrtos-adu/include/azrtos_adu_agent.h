@@ -13,6 +13,8 @@ extern   "C" {
 
 #define IOTC_ADU_MICROCHIP "MICROCHIP"
 #define IOTC_ADU_SAME54 "SAME54"
+#define IOTC_ADU_STM "STMicroelectronics"
+#define IOTC_ADU_STM32L4S5 "STM32L4S5"
 
 UINT iothub_start_device_agent(
     const char *manufacturer,

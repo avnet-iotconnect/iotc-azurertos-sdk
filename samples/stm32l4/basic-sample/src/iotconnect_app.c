@@ -11,6 +11,7 @@
 #include "iotconnect.h"
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
+#include "azrtos_adu_agent.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 
@@ -23,7 +24,7 @@
 
 
 // from nx_azure_iot_adu_agent_<boardname>_driver.c
-extern void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
@@ -32,7 +33,7 @@ static IotcAuthInterfaceContext auth_driver_context;
 static char common_name_buffer[X509_COMMON_NAME_LENGTH + 1];
 
 
-#define APP_VERSION "01.00.00"
+#define APP_VERSION "1.0.0"
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -157,7 +158,7 @@ static UINT start_ota(char *url) {
 
     status = iotc_ota_fw_download(
             &req,
-            nx_azure_iot_adu_agent_stm32l4xx_driver,
+			nx_azure_iot_adu_agent_driver,
             false,
             download_event_handler);
     if (status) {
@@ -440,11 +441,22 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
+
+        tx_thread_sleep(1000);
+        iothub_start_device_agent(
+            IOTC_ADU_STM,
+            IOTC_ADU_STM32L4S5,
+            "AVNET",
+            "SAMPLEAPP",
+            APP_VERSION
+            );
+
         // send telemetry periodically
         for (int i = 0; i < 50; i++) {
             if (iotconnect_sdk_is_connected()) {
+
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(5000);
+                iotconnect_sdk_poll(15000);
             } else {
                 return false;
             }

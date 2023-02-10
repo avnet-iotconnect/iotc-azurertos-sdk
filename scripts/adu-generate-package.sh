@@ -26,13 +26,20 @@ if [[ -z "${board}" || -z "${fw_filename}" || -z "${fw_version}" || -z "${fw_pro
 fi
 
 if [[ -z "${dev_manufacturer}" && -z "${dev_model}" ]]; then
-  if [[ "${board}" == "same54xpro" ]]; then
-    dev_manufacturer="MICROCHIP"
-    dev_model="SAME54"
-  else
-    usage
-    exit 2
-  fi
+  case "${board}" in
+    same54xpro)
+      dev_manufacturer="MICROCHIP"
+      dev_model="SAME54"
+      ;;
+    stm32l4)
+      dev_manufacturer="STMicroelectronics"
+      dev_model="STM32L4S5"
+      ;;
+    *)
+      usage
+      exit 2
+      ;;
+  esac
 fi
 
 if [[ -z "${fw_filename}" ]]; then
@@ -42,6 +49,7 @@ fi
 
 if [[ ! -f "${fw_filename}" ]]; then
   usage
+  echo "File ${fw_filename} not found!" >&2
   exit 4
 fi
 
