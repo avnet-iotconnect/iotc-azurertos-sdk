@@ -1,12 +1,9 @@
 #!/bin/bash
 
-set -e
-
 #
 # Select download mechanism given abilities of shells, etc.
 # check curl first so Git for Windows shell is ok
 #
-
 # check is curl available
 which curl
 if [ $? == 0 ]; then
@@ -21,8 +18,12 @@ else
     exit -1;
   fi
 fi
-
 UNZIP="unzip -q -o"
+
+#
+# exit on failure
+#
+set -e
 
 show_help() {
   echo "Usage: $0 <project_name>"
