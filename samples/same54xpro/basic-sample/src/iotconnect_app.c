@@ -138,8 +138,6 @@ static UINT start_ota(char *url) {
 
     req.azrtos_config = &azrtos_config;
     // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-//    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-//    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
     req.tls_cert = (unsigned char*) DIGICERT_GLOBAL_ROOT_G2;
     req.tls_cert_len = DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
@@ -358,7 +356,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
         for (int i = 0; i < 10; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(3000); //was 15000
+                iotconnect_sdk_poll(15000);
             } else {
                 return false;
             }
