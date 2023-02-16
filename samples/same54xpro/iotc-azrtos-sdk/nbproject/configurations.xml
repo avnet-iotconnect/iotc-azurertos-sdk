@@ -24,14 +24,13 @@
                      projectFiles="true">
         <logicalFolder name="azrtos-adu" displayName="azrtos-adu" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
-            <itemPath>../../../iotc-azrtos-sdk/azrtos-layer/azrtos-adu/include/azrtos_adu_agent.h</itemPath>
+            <itemPath>azrtos-layer/azrtos-adu/include/azrtos_adu_agent.h</itemPath>
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
-            <itemPath>azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
             <itemPath>azrtos-layer/azrtos-ota/include/azrtos_ota_fw_client.h</itemPath>
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
@@ -178,7 +177,7 @@
           <logicalFolder name="include" displayName="include" projectFiles="true">
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
-            <itemPath>../../../iotc-azrtos-sdk/azrtos-layer/azrtos-adu/src/azrtos_adu_agent.c</itemPath>
+            <itemPath>azrtos-layer/azrtos-adu/src/azrtos_adu_agent.c</itemPath>
           </logicalFolder>
         </logicalFolder>
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
