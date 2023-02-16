@@ -138,8 +138,10 @@ static UINT start_ota(char *url) {
 
     req.azrtos_config = &azrtos_config;
     // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+//    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
+//    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+    req.tls_cert = (unsigned char*) DIGICERT_GLOBAL_ROOT_G2;
+    req.tls_cert_len = DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
     status = iotc_ota_fw_download(
             &req,
@@ -343,6 +345,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             return false;
         }
         tx_thread_sleep(1000);
+   
         iothub_start_device_agent(
             IOTC_ADU_MICROCHIP,
             IOTC_ADU_SAME54,
@@ -350,16 +353,17 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             "SAMPLEAPP",
             APP_VERSION
             );
-
+        
         // send telemetry periodically
         for (int i = 0; i < 10; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(15000);
+                iotconnect_sdk_poll(3000); //was 15000
             } else {
                 return false;
             }
         }
+        iothub_stop_device_agent();
         iotconnect_sdk_disconnect();
     }
     printf("Done.\r\n");

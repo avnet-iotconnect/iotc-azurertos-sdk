@@ -461,6 +461,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
                 return false;
             }
         }
+		iothub_stop_device_agent();
         iotconnect_sdk_disconnect();
     }
     printf("Done.\r\n");

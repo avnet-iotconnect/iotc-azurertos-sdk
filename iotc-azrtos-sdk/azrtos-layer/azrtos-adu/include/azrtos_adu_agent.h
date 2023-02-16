@@ -25,6 +25,8 @@ UINT iothub_start_device_agent(
     );
 
 
+UINT iothub_stop_device_agent(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -83,4 +83,10 @@ UINT iothub_start_device_agent(
     return 0;
 }
 
+UINT iothub_stop_device_agent(void)
+{
+    UINT status = nx_azure_iot_adu_agent_stop(&adu_agent);
+    return status;
+}
+    
 #endif // IOTC_ENABLE_ADU_SUPPORT
