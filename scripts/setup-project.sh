@@ -5,15 +5,18 @@ set -e
 #
 # Select download mechanism given abilities of shells, etc.
 #
+
+# check is wget available
 which wget >& /dev/null
 if [ $? == 0 ]; then
   FETCH="wget -q -O"
 else
-  which wget >& /dev/null
+  # check is curl available
+  which curl >& /dev/null
   if [ $? == 0 ]; then
     FETCH="curl -s --output"
   else
-    echo "No wget or curl present"
+    echo "Please install wget or curl."
     exit -1;
   fi
 fi
