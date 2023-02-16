@@ -36,8 +36,8 @@ extern const unsigned char IOTCONNECT_GODADDY_G2_ROOT_CERT[];
 extern const unsigned int IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
 
 /* Digicert Global Root G2*/
-extern const unsigned char DIGICERT_GLOBAL_ROOT_G2[];
-extern const unsigned int DIGICERT_GLOBAL_ROOT_G2_SIZE;
+extern const unsigned char IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2[];
+extern const unsigned int IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
 #ifdef __cplusplus
 }

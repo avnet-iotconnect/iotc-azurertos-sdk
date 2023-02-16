@@ -138,8 +138,8 @@ static UINT start_ota(char *url) {
 
     req.azrtos_config = &azrtos_config;
     // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-    req.tls_cert = (unsigned char*) DIGICERT_GLOBAL_ROOT_G2;
-    req.tls_cert_len = DIGICERT_GLOBAL_ROOT_G2_SIZE;
+    req.tls_cert = (unsigned char*)IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
+    req.tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
     status = iotc_ota_fw_download(
             &req,
