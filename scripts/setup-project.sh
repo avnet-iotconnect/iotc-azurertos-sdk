@@ -4,22 +4,25 @@ set -e
 
 #
 # Select download mechanism given abilities of shells, etc.
+# check curl first so Git for Windows shell is ok
 #
 
-# check is wget available
-which wget >& /dev/null
+# check is curl available
+which curl
 if [ $? == 0 ]; then
-  FETCH="wget -q -O"
+  FETCH="curl -s --output"
 else
-  # check is curl available
-  which curl >& /dev/null
+  # check is wget available
+  which wget
   if [ $? == 0 ]; then
-    FETCH="curl -s --output"
+    FETCH="wget -q -O"
   else
     echo "Please install wget or curl."
     exit -1;
   fi
 fi
+
+UNZIP="unzip -q -o"
 
 show_help() {
   echo "Usage: $0 <project_name>"
@@ -111,8 +114,8 @@ create_threadx_project_maxxboard() {
   project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
 
   echo Extracting...
-  unzip -q azrtos.zip
-  unzip -q project.zip
+  ${UNZIP} azrtos.zip
+  ${UNZIP} project.zip
 
   rm -rf ${project_dir}/azure-rtos/binary/netxduo
   rm -rf ${project_dir}/azure-rtos/netxduo
@@ -174,7 +177,7 @@ create_threadx_projects() {
   case "$name" in
     mimxrt1060 | stm32l4 | same54xpro | rx65ncloudkit)
       echo Extracting...
-      unzip -q azrtos.zip
+      ${UNZIP} azrtos.zip
       rm -f azrtos.zip
       ;;
   esac
@@ -295,7 +298,7 @@ case "$name" in
     rm -rf STM32CubeExpansion_Cloud_AZURE_*
 
     echo "Extracting files from ${cube_zip_name}..."
-    unzip -q ${cube_zip_name}
+    ${UNZIP} ${cube_zip_name}
     pushd STM32CubeExpansion_Cloud_AZURE_*/ >/dev/null
     echo "Copying files from the package over the repository files..."
     cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
