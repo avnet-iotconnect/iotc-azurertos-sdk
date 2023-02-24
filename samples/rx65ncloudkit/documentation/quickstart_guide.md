@@ -656,11 +656,11 @@ When the template is saved, we can add attributes – "measurements" (and types)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_20_02_2023_14_41_51.png.small)
 
-Click "Attributes (0)" and add a version "STRING" value and "Save" it.
+Click "Attributes (0)" and add a "version" attribute with STRING type and "Save" it.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_20_02_2023_14_49_29.png.small)
 
-Add a "button" attribute with BOOLEAN type, and a "random" attribute with
+Add a second "button" attribute with BOOLEAN type, and a third "random" attribute with
 DECIMAL type.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_20_02_2023_14_51_00.png.small)
@@ -683,7 +683,7 @@ page.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_21_02_2023_09_56_06.png.small)
 
-- Chose a "Unique Id" for your device – this will be use in `app_config.h`
+- Chose a "Unique Id" for your device – this will be used in `app_config.h`
   built/compiled in the device later.
 - Chose a "Display Name" for your device.
 - Select an appropriate "Entity" – this is a pre-populated menu item.
