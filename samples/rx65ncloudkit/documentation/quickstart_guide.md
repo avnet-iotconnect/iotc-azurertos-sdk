@@ -20,9 +20,15 @@ Kit board(s), using the rx65ncloudkit sample project, with IoTConnect.
 You will need to register to [download the latest GCC
 release](https://llvm-gcc-renesas.com/rx-download-toolchains/).
 
+<details><summary>RENESAS GCC WEBSITE</summary>
+
 [![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_30_46.png.small)](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_30_46.png)
 
+</details>
+
 Please consult Renesas documentation on installing the latest GCC release.
+
+<details><summary>EXAMPLE STEPS TO INSTALL THE LATEST GCC RELEASE</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_01_12.png.small)
 
@@ -46,18 +52,26 @@ Please consult Renesas documentation on installing the latest GCC release.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_03_53.png.small)
 
+</details>
+
 ## Download and install latest e<sup>2</sup> studio
 
 You will need to register to [download the latest e<sup>2</sup> studio
 release](https://www.renesas.com/us/en/software-tool/e2studio-information-rx-family).
 
+<details><summary>E2 STUDIO WEBSITE</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_30_22.png.small)
+
+</details>
 
 Please consult Renesas documentation on installing the latest e<sup>2</sup>
 studio.
 
 The following options are required for Cloudkit development: RX support, and
 optionally Jlink debugging, terminal, and git support.
+
+<details><summary>EXAMPLE STEPS TO INSTALL E2 STUDIO</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_05_11.png.small)
 
@@ -143,11 +157,15 @@ optionally Jlink debugging, terminal, and git support.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_21_42.png.small)
 
+</details>
+
 ## Run/setup e<sup>2</sup> studio
 
 You will need to use the your Renesas account information that was used to
 download the latest e<sup>2</sup> studio release when setting up/registering
 e<sup>2</sup> studio.
+
+<details><summary>EXAMPLE STEPS TO RUN AND SETUP E2 STUDIO</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_22_40.png.small)
 
@@ -167,9 +185,13 @@ e<sup>2</sup> studio.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_25_22.png.small)
 
+</details>
+
 ## Optional: Update e<sup>2</sup> studio to latest versions
 
 "Check for Updates" – can be a little slow.
+
+<details><summary>EXAMPLE STEPS TO UPDATE E2 STUDIO</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_37_17.png.small)
 
@@ -181,10 +203,14 @@ e<sup>2</sup> studio.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_44_00.png.small)
 
+</details>
+
 ## Optional: setup egit in e<sup>2</sup> studio
 
 If using egit support in e<sup>2</sup> studio then [follow Renesas
 notes](https://www.renesas.com/us/en/document/apn/integrated-development-environment-e-studio-how-use-egit-e-studio).
+
+<details><summary>EXAMPLE STEPS TO SETUP EGIT</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_45_37.png.small)
 
@@ -192,16 +218,24 @@ notes](https://www.renesas.com/us/en/document/apn/integrated-development-environ
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_46_37.png.small)
 
+</details>
+
 ## Using git clone to access iotc-azurertos-sdk
 
 The `git clone` details can be found on the [IotConnect Azure RTOS SDK github
 project](https://github.com/avnet-iotconnect/iotc-azurertos-sdk).
 
+<details><summary>IOTC-AZURERTOS-SDK WEBSITE</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_50_13.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_50_22.png.small)
 
+</details>
+
 ### Using e<sup>2</sup> studio to git clone iotc-azurertos-sdk
+
+<details><summary>EXAMPLE STEPS TO USE EGIT TO CLONE IOTC-AZURERTOS-SDK</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_53_36.png.small)
 
@@ -217,16 +251,26 @@ project](https://github.com/avnet-iotconnect/iotc-azurertos-sdk).
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_10_55_46.png.small)
 
+</details>
+
 ### Install "Git for Windows" and clone iotc-azurertos-sdk
 
 Alternatively, install ["git for Windows"](https://gitforwindows.org/).
 
+<details><summary>GIT FOR WINDOWS WEBSITE</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_09_02_2023_15_13_07.png.small)
+
+</details>
 
 And use the bash shell to clone the repository – right-click on directory -
 "Other options", then "Git Bash" to launch the shell.
 
+<details><summary>EXAMPLE STEPS TO LAUNCH GIT FOR WINDOWS</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_14_42_06.png.small)
+
+</details>
 
 ### Windows Subsystem for Linux (WSL)
 
@@ -255,7 +299,11 @@ To setup the `iotc-azurertos-sdk` rx65ncloudkit project fully:
   iotc-azurertos-sdk/scripts`
 - run the script: `setup-project.sh rx65ncloudkit`
 
+<details><summary>EXAMPLE STEPS TO RUN SETUP-PROJECT.SH IN GIT FOR WINDOWS</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_15_57_39.png.small)
+
+</details>
 
 ## Import iotc-azurertos-sdk rx65ncloudkit project into e<sup>2</sup> studio
 
@@ -298,6 +346,8 @@ Download any FIT modules.
 Press the "Generate Code" button at the top-right corner of the "Project
 Explorer" pane.
 
+<details><summary>EXAMPLE STEPS TO UPDATE E2 STUDIO FIT MODULES</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_11_03_19.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_11_03_34.png.small)
@@ -322,6 +372,8 @@ will suggest a download.
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_12_11_21.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_08_02_2023_12_11_29.png.small)
+
+</details>
 
 ## Clean and build the project
 
@@ -365,6 +417,8 @@ application.
 
 May need to press the "reset" button to restart to see output.
 
+<details><summary>EXAMPLE TERA TERM INSTALLATION</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_10_02_2023_13_33_44.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_10_02_2023_13_34_11.png.small)
@@ -382,6 +436,8 @@ May need to press the "reset" button to restart to see output.
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_10_02_2023_13_35_11.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_10_02_2023_13_35_16.png.small)
+
+</details>
 
 The terminal settings to connect are:
 
@@ -418,6 +474,8 @@ If a .launch file is not present in the basic-sample directory, e.g the .launch
 file may be called `basic-sample HardwareDebug.launch`, then you will need to
 create a suitable .launch file.
 
+<details><summary>EXAMPLE OF CREATING A .LAUNCH FILE</summary>
+
 Ensure the rx65ncloudkit board is connected to the PC and is powered up, i.e.
 the top-left green LED is lit.
 
@@ -453,6 +511,8 @@ Click on the "Connection Settings" tab, and set the "Connection Type" to be
 "Apply" and "Close", and then it should be possible to debug the rx65nxcloudkit
 IoTConnect platform.
 
+</details>
+
 ### Debug code
 
 Press the "Launch in ‘Debug’ mode" button ("bug") on the left-side of
@@ -461,6 +521,8 @@ e<sup>2</sup> studio.
 If there are errors:
 - check that the board is connected via USB
 - check that the jumper has been removed (once powered off)
+
+<details><summary>EXAMPLE STEPS TO RUN/DEBUG</summary>
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_16_02_2023_16_57_47.png.small)
 
@@ -475,6 +537,8 @@ Respond appropriately to any pop-ups relating to Windows Defender Firewall promp
 Switch to the debug perspective when prompted.
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_16_02_2023_16_59_44.png.small)
+
+</details>
 
 The build will have two default breakpoints already enabled, so presume the
 Resume button (green "left-pointing triangle") in the middle of e<sup>2</sup>
@@ -815,6 +879,8 @@ device.
 Follow the [Renesas Flash Programmer (Programming GUI) installation
 instructions](https://www.renesas.com/eu/en/software-tool/renesas-flash-programmer-programming-gui#overview).
 
+<details><summary>EXAMPLE STEPS TO INSTALL RENESAS FLASH PROGRAMMER</summary>
+
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_13_02_2023_15_11_27.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_13_02_2023_15_11_47.png.small)
@@ -830,6 +896,8 @@ instructions](https://www.renesas.com/eu/en/software-tool/renesas-flash-programm
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_13_02_2023_15_13_23.png.small)
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_13_02_2023_15_14_10.png.small)
+
+</details>
 
 ### Use Renesas Flash Programmer
 
