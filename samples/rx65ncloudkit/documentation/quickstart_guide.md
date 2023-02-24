@@ -647,8 +647,7 @@ template.
 When creating the template choose a unique name for the "Template Code" (which
 is a maximum of 10 characters and must start with a letter) and a useful
 description in the "Template Name".  Choose "Symmetric Key" for the
-"Authentication Type" and choose "2.1" for the "Device Message Version" (in
-fact, the rx65ncloudkit uses iotc-c-lib which implements version 2.0).
+"Authentication Type" and choose "2.1" for the "Device Message Version".
 
 ![An image](./assets/quickstart/VirtualBox_WinDev2301Eval_20_02_2023_14_40_52.png.small)
 
