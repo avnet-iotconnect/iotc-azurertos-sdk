@@ -56,7 +56,7 @@ create_iotc_azrtos_symlinks() {
   # Make sure that the script is idempotent
   mkdir -p $target_dir
   pushd $target_dir > /dev/null
-  git clean -Xdf;
+  git clean -Xdf || true 2>/dev/null
   popd > /dev/null
 
   pushd $target_dir >/dev/null
@@ -264,7 +264,7 @@ case "$name" in
     git_hide_config_files
   ;;
   stm32u5)
-    cube_zip_name='en.x-cube-azure_v2-1-0.zip'
+    cube_zip_name='en.x-cube-azure-v2-2-0.zip'
     if [ ! -f ${cube_zip_name} ]; then
       echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
       exit -2
@@ -279,10 +279,6 @@ case "$name" in
     cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
     popd >/dev/null
     rm -rf STM32CubeExpansion_Cloud_AZURE_*
-
-    # remove extra projects to make it simpler for the user to set up
-    find . -name '.cproject' | grep -v NetXDuo | xargs rm -f
-    find . -name '.project' | grep -v NetXDuo | xargs rm -f
 
   ;;
   stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)

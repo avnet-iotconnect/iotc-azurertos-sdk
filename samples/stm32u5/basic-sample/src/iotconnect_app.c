@@ -23,15 +23,18 @@
 #include "iotconnect_di.h"
 #endif
 
+#ifndef TFM_PSA_API
 #include "std_component.h"
+
+// sensors
+static const CHAR std_component_name[] = "std_comp";
+static STD_COMPONENT std_comp;
+#endif
 
 extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
-// sensors
-static const CHAR std_component_name[] = "std_comp";
-static STD_COMPONENT std_comp;
 
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
@@ -175,6 +178,7 @@ static void publish_telemetry() {
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
 
+#ifndef TFM_PSA_API
     UINT status;
     if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
     	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
@@ -196,7 +200,7 @@ static void publish_telemetry() {
     } else {
     	printf("Failed to read sensor values, error: %u\r\n", status);
     }
-
+#endif
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -243,10 +247,13 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
+#ifndef TFM_PSA_API
 	UINT status;
+
     if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
         printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
     }
+#endif
 
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
