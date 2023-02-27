@@ -16,20 +16,16 @@
 #include "sw_auth_driver.h"
 
 
-// make sure this is after app_config.h
-#ifdef ENABLE_DDIM_TO_DRIVER_SAMPLE
-#include "TO.h" // for TO_HW_SN_SIZE
-#include "to_auth_driver.h"
-#include "iotconnect_di.h"
-#endif
 
-#ifndef TFM_PSA_API
+#ifdef TFM_PSA_API
 #include "std_component.h"
 
 // sensors
 static const CHAR std_component_name[] = "std_comp";
-static STD_COMPONENT std_comp;
 #endif
+
+// in case of TFM_PSA_API, keep dummy code.
+static STD_COMPONENT std_comp;
 
 extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
