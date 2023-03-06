@@ -17,9 +17,8 @@
 
 
 
-#ifdef TFM_PSA_API
 #include "std_component.h"
-
+#ifndef TFM_PSA_API
 // sensors
 static const CHAR std_component_name[] = "std_comp";
 #endif
