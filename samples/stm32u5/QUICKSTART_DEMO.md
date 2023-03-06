@@ -11,7 +11,7 @@ The software must be built and programmed onto the board by using the following 
 * If on Windows, download and install [MSYS2](https://www.msys2.org/). [WSL](https://learn.microsoft.com/en-us/windows/wsl/about) or GIT Bash may also work.
 * Ensure that you have git command line installed. If on Windows, you can use [this link](https://gitforwindows.org/).   
 * Clone this repo
-* Download the [X-CUBE-AZURE Expansion Package](https://www.st.com/en/embedded-software/x-cube-azure.html) version 2.1.0, 
+* Download the [X-CUBE-AZURE Expansion Package](https://www.st.com/en/embedded-software/x-cube-azure.html) version 2.2.0, 
 and place the zip into the [samples/stm32u5](samples/stm32u5) directory.
 * In a bash shell, execute:
 
