@@ -19,6 +19,16 @@
 #error "X509 must be enabled."
 #endif /* NX_SECURE_DISABLE_X509 */
 
+// For STM32U5 TFM PSA
+#ifdef TFM_PSA_API
+    #include "nx_crypto_aes_psa.h"
+    #include "nx_crypto_rsa_psa.h"
+#ifdef NX_SECURE_ENABLE_ECC_CIPHERSUITE
+    #include "nx_crypto_ecdsa_psa_crypto.h"
+#endif /* NX_SECURE_ENABLE_ECC_CIPHERSUITE */
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+
+
 /* Define supported crypto method. */
 extern NX_CRYPTO_METHOD crypto_method_hmac;
 extern NX_CRYPTO_METHOD crypto_method_hmac_sha256;
@@ -29,20 +39,43 @@ extern NX_CRYPTO_METHOD crypto_method_rsa;
 #ifdef NX_SECURE_ENABLE_ECC_CIPHERSUITE
 extern NX_CRYPTO_METHOD crypto_method_ecdhe;
 extern NX_CRYPTO_METHOD crypto_method_ecdsa;
+extern NX_CRYPTO_METHOD crypto_method_ec_secp256;
 extern NX_CRYPTO_METHOD crypto_method_ec_secp384;
 #endif /* NX_SECURE_ENABLE_ECC_CIPHERSUITE */ 
+
+#ifdef TFM_PSA_API
+#ifdef NX_SECURE_ENABLE_ECC_CIPHERSUITE
+extern NX_CRYPTO_METHOD crypto_method_ecdsa_psa_crypto;
+#endif /* NX_SECURE_ENABLE_ECC_CIPHERSUITE */
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_128_psa;
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_192_psa;
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_256_psa;
+extern NX_CRYPTO_METHOD crypto_method_sha256_psa;
+extern NX_CRYPTO_METHOD crypto_method_rsa_psa;
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+
 
 const NX_CRYPTO_METHOD *_nx_azure_iot_tls_supported_crypto[] =
 {
     &crypto_method_hmac,
     &crypto_method_hmac_sha256,
     &crypto_method_tls_prf_sha256,
+#ifdef TFM_PSA_API
+    &crypto_method_sha256_psa,
+    &crypto_method_aes_cbc_128_psa,
+#else
     &crypto_method_sha256,
     &crypto_method_aes_cbc_128,
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
     &crypto_method_rsa,
 #ifdef NX_SECURE_ENABLE_ECC_CIPHERSUITE
-    &crypto_method_ecdhe,
+#ifdef TFM_PSA_API
+    &crypto_method_ecdsa_psa_crypto,
+#else
     &crypto_method_ecdsa,
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+    &crypto_method_ecdhe,
+    &crypto_method_ec_secp256,
     &crypto_method_ec_secp384,
 #endif /* NX_SECURE_ENABLE_ECC_CIPHERSUITE */
 };
