@@ -22,8 +22,11 @@ scripts/setup-project.sh stm32u5
 
 * Download, install and open the [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html).
 * In STM32CubeIDE, select *File -> Open Projects from File System*.
-* Select the [samples/stm32u5](samples/stm32u5) directory of this repo in the dialog box and click *Finish*.
-* Uncheck the stm32u5 root project and leave the other project checked like this:
+* Select the generated 
+[samples/stm32u5/samples/stm32u5/Projects/B-U585I-IOT02A/Applications/NetXDuo](samples/stm32u5/samples/stm32u5/Projects/B-U585I-IOT02A/Applications/NetXDuo) 
+directory of this repo in the dialog box and click *Finish*.
+* Note that the TFM_Azure_IoT project is supported by the build process but is still work in progress.
+* Uncheck the **NetXDuo** root project and leave the other project checked like this:
 
 ![Import Project Screenshot](media/import-project.png "Import Project Screenshot]")
 
