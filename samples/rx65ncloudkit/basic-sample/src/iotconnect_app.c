@@ -141,6 +141,7 @@ static void on_command(IotclEventData data) {
     								(strncmp(token, "true", 4) == 0 ) ?
     								ON : OFF;
     		set_led(LED2, state);
+    		set_led(LED1, state);
     		command_status(data, true, command, "LED set");
     	}
     	else {
@@ -171,6 +172,7 @@ static void on_connection_status(IotConnectConnectionStatus status) {
 }
 
 static void publish_telemetry() {
+    const char *str;
     IotclMessageHandle msg = iotcl_telemetry_create(iotconnect_sdk_get_lib_config());
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
@@ -184,12 +186,13 @@ static void publish_telemetry() {
     iotcl_telemetry_set_bool(msg, "button", read_user_switch());
 
 //    sensors_add_telemetry(msg);
-
-    const char *str = iotcl_create_serialized_string(msg, false);
+    str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
     printf("Sending: %s\r\n", str);
-    iotconnect_sdk_send_packet(str); // underlying code will report an error
-    iotcl_destroy_serialized(str);
+    if (NULL != str) {
+        iotconnect_sdk_send_packet(str); // underlying code will report an error
+        iotcl_destroy_serialized(str);
+    }
 }
 
 /* Include the sample.  */

@@ -2,6 +2,7 @@
 // Copyright: Avnet 2021
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
 //
+#include <stdlib.h>
 #include "app_config.h"
 
 #include "nx_api.h"
@@ -12,12 +13,18 @@
 #include "azrtos_ota_fw_client.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
+#include "rx65n_tsip_auth_driver.h"
 
 #include "hardware_setup.h"
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
 
+#define MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES (2048) //FIXME - Reduce this to max possible size of 2048bit RSA cert
+
+#ifdef ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN + 1]; // from ATECC608 common name
+#endif
 #define APP_VERSION "01.00.00"
 
 //#define MEMORY_TEST
@@ -112,9 +119,6 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         printf("IoTConnect Client ERROR\r\n");
         break;
     }
-    if (NULL != auth_driver_context) {
-    	release_sw_der_auth_driver(auth_driver_context);
-    }
 }
 
 static void publish_telemetry() {
@@ -134,8 +138,8 @@ static void publish_telemetry() {
 //    sensors_add_telemetry(msg);
     str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
-    printf("Sending: %s\r\n", str);
     if (NULL != str) {
+        printf("Sending: %s\r\n", str);
         iotconnect_sdk_send_packet(str); // underlying code will report an error
         iotcl_destroy_serialized(str);
     }
@@ -166,6 +170,68 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 #else
     config->auth.type = IOTC_X509;
 
+#ifdef ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+    auth_driver_context = NULL;
+	struct rx65n_tsip_driver_parameters parameters = {0}; // dummy, for now
+	IotcDdimInterface ddim_interface;
+	IotcAuthInterfaceContext auth_context;
+	if(rx65n_tsip_create_auth_driver( //
+			&(config->auth.data.x509.auth_interface), //
+			&ddim_interface, //
+			&auth_context, //
+			&parameters)) { //
+		return false;
+	}
+	config->auth.data.x509.auth_interface_context = auth_context;
+
+	uint8_t* cert;
+	size_t cert_size;
+
+	if (config->auth.data.x509.auth_interface.get_cert(
+			auth_context, &cert,&cert_size) != 0)
+	{
+		printf("Unable to get the certificate from the driver.\r\n");
+		rx65n_tsip_release_auth_driver(auth_context);
+		return false;
+	}
+	if (0 == cert_size) {
+		printf("Unable to get the certificate from the driver.\r\n");
+		rx65n_tsip_release_auth_driver(auth_context);
+		return false;
+	}
+	char* b64_string_buffer = malloc(MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES);
+	if (NULL == b64_string_buffer) {
+		printf("WARNING: Unable to allocate memory to display the base64 encoded certificate contents.\r\n");
+	} else {
+		size_t b64_string_len = MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES; // in/out parameter. See atcacert_encode_pem_cert()
+		unsigned int bytes_copied = 0;
+		if (_nx_utility_base64_encode(cert, cert_size, b64_string_buffer, b64_string_len, &bytes_copied))
+		{
+			printf("Failed to base64 encode the cert\r\n");
+		}
+		else
+		{
+			b64_string_buffer[b64_string_len] = 0;
+			printf("Device certificate (%u bytes):\r\n%s\r\n", bytes_copied, b64_string_buffer);
+		}
+		free(b64_string_buffer);
+	}
+
+	printf("Obtained device certificate:\r\n\r\n");
+	char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+	if (NULL == operational_cn) {
+		rx65n_tsip_release_auth_driver(auth_context);
+		printf("Unable to get the certificate common name.\r\n");
+		return false;
+	}
+	// Strip the CPID and '-' prefix off of the common name (CN) in the device cert
+	strcpy(duid_buffer, (strchr(operational_cn, '-') + 1));
+	config->duid = duid_buffer;
+	printf("DUID: %s\r\n", config->duid);
+
+	auth_driver_context = auth_context;
+
+#else //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
@@ -175,7 +241,11 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	dp.cert_size = sample_device_cert_len;
 	dp.key = (uint8_t *) (sample_device_private_key_ptr);
 	dp.key_size = sample_device_private_key_len;
-	dp.crypto_method = &crypto_method_ec_secp256;
+#ifdef ECC_CRYPTO
+    dp.crypto_method = &crypto_method_ec_secp256;
+#else //RSA_CRYPTO
+    dp.crypto_method = &crypto_method_rsa;
+#endif
 	if(create_sw_der_auth_driver( //
 	    		&(config->auth.data.x509.auth_interface), //
 				&(config->auth.data.x509.auth_interface_context), //
@@ -183,7 +253,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	    	return false;
 	    }
 	auth_driver_context = config->auth.data.x509.auth_interface_context;
-
+#endif // ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
 #endif  // IOTCONNECT_SYMETRIC_KEY
 
     while (true) {
@@ -205,6 +275,13 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             }
         }
         iotconnect_sdk_disconnect();
+    }
+    if (NULL != auth_driver_context) {
+#ifdef ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+        rx65n_tsip_release_auth_driver(auth_driver_context);
+#else  //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+        release_sw_der_auth_driver(auth_driver_context);
+#endif //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
     }
     printf("Done.\r\n");
     return true;

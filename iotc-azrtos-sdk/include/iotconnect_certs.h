@@ -35,6 +35,13 @@ extern const unsigned int IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
 extern const unsigned char IOTCONNECT_GODADDY_G2_ROOT_CERT[];
 extern const unsigned int IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
 
+/* Digicert Global Root G2*/
+extern const unsigned char IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2[];
+extern const unsigned int IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
+
+/* Microsoft RSA Root CA 2017 */
+extern const unsigned char IOTCONNECT_MICROSOFT_RSA_ROOT_CA_2017[];
+extern const unsigned int IOTCONNECT_MICROSOFT_RSA_ROOT_CA_2017_SIZE;
 
 #ifdef __cplusplus
 }
