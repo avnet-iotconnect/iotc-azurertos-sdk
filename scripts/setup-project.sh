@@ -28,7 +28,7 @@ set -e
 show_help() {
   echo "Usage: $0 <project_name>"
   echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
-      "same54xprov2, maaxboardrt, ck-rx65n, rx65ncloudkit, wfi32iot"
+      "same54xprov2, maaxboardrt, ck-rx65n (Blue PCB, Ethernet supported, TSIP supported), rx65ncloudkit (Green PCB, Wifi supported, no TSIP support), wfi32iot"
 }
 
 # All the IDEs officially support Windows, so it is likely that a developer
