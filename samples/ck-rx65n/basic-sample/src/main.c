@@ -19,15 +19,12 @@
 #include "nxd_sntp_client.h"
 #include "nx_secure_tls_api.h"
 #include "azrtos_time.h"
-#include "nx_driver_rx65n_cloud_kit.h"
 #include "nx_driver_rx_fit.h"
 
 #include "demo_printf.h"
 #include "app_config.h"
 
 #include "hardware_setup.h"
-
-wifi_ip_configuration_t ip_cfg = {0};
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 
@@ -160,7 +157,6 @@ VOID sample_network_configure(NX_IP *ip_ptr, ULONG *dns_server_address);
 void thread_0_entry(ULONG thread_input);
 
 static UINT dns_create();
-static UINT wifi_connect();
 
 #ifdef SAMPLE_BOARD_SETUP
 void SAMPLE_BOARD_SETUP();
@@ -200,30 +196,13 @@ void    tx_application_define(void *first_unused_memory)
         return;
     }
 
-
-#ifndef USE_WIFI
-    /* Create an IP instance.  */
-    status = nx_ip_create(&ip_0,
-                          "NetX IP Instance 0",
-#ifdef NX_ENABLE_DHCP
-                          IP_ADDRESS(0,0,0,0),
-                          IP_ADDRESS(0,0,0,0),
-#else
-                          IP_ADDRESS(192, 168, 1, 211),
-                          0xFFFFFF00UL,
-#endif
-                          &pool_0, nx_driver_rx_fit,
-                          (UCHAR*)sample_ip_stack,
-                          sizeof(sample_ip_stack),
-						  SAMPLE_IP_THREAD_PRIORITY);
-#else //USE_WIFI
     /* Create an IP instance.  */
     status = nx_ip_create(&ip_0, "NetX IP Instance 0",
                           SAMPLE_IPV4_ADDRESS, SAMPLE_IPV4_MASK,
-                          &pool_0, nx_driver_rx65n_cloud_kit,
+                          &pool_0, nx_driver_rx_fit,
                           (UCHAR*)sample_ip_stack, sizeof(sample_ip_stack),
                           SAMPLE_IP_THREAD_PRIORITY);
-#endif //USE_WIFI
+
     /* Check for IP create errors.  */
     if (status)
     {
@@ -274,19 +253,13 @@ void    tx_application_define(void *first_unused_memory)
     /* Initialize TLS.  */
     nx_secure_tls_initialize();
 
-    /* Create the main thread.  */
-#if 0
-    tx_thread_create(&sample_helper_thread, "thread 0", thread_0_entry, 0,
-    		sample_helper_thread_stack, sizeof(sample_helper_thread_stack),
-                     4, 4, TX_NO_TIME_SLICE, TX_AUTO_START);
-#else
     /* Create sample helper thread. */
     status = tx_thread_create(&sample_helper_thread, "Demo Thread",
                               sample_helper_thread_entry, 0,
                               sample_helper_thread_stack, SAMPLE_HELPER_STACK_SIZE,
                               SAMPLE_HELPER_THREAD_PRIORITY, SAMPLE_HELPER_THREAD_PRIORITY,
                               TX_NO_TIME_SLICE, TX_AUTO_START);
-#endif
+
     /* Check status.  */
     if (status)
     {
@@ -307,13 +280,9 @@ int val;
 
 #ifndef SAMPLE_DHCP_DISABLE
     dhcp_wait();
-#elif defined(SAMPLE_NETWORK_CONFIGURE)
-    SAMPLE_NETWORK_CONFIGURE(&ip_0, &dns_server_address[0]);
 #else
     nx_ip_gateway_address_set(&ip_0, SAMPLE_GATEWAY_ADDRESS);
 #endif /* SAMPLE_DHCP_DISABLE  */
-
-
 
     /* Get IP address and gateway address. */
     nx_ip_address_get(&ip_0, &ip_address, &network_mask);
@@ -335,11 +304,6 @@ int val;
            (gateway_address >> 16 & 0xFF),
            (gateway_address >> 8 & 0xFF),
            (gateway_address & 0xFF));
-
-    val = read_user_switch();
-    printf("val 1 = %d\r\n", val);
-    val = read_user_switch();
-    printf("val 2 = %d\r\n", val);
 
     /* Create DNS.  */
     status = dns_create();
@@ -455,150 +419,6 @@ UINT    dns_server_address_size = 12;
     return(NX_SUCCESS);
 }
 
-VOID sample_network_configure(NX_IP *ip_ptr, ULONG *dns_server_address)
-{
-	ULONG   ip_address = 0;
-	ULONG   network_mask = 0;
-	ULONG   gateway_address = 0;
-	UINT    status;
-
-	/* Connect to Wifi.  */
-	if (wifi_connect())
-	{
-		printf("Could not connect to WiFi. Exiting.");
-		exit(1);
-	}
-
-#if 0
-    WIFI_GetIP_Address((UCHAR *)&ip_address);
-    WIFI_GetIP_Mask((UCHAR *)&network_mask);
-    WIFI_GetGateway_Address((UCHAR *)&gateway_address);
-
-    NX_CHANGE_ULONG_ENDIAN(ip_address);
-    NX_CHANGE_ULONG_ENDIAN(network_mask);
-    NX_CHANGE_ULONG_ENDIAN(gateway_address);
-#endif
-    if (dns_server_address)
-    {
-    	*dns_server_address = ip_cfg.gateway;
-    }
-
-    ip_address = ip_cfg.ipaddress;
-    network_mask = ip_cfg.subnetmask;
-    gateway_address = ip_cfg.gateway;
-    status = nx_ip_address_set(ip_ptr, ip_address, network_mask);
-
-    /* Check for IP address set errors.  */
-    if (status)
-    {
-        printf("IP ADDRESS SET FAIL.\r\n");
-        return;
-    }
-
-    status = nx_ip_gateway_address_set(ip_ptr, gateway_address);
-
-    /* Check for gateway address set errors.  */
-    if (status)
-    {
-        printf("IP GATEWAY ADDRESS SET FAIL.\r\n");
-        return;
-    }
-}
-
-
-
-static UINT wifi_connect()
-{
-	UINT    status;
-
-	printf("Initializing Wi-Fi\r\n");
-
-	status = R_WIFI_SX_ULPGN_Open();
-
-	/* Check for wi-fi module open error. */
-	if (status)
-	{
-		printf("Error connecting to Wi-Fi network.\r\n");
-		return(status);
-	}
-
-	printf("Connecting to Wi-Fi Network: %s\r\n", WIFI_SSID);
-
-	status = R_WIFI_SX_ULPGN_Connect(WIFI_SSID, WIFI_PASSWORD, WIFI_SECURITY_WPA2, 1, &ip_cfg);
-
-	if(status)
-	{
-		printf("Error connecting to Wi-Fi network.\r\n");
-		return(status);
-	}
-	else
-	{
-		printf("Wi-Fi connected.\r\n");
-	}
-
-	status = R_WIFI_SX_ULPGN_GetIpAddress(&ip_cfg);
-
-	/* Check for API error. */
-	if (status)
-	{
-		printf("No IP Address.\r\n");
-		return(status);
-	}
-
-	return(status);
-}
-
-/* Define the test threads.  */
-void thread_0_entry(ULONG thread_input)
-{
-UINT    status;
-ULONG   actual_status;
-ULONG   temp;
-
-    /* Create the DHCP instance.  */
-    printf("DHCP In Progress...\r\n");
-
-    nx_dhcp_create(&dhcp_client, &ip_0, "dhcp_client");
-
-    /* Start the DHCP Client.  */
-    nx_dhcp_start(&dhcp_client);
-
-    /* Wait util address is solved. */
-    status = nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, 5000);
-
-    if (status)
-    {
-
-        /* DHCP Failed...  no IP address! */
-        printf("Can't resolve address\r\n");
-    }
-    else
-    {
-
-        /* Get IP address. */
-        nx_ip_address_get(&ip_0, (ULONG *) &ip_address[0], (ULONG *) &network_mask[0]);
-
-        /* Convert IP address & network mask from little endian.  */
-        temp =  *((ULONG *) &ip_address[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &ip_address[0]) =  temp;
-
-        temp =  *((ULONG *) &network_mask[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &network_mask[0]) =  temp;
-
-        /* Output IP address. */
-        printf("IP address: %d.%d.%d.%d\r\nMask: %d.%d.%d.%d\r\n",
-               (UINT) (ip_address[0]),
-               (UINT) (ip_address[1]),
-               (UINT) (ip_address[2]),
-               (UINT) (ip_address[3]),
-               (UINT) (network_mask[0]),
-               (UINT) (network_mask[1]),
-               (UINT) (network_mask[2]),
-               (UINT) (network_mask[3]));
-    }
-}
 
 
 

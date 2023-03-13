@@ -25,22 +25,3 @@ int32_t az_platform_sleep_msec(int32_t milliseconds)
     return 0u;
 }
 
-#if USE_WIFI
-UINT  _nxde_dns_host_by_name_get(NX_DNS *dns_ptr, UCHAR *host_name, NXD_ADDRESS *host_address_ptr,
-                                 ULONG wait_option, UINT lookup_type)
-{
-    wifi_err_t wifi_err;
-    uint32_t ip_addr;
-
-    wifi_err = R_WIFI_SX_ULPGN_DnsQuery(host_name, &ip_addr);
-
-    if(wifi_err != WIFI_SUCCESS) {
-        return NX_DNS_QUERY_FAILED;
-    }
-
-    host_address_ptr -> nxd_ip_version = NX_IP_VERSION_V4;
-    host_address_ptr -> nxd_ip_address.v4 = ip_addr;
-
-    return NX_SUCCESS;
-}
-#endif
