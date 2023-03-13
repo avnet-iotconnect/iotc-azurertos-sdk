@@ -127,9 +127,6 @@ static NX_IP            ip_0;
 static NX_DNS           dns_0;
 #ifndef SAMPLE_DHCP_DISABLE
 static NX_DHCP          dhcp_0;
-NX_DHCP           dhcp_client;
-UCHAR             ip_address[4];
-UCHAR             network_mask[4];
 #endif /* SAMPLE_DHCP_DISABLE  */
 
 /* Define the stack/cache for ThreadX.  */
@@ -274,8 +271,6 @@ UINT    status;
 ULONG   ip_address = 0;
 ULONG   network_mask = 0;
 ULONG   gateway_address = 0;
-ULONG   dns_server_address[3];
-int val;
 
 #ifndef SAMPLE_DHCP_DISABLE
     dhcp_wait();
