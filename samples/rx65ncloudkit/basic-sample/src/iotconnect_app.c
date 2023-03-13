@@ -117,7 +117,7 @@ static void on_connection_status(IotConnectConnectionStatus status) {
 }
 
 static void publish_telemetry() {
-    IotclMessageHandle msg = iotcl_telemetry_create(iotconnect_sdk_get_lib_config());
+    IotclMessageHandle msg = iotcl_telemetry_create();
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
