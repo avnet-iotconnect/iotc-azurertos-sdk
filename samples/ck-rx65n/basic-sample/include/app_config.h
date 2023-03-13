@@ -15,9 +15,6 @@
 // if it is not defined, device certs will be used in iotconnect_app.c
 #define IOTCONNECT_SYMETRIC_KEY ""
 
-#define SAMPLE_SNTP_SERVER_NAME ""    /* SNTP Server.  */
-
-#define WIFI_SSID ""
-#define WIFI_PASSWORD ""
+#define SAMPLE_SNTP_SERVER_NAME "time.google.com"    /* SNTP Server.  */
 
 #endif // APP_CONFIG_H
