@@ -20,6 +20,8 @@
 #include "nx_secure_tls_api.h"
 #include "azrtos_time.h"
 #include "nx_driver_rx_fit.h"
+#include "r_tsip_rx_if.h"
+#include "secure_boot.h"
 
 #include "demo_printf.h"
 #include "app_config.h"
@@ -30,7 +32,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */
 #ifndef SAMPLE_HELPER_STACK_SIZE
-#define SAMPLE_HELPER_STACK_SIZE      (7 * 1024)
+#define SAMPLE_HELPER_STACK_SIZE      (10 * 1024)
 #endif /* SAMPLE_HELPER_STACK_SIZE  */
 
 #ifndef SAMPLE_HELPER_THREAD_PRIORITY
@@ -271,6 +273,44 @@ UINT    status;
 ULONG   ip_address = 0;
 ULONG   network_mask = 0;
 ULONG   gateway_address = 0;
+
+    /* Initialize Flash - dataflash used by TSIP */
+    flash_err_t flash_error_code = FLASH_SUCCESS;
+    flash_error_code = R_FLASH_Open();
+    if (FLASH_SUCCESS != flash_error_code)
+    {
+        printf("Failed to initialise flash: %u\r\n", flash_error_code);
+        return;
+    }
+
+    /* Initialise the TSIP, load keyindexes from dataflash */
+    int32_t result_secure_boot = R_SECURE_BOOT_SUCCESS;
+    tsip_keyring_restore();
+    e_tsip_err_t tsip_status = TSIP_ERR_FAIL;
+    if ((tsip_status = R_TSIP_Open(NULL, NULL)) != TSIP_SUCCESS)
+    {
+        printf("Failed to initialise TSIP: %u\r\n", tsip_status);
+        return;
+    }
+    /* If keyindexes haven't been generated for all of the encrypted keys in
+     *  flash then generate them and store them in the dataflash for future use.
+     * Keyindex generation is a one-time operation for a device (unless the
+     *  dataflash section is erased and re-populated with the encrypted keys or
+     *  the UpdateKey family of APIs are used in combination with the UpdateKeyring
+     *  KeyIndex)
+     */
+    result_secure_boot = secure_boot();
+    if (R_SECURE_BOOT_FAIL == result_secure_boot)
+    {
+        printf("secure boot sequence: fail.\r\n");
+        R_BSP_SoftwareDelay(1000, BSP_DELAY_MILLISECS);
+        while (1)
+        {
+            R_BSP_NOP(); /* infinite loop */
+        }
+    }
+    /* Print all of the installed key indexes (which are also saved in dataflash) */
+    //tsip_print_installed_key_index();
 
 #ifndef SAMPLE_DHCP_DISABLE
     dhcp_wait();

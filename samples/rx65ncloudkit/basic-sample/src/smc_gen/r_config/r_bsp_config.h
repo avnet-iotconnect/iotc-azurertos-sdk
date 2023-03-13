@@ -124,7 +124,7 @@ Configuration Options
    LJ           = 0xA             = TFLGA/100/0.65
    BP           = 0xC             = TFBGA/64/0.50
 */
-#define BSP_CFG_MCU_PART_PACKAGE        (0x5) /* Generated value. Do not edit this manually */
+#define BSP_CFG_MCU_PART_PACKAGE        (0x3) /* Generated value. Do not edit this manually */
 
 /* Whether Encryption and SDHI/SDSI are included or not.
    Character(s) = Value for macro = Description
@@ -135,7 +135,7 @@ Configuration Options
    F            = true            = Encryption module included, SDHI/SDSI module included
    H            = true            = Encryption module included, SDHI/SDSI module included, dual-bank structure
 */
-#define BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED   (false) /* Generated value. Do not edit this manually */
+#define BSP_CFG_MCU_PART_ENCRYPTION_INCLUDED   (true) /* Generated value. Do not edit this manually */
 
 /* ROM, RAM, and Data Flash Capacity.
    Character(s) = Value for macro = ROM Size/Ram Size/Data Flash Size
@@ -202,7 +202,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x1900)
+#define BSP_CFG_HEAP_BYTES              (0x2800)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -408,7 +408,7 @@ Configuration Options
 /* Configure SDCLK output pin (only effective when external bus enabled)
    Values 0=no output, 1 = BCK frequency
 */
-#define BSP_CFG_SDCLK_OUTPUT            (0)
+#define BSP_CFG_SDCLK_OUTPUT            (0) /* Generated value. Do not edit this manually */
 
 /* Main Clock Oscillator Wait Time (MOSCWTCR).
    The value of MOSCWTCR register required for correspondence with the waiting time required to secure stable 

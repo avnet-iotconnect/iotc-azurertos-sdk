@@ -161,7 +161,7 @@ create_threadx_projects() {
       ;;
     ck-rx65n)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
       project_platform_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
