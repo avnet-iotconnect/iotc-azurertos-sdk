@@ -96,12 +96,24 @@ from the extracted zip file
   * In e2 Studio, open a workspace and click "Import projects into workspace". Then select the samples/ck-rx65n directory,
   and import the projects.
   * To run/debug the application you will need to generate your own debug .launch file, or copy one from an existing application.
+    * To create a new .launch file suitable for the board first select the "basic-sample" project in E2 Studio's Project Explorer,
+	then select the "Run" menu and "Debug as" submenu and "Renesas GDB hardware debugging"
+    * When the dialog is displayed keep all settings as the defaults other than on the "Debugger" tab:
+      * Set "Debug hardware" to "E2 Lite (RX)"
+      * Set "Target Device" to "R5F565NE"
+      * On the "Connection Settings" sub-tab change "Connection Type" to "FINE"
 * For Renesas RX65N Cloud Kit (the old green PCB Cloud Kit with the Wi-Fi module):
   * Download and install Renesas e2 Studio 2022-10 or later
   * Download and install GCC for Renesas RX v8.3 or later, this can be done as part of the e2 studio install or after
   * In e2 Studio, open a workspace and click "Import projects into workspace". Then select the samples/rx65ncloudkit directory,
   and import the projects.
   * To run/debug the application you will need to generate your own debug .launch file, or copy one from an existing application.
+    * To create a new .launch file suitable for the board first select the "basic-sample" project in E2 Studio's Project Explorer,
+	then select the "Run" menu and "Debug as" submenu and "Renesas GDB hardware debugging"
+    * When the dialog is displayed keep all settings as the defaults other than on the "Debugger" tab:
+      * Set "Debug hardware" to "E2 Lite (RX)"
+      * Set "Target Device" to "R5F565NE"
+      * On the "Connection Settings" sub-tab change "Connection Type" to "FINE"
 
 * Modify samples/your_board/basic-sample/include/app_config.h (not needed for WFI32-IoT) per your IoTConnect device and account info.
 * Build and run or debug the project on your board.
