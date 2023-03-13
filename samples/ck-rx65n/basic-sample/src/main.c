@@ -88,8 +88,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #define SAMPLE_IPV4_ADDRESS             IP_ADDRESS(0, 0, 0, 0)
 #define SAMPLE_IPV4_MASK                IP_ADDRESS(0, 0, 0, 0)
 
-//#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
-#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(192, 168, 1, 1)
+#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
 
 #ifndef SAMPLE_DHCP_WAIT_OPTION
 #define SAMPLE_DHCP_WAIT_OPTION         (20 * NX_IP_PERIODIC_RATE)
