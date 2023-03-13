@@ -129,7 +129,7 @@ static void publish_telemetry() {
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
 
-    iotcl_telemetry_set_bool(msg, "button", read_user_switch());
+    iotcl_telemetry_set_number(msg, "button", read_user_switch());
 
 //    sensors_add_telemetry(msg);
     str = iotcl_create_serialized_string(msg, false);
