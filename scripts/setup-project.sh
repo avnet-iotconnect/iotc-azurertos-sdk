@@ -27,8 +27,8 @@ set -e
 
 show_help() {
   echo "Usage: $0 <project_name>"
-  echo "Available projects: stm32l4, stm32u5, mimxrt1060, same54xpro, " \
-      "same54xprov2, maaxboardrt, rx65ncloudkit, wfi32iot"
+  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
+      "same54xprov2, maaxboardrt, ck-rx65n (Blue PCB, Ethernet supported, TSIP supported), rx65ncloudkit (Green PCB, Wifi supported, no TSIP support), wfi32iot"
 }
 
 # All the IDEs officially support Windows, so it is likely that a developer
@@ -159,6 +159,13 @@ create_threadx_projects() {
       project_ide_dir='mplab/'
       libs="same54_lib filex common_hardware_code "
       ;;
+    ck-rx65n)
+      echo Downloading Azure_RTOS_6...
+      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      project_platform_dir=''
+      project_ide_dir='e2studio_gnurx/'
+      libs="filex netxduo_addons "
+      ;;
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
       ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
@@ -176,7 +183,7 @@ create_threadx_projects() {
   project_dir="${project_platform_dir}${project_ide_dir}"
 
   case "$name" in
-    mimxrt1060 | stm32l4 | same54xpro | rx65ncloudkit)
+    mimxrt1060 | stm32l4 | same54xpro | ck-rx65n | rx65ncloudkit)
       echo Extracting...
       ${UNZIP} azrtos.zip
       rm -f azrtos.zip
@@ -204,7 +211,7 @@ create_threadx_projects() {
       sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
       sed -i 's#tx#threadx#g' ./threadx/.cproject
       ;;
-    mimxrt1060 | rx65ncloudkit)
+    mimxrt1060 | ck-rx65n | rx65ncloudkit)
       echo 'Applying patches for AzureRTOS component directory name references...'
       sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
       sed -i 's#tx#threadx#g' ./threadx/.cproject
@@ -240,6 +247,9 @@ case "$name" in
   maaxboardrt)
     pushd "$(dirname $0)"/../samples/"${name}"
   ;;
+  ck-rx65n)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
   rx65ncloudkit)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -252,7 +262,7 @@ esac
 sample_dir=$(pwd)
 
 # initial cleanup
-rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt rx65ncloudkit
+rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt ck-rx65n rx65ncloudkit
 
 # Pull Git submodules for iotc-azrtos-sdk
 git submodule update --init --recursive
@@ -311,7 +321,7 @@ case "$name" in
     find . -name '.project' | grep -v NetXDuo | xargs rm -f
 
   ;;
-  stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
+  stm32l4 | mimxrt1060 | same54xpro | ck-rx65n | rx65ncloudkit)
     create_iotc_azrtos_symlinks
     create_threadx_projects $name
     git_hide_config_files

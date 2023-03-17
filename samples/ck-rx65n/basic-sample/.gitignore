@@ -1,0 +1,13 @@
+/trash
+/HardwareDebug/
+/output
+
+/src/smc_gen/
+
+*.o
+*.o.in
+*.elf
+*.elf.in
+*.map
+*.lst
+*.mot
