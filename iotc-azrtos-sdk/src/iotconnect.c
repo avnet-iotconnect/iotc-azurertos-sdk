@@ -233,7 +233,7 @@ static void on_message_intercept(IotclEventData data, IotclEventType type) {
         if (NULL == discovery_response) {
             printf("IOTC: Unable to run HTTP discovery on ON_FORCE_SYNC \r\n");
             return;
-        }
+        }        
         sync_response = run_http_sync(config.cpid, config.duid);
         if (NULL == sync_response) {
             printf("IOTC: Unable to run HTTP sync on ON_FORCE_SYNC \r\n");
@@ -319,7 +319,7 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
         return -1;
     }
     printf("IOTC: Discovery response parsing successful. Performing sync...\r\n");
-
+    
     sync_response = run_http_sync(config.cpid, config.duid);
     if (NULL == sync_response) {
         // Sync_call will print the error

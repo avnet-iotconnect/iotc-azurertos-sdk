@@ -10,6 +10,7 @@
 #include "iotconnect.h"
 #include "iotconnect_certs.h"
 #include "azrtos_ota_fw_client.h"
+#include "azrtos_adu_agent.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 #include "hal_gpio.h"
@@ -20,7 +21,7 @@ extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
 
-#define APP_VERSION "01.00.00"
+#define APP_VERSION "1.0.0"
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -137,8 +138,8 @@ static UINT start_ota(char *url) {
 
     req.azrtos_config = &azrtos_config;
     // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+    req.tls_cert = (unsigned char*)IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
+    req.tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
     status = iotc_ota_fw_download(
             &req,
@@ -174,7 +175,6 @@ static void on_ota(IotclEventData data) {
         if (!version) {
             printf("Failed to clone SW version! Out of memory?");
             message = "Failed to clone SW version";
-            free(url);
         } else if (is_app_version_same_as_ota(version)) {
             printf("OTA request for same version %s. Sending success\r\n", version);
             success = true;
@@ -341,15 +341,26 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
+        tx_thread_sleep(1000);
+   
+        iothub_start_device_agent(
+            IOTC_ADU_MICROCHIP,
+            IOTC_ADU_SAME54,
+            "AVNET",
+            "SAMPLEAPP",
+            APP_VERSION
+            );
+        
         // send telemetry periodically
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(5000);
+                iotconnect_sdk_poll(15000);
             } else {
                 return false;
             }
         }
+        iothub_stop_device_agent();
         iotconnect_sdk_disconnect();
     }
     printf("Done.\r\n");

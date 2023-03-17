@@ -14,9 +14,6 @@
 //
 #include <stdio.h>
 
-#include "tx_api.h"
-#include "nx_api.h"
-#include "nx_azure_iot_hub_client.h"
 #include "nx_azure_iot_ciphersuites.h"
 #include "azrtos_time.h"
 #include "iotconnect_certs.h"
@@ -55,6 +52,9 @@ static IotConnectIotHubConfig config;
 static bool is_connected = false;
 static bool is_disconnect_requested = false;
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+#define SAMPLE_PNP_MODEL_ID                                             "dtmi:azure:iot:deviceUpdateModel;1"
+#endif
 
 static VOID connection_status_callback(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr, UINT status) {
     NX_PARAMETER_NOT_USED(hub_client_ptr);
@@ -161,16 +161,23 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
     	printf("initialize_iothub: Unknown authentication type provided. Aborting...");
     	return NX_OPTION_ERROR;
     }
-    /* Set connection status callback. */
     if ((status = nx_azure_iot_hub_client_connection_status_callback_set(iothub_client_ptr, connection_status_callback))) {
         printf("Failed on connection_status_callback!\r\n");
         return status;
     }
+
     if ((status = nx_azure_iot_hub_client_cloud_message_enable(iothub_client_ptr))) {
         printf("C2D receive enable failed!: error code = 0x%08x\r\n", status);
         return status;
     }
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+    // this needs to be enabled for the ADU Agent
+    if ((status = nx_azure_iot_hub_client_properties_enable(iothub_client_ptr))) {
+        printf("Client Properties enable failed!: error code = 0x%08x\r\n", status);
+        return status;
+    }
+#endif // IOTC_ENABLE_ADU_SUPPORT
     if (status) {
         nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
         return status;
@@ -184,6 +191,7 @@ static void log_callback(az_log_classification classification, UCHAR *msg, UINT 
         printf("%.*s", msg_len, (CHAR*) msg);
     }
 }
+
 UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrtos_config) {
     UINT status = 0;
 
@@ -221,6 +229,14 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
         return status;
     }
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+    if ((status = nx_azure_iot_hub_client_model_id_set(&iothub_client,
+                                                       (const UCHAR *)SAMPLE_PNP_MODEL_ID,
+                                                       sizeof(SAMPLE_PNP_MODEL_ID) - 1))) {
+        printf("Failed on nx_azure_iot_hub_client_model_id_set!: error code = 0x%08x\r\n", status);
+    }
+#endif
+
     printf("Connecting...\r\n");
     if (nx_azure_iot_hub_client_connect(&iothub_client, NX_TRUE, NX_WAIT_FOREVER)) {
         printf("Failed on nx_azure_iot_hub_client_connect!\r\n");
@@ -234,7 +250,7 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
     return NX_AZURE_IOT_SUCCESS;
 }
 
-void iothub_client_disconnect() {
+void iothub_client_disconnect(void) {
     if (is_connected) {
         is_connected = false;
         is_disconnect_requested = true; // don't deinitialize in the callback
@@ -248,10 +264,9 @@ void iothub_client_disconnect() {
     }
 }
 
-bool iothub_client_is_connected() {
+bool iothub_client_is_connected(void) {
     return is_connected;
 }
-
 
 UINT iothub_send_message(const char *message) {
     UINT status = 0;
@@ -308,3 +323,8 @@ UINT iothub_c2d_receive(bool loop_forever, ULONG wait_ticks) {
     return status;
 }
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+NX_AZURE_IOT_HUB_CLIENT* iothub_client_internal_get_iothub_instance(void) {
+    return &iothub_client;
+}
+#endif
