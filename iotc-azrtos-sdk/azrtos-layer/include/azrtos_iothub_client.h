@@ -9,6 +9,9 @@
 extern   "C" {
 #endif
 
+#include "tx_api.h"
+#include "nx_api.h"
+#include "nx_azure_iot_hub_client.h"
 #include "iotconnect.h"
 
 typedef void (*IotConnectC2dCallback)(UCHAR* message, size_t message_len);
@@ -23,9 +26,9 @@ typedef struct {
 
 UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig* azrtos_config);
 
-void iothub_client_disconnect();
+void iothub_client_disconnect(void);
 
-bool iothub_client_is_connected();
+bool iothub_client_is_connected(void);
 
 // send a null terminated string to IoTHub
 UINT iothub_send_message(const char *message);
@@ -41,6 +44,11 @@ that will be sending and receiving set wait time to the desired value as a multi
  *
  */
 UINT iothub_c2d_receive(bool loop_forever, ULONG wait_ticks);
+
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+// This function should only used by SDK subsystems and not by the user
+NX_AZURE_IOT_HUB_CLIENT* iothub_client_internal_get_iothub_instance(void);
+#endif //IOTC_ENABLE_ADU_SUPPORT
 
 #ifdef __cplusplus
 }
