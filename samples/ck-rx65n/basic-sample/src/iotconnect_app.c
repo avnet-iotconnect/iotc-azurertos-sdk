@@ -14,11 +14,22 @@
 #include "sw_auth_driver.h"
 
 #include "hardware_setup.h"
+#include "hs300x_sensor_thread_entry.h"
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
 
 #define APP_VERSION "01.00.00"
+
+/***********************************************************************************************************************
+ * ThreadX object control blocks definitions
+ **********************************************************************************************************************/
+TX_THREAD               hs300x_sensor_thread;
+
+/***********************************************************************************************************************
+ * Stacks definitions
+ **********************************************************************************************************************/
+UCHAR               hs300x_sensor_thread_memory_stack[1024];
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -125,9 +136,9 @@ static void publish_telemetry() {
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
-//   iotcl_telemetry_set_number(msg, "cpu", 3.123); // test floating point numbers
-    // random number 0-100, cast to int so that it removes decimals in json
-    iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
+
+    iotcl_telemetry_set_number(msg, "temperature", get_temperature());
+    iotcl_telemetry_set_number(msg, "humidity", get_humidity());
 
     iotcl_telemetry_set_number(msg, "button", read_user_switch());
 
@@ -186,7 +197,18 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 
 #endif  // IOTCONNECT_SYMETRIC_KEY
 
+    /* Start HS3001 sensor.  */
+    UINT status_hs300x_sensor_thread;
+    status_hs300x_sensor_thread = tx_thread_create(&hs300x_sensor_thread, "Sensor Thread", hs300x_sensor_thread_entry, 0, hs300x_sensor_thread_memory_stack, 1024, 1, 1, 0, TX_AUTO_START);
+    if (TX_SUCCESS != status_hs300x_sensor_thread)
+    {
+    	printf("Failed to create status_hs300x_sensor_thread.\r\n");
+    }
+
     while (true) {
+        /* Switch to another thread */
+        tx_thread_sleep(1);
+
 #ifdef MEMORY_TEST
         // check for leaks
         memory_test();
@@ -197,6 +219,9 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
         }
         // send telemetry periodically
         for (int i = 0; i < 50; i++) {
+            /* Switch to another thread */
+            tx_thread_sleep(1);
+
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(5000);
