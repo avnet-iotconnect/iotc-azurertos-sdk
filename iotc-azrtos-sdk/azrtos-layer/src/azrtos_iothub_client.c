@@ -113,7 +113,7 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
                 (UCHAR*) config.auth->data.symmetric_key, //
                 strlen(config.auth->data.symmetric_key)))) {
             printf("Failed on nx_azure_iot_hub_client_symmetric_key_set!\r\n");
-            return status;
+            goto end;
         }
     } else if (config.auth->type == IOTC_X509){
         printf("Using x509 authentication.\r\n");
@@ -138,11 +138,13 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
         size_t cert_len, key_len;
         if (ai->get_cert(aic, &cert, &cert_len)) {
         	printf("Failed get cert from the auth interface\r\n");
-        	return NX_NO_MAPPING;
+        	status = NX_NO_MAPPING;
+        	goto end;
         }
         if (ai->get_private_key(aic, &key, &key_len)) {
         	printf("Failed get key from the auth interface\r\n");
-        	return NX_NO_MAPPING;
+        	status = NX_NO_MAPPING;
+        	goto end;
         }
         if ((status = nx_secure_x509_certificate_initialize(&device_certificate, //
                 cert, //
@@ -169,12 +171,12 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
     if ((status = nx_azure_iot_hub_client_trusted_cert_add(iothub_client_ptr, &root_ca_cert_2)))
     {
         printf("Failed on nx_azure_iot_hub_client_trusted_cert_add!: error code = 0x%08x\r\n", status);
-        return status;
+        goto end;
     }
     else if ((status = nx_azure_iot_hub_client_trusted_cert_add(iothub_client_ptr, &root_ca_cert_3)))
     {
         printf("Failed on nx_azure_iot_hub_client_trusted_cert_add!: error code = 0x%08x\r\n", status);
-        return status;
+        goto end;
     }
 
     /* Set connection status callback. */
@@ -191,13 +193,12 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
     // this needs to be enabled for the ADU Agent
     if ((status = nx_azure_iot_hub_client_properties_enable(iothub_client_ptr))) {
         printf("Client Properties enable failed!: error code = 0x%08x\r\n", status);
-        return status;
+        goto end;
     }
 #endif // IOTC_ENABLE_ADU_SUPPORT
 end:
     if (status) {
         nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
-        return status;
     }
 
     return (status);
