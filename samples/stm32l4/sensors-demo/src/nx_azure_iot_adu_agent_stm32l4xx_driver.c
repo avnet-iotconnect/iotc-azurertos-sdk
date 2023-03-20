@@ -4,7 +4,6 @@
 /*                                                                        */
 /**************************************************************************/
 
-#ifdef USE_AZRTOS_ADU_AGENT_DRIVER
 #include "stm32l4xx_hal.h"
 #include "nx_azure_iot_adu_agent.h"
 
@@ -14,7 +13,7 @@
 /* Define the internal variables.  */
 static uint32_t total_write_size;
 static uint32_t write_size;
-static union
+static union 
 {
     uint64_t write_buffer_int64;
     unsigned char write_buffer_char[8];
@@ -23,7 +22,7 @@ static union
 static int remainder_count;
 
 /* ADU driver entry.  */
-void nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 
 /* Internal functions.  */
 static int boot_bank_set(uint32_t bank);
@@ -35,7 +34,7 @@ static void internal_firmware_apply(void);
 
 
 /****** DRIVER SPECIFIC ******/
-void  nx_azure_iot_adu_agent_stm32l4xx_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr)
+void  nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr)
 {
 
 UINT status;
@@ -43,24 +42,24 @@ UINT status;
 
     /* Default to successful return.  */
     driver_req_ptr -> nx_azure_iot_adu_agent_driver_status = NX_AZURE_IOT_SUCCESS;
-
+        
     /* Process according to the driver request type.  */
     switch (driver_req_ptr -> nx_azure_iot_adu_agent_driver_command)
     {
-
+        
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_INITIALIZE:
         {
-
+           
             /* Process initialize requests.  */
             break;
         }
-
+            
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_PREPROCESS:
         {
-
+        
             /* Process firmware preprocess requests before writing firmware.
                Such as: erase the flash at once to improve the speed.  */
-
+                
             /* Erase the flash for new firmware.  */
             if (boot_bank_get() == FLASH_BANK_1)
             {
@@ -70,68 +69,68 @@ UINT status;
             {
                 status = internal_flash_erase(FLASH_BANK_1, driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_size);
             }
-
+            
             /* Check status.  */
             if (status)
             {
                 driver_req_ptr -> nx_azure_iot_adu_agent_driver_status = NX_AZURE_IOT_FAILURE;
             }
-
+    
             break;
         }
-
+            
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_WRITE:
         {
-
+        
             /* Process firmware write requests.  */
-
+            
             /* Write firmware contents.
                1. This function must support figure out which bank it should write to.
                2. Write firmware contents into new bank.
                3. Decrypt and authenticate the firmware itself if needed.
             */
-
+            
             /* Write firmware contents into flash.  */
             UCHAR   *dest_ptr = (UCHAR*)(FLASH_BANK2_ADDR + driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_offset);
             status = internal_flash_write(dest_ptr,
                                           driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_ptr,
                                           driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_size);
-
+            
             /* Check status.  */
             if (status)
             {
                 driver_req_ptr -> nx_azure_iot_adu_agent_driver_status = NX_AZURE_IOT_FAILURE;
             }
-
+            
             break;
-        }
-
+        } 
+            
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_INSTALL:
         {
-
+            
             /* Set the new firmware for next boot.  */
             status = internal_firmware_install();
-
+            
             /* Check status.  */
             if (status)
             {
                 driver_req_ptr -> nx_azure_iot_adu_agent_driver_status = NX_AZURE_IOT_FAILURE;
             }
-
+            
             break;
-        }
-
+        } 
+            
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_APPLY:
         {
-
+            
             /* Apply the new firmware, and reboot device from that.*/
             internal_firmware_apply();
-
+        
             break;
-        }
+        } 
         default:
         {
-
+                
             /* Invalid driver request.  */
 
             /* Default to successful return.  */
@@ -180,9 +179,9 @@ static int boot_bank_set(uint32_t bank)
      * Call 'HAL_FLASH_GetError()' for details. */
         rc = -1;
     }
-
+    
     HAL_FLASH_Lock();
-
+    
     return rc;
 }
 
@@ -212,18 +211,13 @@ HAL_StatusTypeDef       status;
 
     if (size > FLASH_BANK_SIZE)
         return -1;
-
+    
     erase_init.TypeErase = FLASH_TYPEERASE_PAGES;
     erase_init.Banks = bank;
     erase_init.Page = 0;
-    erase_init.NbPages = (size + FLASH_PAGE_SIZE - 1) / FLASH_PAGE_SIZE;
+    erase_init.NbPages = (size + 2047) / 2048;
+    
     HAL_FLASH_Unlock();
-    // This error happens if we erased or partially wrote into the bank's blocks, but it did not complete
-    // It basically means that the boot bank targeted for booting failed.
-    if (__HAL_FLASH_GET_FLAG(FLASH_FLAG_PEMPTY) != 0)
-    {
-      __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_PEMPTY);
-    }
     status = HAL_FLASHEx_Erase(&erase_init, &page_error);
     HAL_FLASH_Lock();
     if ((status != HAL_OK) || page_error != 0xFFFFFFFF)
@@ -247,17 +241,17 @@ HAL_StatusTypeDef       status;
 
 
     write_size += size;
-
+    
     for (; (remainder_count >= 0) && (remainder_count < 8) && (size > 0); destination_ptr++, size--)
     {
         write_buffer.write_buffer_char[remainder_count++] = *source_ptr++;
     }
-
+    
     HAL_FLASH_Unlock();
-
+    
     if (remainder_count == 8)
     {
-        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr - 8), write_buffer.write_buffer_int64);
+        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr - 8), write_buffer.write_buffer_int64); 
         if (status != HAL_OK)
         {
             HAL_FLASH_Lock();
@@ -267,7 +261,7 @@ HAL_StatusTypeDef       status;
     }
     for (; size > 8; size -= 8, destination_ptr += 8, source_ptr += 8)
     {
-        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr), (uint64_t)*(uint32_t*)source_ptr | ((uint64_t)*(uint32_t*)(source_ptr + 4)) << 32);
+        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr), (uint64_t)*(uint32_t*)source_ptr | ((uint64_t)*(uint32_t*)(source_ptr + 4)) << 32); 
         if (status != HAL_OK)
         {
             HAL_FLASH_Lock();
@@ -291,7 +285,7 @@ HAL_StatusTypeDef       status;
             destination_ptr++;
         }
 
-        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr - 8), write_buffer.write_buffer_int64);
+        status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, (uint32_t)(destination_ptr - 8), write_buffer.write_buffer_int64); 
         if (status != HAL_OK)
         {
             HAL_FLASH_Lock();
@@ -301,30 +295,30 @@ HAL_StatusTypeDef       status;
     HAL_FLASH_Lock();
     return 0;
 }
-
+                                   
 /* Install new firmware.  */
 static int internal_firmware_install(void)
 {
 
 UINT    status;
-
-
+ 
+        
     /* Set the new bank for boot.  */
     if (boot_bank_get() == FLASH_BANK_1)
     {
-        status = boot_bank_set(FLASH_BANK_2);
+        status = boot_bank_set(FLASH_BANK_2);    
     }
     else
     {
-        status = boot_bank_set(FLASH_BANK_1);
-    }
-
+        status = boot_bank_set(FLASH_BANK_1); 
+    }   
+    
     /* Check status.  */
     if (status)
     {
         return(NX_AZURE_IOT_FAILURE);
     }
-
+    
     /* Return success. */
     return(NX_AZURE_IOT_SUCCESS);
 }
@@ -333,16 +327,14 @@ UINT    status;
 /* Apply new firmware, and reboot device from new firmware.  */
 static void internal_firmware_apply(void)
 {
-
+    
     /* Allow Access to the Flash control registers and user Flash. */
     HAL_FLASH_Unlock();
 
     /* Allow Access to the option bytes sector. */
     HAL_FLASH_OB_Unlock();
-
-    /* Setting OBL_LAUNCH generates a reset.
+    
+    /* Setting OBL_LAUNCH generates a reset. 
        so the option byte loading is performed under system reset.  */
     HAL_FLASH_OB_Launch();
 }
-
-#endif //USE_AZRTOS_ADU_AGENT_DRIVER
