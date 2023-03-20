@@ -4,15 +4,13 @@
 /*                                                                        */
 /**************************************************************************/
 
-#include "tx_api.h"
-#include "nx_api.h"
 #include "driver_init_flash.h"
+//#include "driver_examples.h"
 #include "driver_init.h"
 
 #include "utils.h"
 #include "hal_flash.h"
 #include "nx_azure_iot_adu_agent.h"
-
 
 /* Define the bank2 address for new firmware.  */
 #define FLASH_BANK2_ADDR                0x80000
@@ -23,7 +21,7 @@ void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr
 
 
 /****** DRIVER SPECIFIC ******/
-void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr)
+void  nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr)
 {
 
 UINT status;
@@ -55,7 +53,7 @@ UINT status;
             
         case NX_AZURE_IOT_ADU_AGENT_DRIVER_WRITE:
         {
-            
+        
             /* Process firmware write requests.  */
             
             /* Write firmware contents.
@@ -66,12 +64,14 @@ UINT status;
             
             /* Write firmware contents into flash.  */
              uint32_t   dest_addr = (FLASH_BANK2_ADDR + driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_offset);
-
+           
             /* Write data to flash */
             status =  flash_write(&FLASH_0, dest_addr,
                                           driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_ptr,
                                           driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_data_size);
 
+
+            
             /* Check status.  */
             if (status)
             {

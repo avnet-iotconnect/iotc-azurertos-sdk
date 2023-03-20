@@ -41,9 +41,11 @@ extern VOID sample_entry(NX_IP* ip_ptr, NX_PACKET_POOL* pool_ptr, NX_DNS* dns_pt
 /* Seconds between Unix Epoch (1/1/1970) and NTP Epoch (1/1/1999) */
 #define DEMO_UNIX_TO_NTP_EPOCH_SECOND 0x83AA7E80
 
-#if 0
+// BEGIN: Changes from sample main
+#if 0 // we get time from the IoTConnect SDK and plug it into system time()
 static NX_SNTP_CLIENT   sntp_client;
 #endif
+// END: Changes from sample main
 
 /* System clock time for UTC.  */
 static ULONG            unix_time_base;
@@ -63,10 +65,12 @@ static UINT sntp_server_index;
 #include "azrtos_time.h"
 extern bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 
-    
+
+// BEGIN: Changes from sample main
 #if 0
 static UINT sntp_time_sync(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 #endif
+// END: Changes from sample main
 
 //#define RUN_AZURE
 #ifdef RUN_AZURE
@@ -118,6 +122,7 @@ UINT    status;
 #endif    
 }
 
+// BEGIN: Changes from sample main
 #if 0
 
 /* Sync up the local time.  */
@@ -258,5 +263,7 @@ static UINT unix_time_get(ULONG *unix_time)
     return(NX_SUCCESS);
 }
 #endif
+// END: Changes from sample main
+
 
 #endif
