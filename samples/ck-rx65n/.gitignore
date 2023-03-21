@@ -3,6 +3,7 @@
 /threadx
 /filex
 /iotc-azrtos-sdk
+/adu_proxy_scripts
 
 *.html
 *.pdf
