@@ -134,8 +134,8 @@ static void publish_telemetry() {
 //    sensors_add_telemetry(msg);
     str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
-    printf("Sending: %s\r\n", str);
     if (NULL != str) {
+        printf("Sending: %s\r\n", str);
         iotconnect_sdk_send_packet(str); // underlying code will report an error
         iotcl_destroy_serialized(str);
     }

@@ -56,69 +56,16 @@ static char* compose_device_id() {
 }
 #pragma GCC diagnostic pop
 
-static bool is_app_version_same_as_ota(const char *version) {
-    return strcmp(APP_VERSION, version) == 0;
-}
-
-static bool app_needs_ota_update(const char *version) {
-    return strcmp(APP_VERSION, version) < 0;
-}
-
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
-    bool needs_ota_commit = false;
-    char *url = iotcl_clone_download_url(data, 0);
     bool success = false;
-    if (NULL != url) {
-        printf("Download URL is: %s\r\n", url);
-        const char *version = iotcl_clone_sw_version(data);
-        if (!version) {
-            printf("Failed to clone SW version! Out of memory?");
-            message = "Failed to clone SW version";
-        } else if (is_app_version_same_as_ota(version)) {
-            printf("OTA request for same version %s. Sending success\r\n", version);
-            success = true;
-            message = "Version is matching";
-        } else if (app_needs_ota_update(version)) {
-            printf("OTA update is required for version %s.\r\n", version);
-			success = false;
-			message = "Not implemented";
-        } else {
-            printf("Device firmware version %s is newer than OTA version %s. Sending failure\r\n", APP_VERSION,
-                    version);
-            // Not sure what to do here. The app version is better than OTA version.
-            // Probably a development version, so return failure?
-            // The user should decide here.
-            success = false;
-            message = "Device firmware version is newer";
-        }
 
-        free((void*) url);
-        free((void*) version);
-    } else {
-        // compatibility with older events
-        // This app does not support FOTA with older back ends, but the user can add the functionality
-        const char *command = iotcl_clone_command(data);
-        if (NULL != command) {
-            // URL will be inside the command
-            printf("Command is: %s\r\n", command);
-            message = "Old back end URLS are not supported by the app";
-            free((void*) command);
-        }
-    }
+    message = "Firmware OTA not supported by device";
     const char *ack = iotcl_create_ack_string_and_destroy_event(data, success, message);
     if (NULL != ack) {
         printf("Sent OTA ack: %s\r\n", ack);
         iotconnect_sdk_send_packet(ack);
         free((void*) ack);
-    }
-    if (needs_ota_commit) {
-        printf("Waiting for ack to be sent by the network\r\n.,,");
-        tx_thread_sleep(5 * NX_IP_PERIODIC_RATE);
-        UINT status = iotc_ota_fw_apply();
-        if (status) {
-            printf("Failed to apply firmware! Error was: %d\r\n", status);
-        }
     }
 }
 
@@ -142,8 +89,7 @@ static void on_command(IotclEventData data) {
     								ON : OFF;
     		set_led(LED2, state);
     		command_status(data, true, command, "LED set");
-    	}
-    	else {
+    	} else {
     		command_status(data, false, command, "Not implemented");
     	}
         free((void*) command);
@@ -171,7 +117,7 @@ static void on_connection_status(IotConnectConnectionStatus status) {
 }
 
 static void publish_telemetry() {
-    IotclMessageHandle msg = iotcl_telemetry_create(iotconnect_sdk_get_lib_config());
+    IotclMessageHandle msg = iotcl_telemetry_create();
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
@@ -181,7 +127,7 @@ static void publish_telemetry() {
     // random number 0-100, cast to int so that it removes decimals in json
     iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
 
-    iotcl_telemetry_set_bool(msg, "button", read_user_switch());
+    iotcl_telemetry_set_number(msg, "button", read_user_switch());
 
 //    sensors_add_telemetry(msg);
 
