@@ -25,6 +25,7 @@ int32_t az_platform_sleep_msec(int32_t milliseconds)
     return 0u;
 }
 
+#if USE_WIFI
 UINT  _nxde_dns_host_by_name_get(NX_DNS *dns_ptr, UCHAR *host_name, NXD_ADDRESS *host_address_ptr,
                                  ULONG wait_option, UINT lookup_type)
 {
@@ -42,3 +43,4 @@ UINT  _nxde_dns_host_by_name_get(NX_DNS *dns_ptr, UCHAR *host_name, NXD_ADDRESS 
 
     return NX_SUCCESS;
 }
+#endif
