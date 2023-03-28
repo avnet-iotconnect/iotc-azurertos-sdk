@@ -160,7 +160,6 @@ static UINT dns_create();
 void SAMPLE_BOARD_SETUP();
 #endif /* SAMPLE_BOARD_SETUP */
 
-
 /* Define main entry point.  */
 int main(void)
 {
@@ -175,9 +174,9 @@ int main(void)
 void    tx_application_define(void *first_unused_memory)
 {
 
-	UINT  status;
+    UINT  status;
 
-	/* Initialize the demo printf implementation. */
+    /* Initialize the demo printf implementation. */
     demo_printf_init();
 
     /* Initialize the NetX system.  */
@@ -190,7 +189,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for pool creation error.  */
     if (status)
     {
-        printf("nx_packet_pool_create fail: %u\r\n", status);
+        printf("nx_packet_pool_create fail: 0x%x\r\n", status);
         return;
     }
 
@@ -204,7 +203,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for IP create errors.  */
     if (status)
     {
-        printf("nx_ip_create fail: %u\r\n", status);
+        printf("nx_ip_create fail: 0x%x\r\n", status);
         return;
     }
 
@@ -214,7 +213,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for ARP enable errors.  */
     if (status)
     {
-        printf("nx_arp_enable fail: %u\r\n", status);
+        printf("nx_arp_enable fail: 0x%x\r\n", status);
         return;
     }
 
@@ -224,7 +223,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for ICMP enable errors.  */
     if (status)
     {
-        printf("nx_icmp_enable fail: %u\r\n", status);
+        printf("nx_icmp_enable fail: 0x%x\r\n", status);
         return;
     }
 
@@ -234,7 +233,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for TCP enable errors.  */
     if (status)
     {
-        printf("nx_tcp_enable fail: %u\r\n", status);
+        printf("nx_tcp_enable fail: 0x%x\r\n", status);
         return;
     }
 
@@ -244,7 +243,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check for UDP enable errors.  */
     if (status)
     {
-        printf("nx_udp_enable fail: %u\r\n", status);
+        printf("nx_udp_enable fail: 0x%x\r\n", status);
         return;
     }
 
@@ -261,7 +260,7 @@ void    tx_application_define(void *first_unused_memory)
     /* Check status.  */
     if (status)
     {
-        printf("Demo helper thread creation fail: %u\r\n", status);
+        printf("Demo helper thread creation fail: 0x%x\r\n", status);
         return;
     }
 }
@@ -345,7 +344,7 @@ ULONG   gateway_address = 0;
     /* Check for DNS create errors.  */
     if (status)
     {
-        printf("dns_create fail: %u\r\n", status);
+        printf("dns_create fail: 0x%x\r\n", status);
         return;
     }
 
@@ -381,36 +380,77 @@ ULONG   gateway_address = 0;
 }
 
 #ifndef SAMPLE_DHCP_DISABLE
+static void dhcp_error()
+{
+    printf("...DHCP Error\r\n");
+
+    while(1) {
+        tx_thread_sleep((ULONG) -1);
+    }
+
+    /* no return */
+}
+
 static void dhcp_wait()
 {
-ULONG   actual_status;
+    ULONG   actual_status = 0;
+    UINT status;
 
     printf("DHCP In Progress...\r\n");
 
     /* Create the DHCP instance.  */
-    nx_dhcp_create(&dhcp_0, &ip_0, "DHCP Client");
+    status = nx_dhcp_create(&dhcp_0, &ip_0, "DHCP Client");
+    if(status != NX_SUCCESS) {
+        printf("nx_dhcp_create failed: 0x%x\r\n", status);
+        dhcp_error();
+    }
+    printf("nx_dhcp_create ok\r\n");
 
     /* Start the DHCP Client.  */
-    nx_dhcp_start(&dhcp_0);
+    status = nx_dhcp_start(&dhcp_0);
+    if(status != NX_SUCCESS) {
+        printf("nx_dhcp_start failed: 0x%x\r\n", status);
+        nx_dhcp_delete(&dhcp_0);
+        dhcp_error();
+    }
+    printf("nx_dhcp_start ok\r\n");
 
-    /* Wait util address is solved. */
-    nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, NX_WAIT_FOREVER);
+    /* Wait until address is resolved, or times out. */
+    status = nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, 1000);
+    for(int i = 0; i < 10 && status != NX_SUCCESS && actual_status != NX_IP_ADDRESS_RESOLVED;i++)
+    {
+    	printf("nx_ip_status_check failed: 0x%x 0x%x\r\n", status, actual_status);
+        tx_thread_sleep(NX_IP_PERIODIC_RATE * 10);
+	
+        printf("retry nx_ip_status_check %d\r\n", i);
+        actual_status = 0;
+        status = nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, 1000);
+    }
+    if(status != NX_SUCCESS)
+    {
+        printf("nx_ip_status_check failed: 0x%x - 0x%x\r\n", status, actual_status);
+        nx_dhcp_delete(&dhcp_0);
+        return;
+    }
+
+    printf("...DHCP Finished\r\n");
 }
 #endif /* SAMPLE_DHCP_DISABLE  */
 
 static UINT dns_create()
 {
 
-UINT    status;
-ULONG   dns_server_address[3];
-UINT    dns_server_address_size = 12;
+    UINT    status;
+    ULONG   dns_server_address[3]; // IPv6 needs more than one ULONG
+    UINT    dns_server_address_size = sizeof(dns_server_address);
 
     /* Create a DNS instance for the Client.  Note this function will create
        the DNS Client packet pool for creating DNS message packets intended
        for querying its DNS server. */
     status = nx_dns_create(&dns_0, &ip_0, (UCHAR *)"DNS Client");
-    if (status)
+    if (status != NX_SUCCESS)
     {
+        printf("nx_dns_create failed: status = 0x%x\r\n", status);
         return(status);
     }
 
@@ -420,8 +460,9 @@ UINT    dns_server_address_size = 12;
     /* Yes, use the packet pool created above which has appropriate payload size
        for DNS messages. */
     status = nx_dns_packet_pool_set(&dns_0, ip_0.nx_ip_default_packet_pool);
-    if (status)
+    if (status != NX_SUCCESS)
     {
+        printf("nx_dns_packet_pool_set failed: status = 0x%x\r\n", status);
         nx_dns_delete(&dns_0);
         return(status);
     }
@@ -429,8 +470,14 @@ UINT    dns_server_address_size = 12;
 
 #ifndef SAMPLE_DHCP_DISABLE
     /* Retrieve DNS server address.  */
-    nx_dhcp_interface_user_option_retrieve(&dhcp_0, 0, NX_DHCP_OPTION_DNS_SVR, (UCHAR *)(dns_server_address),
+    status = nx_dhcp_interface_user_option_retrieve(&dhcp_0, 0, NX_DHCP_OPTION_DNS_SVR, (UCHAR *)(dns_server_address),
                                            &dns_server_address_size);
+    if (status != NX_SUCCESS)
+    {
+        printf("nx_dhcp_interface_user_option_retrieve failed: status = 0x%x\r\n", status);
+        nx_dns_delete(&dns_0);
+        return(status);
+    }
 #else
     dns_server_address[0] = SAMPLE_DNS_SERVER_ADDRESS;
 #endif /* SAMPLE_DHCP_DISABLE */
@@ -439,6 +486,7 @@ UINT    dns_server_address_size = 12;
     status = nx_dns_server_add(&dns_0, dns_server_address[0]);
     if (status)
     {
+        printf("nx_dns_server_add failed: status = 0x%x\r\n", status);
         nx_dns_delete(&dns_0);
         return(status);
     }
@@ -452,7 +500,3 @@ UINT    dns_server_address_size = 12;
 
     return(NX_SUCCESS);
 }
-
-
-
-
