@@ -297,7 +297,7 @@
         <Item currentVect="54" id="RIIC2_RXI2" priority="15" usedState="Not Use"/>
         <Item currentVect="55" id="RIIC2_TXI2" priority="15" usedState="Not Use"/>
         <Item currentVect="58" id="SCI0_RXI0" priority="15" usedState="Not Use"/>
-        <Item currentVect="59" id="SCI0_TXI0" priority="15" usedState="Not Use"/>
+        <Item currentVect="59" id="SCI0_TXI0" priority="2" usedState="Used"/>
         <Item currentVect="60" id="SCI1_RXI1" priority="15" usedState="Not Use"/>
         <Item currentVect="61" id="SCI1_TXI1" priority="15" usedState="Not Use"/>
         <Item currentVect="62" id="SCI2_RXI2" priority="15" usedState="Not Use"/>
@@ -2086,7 +2086,7 @@
                 <gridItem id="COMMS_I2C_CFG_DEVICE_NUM_MAX" selectedIndex="1"/>
                 <gridItem id="COMMS_I2C_CFG_RTOS_BLOCKING_SUPPORT_ENABLE" selectedIndex="0"/>
                 <gridItem id="COMMS_I2C_CFG_RTOS_BUS_LOCK_SUPPORT_ENABLE" selectedIndex="0"/>
-                <gridItem id="COMMS_I2C_CFG_BUS0_DRIVER_TYPE" selectedIndex="2"/>
+                <gridItem id="COMMS_I2C_CFG_BUS0_DRIVER_TYPE" selectedIndex="0"/>
                 <gridItem id="COMMS_I2C_CFG_BUS0_DRIVER_CH" selectedIndex="0"/>
                 <gridItem id="COMMS_I2C_CFG_BUS0_TIMEOUT" selectedIndex="0xFFFFFFFF"/>
                 <gridItem id="COMMS_I2C_CFG_BUS1_DRIVER_TYPE" selectedIndex="2"/>
@@ -2135,7 +2135,7 @@
                 <gridItem id="COMMS_I2C_CFG_BUS15_DRIVER_CH" selectedIndex="0"/>
                 <gridItem id="COMMS_I2C_CFG_BUS15_TIMEOUT" selectedIndex="0xFFFFFFFF"/>
                 <gridItem id="COMMS_I2C_CFG_DEVICE0_BUS_CH" selectedIndex="0"/>
-                <gridItem id="COMMS_I2C_CFG_DEVICE0_SLAVE_ADDR" selectedIndex="0x00"/>
+                <gridItem id="COMMS_I2C_CFG_DEVICE0_SLAVE_ADDR" selectedIndex="0x44"/>
                 <gridItem id="COMMS_I2C_CFG_DEVICE0_ADDR_MODE" selectedIndex="0"/>
                 <gridItem id="COMMS_I2C_CFG_DEVICE0_CALLBACK" selectedIndex="comms_i2c_user_callback0"/>
                 <gridItem id="COMMS_I2C_CFG_DEVICE0_BLOCKING_TIMEOUT" selectedIndex="0xFFFFFFFF"/>
@@ -2260,7 +2260,7 @@
                 <gridItem id="SSDA12" selectedIndex="0"/>
                 <gridItem id="SCI12" selectedIndex="0"/>
                 <gridItem id="SCI_IIC_CFG_PARAM_CHECKING_ENABLE" selectedIndex="2"/>
-                <gridItem id="SCI_IIC_CFG_CH0_INCLUDED" selectedIndex="0"/>
+                <gridItem id="SCI_IIC_CFG_CH0_INCLUDED" selectedIndex="1"/>
                 <gridItem id="SCI_IIC_CFG_CH1_INCLUDED" selectedIndex="0"/>
                 <gridItem id="SCI_IIC_CFG_CH2_INCLUDED" selectedIndex="0"/>
                 <gridItem id="SCI_IIC_CFG_CH3_INCLUDED" selectedIndex="0"/>
