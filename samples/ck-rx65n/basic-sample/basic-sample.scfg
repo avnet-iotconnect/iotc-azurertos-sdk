@@ -747,25 +747,6 @@
             <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
             <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
         </configuration>
-        <configuration inuse="true" name="r_wifi_sx_ulpgn">
-            <component description="Dependency : r_bsp version(s) 5.64&#10;Dependency : r_byteq version(s) 1.80&#10;Dependency : r_sci_rx version(s) 3.20&#10;Use UART to control SX-ULPGN and connect to the Internet." detailDescription="Wi-Fi Module control functions for Renesas MCUs." display="r_wifi_sx_ulpgn" id="r_wifi_sx_ulpgn1.16" version="1.16">
-                <gridItem id="WIFI_CFG_SCI_CHANNEL" selectedIndex="0"/>
-                <gridItem id="WIFI_CFG_SCI_SECOND_CHANNEL" selectedIndex="2"/>
-                <gridItem id="WIFI_CFG_SCI_INTERRUPT_LEVEL" selectedIndex="14"/>
-                <gridItem id="WIFI_CFG_SCI_PCLK_HZ" selectedIndex="60000000"/>
-                <gridItem id="WIFI_CFG_SCI_BAUDRATE" selectedIndex="460800"/>
-                <gridItem id="WIFI_CFG_RESET_PORT" selectedIndex="10"/>
-                <gridItem id="WIFI_CFG_RESET_PIN" selectedIndex="1"/>
-                <gridItem id="WIFI_CFG_RTS_PORT" selectedIndex="2"/>
-                <gridItem id="WIFI_CFG_RTS_PIN" selectedIndex="3"/>
-                <gridItem id="WIFI_CFG_CREATABLE_SOCKETS" selectedIndex="4"/>
-                <gridItem id="WIFI_CFG_SOCKETS_RECEIVE_BUFFER_SIZE" selectedIndex="4096"/>
-                <gridItem id="WIFI_CFG_USE_CALLBACK_FUNCTION" selectedIndex="0"/>
-                <gridItem id="WIFI_CFG_CALLBACK_FUNCTION_NAME" selectedIndex="NULL"/>
-            </component>
-            <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-            <source description="Components supporting Firmware Integration Technology" display="Firmware Integration Technology" id="com.renesas.smc.tools.swcomponent.fit.source"/>
-        </configuration>
         <configuration inuse="true" name="r_sci_rx">
             <component description="Dependency : r_bsp version(s) 7.20&#10;Dependency : r_byteq version(s) 1.40, 1.50, 1.60, 1.70, 1.71, 1.80, 1.81, 1.82, 1.90, 2.00&#10;This module allows any number of SCI channels on the MCU to run in full duplex Asynchronous mode, single master Simple SPI mode, or master Synchronous mode simultaneously. The driver is interrupt driven and non-blocking. Transmit and receive buffer queues are used in Asynchronous mode and their sizes may be configured independently for each channel. Resources for unused channels or modes may be removed via settings in the driver's config.h file." detailDescription="SCI Driver" display="r_sci_rx" id="r_sci_rx4.40" version="4.40">
                 <gridItem id="SCK0" selectedIndex="0"/>
@@ -1938,8 +1919,13 @@
                     </option>
                 </allocatable>
                 <osocket id="PORTINFO" value=";P22_O;PA3_O;PD1_I;"/>
+                <option enabled="true" id="UnuseOutput" selection="NoChange">
+                    <item id="NoChange" input="" vlaue="0"/>
+                    <item id="Out0" input="" vlaue="0"/>
+                    <item id="Out1" input="" vlaue="0"/>
+                </option>
             </allocatable>
-            <component description="This software component provides configurations for General Purpose Input/Output. Common features such as reading, writing, and setting the direction of ports and pins can be configured. Enabling features such as open-drain outputs and internal pull-ups are also supported. " detailDescription="" display="Ports" id="com.renesas.smc.tools.swcomponent.codegenerator.port" version="2.4.0"/>
+            <component description="This software component provides configurations for General Purpose Input/Output. Common features such as reading, writing, and setting the direction of ports and pins can be configured. Enabling features such as open-drain outputs and internal pull-ups are also supported. " detailDescription="" display="Ports" id="com.renesas.smc.tools.swcomponent.codegenerator.port" version="2.4.1"/>
             <allocator channelLevel0="" channelLevel1="" channelLevel2="" channelLevel3="" channelLevel4="" channelLevel5="" description="Input output configuration of PORT" display="PORT" id="com.renesas.smc.tools.swcomponent.codegenerator.port.rx651.PORT" type="">
                 <context/>
             </allocator>
