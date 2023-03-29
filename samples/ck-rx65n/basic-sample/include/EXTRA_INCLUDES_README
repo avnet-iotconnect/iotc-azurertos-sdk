@@ -1,3 +1,0 @@
-Extra includes are added here that reference their "true" location.
-
-There seems to be an issue with e2 studio finding headers and after a while trying to fix this -- this is the expedient solution.
