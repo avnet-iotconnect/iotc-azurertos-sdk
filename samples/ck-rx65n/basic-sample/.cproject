@@ -48,7 +48,7 @@
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647" name="Warn if it depends on the “size of” a function(-Wpointer-arith)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith" useByScannerDiscovery="true" value="false" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269" name="Warn if structures are returned (-Waggregate-return)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn" useByScannerDiscovery="true" value="false" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318" name="Warn for undeclared global functions (-Wmissing-declarations)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration" useByScannerDiscovery="true" value="false" valueType="boolean"/>
-							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel.1442336559" name="Debug level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel.level3" valueType="enumerated"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel.1442336559" name="Debug level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel" useByScannerDiscovery="true" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugLevel.level3" valueType="enumerated"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.renesas.cdt.managedbuild.gcc.core.targetPlatform.1005984472" isAbstract="false" osList="all" superClass="com.renesas.cdt.managedbuild.gcc.core.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/basic-sample}/HardwareDebug" id="com.renesas.cdt.managedbuild.gcc.core.builder.442072183" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="GCC for Renesas Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.renesas.cdt.managedbuild.gcc.core.builder"/>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1982352096" name="Library Generator" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen">
@@ -157,6 +157,7 @@
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.1049181532" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler">
 								<option id="com.renesas.cdt.managedbuild.gcc.core.option.assembler.source.usepreprocessor.1341968140" name="Use preprocessor" superClass="com.renesas.cdt.managedbuild.gcc.core.option.assembler.source.usepreprocessor" useByScannerDiscovery="false"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.includeFileDirectories.2061695566" name="Include file directories" superClass="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.includeFileDirectories" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/src&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
@@ -241,7 +242,7 @@
 									<listOptionValue builtIn="false" value="&quot;.\src\main.o&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\nx_driver_rx65n_cloud_kit.o&quot;"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l) [Only the library's name, without the &quot;lib&quot; prefix and &quot;.a&quot;extension]" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="r_tsip_rx65n_little"/>
 									<listOptionValue builtIn="false" value="filex"/>
 									<listOptionValue builtIn="false" value="netxduo"/>
@@ -249,7 +250,7 @@
 									<listOptionValue builtIn="false" value="threadx"/>
 									<listOptionValue builtIn="false" value="netxduo_addons"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L) [Only the path to the library]" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L)" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/Debug}&quot;"/>
@@ -381,6 +382,103 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access/gnuc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/user}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src/rm_comms_i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/generic_rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src/rm_hs300x}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/phy}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib/gcc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/all}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets}&quot;"/>
 								</option>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.209076572" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
 							</tool>
@@ -423,6 +521,102 @@
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1175768698" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1602317629">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.1297925982" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access/gnuc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/user}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src/rm_comms_i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/generic_rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src/rm_hs300x}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/phy}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib/gcc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/all}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
@@ -513,6 +707,645 @@
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1275811038" name="Objcopy" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.624869162"/>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1050062083" name="Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.85359955"/>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.38021364" name="Print Size" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.2057634661"/>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504.773871502" name="/" resourcePath="src/smc_gen/r_riic_rx">
+						<toolChain id="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update.959266595" name="GCC for Renesas RX" superClass="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update" unusedChildren="">
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494.1773908053" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889.1894313513" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962.1801519943" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277.199558974" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761.1379604743" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409.1996854490" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401.796195878" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489.79562813" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627.115151278" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621.1147471897" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548.1728117643" name="Function sections (-ffunction-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692.1568262481" name="Warn if stack size exceeds the limit, in bytes (-Wstack-usage)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157.685870463" name="Enable all warnings (-Wall)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644.2032878694" name="Enable extra warnings (-Wextra)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596.985883479" name="Warn for implicit conversions (-Wconversion)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330.1372486482" name="Warn for uninitialized variables (-Wuninitialized)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364.748508470" name="Warn for various unused elements (-Wunused)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078.1303403809" name="Warn for shadowed variables (-Wshadow)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982.1166875515" name="Warn if it depends on the “size of” a function(-Wpointer-arith)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270.1605486642" name="Warn if structures are returned (-Waggregate-return)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180.1603362158" name="Warn for undeclared global functions (-Wmissing-declarations)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.1761154972" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1400261648" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections" value="true" valueType="boolean"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.296937544" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.Default" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.renesas.cdt.managedbuild.gcc.core.targetPlatform" isAbstract="false" osList="all" superClass="com.renesas.cdt.managedbuild.gcc.core.targetPlatform"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1025146665" name="Library Generator" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1404036505"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1939795943" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1175768698">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.1957319871" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/cJSON}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools/ecc-certs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests/.settings}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github/workflows}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/ports/generic/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+								</option>
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.1682037016" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.990076494" name="Compiler CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1394921662"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.1710280745" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.210421602">
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.2110466935" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.819508538" name="Linker" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.1451818895"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.515640140" name="Linker CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.2054611317"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.522698247" name="Objcopy" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1275811038"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1397014394" name="Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1050062083"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.1996914291" name="Print Size" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.38021364"/>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504.540265445" name="/" resourcePath="src/smc_gen/r_hs300x_rx">
+						<toolChain id="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update.696902431" name="GCC for Renesas RX" superClass="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update" unusedChildren="">
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494.1495297960" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889.2062090723" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962.2105902060" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277.1439109251" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761.1174399578" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409.1963867802" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401.140162318" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489.1615331906" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627.1808745073" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621.1228095401" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548.1655154003" name="Function sections (-ffunction-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692.586719608" name="Warn if stack size exceeds the limit, in bytes (-Wstack-usage)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157.1663012462" name="Enable all warnings (-Wall)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644.1285660333" name="Enable extra warnings (-Wextra)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596.791006778" name="Warn for implicit conversions (-Wconversion)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330.595823664" name="Warn for uninitialized variables (-Wuninitialized)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364.2098931351" name="Warn for various unused elements (-Wunused)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078.300557438" name="Warn for shadowed variables (-Wshadow)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982.544323882" name="Warn if it depends on the “size of” a function(-Wpointer-arith)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270.1919404066" name="Warn if structures are returned (-Waggregate-return)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180.2057746157" name="Warn for undeclared global functions (-Wmissing-declarations)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.1320018168" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1106735248" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections" value="true" valueType="boolean"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.493888619" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.Default" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.renesas.cdt.managedbuild.gcc.core.targetPlatform" isAbstract="false" osList="all" superClass="com.renesas.cdt.managedbuild.gcc.core.targetPlatform"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.2013652812" name="Library Generator" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1404036505"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.877478319" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1175768698">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.2106608468" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src/rm_comms_i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src/rm_hs300x}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/cJSON}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools/ecc-certs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests/.settings}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github/workflows}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/ports/generic/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+								</option>
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.567701977" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1092980443" name="Compiler CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1394921662"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.500984317" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.210421602">
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.380804669" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.105413268" name="Linker" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.1451818895"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.689466084" name="Linker CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.2054611317"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.80923571" name="Objcopy" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1275811038"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.812496108" name="Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1050062083"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.969444532" name="Print Size" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.38021364"/>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504.1973215978" name="/" resourcePath="src/smc_gen/r_sci_iic_rx">
+						<toolChain id="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update.2112376656" name="GCC for Renesas RX" superClass="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update" unusedChildren="">
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494.1549440809" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889.1739214030" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962.1803826659" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277.880367949" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761.795196938" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409.1856878817" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401.1136130449" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489.1063716661" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627.9110948" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621.489330824" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548.1529829540" name="Function sections (-ffunction-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692.1631535358" name="Warn if stack size exceeds the limit, in bytes (-Wstack-usage)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157.1328894606" name="Enable all warnings (-Wall)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644.731192777" name="Enable extra warnings (-Wextra)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596.1043197010" name="Warn for implicit conversions (-Wconversion)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330.1048735560" name="Warn for uninitialized variables (-Wuninitialized)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364.672281537" name="Warn for various unused elements (-Wunused)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078.652292758" name="Warn for shadowed variables (-Wshadow)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982.299964446" name="Warn if it depends on the “size of” a function(-Wpointer-arith)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270.936599258" name="Warn if structures are returned (-Waggregate-return)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180.1900306388" name="Warn for undeclared global functions (-Wmissing-declarations)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.912845078" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.2089547316" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections" value="true" valueType="boolean"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.695493534" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.Default" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.renesas.cdt.managedbuild.gcc.core.targetPlatform" isAbstract="false" osList="all" superClass="com.renesas.cdt.managedbuild.gcc.core.targetPlatform"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.610473125" name="Library Generator" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1404036505"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1784410360" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1175768698">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.914224972" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/cJSON}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools/ecc-certs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests/.settings}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github/workflows}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/ports/generic/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets}&quot;"/>
+								</option>
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.1246486565" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1725834617" name="Compiler CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1394921662"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.2145519061" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.210421602">
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.1862445843" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.564175625" name="Linker" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.1451818895"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.280342686" name="Linker CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.2054611317"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1370079032" name="Objcopy" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1275811038"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1439094619" name="Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1050062083"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.740092810" name="Print Size" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.38021364"/>
+						</toolChain>
+					</folderInfo>
+					<folderInfo id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504.1934743848" name="/" resourcePath="src/smc_gen/r_comms_i2c_rx">
+						<toolChain id="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update.392018241" name="GCC for Renesas RX" superClass="com.renesas.cdt.managedbuild.gcc.rx.toolchain.debug.update" unusedChildren="">
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494.1533431366" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.993513010.832875517.1621239494"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889.783283891" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1991102184.1996942894.2126469889"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962.1802252424" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.2076224926.1838655403.795838962"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277.1526138258" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089.803645948.2014612277"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761.1532009938" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164.425633126.1042981761"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409.722372457" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626.646837312.44244409"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401.1920882772" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997.2036502767.274311401"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489.936917594" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189.912066423.1342931489"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627.1252388368" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813.600833899.133373627"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621.401368857" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162.681879860.234519621"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548.711324921" name="Function sections (-ffunction-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167.541216930.901022548"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692.41191538" name="Warn if stack size exceeds the limit, in bytes (-Wstack-usage)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.warnStackSize.1490163191.1199905719.161256692"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157.2009985864" name="Enable all warnings (-Wall)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.allwarn.1141108472.2105138213.1368192157"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644.829447777" name="Enable extra warnings (-Wextra)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.extrawarn.1416783110.1431537891.1003158644"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596.1428063657" name="Warn for implicit conversions (-Wconversion)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.conversion.1798056533.799141302.696331596"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330.122509460" name="Warn for uninitialized variables (-Wuninitialized)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.uninitialized.717884073.89942527.418908330"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364.1598265692" name="Warn for various unused elements (-Wunused)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.unused.1867591553.2042555401.244620364"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078.558935179" name="Warn for shadowed variables (-Wshadow)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.shadow.578392956.618275360.1392785078"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982.601449468" name="Warn if it depends on the “size of” a function(-Wpointer-arith)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.pointerarith.814231647.994455413.2083126982"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270.2018586482" name="Warn if structures are returned (-Waggregate-return)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.agreggatereturn.409970269.1408341185.1838807270"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180.1467202323" name="Warn for undeclared global functions (-Wmissing-declarations)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.warnings.missingdeclaration.1772825318.146180898.1137949180"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel.1418991514" name="Optimization Level" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.optimizationLevel"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections.1276213197" name="Data sections (-fdata-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.fdatasections" value="true" valueType="boolean"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.759203112" name="Debug format" superClass="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat" value="com.renesas.cdt.managedbuild.gcc.core.option.debug.debugFormat.Default" valueType="enumerated"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.renesas.cdt.managedbuild.gcc.core.targetPlatform" isAbstract="false" osList="all" superClass="com.renesas.cdt.managedbuild.gcc.core.targetPlatform"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.519108988" name="Library Generator" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.libgen.1404036505"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1526186859" name="Compiler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerC.1175768698">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir.545320134" name="Include file directories (-I)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.includeFileDir" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access/gnuc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/instances}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/user}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/src/rm_comms_i2c}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/board/generic_rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n/register_access}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src/rm_hs300x}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/phy}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/general}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/lib/gcc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_comms_i2c_rx/inc/api}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_hs300x_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp/mcu/all}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_iic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_3}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/flash_type_1}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_flash_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO/Sources/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/libTO}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/cJSON}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools/ecc-certs}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/azrtos-ota}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tools}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/azrtos-layer/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication/driver}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/authentication}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests/.settings}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/.github/workflows}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/iotc-azrtos-sdk/iotc-c-lib/tests}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/mqtt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/cloud}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dhcp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/dns}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/ports/generic/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/common/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/threadx/ports/rxv2/gnu/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_pincfg}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_bsp}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_config}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_SCI5}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_wifi_sx_ulpgn}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_byteq/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_sci_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_cmt_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_tsip_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/en}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/doc/ja}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_riic_rx/src/targets/rx65n}&quot;"/>
+								</option>
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.254594141" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1900464930" name="Compiler CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.compilerCPP.1394921662"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.483054417" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.210421602">
+								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.1428896888" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
+							</tool>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.1690612664" name="Linker" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.1451818895"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.287889248" name="Linker CPP" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.cpp.linker.2054611317"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.259423848" name="Objcopy" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.objcopy.1275811038"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.272549387" name="Archiver" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.archiver.1050062083"/>
+							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.1862212080" name="Print Size" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.printsize.38021364"/>
 						</toolChain>
 					</folderInfo>
 					<folderInfo id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504.1189875980" name="/" resourcePath="src/smc_gen/r_flash_rx">
