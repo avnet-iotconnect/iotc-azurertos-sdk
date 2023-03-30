@@ -26,7 +26,6 @@
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 extern CHAR* http_entry(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr, CHAR *host_name, CHAR *resource);
-static void sample_thread_entry(ULONG parameter);
 // -----------------------------
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */

@@ -70,6 +70,7 @@
 									<listOptionValue builtIn="false" value="../../netxduo/addons/mqtt"/>
 									<listOptionValue builtIn="false" value="../../netxduo/addons/cloud"/>
 									<listOptionValue builtIn="false" value="../../netxduo/addons/sntp"/>
+									<listOptionValue builtIn="false" value="../../netxduo/common/azure_iot"/>
 									<listOptionValue builtIn="false" value="../../stm32l4xx_lib/CMSIS/Device/ST/STM32L4xx/Include"/>
 									<listOptionValue builtIn="false" value="../../stm32l4xx_lib/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../../stm32l4xx_lib"/>
@@ -79,7 +80,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/iotc-c-lib/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/azrtos-layer/nx-http-client}&quot;"/>

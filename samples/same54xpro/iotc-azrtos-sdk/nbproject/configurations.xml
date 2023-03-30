@@ -24,7 +24,6 @@
                      projectFiles="true">
         <logicalFolder name="azrtos-adu" displayName="azrtos-adu" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
-            <itemPath>azrtos-layer/azrtos-adu/include/azrtos_adu_agent.h</itemPath>
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
           </logicalFolder>

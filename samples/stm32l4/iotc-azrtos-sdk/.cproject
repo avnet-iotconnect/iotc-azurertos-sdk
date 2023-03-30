@@ -108,7 +108,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="libTO/examples|libTO/src/wrapper|authentication/libto/examples|authentication/libto/src/aes-gcm-sw|authentication/libto/src/wrapper|hardware/libto/src/aes-gcm-sw|hardware/libto/doc|hardware/libto/examples|hardware/libto/src/wrapper" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="iotc-c-lib/tools|iotc-c-lib/tests|libTO/examples|libTO/src/wrapper|authentication/libto/examples|authentication/libto/src/aes-gcm-sw|authentication/libto/src/wrapper|hardware/libto/src/aes-gcm-sw|hardware/libto/doc|hardware/libto/examples|hardware/libto/src/wrapper" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -215,7 +215,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="libTO/examples|libTO/src/wrapper|authentication/libto/examples|authentication/libto/src/aes-gcm-sw|authentication/libto/src/wrapper|hardware/libto/src/aes-gcm-sw|hardware/libto/doc|hardware/libto/examples|hardware/libto/src/wrapper" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="iotc-c-lib/tools|iotc-c-lib/tests|libTO/examples|libTO/src/wrapper|authentication/libto/examples|authentication/libto/src/aes-gcm-sw|authentication/libto/src/wrapper|hardware/libto/src/aes-gcm-sw|hardware/libto/doc|hardware/libto/examples|hardware/libto/src/wrapper" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

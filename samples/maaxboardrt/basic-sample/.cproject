@@ -461,16 +461,6 @@
 							<tool id="com.crt.advproject.tool.debug.debug.2072828259" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug.1148952252"/>
 						</toolChain>
 					</folderInfo>
-					<folderInfo id="com.crt.advproject.config.exe.debug.282996926.31565871" name="/" resourcePath="iotc-azrtos-sdk/iotc-c-lib">
-						<toolChain id="com.crt.advproject.toolchain.exe.debug.1003419351" name="NXP MCU Tools" superClass="com.crt.advproject.toolchain.exe.debug" unusedChildren="">
-							<tool id="com.crt.advproject.cpp.exe.debug.733453102" name="MCU C++ Compiler" superClass="com.crt.advproject.cpp.exe.debug.371687061"/>
-							<tool id="com.crt.advproject.gcc.exe.debug.444237350" name="MCU C Compiler" superClass="com.crt.advproject.gcc.exe.debug.1290402586"/>
-							<tool id="com.crt.advproject.gas.exe.debug.1257573140" name="MCU Assembler" superClass="com.crt.advproject.gas.exe.debug.85050012"/>
-							<tool id="com.crt.advproject.link.cpp.exe.debug.10123563" name="MCU C++ Linker" superClass="com.crt.advproject.link.cpp.exe.debug.14811107"/>
-							<tool id="com.crt.advproject.link.exe.debug.889905" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug.2078035709"/>
-							<tool id="com.crt.advproject.tool.debug.debug.26986413" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug.2072828259"/>
-						</toolChain>
-					</folderInfo>
 					<sourceEntries>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="CMSIS"/>
 						<entry excluding="netxduo/addons/azure_iot/azure_iot_security_module/nx_azure_iot_security_module.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/collector_collection_internal.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_json_token.c|netxduo/addons/azure_iot/azure_iot_security_module/src/model/objects/object_network_activity_ext.c|netxduo/addons/azure_iot/azure_iot_security_module/src/collectors/collector_network_activity.c|netxduo/addons/azure_iot/azure_iot_security_module/src/utils/irand.c|netxduo/addons/azure_iot/nx_azure_iot.c|netxduo/addons/azure_iot/azure_iot_security_module/src/utils/iuuid.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/heartbeat.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/system_information.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/utils/notifier.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/utils/string_utils.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/extensions/page_allocator.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client_c2d.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/extensions/custom_builder_allocator.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_response.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_provisioning_client.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/model/collector.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/collector_collection.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/serializer.c|netxduo/addons/azure_iot/nx_azure_iot_json_writer.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_policy_retry.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client_twin.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/model/security_message.c|netxduo/addons/azure_iot/nx_azure_iot_json_reader.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client_telemetry.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_log.c|netxduo/addons/azure_iot/nx_azure_iot_hub_client.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_span.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/network_activity.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/serializer_private.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_policy.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/platform/az_noplatform.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_pipeline.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/collector_collection_factory.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/core.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/serializer/extensions/custom_emitter.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/src/runtime/refmap.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_json_writer.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/collectors/collector_heartbeat.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_common.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_json_reader.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/src/runtime/builder.c|netxduo/addons/azure_iot/azure_iot_security_module/src/collectors/collector_system_information.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_provisioning_client_sas.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_precondition.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/utils/event_loop_be.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_context.c|netxduo/addons/azure_iot/azure_iot_security_module/src/utils/itime.c|netxduo/addons/azure_iot/azure_iot_security_module/src/utils/os_utils.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client_sas.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/collectors_info.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_policy_logging.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/iot/az_iot_hub_client_methods.c|netxduo/addons/azure_iot/nx_azure_iot_provisioning_client.c|netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/src/logger.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/platform/az_nohttp.c|netxduo/addons/azure_iot/azure-sdk-for-c/sdk/src/azure/core/az_http_request.c" flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="azure-rtos"/>
@@ -478,7 +468,7 @@
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="component"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="device"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="drivers"/>
-						<entry excluding="libTO/src/wrapper|libTO/examples|azrtos-layer/nx-http-client" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="iotc-azrtos-sdk"/>
+						<entry excluding="azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|libTO/src/wrapper|libTO/examples|azrtos-layer/nx-http-client" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="iotc-azrtos-sdk"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="mdio"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="phy"/>
 						<entry flags="LOCAL|VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ports"/>
@@ -1048,7 +1038,7 @@
 	<storageModule moduleId="com.nxp.mcuxpresso.core.datamodels">
 		<sdkName>SDK_2.x_MIMXRT1170-EVK</sdkName>
 		<sdkExample>evkmimxrt1170_azure_iot_embedded_sdk</sdkExample>
-		<sdkVersion>2.11.1</sdkVersion>
+		<sdkVersion>2.12.1</sdkVersion>
 		<sdkComponents>middleware.azure_rtos.azure_iot.MIMXRT1176;middleware.azure_rtos.nxd.MIMXRT1176;driver.mdio-enet.MIMXRT1176;driver.phy-device-ksz8081.MIMXRT1176;driver.phy-device-rtl8211f.MIMXRT1176;platform.drivers.caam.MIMXRT1176;component.lists.MIMXRT1176;component.lpuart_adapter.MIMXRT1176;component.serial_manager.MIMXRT1176;platform.drivers.common.MIMXRT1176;component.serial_manager_uart.MIMXRT1176;platform.drivers.lpuart.MIMXRT1176;platform.devices.MIMXRT1176_CMSIS.MIMXRT1176;platform.devices.MIMXRT1176_startup.MIMXRT1176;platform.drivers.cache_armv7_m7.MIMXRT1176;platform.drivers.clock.MIMXRT1176;platform.drivers.dcdc_soc.MIMXRT1176;platform.drivers.igpio.MIMXRT1176;platform.drivers.iomuxc.MIMXRT1176;platform.drivers.lpi2c.MIMXRT1176;platform.drivers.pmu_1.MIMXRT1176;platform.drivers.xip_board.evkmimxrt1170.MIMXRT1176;platform.drivers.xip_device.MIMXRT1176;platform.utilities.assert.MIMXRT1176;utility.debug_console.MIMXRT1176;middleware.azure_rtos.nxd.template.MIMXRT1176;middleware.azure_rtos.fx.MIMXRT1176;middleware.azure_rtos.fx.template.MIMXRT1176;middleware.azure_rtos.tx.MIMXRT1176;middleware.azure_rtos.tx.template.MIMXRT1176;driver.mdio-common.MIMXRT1176;platform.drivers.anatop_ai.MIMXRT1176;CMSIS_Include_core_cm.MIMXRT1176;platform.drivers.enet.MIMXRT1176;platform.drivers.memory.MIMXRT1176;driver.phy-common.MIMXRT1176;platform.utilities.misc_utilities.MIMXRT1176;platform.devices.MIMXRT1176_system.MIMXRT1176;evkmimxrt1170_azure_iot_embedded_sdk;</sdkComponents>
 		<boardId>evkmimxrt1170</boardId>
 		<package>MIMXRT1176DVMAA</package>
@@ -1056,37 +1046,37 @@
 		<coreId>cm7_MIMXRT1176xxxxx</coreId>
 	</storageModule>
 	<storageModule moduleId="com.crt.config">
-		<projectStorage>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#13;
-&lt;TargetConfig&gt;&#13;
-&lt;Properties property_3="NXP" property_4="MIMXRT1176xxxxx" property_count="5" version="100300"/&gt;&#13;
-&lt;infoList vendor="NXP"&gt;&#13;
-&lt;info chip="MIMXRT1176xxxxx" name="MIMXRT1176xxxxx"&gt;&#13;
-&lt;chip&gt;&#13;
-&lt;name&gt;MIMXRT1176xxxxx&lt;/name&gt;&#13;
-&lt;family&gt;MIMXRT1170&lt;/family&gt;&#13;
-&lt;vendor&gt;NXP&lt;/vendor&gt;&#13;
-&lt;memory can_program="true" id="Flash" is_ro="true" size="0" type="Flash"/&gt;&#13;
-&lt;memory id="RAM" size="2048" type="RAM"/&gt;&#13;
-&lt;memoryInstance derived_from="Flash" driver="${workspace_loc:}/samples/maaxboardrt/basic-sample/xip/MaaXBoard_S26KS256.cfx" edited="true" id="BOARD_FLASH" location="0x30000000" size="0x1000000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_DTC_cm7" location="0x20000000" size="0x40000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_ITC_cm7" location="0x0" size="0x40000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC1" location="0x20240000" size="0x80000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC2" location="0x202c0000" size="0x40000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="NCACHE_REGION" location="0x20300000" size="0x40000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC_ECC1" location="0x20340000" size="0x10000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC_ECC2" location="0x20350000" size="0x10000"/&gt;&#13;
-&lt;memoryInstance derived_from="RAM" edited="true" id="BOARD_SDRAM" location="0x80000000" size="0x4000000"/&gt;&#13;
-&lt;/chip&gt;&#13;
-&lt;processor&gt;&#13;
-&lt;name gcc_name="cortex-m4"&gt;Cortex-M4&lt;/name&gt;&#13;
-&lt;family&gt;Cortex-M&lt;/family&gt;&#13;
-&lt;/processor&gt;&#13;
-&lt;processor&gt;&#13;
-&lt;name gcc_name="cortex-m7"&gt;Cortex-M7&lt;/name&gt;&#13;
-&lt;family&gt;Cortex-M&lt;/family&gt;&#13;
-&lt;/processor&gt;&#13;
-&lt;/info&gt;&#13;
-&lt;/infoList&gt;&#13;
+		<projectStorage>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;TargetConfig&gt;
+&lt;Properties property_3="NXP" property_4="MIMXRT1176xxxxx" property_count="5" version="100300"/&gt;
+&lt;infoList vendor="NXP"&gt;
+&lt;info chip="MIMXRT1176xxxxx" name="MIMXRT1176xxxxx"&gt;
+&lt;chip&gt;
+&lt;name&gt;MIMXRT1176xxxxx&lt;/name&gt;
+&lt;family&gt;MIMXRT1170&lt;/family&gt;
+&lt;vendor&gt;NXP&lt;/vendor&gt;
+&lt;memory can_program="true" id="Flash" is_ro="true" size="0" type="Flash"/&gt;
+&lt;memory id="RAM" size="2048" type="RAM"/&gt;
+&lt;memoryInstance derived_from="Flash" driver="${workspace_loc:}/samples/maaxboardrt/basic-sample/xip/MaaXBoard_S26KS256.cfx" edited="true" id="BOARD_FLASH" location="0x30000000" size="0x1000000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_DTC_cm7" location="0x20000000" size="0x40000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_ITC_cm7" location="0x0" size="0x40000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC1" location="0x20240000" size="0x80000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC2" location="0x202c0000" size="0x40000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="NCACHE_REGION" location="0x20300000" size="0x40000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC_ECC1" location="0x20340000" size="0x10000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="SRAM_OC_ECC2" location="0x20350000" size="0x10000"/&gt;
+&lt;memoryInstance derived_from="RAM" edited="true" id="BOARD_SDRAM" location="0x80000000" size="0x4000000"/&gt;
+&lt;/chip&gt;
+&lt;processor&gt;
+&lt;name gcc_name="cortex-m4"&gt;Cortex-M4&lt;/name&gt;
+&lt;family&gt;Cortex-M&lt;/family&gt;
+&lt;/processor&gt;
+&lt;processor&gt;
+&lt;name gcc_name="cortex-m7"&gt;Cortex-M7&lt;/name&gt;
+&lt;family&gt;Cortex-M&lt;/family&gt;
+&lt;/processor&gt;
+&lt;/info&gt;
+&lt;/infoList&gt;
 &lt;/TargetConfig&gt;</projectStorage>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
