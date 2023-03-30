@@ -150,7 +150,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -300,7 +300,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -933,109 +933,6 @@
           <itemPath>../iotc-azrtos-sdk/iotc-c-lib/src/iotconnect_common.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <logicalFolder name="libTO" displayName="libTO" projectFiles="true">
-        <logicalFolder name="include" displayName="include" projectFiles="true">
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_SSE_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_measured_boot.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_lora.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_legacy.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_encrypt.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_helper_certs.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_loader.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP_vt.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_defs.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_tls.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_seclink.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_admin.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_i2c.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_helper_measured_boot.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_sha256.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_misc.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_stdint.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_loader.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_lora.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_endian.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_setup.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_secmsg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_statuspio.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_SSE.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_hash.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_i2c_wrapper.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP_storage.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_log.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_defs.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_helper.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP_SecureStorage.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_mac.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_auth.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_retcodes.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_measure.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_system.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_helper_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_hashes.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_helper_tls.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_tls.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_keys.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_keys.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_cmd.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_system.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_cfg.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOH_log.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_utils.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_admin.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_encryption.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_nvm.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOP_info.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_auth.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_driver.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_core.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TO_aes-gcm-sw.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TOSE_mac.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/include/TODRV_HSE_nvm.h</itemPath>
-        </logicalFolder>
-        <logicalFolder name="src" displayName="src" projectFiles="true">
-          <logicalFolder name="aes-gcm-sw" displayName="aes-gcm-sw" projectFiles="true">
-            <itemPath>../iotc-azrtos-sdk/libTO/src/aes-gcm-sw/TO_aes.h</itemPath>
-            <itemPath>../iotc-azrtos-sdk/libTO/src/aes-gcm-sw/aes-gcm-sw.c</itemPath>
-            <itemPath>../iotc-azrtos-sdk/libTO/src/aes-gcm-sw/aes.c</itemPath>
-            <itemPath>../iotc-azrtos-sdk/libTO/src/aes-gcm-sw/TO_gcm.h</itemPath>
-            <itemPath>../iotc-azrtos-sdk/libTO/src/aes-gcm-sw/gcm.c</itemPath>
-          </logicalFolder>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_mac.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_hash.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/seclink.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/helper_certs.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_auth.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_core.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/sha256.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/helper_measured_boot.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_encrypt.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/seclink_none.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_lora.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_tls.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/sse_driver.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/log.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/sse_driver.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/seclink.h</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_loader.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/utils.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_keys.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/hse_driver.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/helper_tls.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_nvm.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_system.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_admin.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/selftest.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/api_measure.c</itemPath>
-          <itemPath>../iotc-azrtos-sdk/libTO/src/driver_client.c</itemPath>
-        </logicalFolder>
-      </logicalFolder>
       <logicalFolder name="src" displayName="src" projectFiles="true">
         <itemPath>../iotc-azrtos-sdk/src/iotconnect_di.c</itemPath>
         <itemPath>../iotc-azrtos-sdk/src/iotconnect.c</itemPath>
@@ -2995,6 +2892,14 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../iotc-azrtos-sdk/authentication/driver/to_auth_driver.c"
+            ex="true"
+            overriding="false">
+      </item>
+      <item path="../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c"
+            ex="true"
+            overriding="false">
+      </item>
       <item path="../src/azure_rtos_demo/sample_azure_iot_embedded_sdk/nx_azure_iot_ciphersuites.c"
             ex="true"
             overriding="false">
@@ -3265,6 +3170,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-fffff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/avnet/iotc-azurertos-sdk-stmtest/samples/same54xprov2/iotconnect-demo.X/debug/sam_e54_xpro/iotconnect-demo_ptg"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
