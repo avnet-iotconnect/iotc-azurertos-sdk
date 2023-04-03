@@ -60,24 +60,23 @@ const NX_CRYPTO_METHOD *_nx_azure_iot_tls_supported_crypto[] =
     &crypto_method_hmac,
     &crypto_method_hmac_sha256,
     &crypto_method_tls_prf_sha256,
-#ifdef TFM_PSA_API
-    &crypto_method_sha256_psa,
+#ifdef IOTC_USE_PSA_CIPHERS
+	// TODO: Figure out why crypto_method_sha256_psa is not working
+    &crypto_method_sha256,
     &crypto_method_aes_cbc_128_psa,
 #else
     &crypto_method_sha256,
     &crypto_method_aes_cbc_128,
-#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+#endif /* IOTC_USE_PSA_CIPHERS */
     &crypto_method_rsa,
-#ifdef NX_SECURE_ENABLE_ECC_CIPHERSUITE
-#ifdef TFM_PSA_API
+#ifdef IOTC_USE_PSA_CIPHERS
     &crypto_method_ecdsa_psa_crypto,
 #else
     &crypto_method_ecdsa,
-#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+#endif /* IOTC_USE_PSA_CIPHERS */
     &crypto_method_ecdhe,
     &crypto_method_ec_secp256,
     &crypto_method_ec_secp384,
-#endif /* NX_SECURE_ENABLE_ECC_CIPHERSUITE */
 };
 
 const UINT _nx_azure_iot_tls_supported_crypto_size = sizeof(_nx_azure_iot_tls_supported_crypto) / sizeof(NX_CRYPTO_METHOD*);

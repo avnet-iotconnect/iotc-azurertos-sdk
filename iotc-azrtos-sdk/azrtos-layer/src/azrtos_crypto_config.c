@@ -8,6 +8,12 @@
 #include <stdbool.h>
 #include <azrtos_crypto_config.h>
 
+#ifdef IOTC_USE_PSA_CIPHERS
+    #include "nx_crypto_aes_psa.h"
+    #include "nx_crypto_rsa_psa.h"
+    #include "nx_crypto_ecdsa_psa_crypto.h"
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+
 /* TLS ciphersuites. */
 extern const NX_CRYPTO_CIPHERSUITE nx_crypto_tls_ecdhe_rsa_with_aes_128_cbc_sha256;
 extern const NX_CRYPTO_CIPHERSUITE nx_crypto_tls_rsa_with_aes_128_cbc_sha256;
@@ -17,14 +23,30 @@ extern const NX_CRYPTO_CIPHERSUITE nx_crypto_x509_rsa_sha_256;
 extern const NX_CRYPTO_CIPHERSUITE nx_crypto_x509_ecdsa_sha_256;
 
 
+#ifdef IOTC_USE_PSA_CIPHERS
+extern NX_CRYPTO_METHOD crypto_method_ecdsa_psa_crypto;
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_128_psa;
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_192_psa;
+extern NX_CRYPTO_METHOD crypto_method_aes_cbc_256_psa;
+extern NX_CRYPTO_METHOD crypto_method_sha256_psa;
+extern NX_CRYPTO_METHOD crypto_method_rsa_psa;
+#endif /* ENABLE_PSA_CRYPTO_CIPHERSUITES */
+
+
 // Always add these crypto methods
 const NX_CRYPTO_METHOD* default_nx_crypto_methods[] =
 {
     &crypto_method_hmac,
     &crypto_method_hmac_sha256,
     &crypto_method_tls_prf_sha256,
+#ifdef IOTC_USE_PSA_CIPHERS
+	// TODO: Figure out the problem with crypto_method_sha256_psa
+    &crypto_method_sha256,
+    &crypto_method_aes_cbc_128_psa,
+#else
     &crypto_method_sha256,
     &crypto_method_aes_cbc_128,
+#endif /* IOTC_USE_PSA_CIPHERS */
     &crypto_method_rsa
 };
 
@@ -68,7 +90,11 @@ int iotcazcc_crypto_init_with_ec_defaults(IotcAzccCryptoConfig *crypto){
 
 	// pretend that NX_CRYPTO_METHOD is const, but it is not. Hardware secure element should override ecdsa_crypto methods
 	// const during IoTHub Client operation
+#ifdef IOTC_USE_PSA_CIPHERS
+	memcpy(&(crypto->custom_crypto_method_storage), &crypto_method_ecdsa_psa_crypto, sizeof(NX_CRYPTO_METHOD));
+#else
 	memcpy(&(crypto->custom_crypto_method_storage), &crypto_method_ecdsa, sizeof(NX_CRYPTO_METHOD));
+#endif /* IOTC_USE_PSA_CIPHERS */
 	iotcazcc_register_crypto_method(crypto, &(crypto->custom_crypto_method_storage));
 	return 0;
 
