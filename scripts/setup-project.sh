@@ -1,11 +1,34 @@
 #!/bin/bash
 
+#
+# Select download mechanism given abilities of shells, etc.
+# check curl first so Git for Windows shell is ok
+#
+# check is curl available
+which curl
+if [ $? == 0 ]; then
+  FETCH="curl -L -s --output"
+else
+  # check is wget available
+  which wget
+  if [ $? == 0 ]; then
+    FETCH="wget -q -O"
+  else
+    echo "Please install wget or curl."
+    exit -1;
+  fi
+fi
+UNZIP="unzip -q -o"
+
+#
+# exit on failure
+#
 set -e
 
 show_help() {
   echo "Usage: $0 <project_name>"
   echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
-      "same54xprov2, maaxboardrt, rx65ncloudkit, wfi32iot"
+      "same54xprov2, maaxboardrt, ck-rx65n (Blue PCB, Ethernet supported, TSIP supported), rx65ncloudkit (Green PCB, Wifi supported, no TSIP support), wfi32iot"
 }
 
 # All the IDEs officially support Windows, so it is likely that a developer
@@ -13,7 +36,10 @@ show_help() {
 # are not working correctly there. Detect if we are running on Windows and invoke
 # the appropriate program to create the symlink.
 make_sym_link() {
-  if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ]; then
+  if [ $(uname -r | grep "Microsoft") ] || [ $(uname -o | grep "Msys") ] || [ $(uname -o | grep "Cygwin") ]; then
+    # Remove any previous link
+    rm -f ${2}
+
     # Create a Windows directory junction, or Windows file hardlink
     link_type=$([[ -d $1 ]] && echo "/J" || echo "/h")
     if [ $(uname -o | grep "Msys") ]; then
@@ -56,9 +82,10 @@ create_iotc_azrtos_symlinks() {
   # Make sure that the script is idempotent
   mkdir -p $target_dir
   pushd $target_dir > /dev/null
-  git clean -Xdf || true 2>/dev/null
+  git clean -Xdf || true;
   popd > /dev/null
 
+  mkdir -p $target_dir
   pushd $target_dir >/dev/null
   for f in $source_dir/*; do
     target=$(basename $f)
@@ -83,14 +110,14 @@ create_iotc_azrtos_symlinks() {
 
 create_threadx_project_maxxboard() {
   echo Downloading MaaxXBoardRT baseline project packages...
-  wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+  ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
   azrtos_dir='mimxrt1060/MCUXpresso/'
-  wget -q -O project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
+  ${FETCH} project.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/evkmimxrt1170_azure_iot_embedded_sdk.zip
   project_dir=evkmimxrt1170_azure_iot_embedded_sdk/
 
   echo Extracting...
-  unzip -q azrtos.zip
-  unzip -q project.zip
+  ${UNZIP} azrtos.zip
+  ${UNZIP} project.zip
 
   rm -rf ${project_dir}/azure-rtos/binary/netxduo
   rm -rf ${project_dir}/azure-rtos/netxduo
@@ -113,29 +140,37 @@ create_threadx_projects() {
   case "$name" in
     stm32l4)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_STM32L4+-DISCO_STM32CubeIDE_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_STM32L4+-DISCO_STM32CubeIDE_Sample_2022_04_10.zip
       project_platform_dir='b-l4s5i-iot01a/'
       project_ide_dir='stm32cubeide/'
       libs="stm32l4xx_lib common_hardware_code "
       ;;
     mimxrt1060)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_MIMXRT1060_MCUXpresso_Samples_2021_11_03.zip
       project_platform_dir='mimxrt1060/'
       project_ide_dir='MCUXpresso/'
       libs="mimxrt1060_library filex common_hardware_code "
       ;;
     same54xpro)
       echo Downloading Azure_RTOS_6...
-      #wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2022_04_10.zip
+      #${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ATSAME54-XPRO_MPLab_Samples_2021_11_03.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_ATSAME54-XPRO_MPLab_Sample_2022_04_10.zip
       project_platform_dir='same54Xpro/'
       project_ide_dir='mplab/'
       libs="same54_lib filex common_hardware_code "
       ;;
+    ck-rx65n)
+      echo Downloading Azure_RTOS_6...
+      # ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_Renesas_RX65N_Cloud_Kit_e2studio_gnurx_Sample_2022_04_28.zip
+      project_platform_dir=''
+      project_ide_dir='e2studio_gnurx/'
+      libs="filex netxduo_addons "
+      ;;
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
-      wget -q -O azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
+      ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_RX65N_Cloud_Kit_E2Studio_GNURX_Samples_2022_05_25.zip
       project_platform_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
@@ -150,9 +185,9 @@ create_threadx_projects() {
   project_dir="${project_platform_dir}${project_ide_dir}"
 
   case "$name" in
-    mimxrt1060 | stm32l4 | same54xpro | rx65ncloudkit)
+    mimxrt1060 | stm32l4 | same54xpro | ck-rx65n | rx65ncloudkit)
       echo Extracting...
-      unzip -q azrtos.zip
+      ${UNZIP} azrtos.zip
       rm -f azrtos.zip
       ;;
   esac
@@ -178,7 +213,7 @@ create_threadx_projects() {
       sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
       sed -i 's#tx#threadx#g' ./threadx/.cproject
       ;;
-    mimxrt1060 | rx65ncloudkit)
+    mimxrt1060 | ck-rx65n | rx65ncloudkit)
       echo 'Applying patches for AzureRTOS component directory name references...'
       sed -i 's#nxd#netxduo#g' ./netxduo/.cproject
       sed -i 's#tx#threadx#g' ./threadx/.cproject
@@ -214,6 +249,9 @@ case "$name" in
   maaxboardrt)
     pushd "$(dirname $0)"/../samples/"${name}"
   ;;
+  ck-rx65n)
+    pushd "$(dirname $0)"/../samples/"${name}"
+	;;
   rx65ncloudkit)
     pushd "$(dirname $0)"/../samples/"${name}"
 	;;
@@ -226,7 +264,7 @@ esac
 sample_dir=$(pwd)
 
 # initial cleanup
-rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt rx65ncloudkit
+rm -rf iotc-c-lib cJSON libTO b-l4s5i-iot01a mimxrt1060 same54Xpro stm32l4 maaxboardrt ck-rx65n rx65ncloudkit
 
 # Pull Git submodules for iotc-azrtos-sdk
 git submodule update --init --recursive
@@ -264,24 +302,24 @@ case "$name" in
     git_hide_config_files
   ;;
   stm32u5)
-    cube_zip_name='en.x-cube-azure-v2-2-0.zip'
-    if [ ! -f ${cube_zip_name} ]; then
-      echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
-      exit -2
-    fi
+#    cube_zip_name='en.x-cube-azure-v2-2-0.zip'
+#    if [ ! -f ${cube_zip_name} ]; then
+#      echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
+#      exit -2
+#    fi
     create_iotc_azrtos_symlinks
-    rm -rf STM32CubeExpansion_Cloud_AZURE_*
+#    rm -rf STM32CubeExpansion_Cloud_AZURE_*
 
-    echo "Extracting files from ${cube_zip_name}..."
-    unzip -q ${cube_zip_name}
-    pushd STM32CubeExpansion_Cloud_AZURE_*/ >/dev/null
-    echo "Copying files from the package over the repository files..."
-    cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
-    popd >/dev/null
-    rm -rf STM32CubeExpansion_Cloud_AZURE_*
+#    echo "Extracting files from ${cube_zip_name}..."
+#    ${UNZIP} ${cube_zip_name}
+#    pushd STM32CubeExpansion_Cloud_AZURE_*/ >/dev/null
+#    echo "Copying files from the package over the repository files..."
+#    cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
+#    popd >/dev/null
+#    rm -rf STM32CubeExpansion_Cloud_AZURE_*
 
   ;;
-  stm32l4 | mimxrt1060 | same54xpro | rx65ncloudkit)
+  stm32l4 | mimxrt1060 | same54xpro | ck-rx65n | rx65ncloudkit)
     create_iotc_azrtos_symlinks
     create_threadx_projects $name
     git_hide_config_files
