@@ -2937,6 +2937,20 @@
       <item path="../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c"
             ex="true"
             overriding="false">
+        <C32>
+        </C32>
+        <C32-AR>
+        </C32-AR>
+        <C32-AS>
+        </C32-AS>
+        <C32-CO>
+        </C32-CO>
+        <C32-LD>
+        </C32-LD>
+        <C32CPP>
+        </C32CPP>
+        <C32Global>
+        </C32Global>
       </item>
       <item path="../src/azure_rtos_demo/ecc608_ciphersuites/nx_crypto_atca_ciphersuites.c"
             ex="false"

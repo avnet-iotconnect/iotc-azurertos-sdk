@@ -25,6 +25,6 @@
 // This function will return the config read from the JSON by the MSD driver.
 IotConnectAppConfig* get_app_config(void);
 
-#define SAMPLE_SNTP_SERVER_NAME "time.google.com"    /* SNTP Server.  */
+#define SAMPLE_SNTP_SERVER_NAME "time.apple.com"    /* SNTP Server.  */
 
 #endif // APP_CONFIG_H
