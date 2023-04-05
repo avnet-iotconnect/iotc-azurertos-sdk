@@ -31,14 +31,14 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>basic-sample</name>
-			<type>2</type>
-			<locationURI>PARENT-7-PROJECT_LOC/basic-sample</locationURI>
-		</link>
-		<link>
 			<name>iotc-azrtos-sdk</name>
 			<type>2</type>
 			<locationURI>PARENT-7-PROJECT_LOC/iotc-azrtos-sdk</locationURI>
+		</link>
+		<link>
+			<name>stsafe-tfm-sample</name>
+			<type>2</type>
+			<locationURI>PARENT-7-PROJECT_LOC/stsafe-tfm-sample</locationURI>
 		</link>
 		<link>
 			<name>Application/PSA_Crypto_Ciphersuites/nx_crypto_aes_psa.c</name>
