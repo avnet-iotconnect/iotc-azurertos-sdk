@@ -16,14 +16,8 @@
 #include "sw_auth_driver.h"
 #include "metadata.h"
 
-
-
-#include "std_component.h"
-
-// in case of TFM_PSA_API, keep dummy code.
-static STD_COMPONENT std_comp;
-
-extern UCHAR _nx_driver_hardware_address[];
+#include "stm32_tfm_psa_auth_driver.h"
+static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
@@ -98,26 +92,7 @@ static void command_status(IotclEventData data, bool status, const char *command
 static void on_command(IotclEventData data) {
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-    	if(NULL != strstr(command, "led-red") ) {
-			if (NULL != strstr(command, "on")) {
-				BSP_LED_On(LED_RED);
-			} else {
-				BSP_LED_Off(LED_RED);
-			}
-			command_status(data, true, command, "OK");
-		} else if(NULL != strstr(command, "led-green") ) {
-			if (NULL != strstr(command, "on")) {
-				BSP_LED_On(LED_GREEN);
-			} else {
-				BSP_LED_Off(LED_GREEN);
-			}
-			command_status(data, true, command, "OK");
-		} else if (NULL != strstr(command, "reset-counters") ) {
-			std_comp.ButtonCounter = 0;
-			command_status(data, true, command, "OK");
-		} else {
-			command_status(data, false, command, "Not implemented");
-		}
+		command_status(data, false, command, "Not implemented");
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -138,7 +113,8 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         break;
     }
     if (NULL != auth_driver_context) {
-    	release_sw_der_auth_driver(auth_driver_context);
+    	stm32_tfm_psa_release_auth_driver(auth_driver_context);
+    	auth_driver_context = NULL;
     }
 }
 
@@ -180,13 +156,6 @@ bool extract_cpid_and_duid_from_operational_cn(IotConnectClientConfig *config, c
 	return true;
 }
 
-
-/* User push button callback*/
-void app_on_user_button_pushed(void) {
-    std_component_on_button_pushed(&std_comp);
-}
-
-
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
@@ -212,11 +181,52 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 		config->auth.type = IOTC_KEY;
 		config->auth.data.symmetric_key = md->symmetric_key;
     } else {
-        printf("---------TODO--------- Implement X509\r\n");
-
     	config->auth.type = IOTC_X509;
-    }
 
+        auth_driver_context = NULL;
+        struct stm32_tfm_psa_driver_parameters parameters = {0}; // dummy, for now
+        IotcDdimInterface ddim_interface;
+        IotcAuthInterfaceContext auth_context;
+        if(stm32_tfm_psa_create_auth_driver( //
+                &(config->auth.data.x509.auth_interface), //
+                &ddim_interface, //
+                &auth_context, //
+                &parameters)) { //
+            return false;
+        }
+        config->auth.data.x509.auth_interface_context = auth_context;
+
+        uint8_t* cert;
+        size_t cert_size;
+
+        config->auth.data.x509.auth_interface.get_cert(
+                auth_context, //
+                &cert, //
+                &cert_size //
+                );
+        if (0 == cert_size) {
+            printf("Unable to get the certificate from the driver.\r\n");
+            stm32_tfm_psa_release_auth_driver(auth_context);
+            return false;
+        }
+
+        char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+        if (NULL == operational_cn) {
+            stm32_tfm_psa_release_auth_driver(auth_context);
+            printf("Unable to get the certificate common name.\r\n");
+            return false;
+        }
+        if (!md->duid || strlen(md->duid) == 0) {
+            printf("Using certificate CN as DUID.\r\n");
+            strcpy(duid_buffer, operational_cn);
+            config->duid = duid_buffer;
+        } else {
+            printf("Obtained certificate with CN: %s.\r\n", operational_cn);
+        }
+        printf("DUID: %s\r\n", config->duid);
+
+        auth_driver_context = auth_context;
+    }
 
     while (true) {
         if (iotconnect_sdk_init(&azrtos_config)) {

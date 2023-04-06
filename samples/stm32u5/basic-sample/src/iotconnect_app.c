@@ -18,15 +18,10 @@
 
 
 #include "std_component.h"
-#ifndef TFM_PSA_API
-// sensors
-static const CHAR std_component_name[] = "std_comp";
-#endif
 
 // in case of TFM_PSA_API, keep dummy code.
 static STD_COMPONENT std_comp;
 
-extern UCHAR _nx_driver_hardware_address[];
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
@@ -242,13 +237,11 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
-#ifndef TFM_PSA_API
 	UINT status;
 
     if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
         printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
     }
-#endif
 
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
