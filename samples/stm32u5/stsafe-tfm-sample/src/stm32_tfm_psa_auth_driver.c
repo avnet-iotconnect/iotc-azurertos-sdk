@@ -220,7 +220,9 @@ int stm32_tfm_psa_create_auth_driver(IotcAuthInterface* driver_interface, IotcDd
 
 	struct stm32_tfm_psa_driver_context *c = 
         (struct stm32_tfm_psa_driver_context*) malloc(sizeof(struct stm32_tfm_psa_driver_context));
-    
+
+	memset(c, 0, sizeof(struct stm32_tfm_psa_driver_context));
+
 	c->magic = DC_MAGIC;
 	if (!c) {
 		printf("TFM-PSA: Unable to allocate context!\r\n");
