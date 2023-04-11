@@ -11,8 +11,6 @@
 #undef NX_DISABLE_ERROR_CHECKING
 #include <nx_system.h>
 
-#include <r_wifi_sx_ulpgn_if.h>
-
 /* Compatibility functions between NetX and the Wi-Fi driver. */
 
 
