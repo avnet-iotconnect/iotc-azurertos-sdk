@@ -14,14 +14,9 @@
 #include "iotconnect.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
-
-
-
 #include "std_component.h"
 
-// in case of TFM_PSA_API, keep dummy code.
 static STD_COMPONENT std_comp;
-
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
@@ -29,6 +24,8 @@ static IotcAuthInterfaceContext auth_driver_context = NULL;
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
 #define APP_VERSION "01.00.00"
+#define std_component_name "std_comp"
+
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -157,6 +154,7 @@ static void on_connection_status(IotConnectConnectionStatus status) {
     }
     if (NULL != auth_driver_context) {
     	release_sw_der_auth_driver(auth_driver_context);
+    	auth_driver_context = NULL;
     }
 }
 
@@ -168,7 +166,6 @@ static void publish_telemetry() {
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
 
-#ifndef TFM_PSA_API
     UINT status;
     if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
     	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
@@ -190,7 +187,6 @@ static void publish_telemetry() {
     } else {
     	printf("Failed to read sensor values, error: %u\r\n", status);
     }
-#endif
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);

@@ -14,9 +14,11 @@
 #include "iotconnect.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
+#include "std_component.h"
 #include "metadata.h"
-
 #include "stm32_tfm_psa_auth_driver.h"
+
+static STD_COMPONENT std_comp;
 static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
@@ -25,7 +27,29 @@ static IotcAuthInterfaceContext auth_driver_context = NULL;
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
 #define APP_VERSION "01.00.00"
+#define std_component_name "std_comp"
 
+
+#define MEMORY_TEST
+#ifdef MEMORY_TEST
+#define TEST_BLOCK_SIZE  1 * 1024
+#define TEST_BLOCK_COUNT 30
+static void *blocks[TEST_BLOCK_COUNT];
+void memory_test() {
+    int i = 0;
+    for (; i < TEST_BLOCK_COUNT; i++) {
+        void *ptr = malloc(TEST_BLOCK_SIZE);
+        if (!ptr) {
+            break;
+        }
+        blocks[i] = ptr;
+    }
+    printf("====Allocated %d blocks of size %d (of max %d)===\r\n", i, TEST_BLOCK_SIZE, TEST_BLOCK_COUNT);
+    for (int j = i-1; j >= 0; j--) {
+        free(blocks[j]);
+    }
+}
+#endif /* MEMORY_TEST */
 
 static bool is_app_version_same_as_ota(const char *version) {
     return strcmp(APP_VERSION, version) == 0;
@@ -92,7 +116,26 @@ static void command_status(IotclEventData data, bool status, const char *command
 static void on_command(IotclEventData data) {
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-		command_status(data, false, command, "Not implemented");
+    	if(NULL != strstr(command, "led-red") ) {
+			if (NULL != strstr(command, "on")) {
+				BSP_LED_On(LED_RED);
+			} else {
+				BSP_LED_Off(LED_RED);
+			}
+			command_status(data, true, command, "OK");
+		} else if(NULL != strstr(command, "led-green") ) {
+			if (NULL != strstr(command, "on")) {
+				BSP_LED_On(LED_GREEN);
+			} else {
+				BSP_LED_Off(LED_GREEN);
+			}
+			command_status(data, true, command, "OK");
+		} else if (NULL != strstr(command, "reset-counters") ) {
+			std_comp.ButtonCounter = 0;
+			command_status(data, true, command, "OK");
+		} else {
+			command_status(data, false, command, "Not implemented");
+		}
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -126,6 +169,28 @@ static void publish_telemetry() {
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
 
+    UINT status;
+    if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
+    	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
+    	iotcl_telemetry_set_number(msg, "humidity", std_comp.Humidity);
+    	iotcl_telemetry_set_number(msg, "pressure", std_comp.Pressure);
+    	iotcl_telemetry_set_number(msg, "accelerometer.x", std_comp.Acc_X);
+    	iotcl_telemetry_set_number(msg, "accelerometer.y", std_comp.Acc_Y);
+    	iotcl_telemetry_set_number(msg, "accelerometer.z", std_comp.Acc_Z);
+    	iotcl_telemetry_set_number(msg, "magnetometer.x", std_comp.Mag_X);
+    	iotcl_telemetry_set_number(msg, "magnetometer.y", std_comp.Mag_Y);
+    	iotcl_telemetry_set_number(msg, "magnetometer.z", std_comp.Mag_Z);
+    	iotcl_telemetry_set_number(msg, "gyroscope.x", std_comp.Gyro_X);
+    	iotcl_telemetry_set_number(msg, "gyroscope.y", std_comp.Gyro_Y);
+    	iotcl_telemetry_set_number(msg, "gyroscope.z", std_comp.Gyro_Z);
+
+    	// note the hook into app_azure_iot.c for button interrupt handler
+    	iotcl_telemetry_set_number(msg, "button_counter", std_comp.ButtonCounter);
+
+    } else {
+    	printf("Failed to read sensor values, error: %u\r\n", status);
+    }
+
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
     printf("Sending: %s\r\n", str);
@@ -156,10 +221,21 @@ bool extract_cpid_and_duid_from_operational_cn(IotConnectClientConfig *config, c
 	return true;
 }
 
+
+/* User push button callback*/
+void app_on_user_button_pushed(void) {
+    std_component_on_button_pushed(&std_comp);
+}
+
+
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+	UINT status;
+
     printf("Starting App Version %s\r\n", APP_VERSION);
+
     metadata_storage* md = metadata_get_values();
+
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
 	azrtos_config.pool_ptr = pool_ptr;
@@ -172,6 +248,17 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     if (!md->cpid || !md->env || strlen(md->cpid) == 0 || strlen(md->env) == 0) {
     	printf("ERROR: CPID and Environment must be set in settings\r\n");
     }
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
+    if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
+        printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
+    }
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
 
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
