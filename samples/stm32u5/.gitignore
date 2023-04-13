@@ -4,5 +4,7 @@
 /Middlewares
 /Projects/*
 /Utilities
+/trust-zone-disable.bat
+/trust-zone-enable.bat
 *.zip
 

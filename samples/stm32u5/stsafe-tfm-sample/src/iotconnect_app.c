@@ -30,7 +30,7 @@ static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 #define std_component_name "std_comp"
 
 
-#define MEMORY_TEST
+//#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  1 * 1024
 #define TEST_BLOCK_COUNT 30
@@ -169,6 +169,7 @@ static void publish_telemetry() {
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
 
+#if 0
     UINT status;
     if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
     	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
@@ -190,6 +191,7 @@ static void publish_telemetry() {
     } else {
     	printf("Failed to read sensor values, error: %u\r\n", status);
     }
+#endif
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -230,7 +232,6 @@ void app_on_user_button_pushed(void) {
 
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
-	UINT status;
 
     printf("Starting App Version %s\r\n", APP_VERSION);
 
@@ -248,18 +249,12 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     if (!md->cpid || !md->env || strlen(md->cpid) == 0 || strlen(md->env) == 0) {
     	printf("ERROR: CPID and Environment must be set in settings\r\n");
     }
-#ifdef MEMORY_TEST
-        // check for leaks
-        memory_test();
-#endif //MEMORY_TEST
+#if 0
+	UINT status;
     if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
         printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
     }
-#ifdef MEMORY_TEST
-        // check for leaks
-        memory_test();
-#endif //MEMORY_TEST
-
+#endif
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
