@@ -17,6 +17,7 @@
                 <sourceRootElem>../../../../../../Microchip/Harmony3/cryptoauthlib/lib/hal</sourceRootElem>
                 <sourceRootElem>../iotc-azrtos-sdk</sourceRootElem>
                 <sourceRootElem>../basic-sample</sourceRootElem>
+                <sourceRootElem>../../../../../iotc-azurertos-sdk/samples/wfi32iot/src/clicks</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
