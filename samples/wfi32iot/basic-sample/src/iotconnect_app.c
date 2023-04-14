@@ -206,7 +206,7 @@ static void publish_telemetry(int warming_up, int connections[]) {
     if(connections[0] == 1)
     {
         //Array entries are  [tVOC, CO2, Resistor Value, Status]
-        float air_data[] = {0, 0, 0, 0};
+        float air_data[] = {0, 0, 0, 0, 0, 0};
         AIRQUALITY7_readData(air_data);
         //If the sensor has been warming up for 15 minutes
         if(warming_up == 181)
