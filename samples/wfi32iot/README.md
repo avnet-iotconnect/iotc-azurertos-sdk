@@ -31,7 +31,7 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 [Air Quality 7 Click](https://www.mikroe.com/air-quality-7-click) is a compact add-on board that combines state-of-the-art MOS sensor technology with intelligent detection algorithms to monitor VOCs and CO2 equivalent variations in confined spaces. This board features the [MiCS-VZ-89TE](http://download.mikroe.com/documents/datasheets/MiCS-VZ-89TE_datasheet.pdf), an integrated sensor module for indoor air quality monitoring from Amphenol. This Click board™, an I2C configurable environmental sensor board, has many features such as low power, wide VOCs detection range, high sensitivity, and high resistance to shocks and vibrations which make it an excellent choice for VOC and CO2 monitoring in confined spaces such as meeting rooms and vehicle cabins, saving energy and reducing cost-of-ownership.
 
-<img src=".//media/AirQuality7.jpg" style="width:2in;height:2.8in"/>
+<img src=".//media/AirQuality7.png" style="width:2in;height:2.8in"/>
 
 <br>
 
@@ -47,7 +47,7 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 [Altitude 4 Click](https://www.mikroe.com/altitude-4-click) introduces an absolute pressure sensor with digital output for low-cost applications labeled as [NPA-201](http://download.mikroe.com/documents/datasheets/AAS-920-649D-NovaSensor-NPA201-041318-web.pdf). Altitude 4 click employs a MEMS pressure sensor with a signal-conditioning IC to provide accurate pressure measurements from 260 to 1260 mBar. Measurement values are provided at the digital output pins through an I2C interface. This sensor provides NPA-201 Digital Output Absolute Pressure Sensor provides low power consumption and compact size, making it ideal for battery-powered and mobile applications or any application where size is a constraint. In today’s growing market for portable electronics and wearables with multiple parameters being measured, many applications require an accurate measurement of barometric pressure to determine factors such as altitude.
 
-<img src=".//media/Altitude4.jpg" style="width:2in;height:2.8in"/>
+<img src=".//media/Altitude4.png" style="width:2in;height:2.8in"/>
 
 <br>
 
@@ -67,7 +67,7 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 <img src=".//media/T6713.png" style="width:2in;height:2.8in"/>
 
-<img src=".//media/proto.jpg" style="width:2in;height:2.8in"/>
+<img src=".//media/proto.png" style="width:2in;height:2.8in"/>
 
 <br>
 
@@ -79,7 +79,7 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 <img src=".//media/T9602.png" style="width:2in;height:2.8in"/>
 
-<img src=".//media/Terminal2.jpg" style="width:2in;height:2.8in"/>
+<img src=".//media/Terminal2.png" style="width:2in;height:2.8in"/>
 
 <br>
 
