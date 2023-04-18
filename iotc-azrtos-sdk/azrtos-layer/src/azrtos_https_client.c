@@ -10,19 +10,21 @@
 #include "iotconnect_certs.h"
 #include "iotconnect.h"
 #include "azrtos_https_client.h"
+#include "nx_azure_iot_ciphersuites.h"
 
 #ifndef NX_WEB_HTTP_TCP_WINDOW_SIZE
 #define NX_WEB_HTTP_TCP_WINDOW_SIZE     1000
 #endif
 
 #ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
-#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 3000
+#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 1000
 #endif
 
 #ifndef IOTCONNECT_TLS_PACKET_BUFFER_SIZE
 #define IOTCONNECT_TLS_PACKET_BUFFER_SIZE  6000
 #endif
 
+// Used when not IOTC_HTTP_SHARED_MEMORY_HACK
 #ifndef IOTCONNECT_HTTPS_TLS_BUFFERSIZE
 #define IOTCONNECT_HTTPS_TLS_BUFFERSIZE  17856
 #endif
@@ -37,7 +39,17 @@
 extern const NX_SECURE_TLS_CRYPTO nx_crypto_tls_ciphers;
 
 static UCHAR tls_packet_buffer[IOTCONNECT_TLS_PACKET_BUFFER_SIZE];
+
+// For stm32u5 we simply cannot squeeze enough of RAM
+// When IOTC_HTTP_SHARED_MEMORY_HACK is enabled in the build,
+// We will share the metadata buffer with MQTT
+// This breaks OTA, so OTA must not be used along with this
+#ifdef IOTC_HTTP_RAM_USAGE_HACK
+extern UCHAR nx_azure_iot_tls_metadata_buffer[];
+static CHAR* crypto_client_metadata = (CHAR *)nx_azure_iot_tls_metadata_buffer;
+#else
 static CHAR crypto_client_metadata[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
+#endif
 static char response_buffer[IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE];
 
 //static UCHAR tls_packet_buffer[IOTCONNECT_HTTPS_TLS_BUFFERSIZE];
@@ -279,10 +291,14 @@ static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SES
     UINT status;
 
     NX_PARAMETER_NOT_USED(client_ptr);
-
+#ifdef IOTC_HTTP_RAM_USAGE_HACK
+    const size_t metadata_size = NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE;
+#else
+    const size_t metadata_size = IOTCONNECT_HTTPS_TLS_BUFFERSIZE;
+#endif
     /* Initialize and create TLS session. */
     status = nx_secure_tls_session_create(tls_session, &nx_crypto_tls_ciphers, crypto_client_metadata,
-            sizeof(crypto_client_metadata));
+    		metadata_size);
 
     if (status) {
         printf("HTTP failed to create TLS session, error: 0x%x\r\n", status);

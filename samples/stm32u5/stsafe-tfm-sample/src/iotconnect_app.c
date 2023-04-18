@@ -169,7 +169,6 @@ static void publish_telemetry() {
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
 
-#if 0
     UINT status;
     if ((status = std_component_read_sensor_values(&std_comp)) == NX_AZURE_IOT_SUCCESS) {
     	iotcl_telemetry_set_number(msg, "temperature", std_comp.Temperature);
@@ -191,7 +190,6 @@ static void publish_telemetry() {
     } else {
     	printf("Failed to read sensor values, error: %u\r\n", status);
     }
-#endif
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
@@ -249,12 +247,12 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     if (!md->cpid || !md->env || strlen(md->cpid) == 0 || strlen(md->env) == 0) {
     	printf("ERROR: CPID and Environment must be set in settings\r\n");
     }
-#if 0
+    
 	UINT status;
     if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
         printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
     }
-#endif
+
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
@@ -311,6 +309,10 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     }
 
     while (true) {
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
@@ -325,6 +327,10 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             }
         }
         iotconnect_sdk_disconnect();
+#ifdef MEMORY_TEST
+        // check for leaks
+        memory_test();
+#endif //MEMORY_TEST
     }
     printf("Done.\r\n");
     return true;

@@ -23,7 +23,12 @@ extern const UINT _nx_azure_iot_tls_ciphersuite_map_size;
 
 /* Define the metadata size for _nx_azure_iot_tls_ciphers.  */
 #ifndef NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE
+#ifdef IOTC_HTTP_RAM_USAGE_HACK
+// In this case, we are letting our buffer be used by HTTP:
+#define NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE                     (16 * 1024) // 17856 // (9 * 1024)
+#else
 #define NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE                     (9 * 1024)
+#endif
 #endif /* NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE  */
 
 #endif /* NX_AZURE_IOT_CIPHERSUITES_H */

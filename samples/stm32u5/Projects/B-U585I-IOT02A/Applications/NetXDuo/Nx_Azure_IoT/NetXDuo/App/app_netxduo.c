@@ -58,7 +58,9 @@ NX_IP                 IpInstance;
 NX_DHCP               DhcpClient;
 #endif /* DHCP_DISABLE */
 static NX_DNS         DnsClient;
+#if 0
 static NX_SNTP_CLIENT SntpClient;
+#endif
 
 ULONG   IpAddress;
 ULONG   NetMask;
@@ -106,6 +108,7 @@ ULONG   NetMask;
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 /* System clock time for UTC.  */
+#if 0
 static ULONG            unix_time_base;
 
 static const char *sntp_servers[] =
@@ -117,6 +120,7 @@ static const char *sntp_servers[] =
 };
 
 static UINT sntp_server_index;
+#endif
 
 static ULONG dns_server_address[3];
 #ifndef DHCP_DISABLE
