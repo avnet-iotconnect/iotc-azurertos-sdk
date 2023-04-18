@@ -17,7 +17,7 @@ The serial console application needs to be configured per settings () in this sc
 
 ## Firmware Setup
 
-* Download and extract the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/TBD.zip)
+* Download and extract the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/stm32u5-tfm-package-041823.zip)
 * Plug in a USB cable into the Micro USB slot of the B-U585I-IOT02A board.
 * Execute the trust-zone-enable.bat batch script from the package. 
 This will enable the TrustZones feature which is required to run the next step.

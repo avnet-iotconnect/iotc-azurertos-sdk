@@ -18,11 +18,10 @@
 #include "metadata.h"
 #include "stm32_tfm_psa_auth_driver.h"
 
-static STD_COMPONENT std_comp;
+extern STD_COMPONENT std_comp; // use the instance in app_azure_iot.c, as that one is linked to the button counter
 static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
-
 
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
