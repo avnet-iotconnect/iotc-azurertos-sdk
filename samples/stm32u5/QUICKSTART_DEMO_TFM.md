@@ -24,11 +24,8 @@ This will enable the TrustZones feature which is required to run the next step.
 Running this script will make it so only TrustZone enabled applications will run on the board.
 You need to run this step only once per board. 
 * Execute the tfm-update.bat batch script from the package.
-* Once you are finished with the evaluation, you may want to run trust-zone-disable.bat batch script. 
+* You can run trust-zone-disable.bat batch script once you are finished with the evaluation. 
 The script will revert the board to factory setting where only non-TrustZone applications will run.
-
-* Download and extract the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/stm32u5-tfm-package-041323.zip)
-* Execute the script tfm-update.bat. The script will upload several firmware components onto the board.
 
 ## Device Configuration
 
