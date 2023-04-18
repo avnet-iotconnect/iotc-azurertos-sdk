@@ -113,6 +113,10 @@ ULONG   NetMask;
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 /* System clock time for UTC.  */
+//#define ROUTE_MALLOC_TO_TX_BYTE_POOL
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+static TX_BYTE_POOL malloc_pool;
+#endif
 
 #if 0 // Move SNTP functionality to the IoTConnect SDK
 static ULONG            unix_time_base;
@@ -155,6 +159,12 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address);
 static UINT sntp_time_sync(VOID);
 #endif
 
+// this a not fully tested implementation
+// of malloc that can be routed to a byte pool
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+static UCHAR malloc_pool_buff[8 * 1024];
+#endif
+
 /* USER CODE END PFP */
 /**
   * @brief  Application NetXDuo Initialization.
@@ -173,6 +183,18 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
   /* USER CODE BEGIN MX_NetXDuo_Init */
 #if (USE_STATIC_ALLOCATION == 1)
   printf("Start Azure IoT application...\r\n");
+
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+  if (tx_byte_pool_create(&malloc_pool,
+		  "Heap Memory Pool",
+          (void *)malloc_pool_buff,
+		  sizeof(malloc_pool_buff))
+  	  ) {
+	    printf("tx_byte_pool_create (malloc_pool) fail\r\n");
+	    return TX_POOL_ERROR;
+  }
+#endif
+
 
   CHAR *pointer;
   
@@ -311,6 +333,37 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
 
   return ret;
 }
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+void * malloc(size_t size)
+{
+    void * ptr = NULL;
+
+    if(size > 0)
+    {
+        // We simply wrap the threadX call into a standard form
+        uint8_t r = tx_byte_allocate(&malloc_pool, &ptr, size, TX_NO_WAIT);
+
+        if(r != TX_SUCCESS)
+        {
+            ptr = NULL;
+        }
+    }
+    //else NULL if there was no size
+
+    return ptr;
+}
+
+void free(void * ptr)
+{
+    if(ptr) {
+        //We simply wrap the threadX call into a standard form
+        UINT ret = tx_byte_release(ptr);
+        if (ret) {
+        	printf("tx_byte_release error 0x%x\r\n", ret);
+        }
+    }
+}
+#endif
 
 /* USER CODE BEGIN 1 */
 /**
