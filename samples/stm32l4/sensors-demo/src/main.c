@@ -21,11 +21,11 @@
 // -----------------------------
 #include "iotconnect.h"
 #include "azrtos_time.h"
+#include "sensors_data.h"
 #include "app_config.h"
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 extern CHAR* http_entry(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr, CHAR *host_name, CHAR *resource);
-static void sample_thread_entry(ULONG parameter);
 // -----------------------------
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */
@@ -117,10 +117,15 @@ static NX_DNS           dns_0;
 #ifndef SAMPLE_DHCP_DISABLE
 static NX_DHCP          dhcp_0;
 #endif /* SAMPLE_DHCP_DISABLE  */
+
+// BEGIN: Changes from sample main
+#if 0 // we get time from the IoTConnect SDK and plug it into system time()
 static NX_SNTP_CLIENT   sntp_client;
 
 /* System clock time for UTC.  */
 static ULONG            unix_time_base;
+#endif
+// END: Changes from sample main
 
 /* Define the stack/cache for ThreadX.  */
 static ULONG sample_ip_stack[SAMPLE_IP_STACK_SIZE / sizeof(ULONG)];

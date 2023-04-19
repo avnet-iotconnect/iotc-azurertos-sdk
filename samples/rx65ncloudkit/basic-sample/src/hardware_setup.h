@@ -5,8 +5,8 @@
 #include "r_gpio_rx_if.h"
 
 typedef enum {
-	LED1 = GPIO_PORT_B_PIN_0,
-	LED2 = GPIO_PORT_B_PIN_2
+	LED1 = GPIO_PORT_A_PIN_3,
+	LED2 = GPIO_PORT_2_PIN_2
 } RX65N_LED_PIN;
 
 typedef enum {

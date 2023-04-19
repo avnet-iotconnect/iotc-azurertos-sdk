@@ -35,9 +35,11 @@
 #endif /* NX_AZURE_IOT_THREAD_PRIORITY */
 
 /* Define Azure RTOS TLS info.  */
-// Note: This buffer is used by HTTP in case of
+// Note: GLOBAL This buffer is used by HTTP in special cases
 UCHAR nx_azure_iot_tls_metadata_buffer[NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE];
 static NX_SECURE_X509_CERT root_ca_cert;
+static NX_SECURE_X509_CERT root_ca_cert_2;
+static NX_SECURE_X509_CERT root_ca_cert_3;
 static ULONG nx_azure_iot_thread_stack[NX_AZURE_IOT_STACK_SIZE / sizeof(ULONG)];
 
 /* Define the prototypes for AZ IoT.  */
@@ -56,6 +58,9 @@ static IotConnectIotHubConfig config;
 static bool is_connected = false;
 static bool is_disconnect_requested = false;
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+#define SAMPLE_PNP_MODEL_ID                                             "dtmi:azure:iot:deviceUpdateModel;1"
+#endif
 
 static VOID connection_status_callback(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr, UINT status) {
     NX_PARAMETER_NOT_USED(hub_client_ptr);
@@ -109,7 +114,7 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
                 (UCHAR*) config.auth->data.symmetric_key, //
                 strlen(config.auth->data.symmetric_key)))) {
             printf("Failed on nx_azure_iot_hub_client_symmetric_key_set!\r\n");
-            return status;
+            goto end;
         }
     } else if (config.auth->type == IOTC_X509){
         printf("Using x509 authentication.\r\n");
@@ -134,11 +139,13 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
         size_t cert_len, key_len;
         if (ai->get_cert(aic, &cert, &cert_len)) {
         	printf("Failed get cert from the auth interface\r\n");
-        	return NX_NO_MAPPING;
+        	status = NX_NO_MAPPING;
+        	goto end;
         }
         if (ai->get_private_key(aic, &key, &key_len)) {
         	printf("Failed get key from the auth interface\r\n");
-        	return NX_NO_MAPPING;
+        	status = NX_NO_MAPPING;
+        	goto end;
         }
         if ((status = nx_secure_x509_certificate_initialize(&device_certificate, //
                 cert, //
@@ -148,33 +155,51 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
                 key_len, //
                 ai->get_azrtos_private_key_type(aic)))) {
             printf("Failed on nx_secure_x509_certificate_initialize!: error code = 0x%08x\r\n", status);
-            return status;
+            goto end;
         }
 
         /* Set device certificate.  */
         if ((status = nx_azure_iot_hub_client_device_cert_set(iothub_client_ptr, &device_certificate))) {
             printf("Failed on nx_azure_iot_hub_client_device_cert_set!: error code = 0x%08x\r\n", status);
-            //TODO: this is not sufficient of a cleanup. Other error cases deserve a deinit of the client.
-            nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
-            return status;
+            goto end;
         }
     } else {
     	printf("initialize_iothub: Unknown authentication type provided. Aborting...");
     	return NX_OPTION_ERROR;
     }
+
+    /* Add the other possible CA certificates used by Azure IoT Hub.  */
+    if ((status = nx_azure_iot_hub_client_trusted_cert_add(iothub_client_ptr, &root_ca_cert_2)))
+    {
+        printf("Failed on nx_azure_iot_hub_client_trusted_cert_add!: error code = 0x%08x\r\n", status);
+        goto end;
+    }
+    else if ((status = nx_azure_iot_hub_client_trusted_cert_add(iothub_client_ptr, &root_ca_cert_3)))
+    {
+        printf("Failed on nx_azure_iot_hub_client_trusted_cert_add!: error code = 0x%08x\r\n", status);
+        goto end;
+    }
+
     /* Set connection status callback. */
     if ((status = nx_azure_iot_hub_client_connection_status_callback_set(iothub_client_ptr, connection_status_callback))) {
         printf("Failed on connection_status_callback!\r\n");
-        return status;
+        goto end;
     }
     if ((status = nx_azure_iot_hub_client_cloud_message_enable(iothub_client_ptr))) {
         printf("C2D receive enable failed!: error code = 0x%08x\r\n", status);
-        return status;
+        goto end;
     }
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+    // this needs to be enabled for the ADU Agent
+    if ((status = nx_azure_iot_hub_client_properties_enable(iothub_client_ptr))) {
+        printf("Client Properties enable failed!: error code = 0x%08x\r\n", status);
+        goto end;
+    }
+#endif // IOTC_ENABLE_ADU_SUPPORT
+end:
     if (status) {
         nx_azure_iot_hub_client_deinitialize(iothub_client_ptr);
-        return status;
     }
 
     return (status);
@@ -185,6 +210,7 @@ static void log_callback(az_log_classification classification, UCHAR *msg, UINT 
         printf("%.*s", msg_len, (CHAR*) msg);
     }
 }
+
 UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrtos_config) {
     UINT status = 0;
 
@@ -205,12 +231,30 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
     }
 
     printf("Initializing server certificates...\r\n");
-    /* Initialize CA certificate. */
+    /* Initialize CA certificates. */
     if ((status = nx_secure_x509_certificate_initialize(&root_ca_cert, //
             (UCHAR*)IOTCONNECT_BALTIMORE_ROOT_CERT,
             IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE,
             NX_NULL, 0, NULL, 0, NX_SECURE_X509_KEY_TYPE_NONE))) {
-        printf("Failed to initialize ROOT CA certificate!: error code = 0x%08x\r\n", status);
+        printf("Failed to initialize BALTIMORE ROOT CA certificate!: error code = 0x%08x\r\n", status);
+        nx_azure_iot_delete(&nx_azure_iot);
+        return status;
+    }
+
+    if ((status = nx_secure_x509_certificate_initialize(&root_ca_cert_2, //
+            (UCHAR*)IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2,
+			IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE,
+            NX_NULL, 0, NULL, 0, NX_SECURE_X509_KEY_TYPE_NONE))) {
+        printf("Failed to initialize DIGICERT GLOBAL ROOT CA certificate!: error code = 0x%08x\r\n", status);
+        nx_azure_iot_delete(&nx_azure_iot);
+        return status;
+    }
+
+    if ((status = nx_secure_x509_certificate_initialize(&root_ca_cert_3, //
+            (UCHAR*)IOTCONNECT_MICROSOFT_RSA_ROOT_CA_2017,
+			IOTCONNECT_MICROSOFT_RSA_ROOT_CA_2017_SIZE,
+            NX_NULL, 0, NULL, 0, NX_SECURE_X509_KEY_TYPE_NONE))) {
+        printf("Failed to initialize MICROSOFT RSA 2017 ROOT CA certificate!: error code = 0x%08x\r\n", status);
         nx_azure_iot_delete(&nx_azure_iot);
         return status;
     }
@@ -221,6 +265,14 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
         nx_azure_iot_delete(&nx_azure_iot);
         return status;
     }
+
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+    if ((status = nx_azure_iot_hub_client_model_id_set(&iothub_client,
+                                                       (const UCHAR *)SAMPLE_PNP_MODEL_ID,
+                                                       sizeof(SAMPLE_PNP_MODEL_ID) - 1))) {
+        printf("Failed on nx_azure_iot_hub_client_model_id_set!: error code = 0x%08x\r\n", status);
+    }
+#endif
 
     printf("Connecting...\r\n");
     if (nx_azure_iot_hub_client_connect(&iothub_client, NX_TRUE, NX_WAIT_FOREVER)) {
@@ -235,7 +287,7 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
     return NX_AZURE_IOT_SUCCESS;
 }
 
-void iothub_client_disconnect() {
+void iothub_client_disconnect(void) {
     if (is_connected) {
         is_connected = false;
         is_disconnect_requested = true; // don't deinitialize in the callback
@@ -249,7 +301,7 @@ void iothub_client_disconnect() {
     }
 }
 
-bool iothub_client_is_connected() {
+bool iothub_client_is_connected(void) {
     return is_connected;
 }
 
@@ -309,3 +361,8 @@ UINT iothub_c2d_receive(bool loop_forever, ULONG wait_ticks) {
     return status;
 }
 
+#ifdef IOTC_ENABLE_ADU_SUPPORT
+NX_AZURE_IOT_HUB_CLIENT* iothub_client_internal_get_iothub_instance(void) {
+    return &iothub_client;
+}
+#endif

@@ -96,6 +96,24 @@ SECTIONS
 		. = ALIGN(2);
 		_mdata = .;
 	} > ROM
+	B_ETHERNET_BUFFERS_1 0x00010000 (NOLOAD) : AT(0x00010000)
+    {
+        _B_ETHERNET_BUFFERS_1_start = .;
+        *(B_ETHERNET_BUFFERS_1)
+        _B_ETHERNET_BUFFERS_1_end = .;
+    } >RAM
+        B_RX_DESC_1 (NOLOAD) :
+    {
+        _B_RX_DESC_1_start = .;
+        *(B_RX_DESC_1)
+        _B_RX_DESC_1_end = .;
+    } >RAM
+        B_TX_DESC_1 (NOLOAD) :
+    {
+        _B_TX_DESC_1_start = .;
+        *(B_TX_DESC_1)
+        _B_TX_DESC_1_end = .;
+    } >RAM
 	.data : AT(_mdata)
 	{
 		_data = .;
@@ -106,6 +124,11 @@ SECTIONS
 		*(D_2)
 		_edata = .;
 	} > RAM
+	.gcc_exc :
+	{
+		*(.gcc_exc)
+	} > RAM
+	
 	.bss :
 	{
 		_bss = .;
@@ -118,7 +141,7 @@ SECTIONS
 		_ebss = .;
 		. = ALIGN(128);
 		_end = .;
-	} > RAM AT>RAM
+	} > RAM2 AT>RAM2
 	.ofs1 0xFE7F5D00: AT(0xFE7F5D00)
 	{
 		KEEP(*(.ofs1))
