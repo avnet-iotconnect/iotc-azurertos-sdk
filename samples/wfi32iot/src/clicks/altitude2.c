@@ -116,12 +116,15 @@ void ALTITUDE2_readData(alt2_data_struct *alt2_data)
     
     //Calculate relative values from readings and prom cal values
     float dT = raw_temperature - (alt2_data->cal_5 * 256.0);
-    float corrected_temperature = 2000.0 + (dT * alt2_data->cal_6 / 8388608.0);
+    float corrected_temperature = (2000.0 + (dT * alt2_data->cal_6 / 8388608.0)) / 100.0;
     float offset = (alt2_data->cal_2 * 131072.0) + ((alt2_data->cal_4 * dT) / 64.0);
     float sensitivity = (alt2_data->cal_1 * 65536.0) + ((alt2_data->cal_3 * dT) / 128.0);
-    float corrected_pressure = (((raw_pressure * sensitivity) / 2097152.0) - offset) / 32768.0;
+    float corrected_pressure = ((((raw_pressure * sensitivity) / 2097152.0) - offset) / 32768.0) / 100.0;
+    
+    corrected_altitude = (((pow((1013.25 / corrected_pressure), 0.19022256) - 1.0) * (corrected_temperature + 273.15)) / 0.0065);
     
     //Update the passed-in struct with temperature and pressure values
-    alt2_data->pressure = corrected_pressure / 100.0;
-    alt2_data->temperature = corrected_temperature / 100.0;
+    alt2_data->pressure = corrected_pressure;
+    alt2_data->temperature = corrected_temperature;
+    alt2_data->altitude = corrected_altitude;
 }
