@@ -13,7 +13,7 @@ extern "C"{
 
 typedef struct {
     float humidity, temperature;
-}t9602_data_struct;
+} t9602_data_struct;
     
 void T9602_readData(t9602_data_struct *t9602_data);    
 
