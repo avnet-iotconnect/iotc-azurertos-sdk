@@ -16,7 +16,7 @@ extern "C"{
 
 typedef struct {
     float pressure, temperature, humidity, cal_1, cal_2, cal_3, cal_4, cal_5, cal_6;
-}pht_data_struct;
+} pht_data_struct;
     
 void PHT_reset();
 void PHT_cal_vals(pht_data_struct *pht_data);
