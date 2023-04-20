@@ -19,7 +19,7 @@ extern "C"{
 
 typedef struct {
     float altitude, temperature, pressure;
-}alt4_data_struct;
+} alt4_data_struct;
 
 void ALTITUDE4_readData(alt4_data_struct *alt4_data);
 
