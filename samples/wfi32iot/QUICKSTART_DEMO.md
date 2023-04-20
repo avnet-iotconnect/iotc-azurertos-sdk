@@ -107,7 +107,7 @@ A 2-Month Test Drive is available through the [IoTConnect Subscription Site](htt
   * *T9602_Humidity_Percent* - Air humidity (%) measured on the T9602 sensor.
 * The screenshot below shows an example template:
 
-![Template Screenshot](media/template.png "Template Screenshot")
+![Template Screenshot](media/attributes_list.png "Template Screenshot")
 
 * Add the following commands in the *Commands* tab:
   * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 
