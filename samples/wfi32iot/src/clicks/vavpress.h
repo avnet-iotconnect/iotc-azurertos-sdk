@@ -19,7 +19,7 @@ extern "C"{
 
 typedef struct {
     float temperature, pressure;
-}vav_data_struct;
+} vav_data_struct;
     
 uint16_t VAVPRESS_init();
 
