@@ -17,10 +17,13 @@ extern "C"{
 #define VAVPRESS_I2CADDR_3  0x5F
 #define EL_SIGNATURE_NUMBYTES 54
 
-
+typedef struct {
+    float temperature, pressure;
+}vav_data_struct;
+    
 uint16_t VAVPRESS_init();
 
-void VAVPRESS_getSensorReadings(float data[]);
+void VAVPRESS_getSensorReadings(vav_data_struct *vav_data);
 
 #ifdef __cplusplus
 }

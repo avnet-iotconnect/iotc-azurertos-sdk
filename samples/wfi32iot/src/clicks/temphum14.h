@@ -39,11 +39,15 @@ extern "C"{
 #define TEMPHUM14_CALC_TEMP_SUB_FACT                     40.0000
 #define TEMPHUM14_CALC_HUM_MULTI_FACT                    100.000
 
+typedef struct {
+    float humidity, temperature;
+}temphum14_data_struct;
+    
 uint32_t TEMPHUM14_init ( uint8_t addr );
 
 void TEMPHUM14_setConversion ( uint8_t addr, uint8_t hum_osr, uint8_t temp_osr );
 
-void TEMPHUM14_getTemperatureHumidity ( uint8_t addr, float data[] );
+void TEMPHUM14_getTemperatureHumidity ( uint8_t addr, temphum14_data_struct *temphum14_data);
 
 uint32_t TEMPHUM14_getSerialNumber ( uint8_t addr );
 

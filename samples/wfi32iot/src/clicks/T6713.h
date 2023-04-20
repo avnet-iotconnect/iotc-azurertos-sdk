@@ -13,8 +13,11 @@
 extern "C"{
 #endif
 
-
-void T6713_readData(int data[]);  
+typedef struct {
+    float co2;
+}t6713_data_struct;
+    
+void T6713_readData(t6713_data_struct *t6713_data);  
 void T6713_calibrate();
 
 #ifdef __cplusplus

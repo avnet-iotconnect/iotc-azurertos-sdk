@@ -13,10 +13,13 @@
 extern "C"{
 #endif
 
+typedef struct {
+    float tvoc, co2, resistor_val;
+}air7_data_struct;
+    
+void AIRQUALITY7_readData(air7_data_struct *air7_data);  
 
-void AIRQUALITY7_readData(float data[]);  
-
-void airquality7_set_ppmco2();
+void airquality7_set_ppmco2(unsigned long ppmco2_value);
 
 #ifdef __cplusplus
 }

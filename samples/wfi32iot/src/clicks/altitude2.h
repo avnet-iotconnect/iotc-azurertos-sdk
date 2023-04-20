@@ -12,11 +12,15 @@
 extern "C"{
 #endif
 
+typedef struct {
+    float pressure, temperature, cal_1, cal_2, cal_3, cal_4, cal_5, cal_6;
+}alt2_data_struct;
+    
 void ALTITUDE2_reset();
 
-void ALTITUDE2_cal_vals(float values[]);
+void ALTITUDE2_cal_vals(alt2_data_struct *alt2_data);
 
-void ALTITUDE2_readData(float data[], float cal[]);
+void ALTITUDE2_readData(alt2_data_struct *alt2_data);
 
 
 #ifdef __cplusplus

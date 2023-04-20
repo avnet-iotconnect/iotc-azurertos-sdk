@@ -20,6 +20,19 @@
 #include "atcacert/atcacert_pem.h"
 #endif
 
+//Struct to hold boolean connection values of supported click boards
+struct click_board_connections {  
+  bool air7;
+  bool alt2;
+  bool alt4;
+  bool pht;
+  bool t6713;
+  bool t9602;
+  bool temphum14;
+  bool ulp;
+  bool vav;     
+}; 
+
 extern UCHAR _nx_driver_hardware_address[];
 
 
@@ -182,13 +195,16 @@ static void on_connection_status(IotConnectConnectionStatus status) {
     }
 }
 
-static void publish_telemetry(int warming_up, int connections[]) {
+static void publish_telemetry(struct click_board_connections click_board_detection, time_t start_time) {
     IotclMessageHandle msg = iotcl_telemetry_create();
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
-   
     
+    //Calculate program run time so sensor warm-up times can be honored
+    time_t now = time(NULL);
+    int running_time = now - start_time;
+   
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
     
@@ -202,30 +218,20 @@ static void publish_telemetry(int warming_up, int connections[]) {
     button_press_data.flag.sw1 = 0;
     button_press_data.flag.sw2 = 0;
     
+    
     //Air Quality 7 Click Reading
-    if(connections[0] == 1)
-    {
-        //Array entries are  [tVOC, CO2, Resistor Value, Status]
-        float air_data[] = {0, 0, 0, 0, 0, 0};
-        AIRQUALITY7_readData(air_data);
-        //If the sensor has been warming up for 15 minutes
-        if(warming_up == 181)
-        {
+    if(click_board_detection.air7 == true) {
+        air7_data_struct air7_data;
+        AIRQUALITY7_readData(&air7_data);
+        //If the sensor has been warming up for at least 15 minutes
+        if(running_time > 900) {
             //Report status and data from readData function output
-            if(air_data[3] == 1)
-            {
-               iotcl_telemetry_set_string(msg, "AIR7_Status", "ERROR"); 
-            }
-            else
-            {
-               iotcl_telemetry_set_string(msg, "AIR7_Status", "READY");
-            }
-            iotcl_telemetry_set_number(msg, "AIR7_tVOC_ppb", air_data[0]);   
-            iotcl_telemetry_set_number(msg, "AIR7_CO2_ppm", air_data[1]);
+            iotcl_telemetry_set_string(msg, "AIR7_Status", "READY");
+            iotcl_telemetry_set_number(msg, "AIR7_tVOC_ppb", air7_data.tvoc);   
+            iotcl_telemetry_set_number(msg, "AIR7_CO2_ppm", air7_data.co2);
         }
         //If the sensor is still warming up
-        else
-        {
+        else {
             //Report status and zeros for data
             iotcl_telemetry_set_string(msg, "AIR7_Status", "WARMING_UP");
             iotcl_telemetry_set_number(msg, "AIR7_tVOC_ppb", 0);   
@@ -235,61 +241,55 @@ static void publish_telemetry(int warming_up, int connections[]) {
     
     
     //Altitude 2 Click Reading
-    if(connections[1] == 1)
-    {
-        //Array entries are  [Pressure, Temperature]
-        float alt2_data[] = {0, 0};
-        float alt2_cal_vals[] = {0, 0, 0, 0, 0, 0};
-        ALTITUDE2_cal_vals(alt2_cal_vals);
-        ALTITUDE2_readData(alt2_data, alt2_cal_vals);
+    if(click_board_detection.alt2 == true) {
+        alt2_data_struct alt2_data;
+        //Read the calibration values form the sensor
+        ALTITUDE2_cal_vals(&alt2_data);
+        //Take measurements from sensor using the calibration values as multipliers
+        ALTITUDE2_readData(&alt2_data);
         //Report data pulled from readData function output
-        iotcl_telemetry_set_number(msg, "ALT2_Temp_DegC", alt2_data[1]);
-        iotcl_telemetry_set_number(msg, "ALT2_Pressure_mBar", alt2_data[0]);  
+        iotcl_telemetry_set_number(msg, "ALT2_Temp_DegC", alt2_data.temperature);
+        iotcl_telemetry_set_number(msg, "ALT2_Pressure_mBar", alt2_data.pressure);  
     } 
     
     
     //Altitude 4 Click Reading
-    if(connections[2] == 1)
-    {
-        //Array entries are  [Pressure, Altitude, Temperature]
-        float alt4_data[] = {0, 0, 0};
-        ALTITUDE4_readData(alt4_data);
+    if(click_board_detection.alt4 == true) {
+        alt4_data_struct alt4_data;
+        ALTITUDE4_readData(&alt4_data);
         //Report data pulled from readData function output
-        iotcl_telemetry_set_number(msg, "ALT4_Temp_DegC", alt4_data[2]);
-        iotcl_telemetry_set_number(msg, "ALT4_Pressure_mBar", alt4_data[0]);   
-        iotcl_telemetry_set_number(msg, "ALT4_Altitude_m", alt4_data[1]);
+        iotcl_telemetry_set_number(msg, "ALT4_Temp_DegC", alt4_data.temperature);
+        iotcl_telemetry_set_number(msg, "ALT4_Pressure_mBar", alt4_data.pressure);   
+        iotcl_telemetry_set_number(msg, "ALT4_Altitude_m", alt4_data.altitude);
     }
     
+    
     //PHT Click Reading
-    if(connections[3] == 1)
-    {
-        //Array entries are  [Pressure, Temperature, Relative Humidity]
-        float pht_data[] = {0, 0, 0};
-        float pht_cal_vals[] = {0, 0, 0, 0, 0, 0};
-        PHT_cal_vals(pht_cal_vals);
-        PHT_readData(pht_data, pht_cal_vals);
+    if(click_board_detection.pht == true) {
+        pht_data_struct pht_data;
+        //Read the calibration values form the sensor
+        PHT_cal_vals(&pht_data);
+        //Take measurements from sensor using the calibration values as multipliers
+        PHT_readData(&pht_data);
         //Report data pulled from readData function output
-        iotcl_telemetry_set_number(msg, "PHT_Temp_DegC", pht_data[1]);
-        iotcl_telemetry_set_number(msg, "PHT_Pressure_mBar", pht_data[0]);  
-        iotcl_telemetry_set_number(msg, "PHT_Humidity_Percent", pht_data[2]);
+        iotcl_telemetry_set_number(msg, "PHT_Temp_DegC", pht_data.temperature);
+        iotcl_telemetry_set_number(msg, "PHT_Pressure_mBar", pht_data.pressure);  
+        iotcl_telemetry_set_number(msg, "PHT_Humidity_Percent", pht_data.humidity);
     } 
     
+    
     //T6713-6H Proto Click Reading
-    if(connections[4] == 1)
-    {
-        //Array entries are  [CO2]
-        int CO2_data[] = {0};
-        T6713_readData(CO2_data);
-        //If the sensor has been warming up for 10 minutes
-        if(warming_up > 120)
-        {
+    if(click_board_detection.t6713 == true) {
+        t6713_data_struct t6713_data;
+        T6713_readData(&t6713_data);
+        //If the sensor has been warming up for at least 10 minutes
+        if(running_time > 600) {
             //Report status and data from readData function output
             iotcl_telemetry_set_string(msg, "T6713_Status", "READY");
-            iotcl_telemetry_set_number(msg, "T6713_CO2_ppm", CO2_data[0]);
+            iotcl_telemetry_set_number(msg, "T6713_CO2_ppm", t6713_data.co2);
         }
         //If the sensor is still warming up
-        else
-        {
+        else {
             //Report status and zeros for data
             iotcl_telemetry_set_string(msg, "T6713_Status", "WARMING_UP");
             iotcl_telemetry_set_number(msg, "T6713_CO2_ppm", 0);
@@ -297,23 +297,19 @@ static void publish_telemetry(int warming_up, int connections[]) {
     }
 
     
-    //T9602 Terminal Click Reading
-    if(connections[5] == 1)
-    {
-        //Array entries are  [Relative Humidity, Temperature]
-        float hum_data[] = {0, 0};
-        T9602_readData(hum_data);
-        //If the sensor has been warming up for 2 minutes
-        if(warming_up > 24)
-        {
+    //T9602 Terminal 2 Click Reading
+    if(click_board_detection.t9602 == true) {
+        t9602_data_struct t9602_data;
+        T9602_readData(&t9602_data);
+        //If the sensor has been warming up for at least 2 minutes
+        if(running_time > 120) {
             //Report status and data from readData function output
             iotcl_telemetry_set_string(msg, "T9602_Status", "READY");
-            iotcl_telemetry_set_number(msg, "T9602_Humidity_Percent", hum_data[0]);
-            iotcl_telemetry_set_number(msg, "T9602_Temp_DegC", hum_data[1]);
+            iotcl_telemetry_set_number(msg, "T9602_Humidity_Percent", t9602_data.humidity);
+            iotcl_telemetry_set_number(msg, "T9602_Temp_DegC", t9602_data.temperature);
         }
         //If the sensor is still warming up
-        else
-        {
+        else {
             //Report status and zeros for data
             iotcl_telemetry_set_string(msg, "T9602_Status", "WARMING_UP");
             iotcl_telemetry_set_number(msg, "T9602_Humidity_Percent", 0);
@@ -323,41 +319,37 @@ static void publish_telemetry(int warming_up, int connections[]) {
     
     
     //TempHum14 Click Reading
-    if(connections[6] == 1)
-    {
-        //Array entries are  [Relative Humidity, Temperature]
-        float TH_data[] = {0, 0};
-        TEMPHUM14_setConversion(0x40, TEMPHUM14_CONVERSION_HUM_OSR_0_020, TEMPHUM14_CONVERSION_TEMP_0_040 );
-        TEMPHUM14_getTemperatureHumidity (0x40, TH_data);
+    if(click_board_detection.temphum14 == true) {
+        temphum14_data_struct temphum14_data;
+        TEMPHUM14_setConversion(TEMPHUM14_I2C_SLAVE_ADDR_GND, TEMPHUM14_CONVERSION_HUM_OSR_0_020, TEMPHUM14_CONVERSION_TEMP_0_040 );
+        TEMPHUM14_getTemperatureHumidity (TEMPHUM14_I2C_SLAVE_ADDR_GND, &temphum14_data);
 
         //Report data from readData function output
-        iotcl_telemetry_set_number(msg, "TH14_Humidity_Percent", TH_data[1]);
-        iotcl_telemetry_set_number(msg, "TH14_Temp_DegC", TH_data[0]);
+        iotcl_telemetry_set_number(msg, "TH14_Humidity_Percent", temphum14_data.humidity);
+        iotcl_telemetry_set_number(msg, "TH14_Temp_DegC", temphum14_data.temperature);
     }
     
+    
     //ULP Click Reading
-    if(connections[7] == 1)
-    {
-        //Array entries are  [Temperature, Pressure]
-        float ULP_data[] = {0, 0};
+    if(click_board_detection.ulp == true) {
+        ulp_data_struct ulp_data;
         if (ULTRALOWPRESS_isReady()) 
         {
-            ULTRALOWPRESS_getData(ULP_data);
+            ULTRALOWPRESS_getData(&ulp_data);
             //Report data from getData function output
-            iotcl_telemetry_set_number(msg, "ULP_Temp_DegC", ULP_data[0]);
-            iotcl_telemetry_set_number(msg, "ULP_Pressure_Pa", ULP_data[1]);
+            iotcl_telemetry_set_number(msg, "ULP_Temp_DegC", ulp_data.temperature);
+            iotcl_telemetry_set_number(msg, "ULP_Pressure_Pa", ulp_data.pressure);
         }
     }
     
+    
     //VAVPress Click Reading
-    if(connections[8] == 1)
-    {
-        //Array entries are  [Pressure, Temperature]
-        float VAV_data[] = {0, 0};
-        VAVPRESS_getSensorReadings(VAV_data);
+    if(click_board_detection.vav == true) {
+        vav_data_struct vav_data;
+        VAVPRESS_getSensorReadings(&vav_data);
         //Report data from getSensorReadings function output
-        iotcl_telemetry_set_number(msg, "VAV_Pressure_Pa", VAV_data[0]);
-        iotcl_telemetry_set_number(msg, "VAV_Temp_DegC", VAV_data[1]);
+        iotcl_telemetry_set_number(msg, "VAV_Pressure_Pa", vav_data.pressure);
+        iotcl_telemetry_set_number(msg, "VAV_Temp_DegC", vav_data.temperature);
     }
 
 
@@ -379,120 +371,120 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
 
     APP_SENSORS_init();
     
+    //Declare connection struct and initialize all values to false
+    struct click_board_connections click_board_detection;
+    click_board_detection.air7 = false;
+    click_board_detection.alt2 = false;
+    click_board_detection.alt4 = false;
+    click_board_detection.pht = false;
+    click_board_detection.t6713 = false;
+    click_board_detection.t9602 = false;
+    click_board_detection.temphum14 = false;
+    click_board_detection.ulp = false;
+    click_board_detection.vav = false;
+    
+    
     //Time in-between data reportings (ms)
     int loop_time = 5000;
     
-    //Keeps track of how long the main loop has been running 
-    //for the sensors that have warm-up times
-    int warming_up = 0;
-    
+    //Keep track of the program start time so warm-up times for sensors can be honored
+    time_t start_time = time(NULL);
+
     //Will hold cumulative delay time for all attached sensors
     int delay_total = 0;
 
     printf("Detecting attached Click Board sensors...\r\n");
-
-    //Array for telling whether or not each click board is present (1 or 0)
-    //Structure is {AQ7, ALT2, ALT4, PHT, T6713, T9602, TH14, ULP, VAV}
-    int connections[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     
     //AQ7
-    float aq7_data[] = {0, 0, 0, 0};
-    AIRQUALITY7_readData(aq7_data);
+    air7_data_struct air7_data;
+    AIRQUALITY7_readData(&air7_data);
     //If calibration values is non-zero, it is connected
-    if(0 != aq7_data[2])
-    {
+    if(0 != air7_data.resistor_val) {
         printf("Air Quality 7 Click Detected!\r\n");
-        connections[0] = 1;
+        click_board_detection.air7 = true;
         delay_total += 100;
     }
     
     //ALT2
-    float alt2_cal[] = {0, 0, 0, 0, 0, 0};
-    ALTITUDE2_cal_vals(alt2_cal);
+    alt2_data_struct alt2_data;
+    ALTITUDE2_cal_vals(&alt2_data);
     //If a calibration values is non-zero, it is connected
-    if(0 != alt2_cal[0])
-    {
+    if(0 != alt2_data.cal_1) {
         printf("Altitude 2 Click Detected!\r\n");
-        connections[1] = 1;
+        click_board_detection.alt2 = true;
         delay_total += 90;
     }
     
     //ALT4
-    float alt4_vals[] = {0, 0, 0};
-    ALTITUDE4_readData(alt4_vals);
+    alt4_data_struct alt4_data;
+    ALTITUDE4_readData(&alt4_data);
     //If a pressure value is not 260 or a temp value is not -40, it is connected
     //(+260 and -40 correspond to zero-readings on ALT4)
-    if(260 != alt4_vals[0] || -40 != alt4_vals[2])
-    {
+    if(260 != alt4_data.pressure || -40 != alt4_data.temperature) {
         printf("Altitude 4 Click Detected!\r\n");
-        connections[2] = 1;
+        click_board_detection.alt4 = true;
         delay_total += 20;
     }
     
     //PHT
-    float pht_cal[] = {0, 0, 0, 0, 0, 0};
-    PHT_cal_vals(pht_cal);
+    pht_data_struct pht_data;
+    PHT_cal_vals(&pht_data);
     //If a calibration values is non-zero, it is connected
-    if(0 != pht_cal[0])
-    {
+    if(0 != pht_data.cal_1) {
         printf("PHT Click Detected!\r\n");
-        connections[3] = 1;
+        click_board_detection.pht = true;
         delay_total += 120;
     }
     
     //T6713
-    int CO2_val[] = {0};
-    T6713_readData(CO2_val);
+    t6713_data_struct t6713_data;
+    T6713_readData(&t6713_data);
     //If a CO2 measurement is non-zero, it is connected
-    if(0 != CO2_val[0])
-    {
+    if(0 != t6713_data.co2) {
         printf("T6713 CO2 Sensor Detected!\r\n");
-        connections[4] = 1;
+        T6713_calibrate();
+        click_board_detection.t6713 = true;
         delay_total += 100;
     }
     
     //T9602
-    float hum_vals[] = {0, 0};
+    t9602_data_struct t9602_data;
     //If humidity or temperature measurements are non-zero, it is connected
     //(-40 corresponds to a zero reading for temperature)
-    T9602_readData(hum_vals);
-    if(0 != hum_vals[0] || -40 != hum_vals[1])
-    {
+    T9602_readData(&t9602_data);
+    if(0 != t9602_data.humidity || -40 != t9602_data.temperature) {
         printf("T9602 TempHum Sensor Detected!\r\n");
-        connections[5] = 1;
+        click_board_detection.t9602 = true;
         delay_total += 100;
     }
     
-    //TH14
-    uint32_t TH14sn = 0;
-    //If a humidity measurement is non-zero, it is connected
-    TH14sn = TEMPHUM14_init(0x40);
-    if(0 != TH14sn)
-    {
+    //TempHum14
+    uint32_t temphum14_serial_number = 0;
+    //If the serial number is non-zero, it is connected
+    temphum14_serial_number = TEMPHUM14_init(0x40);
+    if(0 != temphum14_serial_number) {
         printf("TempHum14 Click Detected!\r\n");
-        connections[6] = 1;
+        click_board_detection.temphum14 = true;
         delay_total += 10;
     }
     
     //ULP
-    uint32_t ULPsn = 0;
+    uint32_t ulp_serial_number = 0;
     //If serial number is non-zero, it is connected
-    ULPsn = ULTRALOWPRESS_init();
-    if(0 != ULPsn)
-    {
+    ulp_serial_number = ULTRALOWPRESS_init();
+    if(0 != ulp_serial_number) {
         printf("Ultra Low Press Click Detected!\r\n");
-        connections[7] = 1;
+        click_board_detection.ulp = true;
         delay_total += 10;
     }
     
-    //VAV
-    uint16_t VAV_calID = 0;
+    //VAVpress
+    uint16_t vav_cal_ID = 0;
     //If calibration ID is non-zero, it is connected
-    VAV_calID = VAVPRESS_init();
-    if(0 != VAV_calID)
-    {
+    vav_cal_ID = VAVPRESS_init();
+    if(0 != vav_cal_ID) {
         printf("VAVPress Click Detected!\r\n");
-        connections[8] = 1;
+        click_board_detection.vav = true;
     }
     
     //The time to wait after each cycle of the main loop is loop time minus
@@ -610,24 +602,16 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
             return false;
         }
         //MAIN LOOP
-        while (1) 
-        {
-            if (iotconnect_sdk_is_connected()) 
-            {
-                publish_telemetry(warming_up, connections);
+        for (int cycles = 0; cycles < 36000; cycles++) {
+            if (iotconnect_sdk_is_connected()) {
+                publish_telemetry(click_board_detection, start_time);
                 //Yellow LED Blinks for 500ms when telemetry is being sent
                 LED_YELLOW_On();
                 iotconnect_sdk_poll(500);
                 LED_YELLOW_Off();
                 iotconnect_sdk_poll(loop_delay);
-                //Maximum warm-up time is 15 minutes
-                if(warming_up < 181)
-                {
-                    warming_up++;
-                }
             } 
-            else 
-            {
+            else {
                 return false;
             }
         }

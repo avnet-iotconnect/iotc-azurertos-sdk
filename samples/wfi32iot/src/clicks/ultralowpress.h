@@ -27,12 +27,15 @@ extern "C"{
 #define ULTRALOWPRESS_STATUS_TEMP_MASK  0x0010
 #define ULTRALOWPRESS_STATUS_PRESS_MASK 0x0008
 
-
+typedef struct {
+    float temperature, pressure;
+}ulp_data_struct;
+    
 uint32_t ULTRALOWPRESS_init();
 
 bool ULTRALOWPRESS_isReady();
 
-void ULTRALOWPRESS_getData(float data[]);
+void ULTRALOWPRESS_getData(ulp_data_struct *ulp_data);
 
 int16_t ULTRALOWPRESS_2sCompToDecimal(uint16_t twos_compliment_val);
 

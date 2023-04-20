@@ -17,8 +17,11 @@
 extern "C"{
 #endif
 
+typedef struct {
+    float altitude, temperature, pressure;
+}alt4_data_struct;
 
-void ALTITUDE4_readData(float data[]);
+void ALTITUDE4_readData(alt4_data_struct *alt4_data);
 
 
 #ifdef __cplusplus

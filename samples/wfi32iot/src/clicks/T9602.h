@@ -11,8 +11,11 @@
 extern "C"{
 #endif
 
-
-void T9602_readData(float data[]);    
+typedef struct {
+    float humidity, temperature;
+}t9602_data_struct;
+    
+void T9602_readData(t9602_data_struct *t9602_data);    
 
 #ifdef __cplusplus
 }
