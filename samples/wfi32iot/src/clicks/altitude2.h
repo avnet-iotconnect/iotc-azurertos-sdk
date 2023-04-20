@@ -13,7 +13,7 @@ extern "C"{
 #endif
 
 typedef struct {
-    float pressure, temperature, cal_1, cal_2, cal_3, cal_4, cal_5, cal_6;
+    float altitude, pressure, temperature, cal_1, cal_2, cal_3, cal_4, cal_5, cal_6;
 } alt2_data_struct;
     
 void ALTITUDE2_reset();
