@@ -15,7 +15,7 @@ extern "C"{
 
 typedef struct {
     float tvoc, co2, resistor_val;
-}air7_data_struct;
+} air7_data_struct;
     
 void AIRQUALITY7_readData(air7_data_struct *air7_data);  
 
