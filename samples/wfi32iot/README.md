@@ -30,25 +30,25 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 [Air Quality 7 Click](https://www.mikroe.com/air-quality-7-click) is a compact add-on board that combines state-of-the-art MOS sensor technology with intelligent detection algorithms to monitor VOCs and CO2 equivalent variations in confined spaces. This board features the [MiCS-VZ-89TE](http://download.mikroe.com/documents/datasheets/MiCS-VZ-89TE_datasheet.pdf), an integrated sensor module for indoor air quality monitoring from Amphenol. This Click board™, an I2C configurable environmental sensor board, has many features such as low power, wide VOCs detection range, high sensitivity, and high resistance to shocks and vibrations which make it an excellent choice for VOC and CO2 monitoring in confined spaces such as meeting rooms and vehicle cabins, saving energy and reducing cost-of-ownership.
 
-<img src=".//media/AirQuality7.png" style="width:2in;height:2.8in"/>
+![AQ7](media/AirQuality7.png "AQ7")
 
 ### "Altitude 2" Click Board
 
 [Altitude 2 Click](https://www.mikroe.com/altitude-2-click) is a high-resolution barometric pressure sensor add-on Click board™. It carries the [MS5607](https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&&DocId=Data+Sheet%7FMS5607-02BA03%7FB3%7Fpdf%7FEnglish%7FENG_DS_MS5607-02BA03_B3.pdf%7FCAT-BLPS0035), a barometric pressure sensor IC with the stainless steel cap, produced by TE Connectivity. This sensor provides very accurate measurements of temperature and atmospheric pressure, which can be used to calculate the altitude with a very high resolution of 20cm per step. Besides that, the Besides that, the device also includes features such as the ultra-low noise delta-sigma 24bit ADC, low power consumption, fast conversion times, pre-programmed unique compensation values, and more. Low count of external components requirement, along with the simple interface which requires no extensive configuration programming, makes this sensor very attractive for building altitude or air pressure measuring applications.
 
-<img src=".//media/Altitude2.png" style="width:2in;height:2.8in"/>
+![ALT2](media/Altitude2.png "ALT2")
 
 ### "Altitude 4" Click Board
 
 [Altitude 4 Click](https://www.mikroe.com/altitude-4-click) introduces an absolute pressure sensor with digital output for low-cost applications labeled as [NPA-201](http://download.mikroe.com/documents/datasheets/AAS-920-649D-NovaSensor-NPA201-041318-web.pdf). Altitude 4 click employs a MEMS pressure sensor with a signal-conditioning IC to provide accurate pressure measurements from 260 to 1260 mBar. Measurement values are provided at the digital output pins through an I2C interface. This sensor provides NPA-201 Digital Output Absolute Pressure Sensor provides low power consumption and compact size, making it ideal for battery-powered and mobile applications or any application where size is a constraint. In today’s growing market for portable electronics and wearables with multiple parameters being measured, many applications require an accurate measurement of barometric pressure to determine factors such as altitude.
 
-<img src=".//media/Altitude4.png" style="width:2in;height:2.8in"/>
+![ALT4](media/Altitude4.png "ALT4")
 
 ### "PHT" Click Board
 
 [PHT Click](https://www.mikroe.com/pht-click) is a compact add-on board that contains a PHT combo sensor. This board features the [)MS8607](https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&&DocId=Data+Sheet%7FMS8607-02BA01_%7FC3%7Fpdf%7FEnglish%7FENG_DS_MS8607-02BA01__C3.pdf%7FMS860702BA01-50), a digital combination sensor providing 3 environmental measurements all-in-one: pressure, humidity, and temperature from TE Connectivity. This sensor is based on leading MEMS technologies, provides factory-calibrated PHT data available over an I2C serial interface. The standout feature of the MS8607, alongside its very respectable low power consumption at as low as 0.78 µA, is also ultra-low power consumption and high PHT accuracy. This Click board™ is appropriate for environmental monitoring, as well as PHT applications such as HVAC and weather stations.
 
-<img src=".//media/PHT.png" style="width:2in;height:2.8in"/>
+![PHT](media/PHT.png "PHT")
 
 ### T6713 CO2 Sensor on the "PROTO" Click Board
 
@@ -56,9 +56,9 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 [PROTO Click](https://www.mikroe.com/proto-click) is an accessory Click board™ used as a construction base for prototyping electronics in mikroBUS™ form factor. It features a 10x11 prototyping area and additional power pads providing an easy and elegant solution for adding the external connection capability to the Click board™, plugged on a mikroBUS™ socket. This Click board™ represents a cheap and effective solution for creating a board that suits your project needs.
 
-<img src=".//media/T6713.png" style="width:2in;height:2.8in"/>
+![T6713](media/T6713.png "T6713")
 
-<img src=".//media/proto.png" style="width:2in;height:2.8in"/>
+![Proto](media/proto.png "Proto")
 
 ### T9602 Temp&Hum Sensor on the "Terminal 2" Click Board
 
@@ -66,29 +66,27 @@ MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.co
 
 [Terminal 2 Click](https://www.mikroe.com/terminal-2-click) is an adapter Click board™ used as a mikroBUS™ socket expansion board. It provides an easy and elegant solution for adding the external connection capability to the Click board™, plugged on a mikroBUS™ socket. Featuring two 9-position 2.54mm pitch terminal blocks makes it an easy way to expand the development system's connectivity with the mikroBUS™ socket while keeping the bus free to use with any Click board™.
 
-<img src=".//media/T9602.png" style="width:2in;height:2.8in"/>
+![T9602](media/T9602.png "T9602")
 
-<img src=".//media/Terminal2.png" style="width:2in;height:2.8in"/>
+![Terminal2](media/Terminal2.png "Terminal2")
 
 ### "TEMPHUM14" Click Board
 
 [TEMPHUM14 Click](https://www.mikroe.com/temphum-14-click) is a compact add-on board that contains one of the smallest and most accurate humidity and temperature sensors on the market. This board features the [HTU31D](https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Data+Sheet%7FHTU31_RHT_SENSOR_IC%7F3%7Fpdf%7FEnglish%7FENG_DS_HTU31_RHT_SENSOR_IC_3.pdf%7FCAT-HSC0007), a highly accurate digital relative humidity sensor with temperature output from TE Connectivity. With power consumption down to 3.78μW and accuracy of ±2%RH and ±0.2°C, this Click board™ provides fast response time, precision measurement, low hysteresis, and sustained performance even when exposed to extreme temperature up to 125°C and humidity environments. This Click board™ is suitable for relative humidity and temperature measuring applications, including weather stations, reliable monitoring systems, and more.
 
-<img src=".//media/TempHum14.png" style="width:2in;height:2.8in"/>
-
-<br>
+![TH14](media/TempHum14.png "TH14")
 
 ### "Ultra-Low Press" Click Board
 
 [Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click) is a compact add-on board that contains a mountable gage pressure sensor for pneumatic pressure measurements. This board features the [SM8436](https://www.te.com/usa-en/product-8436-BBA-S-500-000.datasheet.pdf), an I2C configurable ultra-low pressure sensor with high accuracy and long-term stability from Silicon Microstructure (part of TE Connectivity). A state-of-the-art MEMS pressure transducer technology and CMOS mixed-signal processing technology produces a digital, fully conditioned, multi-order pressure and temperature compensated sensor like this available in a gage pressure configuration. It also features superior sensitivity needed for ultra-low pressure measurements ranging from 0 to 250Pa Differential / 500 Pa Gauge. Therefore, this Click board™ is suitable for differential pressure measurements found in pressure monitoring applications like building fire safety systems, isolation rooms, and high purity work stations as well as positive pressure solutions found in hospital surgical environments.
 
-<img src=".//media/ULP.png" style="width:2in;height:3.5in"/>
+![ULP](media/ULP.png "ULP")
 
 ### "VAV Press" Click Board
 
 [VAV Press Click](https://www.mikroe.com/vav-press-click) is a compact add-on board that contains a board-mount pressure sensor. This board features the [LMIS025B](https://www.first-sensor.com/cms/upload/datasheets/DS_Standard-LMI_E_11823.pdf), a low differential pressure sensor from First Sensor (part of TE Connectivity). It is based on thermal flow measurement of gas through a micro-flow channel integrated within the sensor chip. The innovative LMI technology features superior sensitivity, especially for ultra-low pressures ranging from 0 to 25 Pa. The extremely low gas flow through the sensor ensures high immunity to dust contamination, humidity, and long tubing compared to other flow-based pressure sensors. This Click board™ is suitable for pressure measurements in Variable Air Volume (VAV) building ventilation systems, industrial, and respiratory applications in medical.
 
-<img src=".//media/VAV.png" style="width:2in;height:3.5in"/>
+![VAV](media/VAV.png "VAV")
 
 ### Stacking Click Boards
 
