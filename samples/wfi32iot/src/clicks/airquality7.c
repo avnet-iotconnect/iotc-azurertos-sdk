@@ -2,7 +2,7 @@
 
 extern APP_SENSORS_DATA APP_SENSORS_data;
 
-static uint8_t AIRQUALITY7_getCRC( uint8_t *data_in, uint8_t data_size );
+static uint8_t AIRQUALITY7_getCRC(uint8_t *data_in, uint8_t data_size);
 
 //This is the function to read the air quality data from the AQ7 click sensor
 void AIRQUALITY7_readData(air7_data_struct *air7_data)
@@ -17,7 +17,7 @@ void AIRQUALITY7_readData(air7_data_struct *air7_data)
     uint8_t rec_data[7] = {0, 0, 0, 0, 0, 0, 0};
     uint8_t crc_calc = 0;
     send_data[ 0 ] = AIRQUALITY7_CMD_GET_STATUS;
-    send_data[ 5 ] = AIRQUALITY7_getCRC( send_data, 5 );
+    send_data[ 5 ] = AIRQUALITY7_getCRC(send_data, 5);
     
     //Send the GET STATUS command
     APP_SENSORS_write(AIRQUALITY7_DEV_ADDR, send_data, 6);
@@ -37,10 +37,10 @@ void AIRQUALITY7_readData(air7_data_struct *air7_data)
     rec_data[5] = APP_SENSORS_data.i2c.rxBuffBytes[5];
     rec_data[6] = APP_SENSORS_data.i2c.rxBuffBytes[6];
     
-    crc_calc = AIRQUALITY7_getCRC( rec_data, 6 );
+    crc_calc = AIRQUALITY7_getCRC(rec_data, 6);
     
     //If CRC does not match
-    if ( crc_calc != rec_data[ 6 ] ) {
+    if ( crc_calc != rec_data[6] ) {
         //Report all zeros
         air7_data->tvoc = 0;
         air7_data->co2 = 0;
@@ -48,14 +48,14 @@ void AIRQUALITY7_readData(air7_data_struct *air7_data)
     
     //Extracting tVOC data
     float calculated_tvoc = 0;
-    calculated_tvoc = rec_data[ 0 ] - 13;
+    calculated_tvoc = rec_data[0] - 13;
     calculated_tvoc *= 1000;
     calculated_tvoc /= 229;
     air7_data->tvoc = calculated_tvoc;
     
     //Extracting CO2 data
     float calculated_co2 = 0;
-    calculated_co2 = rec_data[ 1 ] - 13;
+    calculated_co2 = rec_data[1] - 13;
     calculated_co2 *= 1600;
     calculated_co2 /= 229;
     calculated_co2 += 400;
@@ -63,9 +63,9 @@ void AIRQUALITY7_readData(air7_data_struct *air7_data)
     
     //Extracting resistor value data
     uint32_t calculated_resistor_val = 0;
-    calculated_resistor_val = (uint32_t)( rec_data[ 2 ] * 65536 );
-    calculated_resistor_val += (uint16_t)( rec_data[ 3 ] * 256 );
-    calculated_resistor_val += rec_data[ 4 ];
+    calculated_resistor_val = (uint32_t)( rec_data[2] * 65536 );
+    calculated_resistor_val += (uint16_t)( rec_data[3] * 256 );
+    calculated_resistor_val += rec_data[4];
     calculated_resistor_val *= 10;
     air7_data->resistor_val = (float)calculated_resistor_val;
 }
@@ -83,25 +83,25 @@ void airquality7_set_ppmco2(unsigned long ppmco2_value)
     tmp_data[4] = (ppmco2_value >> 0) & 0xFF;
     
     //6th byte is CRC
-    tmp_data[ 5 ] = AIRQUALITY7_getCRC( tmp_data, 5 );
+    tmp_data[ 5 ] = AIRQUALITY7_getCRC(tmp_data, 5);
     
     APP_SENSORS_write(AIRQUALITY7_DEV_ADDR, tmp_data, 6);
 }
 
 //This function retrieves the CRC value from incoming data.
-static uint8_t AIRQUALITY7_getCRC( uint8_t *data_in, uint8_t data_size )
+static uint8_t AIRQUALITY7_getCRC(uint8_t *data_in, uint8_t data_size)
 {
     uint8_t crc = 0x00;
     uint8_t cnt = 0x00;
     uint16_t sum = 0x0000;
  
-    for ( cnt = 0; cnt < data_size; cnt++ ) {
+    for (cnt = 0; cnt < data_size; cnt++) {
         sum += *data_in;
         data_in++;
     }
     
     crc = sum;
-    crc += ( sum / 0x0100 );
+    crc += (sum / 0x0100);
     crc = 0xFF - crc;
 
     return crc;
