@@ -247,7 +247,8 @@ static void publish_telemetry(struct click_board_connections click_board_detecti
         ALTITUDE2_readData(&alt2_data);
         //Report data pulled from readData function output
         iotcl_telemetry_set_number(msg, "ALT2_Temp_DegC", alt2_data.temperature);
-        iotcl_telemetry_set_number(msg, "ALT2_Pressure_mBar", alt2_data.pressure);  
+        iotcl_telemetry_set_number(msg, "ALT2_Pressure_mBar", alt2_data.pressure);
+	iotcl_telemetry_set_number(msg, "ALT2_Altitude_m", alt2_data.altitude);
     } 
     
     
