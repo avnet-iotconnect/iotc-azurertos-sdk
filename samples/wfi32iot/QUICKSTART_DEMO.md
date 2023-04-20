@@ -12,10 +12,14 @@ to set up the device with IoTConnect.
 
 The Click board interface makes it possible to make use of hundreds of different Click boards from MikroE.
 The [VAV Press Click](https://www.mikroe.com/vav-press-click) 
-,[Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click)
-,[PHT Click](https://www.mikroe.com/pht-click)
-,[TEMP&HUM 14 click](https://www.mikroe.com/temphum-14-click)
-and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
+, [Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click)
+, [PHT Click](https://www.mikroe.com/pht-click)
+, [TEMP&HUM 14 click](https://www.mikroe.com/temphum-14-click)
+, [Telaire T6713 CO2 Sensor Module](https://www.amphenol-sensors.com/en/telaire/co2/525-co2-sensor-modules/3399-t6713) on the [PROTO Click](https://www.mikroe.com/proto-click)
+, [Telaire T9602 IP67 Harsh Environment Humidity & Temperature Sensor](https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3224-t9602) on the [Terminal 2 Click](https://www.mikroe.com/terminal-2-click)
+, [Air Quality 7 click](https://www.mikroe.com/air-quality-7-click)
+, [Altitude 4 Click](https://www.mikroe.com/altitude-4-click)
+, and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
 boards are directly supported by the demo software and provide 
 the ability to send sensor readings from these boards directly to IoTConnect.
 
@@ -69,6 +73,10 @@ A 2-Month Test Drive is available through the [IoTConnect Subscription Site](htt
   * Click **Save**
 * On the same page, click the Attributes tab.
 * Add a field to the list of attributes called "version" of type **STRING** 
+* Add the following **STRING** fields to the list of attributes:
+  * *AIR7_Status* - Tells whether the Air Quality 7 Click board is warming up or is ready to report data.
+  * *T6713_Status* - Tells whether the T6713 Sensor on the Proto Click board is warming up or is ready to report data.
+  * *T9602_Status* - Tells whether the T9602 Sensor on the Terminal 2 Click board is warming up or is ready to report data.
 * Add the following **NUMERIC** fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
   * *WFI32IoT_temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the WFI32-IoT.
   * *WFI32IoT_light* - The amount light value reported by the light sensor on the WFI32-IoTboard.
@@ -76,10 +84,10 @@ A 2-Month Test Drive is available through the [IoTConnect Subscription Site](htt
   * *WFI32IoT_button2* - Will be set to 1, if button 2 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
   * *WFI32IoT_button1_count* - The number of times that button 1 was pressed since the board started or "reset-counters" command (see below) was issued. 
   * *WFI32IoT_button1_count* - The number of times that button 2 was pressed since the board started or "reset-counters" command (see below) was issued. 
-  * *ULP_pressure* - Air pressure measured on the Ultra-Low Press Click Board.
-  * *ULP_temperature* - Temperature measured on the Ultra-Low Press Click Board.
-  * *VAV_pressure* - Air pressure measured on the VAV Press Click Board.
-  * *VAV_temperature* - Temperature measured on the VAV Press Click Board.
+  * *ULP_Pressure_Pa* - Air pressure (in Pascals) measured on the Ultra-Low Press Click Board.
+  * *ULP_Temp_DegC* - Temperature (in degrees Celsius) measured on the Ultra-Low Press Click Board.
+  * *VAV_Pressure_Pa* - Air pressure (in Pascals) measured on the VAV Press Click Board.
+  * *VAV_Temp_DegC* - Temperature (in degrees Celsius) measured on the VAV Press Click Board.
   * *ALT2_altitude* - Altitude above sea level measured on the Altitude 2 Press Click Board. 
   * *ALT2_temperature* - Temperature measured on the Altitude 2 Press Click Board.
   * *ALT2_pressure* - Air pressure measured on the Altitude 2 Press Click Board.
