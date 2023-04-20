@@ -8,12 +8,9 @@ int16_t VAVPRESS_2sCompToDecimal(uint16_t twos_compliment_val)
     uint16_t sign_mask = 0x8000;
 
     // if positive
-    if ( (twos_compliment_val & sign_mask) == 0 ) {
+    if ((twos_compliment_val & sign_mask) == 0) {
         return twos_compliment_val;
-    } 
-    
-    //  if negative
-    else {
+    } else {
         // invert all bits, add one, and make negative
         return -(~twos_compliment_val + 1);
     }
@@ -65,7 +62,7 @@ void VAVPRESS_getSensorReadings(vav_data_struct *vav_data)
     raw_pressure = raw_pressure << 8;
     raw_pressure = raw_pressure | APP_SENSORS_data.i2c.rxBuffBytes[0];
     int16_t converted_pressure = VAVPRESS_2sCompToDecimal(raw_pressure);
-    float corrected_pressure = ( float ) converted_pressure;
+    float corrected_pressure = (float) converted_pressure;
     corrected_pressure /= 1200.0;
     vav_data->pressure = corrected_pressure;
   
@@ -75,7 +72,7 @@ void VAVPRESS_getSensorReadings(vav_data_struct *vav_data)
     raw_temperature = raw_temperature << 8;
     raw_temperature = raw_temperature | APP_SENSORS_data.i2c.rxBuffBytes[2];
     int16_t converted_temperature = VAVPRESS_2sCompToDecimal(raw_temperature);
-    float corrected_temperature = ( float ) converted_temperature;
+    float corrected_temperature = (float) converted_temperature;
     corrected_temperature -= 105.0;
     corrected_temperature /= 72.0;
     corrected_temperature += 23.1; 
