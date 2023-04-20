@@ -29,7 +29,7 @@ extern "C"{
 
 typedef struct {
     float temperature, pressure;
-}ulp_data_struct;
+} ulp_data_struct;
     
 uint32_t ULTRALOWPRESS_init();
 
