@@ -8,12 +8,9 @@ int16_t ULTRALOWPRESS_2sCompToDecimal(uint16_t twos_compliment_val)
     uint16_t sign_mask = 0x8000;
 
     // if positive
-    if ( (twos_compliment_val & sign_mask) == 0 ) {
+    if ((twos_compliment_val & sign_mask) == 0) {
         return twos_compliment_val;
-    } 
-    
-    //  if negative
-    else {
+    } else {
         // invert all bits, add one, and make negative
         return -(~twos_compliment_val + 1);
     }
@@ -44,8 +41,8 @@ bool ULTRALOWPRESS_isReady()
     APP_SENSORS_writeReadWords(ULTRALOWPRESS_I2CADDR, ULTRALOWPRESS_REG_STATUS, 2);
     status_reg = APP_SENSORS_data.i2c.rxBuffWords[0];
     
-    return ( status_reg & ULTRALOWPRESS_STATUS_TEMP_MASK ) && 
-            ( status_reg & ULTRALOWPRESS_STATUS_PRESS_MASK );
+    return (status_reg & ULTRALOWPRESS_STATUS_TEMP_MASK) && 
+            (status_reg & ULTRALOWPRESS_STATUS_PRESS_MASK);
 }
 
 //This function reads the temperature and pressure
@@ -68,14 +65,14 @@ void ULTRALOWPRESS_getData(ulp_data_struct *ulp_data)
     //Convert to decimal value
     decimal = ULTRALOWPRESS_2sCompToDecimal(APP_SENSORS_data.i2c.rxBuffWords[0]);
     //Scale the value to actual
-    ulp_data->temperature = ( (decimal - ULTRALOWPRESS_B0) / ULTRALOWPRESS_B1 );
+    ulp_data->temperature = ((decimal - ULTRALOWPRESS_B0) / ULTRALOWPRESS_B1);
 
     //Send command to read pressure
     APP_SENSORS_writeReadWords(ULTRALOWPRESS_I2CADDR, ULTRALOWPRESS_REG_PRESS, 2);
     //Convert to decimal value
     decimal = ULTRALOWPRESS_2sCompToDecimal(APP_SENSORS_data.i2c.rxBuffWords[0]);
     //Scale the value to actual
-    ulp_data->pressure = -20.0 + ( ( decimal + 26215.0 ) / ( 26214.0 + 26215.0 ) ) * (520);
+    ulp_data->pressure = -20.0 + ((decimal + 26215.0) / (26214.0 + 26215.0)) * (520);
 }
 
 // ------------------------------------------------------------------------- END
