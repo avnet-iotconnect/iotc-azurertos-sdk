@@ -41,7 +41,7 @@ extern "C"{
 
 typedef struct {
     float humidity, temperature;
-}temphum14_data_struct;
+} temphum14_data_struct;
     
 uint32_t TEMPHUM14_init ( uint8_t addr );
 
