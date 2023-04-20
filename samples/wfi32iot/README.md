@@ -22,7 +22,7 @@ The WFI32E01 Development Board, like many Microchip development boards, features
 
 The standard specifies the physical layout of the mikroBUS™ pinout, the communication and power supply pins used, the positioning of the mikroBUS™ socket on the mainboard, and finally, the silkscreen marking conventions for both the sockets. The purpose of mikroBUS™ is to enable easy hardware expandability with a large number of standardized compact add-on boards, each one carrying a single sensor, transceiver, display, encoder, motor driver, connection port, or any other electronic module or integrated circuit. Created by [MikroElektronika](https://www.mikroe.com), mikroBUS™ is an open standard — anyone can implement mikroBUS™ in their hardware design.
 
-<img src=".//media/image8.png" style="width:4in;height:5in"/>
+![WFI32 Image](media/image8t.png "WFI32 Image")
 
 MikroElektronika manufactures hundreds of ["Click" boards](https://www.mikroe.com/click) which conform to the mikroBUS™ standard. While the existing library of Click boards covers the majority of use cases, there are also customizable Click board options that allow users to connect other 3rd-party sensors to the WFI32E01 using mikroBUS™. This demonstration currently supports the optional addition of up to 9 MikroElektronika Click boards which feature various sensors.
 
