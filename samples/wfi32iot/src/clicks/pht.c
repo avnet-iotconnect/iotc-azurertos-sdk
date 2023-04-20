@@ -137,9 +137,9 @@ void PHT_readData(pht_data_struct *pht_data)
     
     APP_SENSORS_justRead(PHT_I2C_SLAVE_ADDR_RH, 2);
         
-    uint32_t raw_humidity = APP_SENSORS_data.i2c.rxBuffBytes[ 0 ];
+    uint32_t raw_humidity = APP_SENSORS_data.i2c.rxBuffBytes[0];
     raw_humidity = raw_humidity << 8;
-    raw_humidity = raw_humidity | APP_SENSORS_data.i2c.rxBuffBytes[ 1 ];
+    raw_humidity = raw_humidity | APP_SENSORS_data.i2c.rxBuffBytes[1];
     float corrected_humidity = (float)raw_humidity;
     corrected_humidity *= 12500.0;
     corrected_humidity /= 65536.0;
