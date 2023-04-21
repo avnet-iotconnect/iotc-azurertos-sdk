@@ -21,12 +21,12 @@ If contributing to this project, follow the [contributing guidelines](CONTRIBUTI
 * If using the STM32U5, you should follow the initial [QUICKSTART_DEMO.md](samples/stm32u5/QUICKSTART_DEMO.md) 
 located in the sample directory. Note that software X509 mutual authentication is also supported with the board but the 
 steps are described in this document.
-* Download the project files from Releases pages in this repo. This option is not supported for STM32U5.
+* Download the project files from the [Releases page](releases) in this repo. This option is not supported for STM32U5.
 * Optionally, you can directly clone this repo. After cloning, execute [setup-project.sh](scripts/setup-project.sh]). 
 On Windows, you will need bash installed with MSYS2 or similar. Alternatively, install a Linux distribution through the Windows Store 
 and run it via. Windows Subsystem for Linux.   
 * For STM32L4:
-  * Download and install STM32CubeIDE 
+  * Download and install STM32CubeIDE.
   * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
   * This board contains a sensors-demo in addition to the basic-sample. 
     The basic-sample project contains a simple example how to send data to IoTConnect.
