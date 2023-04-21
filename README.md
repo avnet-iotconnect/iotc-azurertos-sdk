@@ -21,7 +21,7 @@ If contributing to this project, follow the [contributing guidelines](CONTRIBUTI
 * If using the STM32U5, you should follow the initial [QUICKSTART_DEMO.md](samples/stm32u5/QUICKSTART_DEMO.md) 
 located in the sample directory. Note that software X509 mutual authentication is also supported with the board but the 
 steps are described in this document.
-* Download the project files from the [Releases page](releases) in this repo. This option is not supported for STM32U5.
+* Download and extract the project package for your board from the [Releases page](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) in this repo. This option is not supported for STM32U5.
 * Optionally, you can directly clone this repo. After cloning, execute [setup-project.sh](scripts/setup-project.sh]). 
 On Windows, you will need bash installed with MSYS2 or similar. Alternatively, install a Linux distribution through the Windows Store 
 and run it via. Windows Subsystem for Linux.   
