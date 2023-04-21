@@ -1,6 +1,6 @@
 <!-- Screenshots are 1920 pixels wide and treated as 75%, smaller images with widths < 1920 pixels are scaled relatively to match -->
 
-# Renesas RX65NX Cloud Kit Quickstart Guide
+# IoTConnect Developer Guide for Renesas RX65NX Cloud Kit
 
 This document is intended to introduce the use of the green Renesas RX65N Cloud
 Kit board(s), using the rx65ncloudkit sample project, with IoTConnect.
