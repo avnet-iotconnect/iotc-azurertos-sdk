@@ -1,5 +1,5 @@
 
-# Renesas CK-RX65N Quickstart Guide
+# IotConnect Developer Guide for Renesas CK-RX65N
 
 This document is intended to introduce the use of the blue Renesas CK-RX65N
 board, using the ck-rx65n sample project, with IoTConnect.
