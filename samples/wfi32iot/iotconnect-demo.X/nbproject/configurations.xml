@@ -2879,7 +2879,6 @@
     <Elem>../../../../../../Microchip/Harmony3/cryptoauthlib/lib/hal</Elem>
     <Elem>../iotc-azrtos-sdk</Elem>
     <Elem>../basic-sample</Elem>
-    <Elem>../../../../../iotc-azurertos-sdk/samples/wfi32iot/src/clicks</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
