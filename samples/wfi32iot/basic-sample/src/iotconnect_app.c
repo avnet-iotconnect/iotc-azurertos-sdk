@@ -47,7 +47,7 @@ static IotcAuthInterfaceContext auth_driver_context = NULL;
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 #endif
-#define APP_VERSION "01.00.00"
+#define APP_VERSION "01.01.00"
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
