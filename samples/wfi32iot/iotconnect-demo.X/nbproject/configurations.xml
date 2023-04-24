@@ -937,7 +937,6 @@
                      projectFiles="true">
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
-            <itemPath>../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
             <itemPath>../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/azrtos_ota_fw_client.h</itemPath>
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
