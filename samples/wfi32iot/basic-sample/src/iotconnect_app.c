@@ -368,10 +368,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     
     //Declare connection struct and initialize all values to false
     struct click_board_connections click_board_detection = {0};
-    
-    //Time in-between data reportings (ms)
-    int loop_time = 5000;
-    
+       
     //Keep track of the program start time so warm-up times for sensors can be honored
     time_t start_time = time(NULL);
 
@@ -570,7 +567,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        //MAIN LOOP
+        //MAIN LOOP  36000 * 2 seconds = 20 hourhs
         for (int cycles = 0; cycles < 36000; cycles++) {
             if (iotconnect_sdk_is_connected()) {
                 publish_telemetry(click_board_detection, start_time);
@@ -578,7 +575,7 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
                 LED_YELLOW_On();
                 iotconnect_sdk_poll(500);
                 LED_YELLOW_Off();
-                iotconnect_sdk_poll(4500);
+                iotconnect_sdk_poll(1500);
             } else {
                 return false;
             }
