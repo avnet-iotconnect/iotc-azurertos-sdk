@@ -27,7 +27,7 @@ set -e
 
 show_help() {
   echo "Usage: $0 <project_name>"
-  echo "Available projects: stm32l4, mimxrt1060, same54xpro, " \
+  echo "Available projects: stm32l4, stm32u5, mimxrt1060, same54xpro, " \
       "same54xprov2, maaxboardrt, ck-rx65n (Blue PCB, Ethernet supported, TSIP supported), rx65ncloudkit (Green PCB, Wifi supported, no TSIP support), wfi32iot"
 }
 
@@ -85,6 +85,7 @@ create_iotc_azrtos_symlinks() {
   git clean -Xdf || true;
   popd > /dev/null
 
+  mkdir -p $target_dir
   pushd $target_dir >/dev/null
   for f in $source_dir/*; do
     target=$(basename $f)
@@ -301,7 +302,7 @@ case "$name" in
     git_hide_config_files
   ;;
   stm32u5)
-    cube_zip_name='en.x-cube-azure_v2-1-0.zip'
+    cube_zip_name='en.x-cube-azure-v2-2-0.zip'
     if [ ! -f ${cube_zip_name} ]; then
       echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
       exit -2
@@ -310,16 +311,12 @@ case "$name" in
     rm -rf STM32CubeExpansion_Cloud_AZURE_*
 
     echo "Extracting files from ${cube_zip_name}..."
-    ${UNZIP} ${cube_zip_name}
+    ${UNZIP} -q ${cube_zip_name}
     pushd STM32CubeExpansion_Cloud_AZURE_*/ >/dev/null
     echo "Copying files from the package over the repository files..."
     cp -nr Drivers Middlewares Projects Utilities .. # do not overwrite existing files
     popd >/dev/null
     rm -rf STM32CubeExpansion_Cloud_AZURE_*
-
-    # remove extra projects to make it simpler for the user to set up
-    find . -name '.cproject' | grep -v NetXDuo | xargs rm -f
-    find . -name '.project' | grep -v NetXDuo | xargs rm -f
 
   ;;
   stm32l4 | mimxrt1060 | same54xpro | ck-rx65n | rx65ncloudkit)

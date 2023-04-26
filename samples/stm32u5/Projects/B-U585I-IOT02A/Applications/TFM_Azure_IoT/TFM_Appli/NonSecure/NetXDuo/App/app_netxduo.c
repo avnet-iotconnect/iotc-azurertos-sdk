@@ -27,6 +27,12 @@
 #include "nx_ip.h"
 #include "nxd_sntp_client.h"
 #include "app_azure_iot.h"
+#include "azrtos_time.h"
+#include "app_config.h"
+
+// avoid warnings for duplicate WIFI_SSID/WIFI_PASSWORD definitions
+// We don't use any of those defines
+
 
 #if (USE_CELLULAR == 1)
 #include "nx_driver_stm32_cellular.c"
@@ -34,8 +40,6 @@
 #if (USE_WIFI == 1)
 #include "nx_driver_emw3080.c"
 #endif /* USE_WIFI == 1 */
-#include "azrtos_time.h"
-#include "app_config.h"
 
 /* USER CODE END Includes */
 
@@ -58,7 +62,8 @@ NX_IP                 IpInstance;
 NX_DHCP               DhcpClient;
 #endif /* DHCP_DISABLE */
 static NX_DNS         DnsClient;
-#if 0
+
+#if 0 // Move SNTP functionality to the IoTConnect SDK
 static NX_SNTP_CLIENT SntpClient;
 #endif
 
@@ -108,7 +113,12 @@ ULONG   NetMask;
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 /* System clock time for UTC.  */
-#if 0
+//#define ROUTE_MALLOC_TO_TX_BYTE_POOL
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+static TX_BYTE_POOL malloc_pool;
+#endif
+
+#if 0 // Move SNTP functionality to the IoTConnect SDK
 static ULONG            unix_time_base;
 
 static const char *sntp_servers[] =
@@ -118,6 +128,7 @@ static const char *sntp_servers[] =
   "2.pool.ntp.org",
   "3.pool.ntp.org"
 };
+
 
 static UINT sntp_server_index;
 #endif
@@ -142,11 +153,16 @@ static VOID App_Main_Thread_Entry(ULONG thread_input);
 static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input);
 static VOID ip_address_change_notify_callback(NX_IP *ip_instance, VOID *ptr);
 
-#if 0
+#if 0 // Move SNTP functionality to the IoTConnect SDK
 static UINT unix_time_get(ULONG *unix_time);
-
 static UINT sntp_time_sync_internal(ULONG sntp_server_address);
 static UINT sntp_time_sync(VOID);
+#endif
+
+// this a not fully tested implementation
+// of malloc that can be routed to a byte pool
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+static UCHAR malloc_pool_buff[8 * 1024];
 #endif
 
 /* USER CODE END PFP */
@@ -167,6 +183,18 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
   /* USER CODE BEGIN MX_NetXDuo_Init */
 #if (USE_STATIC_ALLOCATION == 1)
   printf("Start Azure IoT application...\r\n");
+
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+  if (tx_byte_pool_create(&malloc_pool,
+		  "Heap Memory Pool",
+          (void *)malloc_pool_buff,
+		  sizeof(malloc_pool_buff))
+  	  ) {
+	    printf("tx_byte_pool_create (malloc_pool) fail\r\n");
+	    return TX_POOL_ERROR;
+  }
+#endif
+
 
   CHAR *pointer;
   
@@ -300,11 +328,42 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
   
   /* set IpAddr notification callback  */
   tx_semaphore_create(&IpAddrSemaphore, "IpAddr Semaphore", 0);
-#endif 
+#endif
   /* USER CODE END MX_NetXDuo_Init */
 
   return ret;
 }
+#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
+void * malloc(size_t size)
+{
+    void * ptr = NULL;
+
+    if(size > 0)
+    {
+        // We simply wrap the threadX call into a standard form
+        uint8_t r = tx_byte_allocate(&malloc_pool, &ptr, size, TX_NO_WAIT);
+
+        if(r != TX_SUCCESS)
+        {
+            ptr = NULL;
+        }
+    }
+    //else NULL if there was no size
+
+    return ptr;
+}
+
+void free(void * ptr)
+{
+    if(ptr) {
+        //We simply wrap the threadX call into a standard form
+        UINT ret = tx_byte_release(ptr);
+        if (ret) {
+        	printf("tx_byte_release error 0x%x\r\n", ret);
+        }
+    }
+}
+#endif
 
 /* USER CODE BEGIN 1 */
 /**
@@ -355,7 +414,7 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
     printf("IpAddrSemaphore timeout fail\r\n");
     Error_Handler();
   }
-  
+
   ret = nx_ip_address_get(&IpInstance, &IpAddress, &NetMask);
   
   if (ret != TX_SUCCESS)
@@ -432,6 +491,7 @@ UINT dns_create(NX_DNS *dns_ptr)
 * @param  thread_input: ULONG user argument used by the thread entry
 * @retval none
 */
+
 static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
 {
   UINT ret = NX_SUCCESS;
@@ -446,7 +506,6 @@ static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
   }
   
     /* Sync up time by SNTP at start up. */
-
   ret = sntp_time_sync(&IpInstance, &AppPool, &DnsClient, SAMPLE_SNTP_SERVER_NAME);
 
   /* Check status.  */
@@ -457,12 +516,15 @@ static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
   }
 
   /* run Azure IoT application code */
+  //app_azure_iot_entry(&IpInstance, &AppPool, &DnsClient, unix_time_get);
+  /* run Azure IoT application code */
   extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 
   app_startup(&IpInstance, &AppPool, &DnsClient);
 }
 
-#if 0
+#if 0 // Delegate SNTP functionality to the IoTConnect SDK
+
 
 static UINT unix_time_get(ULONG *unix_time)
 {

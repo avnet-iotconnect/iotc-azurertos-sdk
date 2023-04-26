@@ -6,6 +6,7 @@
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
+// for the TFM application, we will conflict on the WiFi SSID. It's supposed to be configured via console.
 #define WIFI_SSID       "your WiFi SSID"
 #define WIFI_PASSWORD   "your WiFi password"
 

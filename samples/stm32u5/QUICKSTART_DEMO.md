@@ -11,7 +11,7 @@ The software must be built and programmed onto the board by using the following 
 * If on Windows, download and install [MSYS2](https://www.msys2.org/). [WSL](https://learn.microsoft.com/en-us/windows/wsl/about) or GIT Bash may also work.
 * Ensure that you have git command line installed. If on Windows, you can use [this link](https://gitforwindows.org/).   
 * Clone this repo
-* Download the [X-CUBE-AZURE Expansion Package](https://www.st.com/en/embedded-software/x-cube-azure.html) version 2.1.0, 
+* Download the [X-CUBE-AZURE Expansion Package](https://www.st.com/en/embedded-software/x-cube-azure.html) version 2.2.0, 
 and place the zip into the [samples/stm32u5](samples/stm32u5) directory.
 * In a bash shell, execute:
 
@@ -22,8 +22,11 @@ scripts/setup-project.sh stm32u5
 
 * Download, install and open the [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html).
 * In STM32CubeIDE, select *File -> Open Projects from File System*.
-* Select the [samples/stm32u5](samples/stm32u5) directory of this repo in the dialog box and click *Finish*.
-* Uncheck the stm32u5 root project and leave the other project checked like this:
+* Select the generated 
+[samples/stm32u5/samples/stm32u5/Projects/B-U585I-IOT02A/Applications/NetXDuo](samples/stm32u5/samples/stm32u5/Projects/B-U585I-IOT02A/Applications/NetXDuo) 
+directory of this repo in the dialog box and click *Finish*.
+* Note that the TFM_Azure_IoT project is supported by the build process but is still work in progress.
+* Uncheck the **NetXDuo** root project and leave the other project checked like this:
 
 ![Import Project Screenshot](media/import-project.png "Import Project Screenshot]")
 

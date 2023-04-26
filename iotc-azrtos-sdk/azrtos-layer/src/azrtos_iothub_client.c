@@ -35,10 +35,11 @@
 #endif /* NX_AZURE_IOT_THREAD_PRIORITY */
 
 /* Define Azure RTOS TLS info.  */
+// Note: GLOBAL This buffer is used by HTTP in special cases
+UCHAR nx_azure_iot_tls_metadata_buffer[NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE];
 static NX_SECURE_X509_CERT root_ca_cert;
 static NX_SECURE_X509_CERT root_ca_cert_2;
 static NX_SECURE_X509_CERT root_ca_cert_3;
-static UCHAR nx_azure_iot_tls_metadata_buffer[NX_AZURE_IOT_TLS_METADATA_BUFFER_SIZE];
 static ULONG nx_azure_iot_thread_stack[NX_AZURE_IOT_STACK_SIZE / sizeof(ULONG)];
 
 /* Define the prototypes for AZ IoT.  */

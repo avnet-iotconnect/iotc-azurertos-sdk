@@ -15,11 +15,13 @@
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 #include "std_component.h"
+#include "metadata.h"
+#include "stm32_tfm_psa_auth_driver.h"
 
-static STD_COMPONENT std_comp;
+extern STD_COMPONENT std_comp; // use the instance in app_azure_iot.c, as that one is linked to the button counter
+static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
-
 
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 
@@ -153,13 +155,13 @@ static void on_connection_status(IotConnectConnectionStatus status) {
         break;
     }
     if (NULL != auth_driver_context) {
-    	release_sw_der_auth_driver(auth_driver_context);
+    	stm32_tfm_psa_release_auth_driver(auth_driver_context);
     	auth_driver_context = NULL;
     }
 }
 
 static void publish_telemetry() {
-    IotclMessageHandle msg = iotcl_telemetry_create();
+    IotclMessageHandle msg = iotcl_telemetry_create(iotconnect_sdk_get_lib_config());
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
@@ -227,56 +229,83 @@ void app_on_user_button_pushed(void) {
 
 /* Include the sample.  */
 bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+
     printf("Starting App Version %s\r\n", APP_VERSION);
+
+    metadata_storage* md = metadata_get_values();
+
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
-	UINT status;
+    config->cpid = md->cpid;
+    config->env = md->env;
+    config->duid = md->duid; // custom device ID
 
+    if (!md->cpid || !md->env || strlen(md->cpid) == 0 || strlen(md->env) == 0) {
+    	printf("ERROR: CPID and Environment must be set in settings\r\n");
+    }
+    
+	UINT status;
     if ((status = std_component_init(&std_comp, (UCHAR *)std_component_name,  sizeof(std_component_name) - 1))) {
         printf("Failed to initialize %s: error code = 0x%08x\r\n", std_component_name, status);
     }
 
-    config->cpid = IOTCONNECT_CPID;
-    config->env = IOTCONNECT_ENV;
-#ifdef IOTCONNECT_DUID
-    config->duid = IOTCONNECT_DUID; // custom device ID
-#else
-    printf("ERROR: IOTCONNECT_DUID must be defined\r\n");
-#endif
     config->cmd_cb = on_command;
     config->ota_cb = on_ota;
     config->status_cb = on_connection_status;
 
-#ifdef IOTCONNECT_SYMETRIC_KEY
-    config->auth.type = IOTC_KEY;
-    config->auth.data.symmetric_key = IOTCONNECT_SYMETRIC_KEY;
-#else
-    config->auth.type = IOTC_X509;
+    if(md->symmetric_key && strlen(md->symmetric_key) > 0) {
+		config->auth.type = IOTC_KEY;
+		config->auth.data.symmetric_key = md->symmetric_key;
+    } else {
+    	config->auth.type = IOTC_X509;
 
+        auth_driver_context = NULL;
+        struct stm32_tfm_psa_driver_parameters parameters = {0}; // dummy, for now
+        IotcDdimInterface ddim_interface;
+        IotcAuthInterfaceContext auth_context;
+        if(stm32_tfm_psa_create_auth_driver( //
+                &(config->auth.data.x509.auth_interface), //
+                &ddim_interface, //
+                &auth_context, //
+                &parameters)) { //
+            return false;
+        }
+        config->auth.data.x509.auth_interface_context = auth_context;
 
-extern const UCHAR sample_device_cert_ptr[];
-extern const UINT sample_device_cert_len;
-extern const UCHAR sample_device_private_key_ptr[];
-extern const UINT sample_device_private_key_len;
-struct sw_der_driver_parameters dp = {0};
-dp.cert = (uint8_t *) (sample_device_cert_ptr);
-dp.cert_size = sample_device_cert_len;
-dp.key = (uint8_t *) (sample_device_private_key_ptr);
-dp.key_size = sample_device_private_key_len;
-dp.crypto_method = &crypto_method_ec_secp256;
-if(create_sw_der_auth_driver( //
-			&(config->auth.data.x509.auth_interface), //
-			&(config->auth.data.x509.auth_interface_context), //
-			&dp)) { //
-		return false;
-	}
-auth_driver_context = config->auth.data.x509.auth_interface_context;
+        uint8_t* cert;
+        size_t cert_size;
 
+        config->auth.data.x509.auth_interface.get_cert(
+                auth_context, //
+                &cert, //
+                &cert_size //
+                );
+        if (0 == cert_size) {
+            printf("Unable to get the certificate from the driver.\r\n");
+            stm32_tfm_psa_release_auth_driver(auth_context);
+            return false;
+        }
 
-#endif // IOTCONNECT_SYMETRIC_KEY
+        char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+        if (NULL == operational_cn) {
+            stm32_tfm_psa_release_auth_driver(auth_context);
+            printf("Unable to get the certificate common name.\r\n");
+            return false;
+        }
+        if (!md->duid || strlen(md->duid) == 0) {
+            printf("Using certificate CN as DUID.\r\n");
+            strcpy(duid_buffer, operational_cn);
+            config->duid = duid_buffer;
+        } else {
+            printf("Obtained certificate with CN: %s.\r\n", operational_cn);
+        }
+        printf("DUID: %s\r\n", config->duid);
+
+        auth_driver_context = auth_context;
+    }
 
     while (true) {
 #ifdef MEMORY_TEST

@@ -132,7 +132,7 @@
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level.1203288009" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.1345939517" name="MCU GCC Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker">
-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.882011391" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" useByScannerDiscovery="false" value="${workspace_loc:/${ProjName}/STM32U585AIIX_FLASH.ld}" valueType="string"/>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.882011391" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" value="${workspace_loc:/${ProjName}/STM32U585AIIX_FLASH.ld}" valueType="string"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input.511049910" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -150,7 +150,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/iotc-c-lib/tests/telemetry.c|iotc-azrtos-sdk/iotc-c-lib/tests/event.c|iotc-azrtos-sdk/iotc-c-lib/tests/discovery.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/libTO/Sources/src/utils.c|iotc-azrtos-sdk/libTO/Sources/src/sse_driver.c|iotc-azrtos-sdk/libTO/Sources/src/sha256.c|iotc-azrtos-sdk/libTO/Sources/src/selftest.c|iotc-azrtos-sdk/libTO/Sources/src/seclink.c|iotc-azrtos-sdk/libTO/Sources/src/seclink_none.c|iotc-azrtos-sdk/libTO/Sources/src/log.c|iotc-azrtos-sdk/libTO/Sources/src/hse_driver.c|iotc-azrtos-sdk/libTO/Sources/src/helper_tls.c|iotc-azrtos-sdk/libTO/Sources/src/helper_measured_boot.c|iotc-azrtos-sdk/libTO/Sources/src/helper_certs.c|iotc-azrtos-sdk/libTO/Sources/src/driver_client.c|iotc-azrtos-sdk/libTO/Sources/src/api_tls.c|iotc-azrtos-sdk/libTO/Sources/src/api_system.c|iotc-azrtos-sdk/libTO/Sources/src/api_nvm.c|iotc-azrtos-sdk/libTO/Sources/src/api_measure.c|iotc-azrtos-sdk/libTO/Sources/src/api_mac.c|iotc-azrtos-sdk/libTO/Sources/src/api_lora.c|iotc-azrtos-sdk/libTO/Sources/src/api_loader.c|iotc-azrtos-sdk/libTO/Sources/src/api_keys.c|iotc-azrtos-sdk/libTO/Sources/src/api_hash.c|iotc-azrtos-sdk/libTO/Sources/src/api_encrypt.c|iotc-azrtos-sdk/libTO/Sources/src/api_core.c|iotc-azrtos-sdk/libTO/Sources/src/api_auth.c|iotc-azrtos-sdk/libTO/Sources/src/api_admin.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/gcm.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/aes-gcm-sw.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/aes.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -300,7 +300,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/iotc-c-lib/tools|iotc-azrtos-sdk/iotc-c-lib/tests|iotc-azrtos-sdk/libTO|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Application/User/NetXDuo/Addons_IoT/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota/src/azrtos_ota_fw_client.c|iotc-azrtos-sdk/iotc-c-lib/tests/telemetry.c|iotc-azrtos-sdk/iotc-c-lib/tests/event.c|iotc-azrtos-sdk/iotc-c-lib/tests/discovery.c|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/cJSON/cJSON_Utils.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client/nx_web_http_client.c|Middlewares/Interfaces/Network/wifi/nx_driver_emw3080.c|Middlewares/Interfaces/Network/cellular/nx_driver_stm32_cellular.c|iotc-azrtos-sdk/authentication/driver/to_auth_driver.c|iotc-azrtos-sdk/libTO/Sources/src/utils.c|iotc-azrtos-sdk/libTO/Sources/src/sse_driver.c|iotc-azrtos-sdk/libTO/Sources/src/sha256.c|iotc-azrtos-sdk/libTO/Sources/src/selftest.c|iotc-azrtos-sdk/libTO/Sources/src/seclink.c|iotc-azrtos-sdk/libTO/Sources/src/seclink_none.c|iotc-azrtos-sdk/libTO/Sources/src/log.c|iotc-azrtos-sdk/libTO/Sources/src/hse_driver.c|iotc-azrtos-sdk/libTO/Sources/src/helper_tls.c|iotc-azrtos-sdk/libTO/Sources/src/helper_measured_boot.c|iotc-azrtos-sdk/libTO/Sources/src/helper_certs.c|iotc-azrtos-sdk/libTO/Sources/src/driver_client.c|iotc-azrtos-sdk/libTO/Sources/src/api_tls.c|iotc-azrtos-sdk/libTO/Sources/src/api_system.c|iotc-azrtos-sdk/libTO/Sources/src/api_nvm.c|iotc-azrtos-sdk/libTO/Sources/src/api_measure.c|iotc-azrtos-sdk/libTO/Sources/src/api_mac.c|iotc-azrtos-sdk/libTO/Sources/src/api_lora.c|iotc-azrtos-sdk/libTO/Sources/src/api_loader.c|iotc-azrtos-sdk/libTO/Sources/src/api_keys.c|iotc-azrtos-sdk/libTO/Sources/src/api_hash.c|iotc-azrtos-sdk/libTO/Sources/src/api_encrypt.c|iotc-azrtos-sdk/libTO/Sources/src/api_core.c|iotc-azrtos-sdk/libTO/Sources/src/api_auth.c|iotc-azrtos-sdk/libTO/Sources/src/api_admin.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/gcm.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/aes-gcm-sw.c|iotc-azrtos-sdk/libTO/Sources/src/aes-gcm-sw/aes.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -322,12 +322,5 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="Debug">
-			<resource resourceType="PROJECT" workspacePath="/Nx_Azure_IoT"/>
-		</configuration>
-		<configuration configurationName="Release">
-			<resource resourceType="PROJECT" workspacePath="/Nx_Azure_IoT"/>
-		</configuration>
-	</storageModule>
+	<storageModule moduleId="refreshScope"/>
 </cproject>
