@@ -174,6 +174,8 @@ static void r_Config_SCI5_callback_transmitend(void)
 static void r_Config_SCI5_callback_receiveend(void)
 {
     /* Start user code for r_Config_SCI5_callback_receiveend. Do not edit comment generated here */
+	 void demo_scanf_transmit_end(void);
+	 demo_scanf_transmit_end();
     /* End user code. Do not edit comment generated here */
 }
 

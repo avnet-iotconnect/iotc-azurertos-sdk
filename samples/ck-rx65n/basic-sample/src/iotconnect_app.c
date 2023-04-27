@@ -59,7 +59,7 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-
+#ifndef IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
@@ -73,6 +73,7 @@ static char* compose_device_id() {
     return duid;
 }
 #pragma GCC diagnostic pop
+#endif // IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
@@ -157,13 +158,41 @@ static void publish_telemetry() {
 }
 
 /* Include the sample.  */
-bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
 	azrtos_config.pool_ptr = pool_ptr;
 	azrtos_config.dns_ptr = dns_ptr;
 
+#ifdef IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
+    static char iotconnect_cpid[64] = {0};
+    static char iotconnect_env[64] = {0};
+    static char iotconnect_duid[64] = {0};
+    static char iotconnect_symmetric_key[256] = {0};
+
+    printf("Type the IOTCONNECT_CPID:\r\n");
+    scanf("%s", iotconnect_cpid);
+    printf("\r\n");
+    printf("Type the IOTCONNECT_ENV:\r\n");
+    scanf("%s", iotconnect_env);
+    printf("\r\n");
+    printf("Type the IOTCONNECT_DUID:\r\n");
+    scanf("%s", iotconnect_duid);
+    printf("\r\n");
+    printf("Type the IOTCONNECT_SYMMETRIC_KEY:\r\n");
+    scanf("%s", iotconnect_symmetric_key);
+    printf("\r\n");
+
+    //
+    // Only options for IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
+    //
+    config->cpid = iotconnect_cpid;
+    config->env = iotconnect_env;
+    config->duid = iotconnect_duid;
+    config->auth.type = IOTC_KEY;
+    config->auth.data.symmetric_key = iotconnect_symmetric_key;
+#else
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
@@ -266,6 +295,15 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 	auth_driver_context = config->auth.data.x509.auth_interface_context;
 #endif // ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
 #endif  // IOTCONNECT_SYMETRIC_KEY
+#endif  // IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
+
+    printf("config->cpid: '%s'\r\n", config->cpid);
+    printf("config->env: '%s'\r\n", config->env);
+    printf("config->duid: '%s'\r\n", config->duid);
+    printf("config->auth.type: %d\r\n", config->auth.type);
+    if(config->auth.type == IOTC_KEY) {
+        printf("config->auth.data.symmetric_key: '%s'\r\n", config->auth.data.symmetric_key);
+    }
 
     /* Start HS3001 sensor.  */
     UINT status_hs300x_sensor_thread;
@@ -312,4 +350,25 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     return true;
 }
 
+//
+// Allow user more than one chance to type in details
+//
+bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+	bool status;
 
+	while(1) {
+		char repeat[16] = "n";
+
+		status = app_startup(ip_ptr, pool_ptr, dns_ptr);
+
+#ifdef IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
+        printf("Repeat [y/n]?\r\n");
+	    scanf("%s", repeat);
+	    printf("\r\n");
+#endif
+	    if(repeat[0] != 'y' && repeat[0] != 'Y') {
+	    	break;
+	    }
+	}
+	return status;
+}

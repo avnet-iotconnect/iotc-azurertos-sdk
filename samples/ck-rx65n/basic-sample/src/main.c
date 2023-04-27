@@ -24,11 +24,12 @@
 #include "secure_boot.h"
 
 #include "demo_printf.h"
+#include "demo_scanf.h"
 #include "app_config.h"
 
 #include "hardware_setup.h"
 
-extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
+extern bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */
 #ifndef SAMPLE_HELPER_STACK_SIZE
@@ -178,7 +179,8 @@ void    tx_application_define(void *first_unused_memory)
 
     /* Initialize the demo printf implementation. */
     demo_printf_init();
-
+    /* Initialize the demo scanf implementation. */
+    demo_scanf_init();
     /* Initialize the NetX system.  */
     nx_system_initialize();
 
@@ -372,7 +374,7 @@ ULONG   gateway_address = 0;
     }
 
     /* Start sample.  */
-    bool app_status = app_startup(&ip_0, &pool_0, &dns_0);
+    bool app_status = app_startup_interactive(&ip_0, &pool_0, &dns_0);
     printf("App exited with status %s.\r\n", app_status ? "true" : "false");
     while (true) {
         tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);

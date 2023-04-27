@@ -242,7 +242,7 @@
 									<listOptionValue builtIn="false" value="&quot;.\src\main.o&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\nx_driver_rx65n_cloud_kit.o&quot;"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l) [Only the library's name, without the &quot;lib&quot; prefix and &quot;.a&quot;extension]" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="r_tsip_rx65n_little"/>
 									<listOptionValue builtIn="false" value="filex"/>
 									<listOptionValue builtIn="false" value="netxduo"/>
@@ -250,7 +250,7 @@
 									<listOptionValue builtIn="false" value="threadx"/>
 									<listOptionValue builtIn="false" value="netxduo_addons"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L)" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L) [Only the path to the library]" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/Debug}&quot;"/>

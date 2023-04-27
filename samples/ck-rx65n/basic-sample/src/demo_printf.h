@@ -3,6 +3,6 @@
 
 void demo_printf_init(void);
 
-void demo_printf(char *format, ...);
+void my_sw_charput_function(char c);
 
 #endif
