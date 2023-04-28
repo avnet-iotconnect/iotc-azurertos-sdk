@@ -5,20 +5,20 @@
 #ifndef APP_CONFIG_H
 #define APP_CONFIG_H
 
-#define IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY 1
-
-#ifdef IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
 //
-// The user will be prompted on a terminal to input values to be used as:
+// If SYMMETRIC_KEY_INPUT is defined, then the user
+// will be prompted on a terminal to input values to be used for:
 // - IOTCONNECT_CPID
 // - IOTCONNECT_ENV
 // - IOTCONNECT_DUID
 // - IOTCONNECT_SYMETRIC_KEY
 //
-// More complex certificate based schemes will require a recompilation and
-// #undef IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
+// X.509 certificate based schemes still require setting values in this file and recompiling
+// without SYMMETRIC_KEY_INPUT defined.
 //
-#else
+#define SYMMETRIC_KEY_INPUT 1
+
+#ifndef SYMMETRIC_KEY_INPUT
 #define IOTCONNECT_CPID ""
 #define IOTCONNECT_ENV  ""
 
