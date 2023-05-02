@@ -322,7 +322,7 @@
         <Item currentVect="81" id="SCI3_TXI3" priority="15" usedState="Not Use"/>
         <Item currentVect="82" id="SCI4_RXI4" priority="15" usedState="Not Use"/>
         <Item currentVect="83" id="SCI4_TXI4" priority="15" usedState="Not Use"/>
-        <Item currentVect="84" id="SCI5_RXI5" priority="15" usedState="Used"/>
+        <Item currentVect="84" id="SCI5_RXI5" priority="10" usedState="Used"/>
         <Item currentVect="85" id="SCI5_TXI5" priority="15" usedState="Used"/>
         <Item currentVect="86" id="SCI6_RXI6" priority="15" usedState="Not Use"/>
         <Item currentVect="87" id="SCI6_TXI6" priority="15" usedState="Not Use"/>
@@ -493,33 +493,33 @@
     </tool>
     <tool id="Pins" version="1.0.1.0">
         <pinItem allocation="10" comments="" direction="None" id="EMLE" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="96" comments="" direction="IO" id="PA1" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
-        <pinItem allocation="94" comments="" direction="O" id="PA3" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="71" comments="" direction="None" id="RMII0_RXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="72" comments="" direction="None" id="RMII0_RXD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="34" comments="" direction="None" id="CTS0#" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="63" comments="" direction="None" id="RMII0_TXD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="64" comments="" direction="None" id="RMII0_TXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="125" comments="" direction="I" id="PD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="126" comments="" direction="None" id="IRQ0" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
+        <pinItem allocation="44" comments="" direction="None" id="SDA0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="70" comments="" direction="None" id="RXD5" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="54" comments="" direction="None" id="RXD2" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="26" comments="" direction="None" id="RXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="69" comments="" direction="None" id="REF50CK0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="16" comments="" direction="None" id="FINED" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="96" comments="" direction="IO" id="PA1" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
+        <pinItem allocation="94" comments="" direction="O" id="PA3" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="68" comments="" direction="None" id="RMII0_RX_ER" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="71" comments="" direction="None" id="RMII0_RXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="72" comments="" direction="None" id="RMII0_RXD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="81" comments="" direction="None" id="RMII0_TXD_EN" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="35" comments="" direction="O" id="P22" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="45" comments="" direction="None" id="SCL0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="52" comments="" direction="None" id="ET0_LINKSTA" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="86" comments="" direction="None" id="ET0_MDIO" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="85" comments="" direction="None" id="ET0_MDC" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="34" comments="" direction="None" id="CTS0#" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="25" comments="" direction="None" id="SCK0" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
+        <pinItem allocation="63" comments="" direction="None" id="RMII0_TXD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="64" comments="" direction="None" id="RMII0_TXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="58" comments="" direction="None" id="RMII0_CRS_DV" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="125" comments="" direction="I" id="PD1" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
+        <pinItem allocation="126" comments="" direction="None" id="IRQ0" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
         <pinItem allocation="67" comments="" direction="None" id="TXD5" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="56" comments="" direction="None" id="TXD2" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="27" comments="" direction="None" id="TXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="44" comments="" direction="None" id="SDA0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="16" comments="" direction="None" id="FINED" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="35" comments="" direction="O" id="P22" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="52" comments="" direction="None" id="ET0_LINKSTA" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="68" comments="" direction="None" id="RMII0_RX_ER" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="81" comments="" direction="None" id="RMII0_TXD_EN" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="45" comments="" direction="None" id="SCL0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="86" comments="" direction="None" id="ET0_MDIO" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinItem allocation="25" comments="" direction="None" id="SCK0" isUsedBySoftware="false" locked="false" operationMode="" status="4"/>
-        <pinItem allocation="58" comments="" direction="None" id="RMII0_CRS_DV" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
     </tool>
     <tool id="Summary" version="1.0.0.0">
         <option id="com.renesas.smc.code.path" value="src/smc_gen"/>
@@ -533,7 +533,7 @@
                 <gridItem id="BSP_CFG_ISTACK_BYTES" selectedIndex="0x400"/>
                 <gridItem id="BSP_CFG_HEAP_BYTES" selectedIndex="0x2800"/>
                 <gridItem id="BSP_CFG_IO_LIB_ENABLE" selectedIndex="0"/>
-                <gridItem id="BSP_CFG_USER_CHARGET_ENABLED" selectedIndex="0"/>
+                <gridItem id="BSP_CFG_USER_CHARGET_ENABLED" selectedIndex="1"/>
                 <gridItem id="BSP_CFG_USER_CHARGET_FUNCTION" selectedIndex="my_sw_charget_function"/>
                 <gridItem id="BSP_CFG_USER_CHARPUT_ENABLED" selectedIndex="1"/>
                 <gridItem id="BSP_CFG_USER_CHARPUT_FUNCTION" selectedIndex="my_sw_charput_function"/>
@@ -670,7 +670,7 @@
                     <item id="Level14" input="" vlaue="0"/>
                     <item id="Level15" input="" vlaue="0"/>
                 </option>
-                <option enabled="true" id="RXIPriority" selection="Level15">
+                <option enabled="true" id="RXIPriority" selection="Level10">
                     <item id="Level0" input="" vlaue="0"/>
                     <item id="Level1" input="" vlaue="0"/>
                     <item id="Level2" input="" vlaue="0"/>

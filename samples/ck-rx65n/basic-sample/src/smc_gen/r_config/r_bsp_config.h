@@ -212,7 +212,7 @@ Configuration Options
 
 /* If desired the user may redirect the stdio charget() and/or charput() functions to their own respective functions
    by enabling below and providing and replacing the my_sw_... function names with the names of their own functions. */
-#define BSP_CFG_USER_CHARGET_ENABLED    (0)
+#define BSP_CFG_USER_CHARGET_ENABLED    (1)
 #define BSP_CFG_USER_CHARGET_FUNCTION     my_sw_charget_function
 
 #define BSP_CFG_USER_CHARPUT_ENABLED    (1)

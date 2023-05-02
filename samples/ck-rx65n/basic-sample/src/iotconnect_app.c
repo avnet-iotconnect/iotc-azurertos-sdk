@@ -10,6 +10,7 @@
 #include "iotconnect_common.h"
 #include "iotconnect.h"
 #include "iotconnect_certs.h"
+#include "iotconnect_lib_config.h"
 #include "azrtos_ota_fw_client.h"
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
@@ -38,6 +39,15 @@ TX_THREAD               hs300x_sensor_thread;
  **********************************************************************************************************************/
 UCHAR               hs300x_sensor_thread_memory_stack[1024];
 
+#ifdef SYMMETRIC_KEY_INPUT
+
+static char iotconnect_cpid[CONFIG_IOTCONNECT_CPID_MAX_LEN + 1] = {0};
+static char iotconnect_env[CONFIG_IOTCONNECT_ENV_MAX_LEN + 1] = {0};
+static char iotconnect_duid[CONFIG_IOTCONNECT_DUID_MAX_LEN + 1] = {0};
+static char iotconnect_symmetric_key[256] = {0};
+
+#endif
+
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  10 * 1024
@@ -59,20 +69,21 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-
+#ifndef SYMMETRIC_KEY_INPUT
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
     uint8_t mac_addr[6] = { 0 };
     static char duid[PREFIX_LEN + sizeof(mac_addr) * 2 + 1 /* null */] = DUID_PREFIX;
-	for (int i = 0; i < sizeof(mac_addr); i++) {
-		sprintf(&duid[PREFIX_LEN + i * 2], "%02x", mac_addr[i]);
-	}
+    for (int i = 0; i < sizeof(mac_addr); i++) {
+        sprintf(&duid[PREFIX_LEN + i * 2], "%02x", mac_addr[i]);
+    }
     printf("DUID: %s\r\n", duid);
     return duid;
 }
 #pragma GCC diagnostic pop
+#endif // SYMMETRIC_KEY_INPUT
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
@@ -96,21 +107,21 @@ static void command_status(IotclEventData data, bool status, const char *command
 }
 
 static void on_command(IotclEventData data) {
-	char* context = NULL;
+    char* context = NULL;
     char *command = iotcl_clone_command(data);
     if (NULL != command) {
-    	char* token = strtok_r(command, " ", &context);
-    	if(!strncmp(token, "led", 3)) {
-    		token = strtok_r(NULL, " ", &context);
-    		RX65N_LED_STATE state = (token[0] == '1') ||
-    								(strncmp(token, "true", 4) == 0 ) ?
-    								ON : OFF;
-    		set_led(LED2, state);
-    		set_led(LED1, state);
-    		command_status(data, true, command, "LED set");
-    	} else {
-    		command_status(data, false, command, "Not implemented");
-    	}
+        char* token = strtok_r(command, " ", &context);
+        if(!strncmp(token, "led", 3)) {
+            token = strtok_r(NULL, " ", &context);
+            RX65N_LED_STATE state = (token[0] == '1') ||
+                                    (strncmp(token, "true", 4) == 0 ) ?
+                                    ON : OFF;
+            set_led(LED2, state);
+            set_led(LED1, state);
+            command_status(data, true, command, "LED set");
+        } else {
+            command_status(data, false, command, "Not implemented");
+        }
         free((void*) command);
     } else {
         command_status(data, false, "?", "Internal error");
@@ -157,13 +168,63 @@ static void publish_telemetry() {
 }
 
 /* Include the sample.  */
-bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
-	azrtos_config.pool_ptr = pool_ptr;
-	azrtos_config.dns_ptr = dns_ptr;
+    azrtos_config.pool_ptr = pool_ptr;
+    azrtos_config.dns_ptr = dns_ptr;
 
+//
+// If SYMMETRIC_KEY_INPUT is defined, then the user
+// will be prompted on a terminal to input values to be used for:
+// - IOTCONNECT_CPID
+// - IOTCONNECT_ENV
+// - IOTCONNECT_DUID
+// - IOTCONNECT_SYMETRIC_KEY
+//
+// X.509 certificate based schemes still require setting values in this file and recompiling
+// without SYMMETRIC_KEY_INPUT defined.
+//
+#ifdef SYMMETRIC_KEY_INPUT
+    static char iotconnect_cpid[64] = {0};
+    static char iotconnect_env[64] = {0};
+    static char iotconnect_duid[64] = {0};
+    static char iotconnect_symmetric_key[256] = {0};
+
+    printf("Device is setup for interactive input of its symmetric key:\r\n\r\n");
+
+    printf("Type the CPID:\r\n");
+    scanf("%s", iotconnect_cpid);
+    printf("\r\n");
+    printf("Type the ENV:\r\n");
+    scanf("%s", iotconnect_env);
+    printf("\r\n");
+    printf("Type the DUID:\r\n");
+    scanf("%s", iotconnect_duid);
+    printf("\r\n");
+    printf("Type the SYMMETRIC_KEY:\r\n");
+    scanf("%s", iotconnect_symmetric_key);
+    printf("\r\n");
+
+    //
+    // Only options for SYMMETRIC_KEY_INPUT
+    //
+    config->cpid = iotconnect_cpid;
+    config->env = iotconnect_env;
+    config->duid = iotconnect_duid;
+    config->auth.type = IOTC_KEY;
+    config->auth.data.symmetric_key = iotconnect_symmetric_key;
+
+    //
+    // Echo back values typed in, just for confirmation
+    //
+    printf("The values you typed were:\r\n");
+    printf("CPID: '%s'\r\n", config->cpid);
+    printf("ENV: '%s'\r\n", config->env);
+    printf("DUID: '%s'\r\n", config->duid);
+    printf("SYMMETRIC_KEY: '%s'\r\n", config->auth.data.symmetric_key);
+#else
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
 #ifdef IOTCONNECT_DUID
@@ -183,97 +244,90 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
 
 #ifdef ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
     auth_driver_context = NULL;
-	struct rx65n_tsip_driver_parameters parameters = {0}; // dummy, for now
-	IotcDdimInterface ddim_interface;
-	IotcAuthInterfaceContext auth_context;
-	if(rx65n_tsip_create_auth_driver( //
-			&(config->auth.data.x509.auth_interface), //
-			&ddim_interface, //
-			&auth_context, //
-			&parameters)) { //
-		return false;
-	}
-	config->auth.data.x509.auth_interface_context = auth_context;
+    struct rx65n_tsip_driver_parameters parameters = {0}; // dummy, for now
+    IotcDdimInterface ddim_interface;
+    IotcAuthInterfaceContext auth_context;
+    if(rx65n_tsip_create_auth_driver( //
+            &(config->auth.data.x509.auth_interface), //
+            &ddim_interface, //
+            &auth_context, //
+            &parameters)) { //
+        return false;
+    }
+    config->auth.data.x509.auth_interface_context = auth_context;
 
-	uint8_t* cert;
-	size_t cert_size;
+    uint8_t* cert;
+    size_t cert_size;
 
-	if (config->auth.data.x509.auth_interface.get_cert(
-			auth_context, &cert,&cert_size) != 0)
-	{
-		printf("Unable to get the certificate from the driver.\r\n");
-		rx65n_tsip_release_auth_driver(auth_context);
-		return false;
-	}
-	if (0 == cert_size) {
-		printf("Unable to get the certificate from the driver.\r\n");
-		rx65n_tsip_release_auth_driver(auth_context);
-		return false;
-	}
-	char* b64_string_buffer = malloc(MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES);
-	if (NULL == b64_string_buffer) {
-		printf("WARNING: Unable to allocate memory to display the base64 encoded certificate contents.\r\n");
-	} else {
-		size_t b64_string_len = MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES; // in/out parameter. See atcacert_encode_pem_cert()
-		unsigned int bytes_copied = 0;
-		if (_nx_utility_base64_encode(cert, cert_size, b64_string_buffer, b64_string_len, &bytes_copied))
-		{
-			printf("Failed to base64 encode the cert\r\n");
-		}
-		else
-		{
-			b64_string_buffer[b64_string_len] = 0;
-			printf("Device certificate (%u bytes):\r\n%s\r\n", bytes_copied, b64_string_buffer);
-		}
-		free(b64_string_buffer);
-	}
+    if (config->auth.data.x509.auth_interface.get_cert(
+            auth_context, &cert,&cert_size) != 0)
+    {
+        printf("Unable to get the certificate from the driver.\r\n");
+        rx65n_tsip_release_auth_driver(auth_context);
+        return false;
+    }
+    if (0 == cert_size) {
+        printf("Unable to get the certificate from the driver.\r\n");
+        rx65n_tsip_release_auth_driver(auth_context);
+        return false;
+    }
+    char* b64_string_buffer = malloc(MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES);
+    if (NULL == b64_string_buffer) {
+        printf("WARNING: Unable to allocate memory to display the base64 encoded certificate contents.\r\n");
+    } else {
+        size_t b64_string_len = MAX_RSA_2048BIT_CERTIFICATE_SIZE_IN_BYTES; // in/out parameter. See atcacert_encode_pem_cert()
+        unsigned int bytes_copied = 0;
+        if (_nx_utility_base64_encode(cert, cert_size, b64_string_buffer, b64_string_len, &bytes_copied))
+        {
+            printf("Failed to base64 encode the cert\r\n");
+        }
+        else
+        {
+            b64_string_buffer[b64_string_len] = 0;
+            printf("Device certificate (%u bytes):\r\n%s\r\n", bytes_copied, b64_string_buffer);
+        }
+        free(b64_string_buffer);
+    }
 
-	printf("Obtained device certificate:\r\n\r\n");
-	char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
-	if (NULL == operational_cn) {
-		rx65n_tsip_release_auth_driver(auth_context);
-		printf("Unable to get the certificate common name.\r\n");
-		return false;
-	}
-	// Strip the CPID and '-' prefix off of the common name (CN) in the device cert
-	strcpy(duid_buffer, (strchr(operational_cn, '-') + 1));
-	config->duid = duid_buffer;
-	printf("DUID: %s\r\n", config->duid);
+    printf("Obtained device certificate:\r\n\r\n");
+    char* operational_cn = ddim_interface.extract_operational_cn(auth_context);
+    if (NULL == operational_cn) {
+        rx65n_tsip_release_auth_driver(auth_context);
+        printf("Unable to get the certificate common name.\r\n");
+        return false;
+    }
+    // Strip the CPID and '-' prefix off of the common name (CN) in the device cert
+    strcpy(duid_buffer, (strchr(operational_cn, '-') + 1));
+    config->duid = duid_buffer;
+    printf("DUID: %s\r\n", config->duid);
 
-	auth_driver_context = auth_context;
+    auth_driver_context = auth_context;
 
 #else //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
     extern const UCHAR sample_device_cert_ptr[];
     extern const UINT sample_device_cert_len;
     extern const UCHAR sample_device_private_key_ptr[];
     extern const UINT sample_device_private_key_len;
-	struct sw_der_driver_parameters dp = {0};
-	dp.cert = (uint8_t *) (sample_device_cert_ptr);
-	dp.cert_size = sample_device_cert_len;
-	dp.key = (uint8_t *) (sample_device_private_key_ptr);
-	dp.key_size = sample_device_private_key_len;
+    struct sw_der_driver_parameters dp = {0};
+    dp.cert = (uint8_t *) (sample_device_cert_ptr);
+    dp.cert_size = sample_device_cert_len;
+    dp.key = (uint8_t *) (sample_device_private_key_ptr);
+    dp.key_size = sample_device_private_key_len;
 #ifdef ECC_CRYPTO
     dp.crypto_method = &crypto_method_ec_secp256;
 #else //RSA_CRYPTO
     dp.crypto_method = &crypto_method_rsa;
 #endif
-	if(create_sw_der_auth_driver( //
-	    		&(config->auth.data.x509.auth_interface), //
-				&(config->auth.data.x509.auth_interface_context), //
-				&dp)) { //
-	    	return false;
-	    }
-	auth_driver_context = config->auth.data.x509.auth_interface_context;
+    if(create_sw_der_auth_driver( //
+                &(config->auth.data.x509.auth_interface), //
+                &(config->auth.data.x509.auth_interface_context), //
+                &dp)) { //
+            return false;
+        }
+    auth_driver_context = config->auth.data.x509.auth_interface_context;
 #endif // ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
 #endif  // IOTCONNECT_SYMETRIC_KEY
-
-    /* Start HS3001 sensor.  */
-    UINT status_hs300x_sensor_thread;
-    status_hs300x_sensor_thread = tx_thread_create(&hs300x_sensor_thread, "Sensor Thread", hs300x_sensor_thread_entry, 0, hs300x_sensor_thread_memory_stack, 1024, 1, 1, 0, TX_AUTO_START);
-    if (TX_SUCCESS != status_hs300x_sensor_thread)
-    {
-    	printf("Failed to create status_hs300x_sensor_thread.\r\n");
-    }
+#endif  // SYMMETRIC_KEY_INPUT
 
     while (true) {
         /* Switch to another thread */
@@ -312,4 +366,33 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     return true;
 }
 
+//
+// Allow user more than one chance to type in details
+//
+bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
+    bool status;
 
+    /* Start HS3001 sensor.  */
+    UINT status_hs300x_sensor_thread;
+    status_hs300x_sensor_thread = tx_thread_create(&hs300x_sensor_thread, "Sensor Thread", hs300x_sensor_thread_entry, 0, hs300x_sensor_thread_memory_stack, 1024, 1, 1, 0, TX_AUTO_START);
+    if (TX_SUCCESS != status_hs300x_sensor_thread)
+    {
+        printf("Failed to create status_hs300x_sensor_thread.\r\n");
+    }
+
+    while(1) {
+        char repeat[16] = "n";
+
+        status = app_startup(ip_ptr, pool_ptr, dns_ptr);
+
+#ifdef SYMMETRIC_KEY_INPUT
+        printf("Repeat [y/n]?\r\n");
+        scanf("%s", repeat);
+        printf("\r\n");
+#endif
+        if(repeat[0] != 'y' && repeat[0] != 'Y') {
+            break;
+        }
+    }
+    return status;
+}
