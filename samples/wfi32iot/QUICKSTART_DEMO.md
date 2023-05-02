@@ -12,10 +12,14 @@ to set up the device with IoTConnect.
 
 The Click board interface makes it possible to make use of hundreds of different Click boards from MikroE.
 The [VAV Press Click](https://www.mikroe.com/vav-press-click) 
-,[Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click)
-,[PHT Click](https://www.mikroe.com/pht-click)
-,[TEMP&HUM 14 click](https://www.mikroe.com/temphum-14-click)
-and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
+, [Ultra-Low Press Click](https://www.mikroe.com/ultra-low-press-click)
+, [PHT Click](https://www.mikroe.com/pht-click)
+, [TEMP&HUM 14 click](https://www.mikroe.com/temphum-14-click)
+, [Telaire T6713 CO2 Sensor Module](https://www.amphenol-sensors.com/en/telaire/co2/525-co2-sensor-modules/3399-t6713) on the [PROTO Click](https://www.mikroe.com/proto-click)
+, [Telaire T9602 IP67 Harsh Environment Humidity & Temperature Sensor](https://www.amphenol-sensors.com/en/telaire/humidity/527-humidity-sensors/3224-t9602) on the [Terminal 2 Click](https://www.mikroe.com/terminal-2-click)
+, [Air Quality 7 click](https://www.mikroe.com/air-quality-7-click)
+, [Altitude 4 Click](https://www.mikroe.com/altitude-4-click)
+, and [Altitude 2 Click](https://www.mikroe.com/altitude-2-click)
 boards are directly supported by the demo software and provide 
 the ability to send sensor readings from these boards directly to IoTConnect.
 
@@ -69,28 +73,41 @@ A 2-Month Test Drive is available through the [IoTConnect Subscription Site](htt
   * Click **Save**
 * On the same page, click the Attributes tab.
 * Add a field to the list of attributes called "version" of type **STRING** 
-* Add the following **NUMERIC** fields to the list of attributes. ULP or VAV fields are optional, if you have the Click Boards:
-  * *WFI32IoT_temperature* - Note that this value seems rather high. It is likely measuring the chip internal temperature of the WFI32-IoT.
-  * *WFI32IoT_light* - The amount light value reported by the light sensor on the WFI32-IoTboard.
+* Add the following **STRING** fields to the list of attributes (click/sensor-specific attributes are only necessary if you are using those specific clicks/sensors):
+  * *version* - Software version. 
+  * *AIR7_Status* - Tells whether the Air Quality 7 Click board is warming up or is ready to report data.
+  * *T6713_Status* - Tells whether the T6713 Sensor on the Proto Click board is warming up or is ready to report data.
+  * *T9602_Status* - Tells whether the T9602 Sensor on the Terminal 2 Click board is warming up or is ready to report data.
+* Add the following **NUMERIC** fields to the list of attributes (click/sensor-specific attributes are only necessary if you are using those specific clicks/sensors):
+  * *Onboard_Temp_DegC* - Note that this value seems rather high. It is likely measuring the chip internal temperature (in degrees Celsius) of the WFI32-IoT.
+  * *Onboard_Light_Lux* - The amount of light (in lux) reported by the light sensor on the WFI32-IoTboard.
   * *WFI32IoT_button1* - Will be set to 1, if button 1 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
   * *WFI32IoT_button2* - Will be set to 1, if button 2 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
   * *WFI32IoT_button1_count* - The number of times that button 1 was pressed since the board started or "reset-counters" command (see below) was issued. 
-  * *WFI32IoT_button1_count* - The number of times that button 2 was pressed since the board started or "reset-counters" command (see below) was issued. 
-  * *ULP_pressure* - Air pressure measured on the Ultra-Low Press Click Board.
-  * *ULP_temperature* - Temperature measured on the Ultra-Low Press Click Board.
-  * *VAV_pressure* - Air pressure measured on the VAV Press Click Board.
-  * *VAV_temperature* - Temperature measured on the VAV Press Click Board.
-  * *ALT2_altitude* - Altitude above sea level measured on the Altitude 2 Press Click Board. 
-  * *ALT2_temperature* - Temperature measured on the Altitude 2 Press Click Board.
-  * *ALT2_pressure* - Air pressure measured on the Altitude 2 Press Click Board.
-  * *PHT_temperature* - Temperature measured on the VAV Press Click Board.
-  * *PHT_pressure* - Air pressure measured on the PHT Click Board.
-  * *PHT_humidity* - Air humidity measured on the PHT Click Board.
-  * *TEMPHUM14_temperature* - Temperature measured on the TEMP&HUM 14 Board.
-  * *TEMPHUM14_humidity* - Air humidity measured on the TEMP&HUM 14 Board.
+  * *WFI32IoT_button2_count* - The number of times that button 2 was pressed since the board started or "reset-counters" command (see below) was issued. 
+  * *AIR7_tVOC_ppb* - The Total Volatile Organic Compounds (in parts per billion) measured on the Air Quality 7 Click Board.
+  * *AIR7_CO2_ppm* - The Carbon Dioxide (in parts per million) measured on the Air Quality 7 Click Board.
+  * *ULP_Pressure_Pa* - Air pressure (in Pascals) measured on the Ultra-Low Press Click Board.
+  * *ULP_Temp_DegC* - Temperature (in degrees Celsius) measured on the Ultra-Low Press Click Board.
+  * *VAV_Pressure_Pa* - Air pressure (in Pascals) measured on the VAV Press Click Board.
+  * *VAV_Temp_DegC* - Temperature (in degrees Celsius) measured on the VAV Press Click Board.
+  * *ALT2_Altitude_m* - Altitude above sea level (in meters) measured on the Altitude 2 Click Board. 
+  * *ALT2_Temp_DegC* - Temperature (in degrees Celsius) measured on the Altitude 2 Click Board.
+  * *ALT2_Pressure_mBar* - Air pressure (in millibars) measured on the Altitude 2 Click Board.
+  * *PHT_Temp_DegC* - Temperature (in degrees Celsius) measured on the VAV Press Click Board.
+  * *PHT_Pressure_mBar* - Air pressure (in millibars) measured on the PHT Click Board.
+  * *PHT_Humidity_Percent* - Air humidity (%) measured on the PHT Click Board.
+  * *TH14_Temp_DegC* - Temperature (in degrees Celsius) measured on the TEMP&HUM 14 Board.
+  * *TH14_Humidity_Percent* - Air humidity (%) measured on the TEMP&HUM 14 Board.
+  * *ALT4_Altitude_m* - Altitude above sea level (in meters) measured on the Altitude 4 Click Board. 
+  * *ALT4_Temp_DegC* - Temperature (in degrees Celsius) measured on the Altitude 4 Click Board.
+  * *ALT4_Pressure_mBar* - Air pressure (in millibars) measured on the Altitude 4 Click Board.
+  * *T6713_CO2_ppm* - The Carbon Dioxide (in parts per million) measured on the T6713 sensor.
+  * *T9602_Temp_DegC* - Temperature (in degrees Celsius) measured on the T9602 sensor.
+  * *T9602_Humidity_Percent* - Air humidity (%) measured on the T9602 sensor.
 * The screenshot below shows an example template:
 
-![Template Screenshot](media/template.png "Template Screenshot")
+![Template Screenshot](media/attributes_list.png "Template Screenshot")
 
 * Add the following commands in the *Commands* tab:
   * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 

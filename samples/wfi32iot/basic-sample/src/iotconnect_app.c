@@ -20,24 +20,24 @@
 #include "atcacert/atcacert_pem.h"
 #endif
 
+//Struct to hold boolean connection values of supported click boards
+struct click_board_connections {  
+  bool air7;
+  bool alt2;
+  bool alt4;
+  bool pht;
+  bool t6713;
+  bool t9602;
+  bool temphum14;
+  bool ulp;
+  bool vav;     
+}; 
+
 extern UCHAR _nx_driver_hardware_address[];
 
 
 // Various Click Board and onboard sensors/buttons supported by the demo
 extern button_press_data_t button_press_data;
-
-extern ALTITUDE2_RETVAL ALTITUDE2_status;
-static ALTITUDE2_Data altitude2;
-
-extern PHT_RETVAL PHT_status;
-static PHT_Data pht;
-
-extern temphum14_return_value_t TEMPHUM14_status;
-static uint32_t HTU31_serialNumber;
-
-extern vavpress_sensor_param_data_t VAVPRESS_param_data;
-extern vavpress_return_value_t VAVPRESS_status;
-extern ultralowpress_return_value_t ULTRALOWPRESS_status;
 // ///////////////////
 
 
@@ -47,7 +47,7 @@ static IotcAuthInterfaceContext auth_driver_context = NULL;
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
 static char duid_buffer[IOTC_COMMON_NAME_MAX_LEN]; // from ATECC608 common name
 #endif
-#define APP_VERSION "01.00.00"
+#define APP_VERSION "01.01.00"
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -195,20 +195,21 @@ static void on_connection_status(IotConnectConnectionStatus status) {
     }
 }
 
-static void publish_telemetry() {
+static void publish_telemetry(struct click_board_connections click_board_detection, time_t start_time) {
     IotclMessageHandle msg = iotcl_telemetry_create();
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
-   
     
+    //Calculate program run time so sensor warm-up times can be honored
+    time_t now = time(NULL);
+    int running_time = now - start_time;
+   
     iotcl_telemetry_add_with_iso_time(msg, iotcl_iso_timestamp_now());
     iotcl_telemetry_set_string(msg, "version", APP_VERSION);
-    // random number 0-100, cast to int so that it removes decimals in json
-    iotcl_telemetry_set_number(msg, "random", (int)((double)rand() / (double)RAND_MAX * 100.0));
     
-    iotcl_telemetry_set_number(msg, "WFI32IoT_temperature", APP_SENSORS_readTemperature());
-    iotcl_telemetry_set_number(msg, "WFI32IoT_light", APP_SENSORS_readLight());
+    iotcl_telemetry_set_number(msg, "Onboard_Temp_DegC", APP_SENSORS_readTemperature());
+    iotcl_telemetry_set_number(msg, "Onboard_Light_Lux", APP_SENSORS_readLight());
 
     iotcl_telemetry_set_number(msg, "WFI32IoT_button1", button_press_data.flag.sw1);
     iotcl_telemetry_set_number(msg, "WFI32IoT_button2", button_press_data.flag.sw2);
@@ -217,44 +218,133 @@ static void publish_telemetry() {
     button_press_data.flag.sw1 = 0;
     button_press_data.flag.sw2 = 0;
     
-    if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK && ULTRALOWPRESS_isReady()) {
-        ULTRALOWPRESS_clearStatus();
-        iotcl_telemetry_set_number(msg, "ULP_temperature", ULTRALOWPRESS_getTemperature());
-        iotcl_telemetry_set_number(msg, "ULP_pressure", ULTRALOWPRESS_getPressure());            
+    
+    //Air Quality 7 Click Reading
+    if (click_board_detection.air7 == true) {
+        air7_data_struct air7_data;
+        AIRQUALITY7_readData(&air7_data);
+        //If the sensor has been warming up for at least 15 minutes
+        if (running_time > 900) {
+            //Report status and data from readData function output
+            iotcl_telemetry_set_string(msg, "AIR7_Status", "READY");
+            iotcl_telemetry_set_number(msg, "AIR7_tVOC_ppb", air7_data.tvoc);   
+            iotcl_telemetry_set_number(msg, "AIR7_CO2_ppm", air7_data.co2);
+        } else {
+            //Report status and zeros for data
+            iotcl_telemetry_set_string(msg, "AIR7_Status", "WARMING_UP");
+            iotcl_telemetry_set_number(msg, "AIR7_tVOC_ppb", 0);   
+            iotcl_telemetry_set_number(msg, "AIR7_CO2_ppm", 0);
+        }
     }
-
-    if (VAVPRESS_status == VAVPRESS_OK) {
-        float temperature, pressure;
-        if (VAVPRESS_getSensorReadings(&VAVPRESS_param_data, &pressure, &temperature) == VAVPRESS_OK) {
-            iotcl_telemetry_set_number(msg, "VAV_temperature", temperature);
-            iotcl_telemetry_set_number(msg, "VAV_pressure", pressure);
+    
+    
+    //Altitude 2 Click Reading
+    if (click_board_detection.alt2 == true) {
+        alt2_data_struct alt2_data;
+        //Read the calibration values form the sensor
+        ALTITUDE2_cal_vals(&alt2_data);
+        //Take measurements from sensor using the calibration values as multipliers
+        ALTITUDE2_readData(&alt2_data);
+        //Report data pulled from readData function output
+        iotcl_telemetry_set_number(msg, "ALT2_Temp_DegC", alt2_data.temperature);
+        iotcl_telemetry_set_number(msg, "ALT2_Pressure_mBar", alt2_data.pressure);
+	iotcl_telemetry_set_number(msg, "ALT2_Altitude_m", alt2_data.altitude);
+    } 
+    
+    
+    //Altitude 4 Click Reading
+    if (click_board_detection.alt4 == true) {
+        alt4_data_struct alt4_data;
+        ALTITUDE4_readData(&alt4_data);
+        //Report data pulled from readData function output
+        iotcl_telemetry_set_number(msg, "ALT4_Temp_DegC", alt4_data.temperature);
+        iotcl_telemetry_set_number(msg, "ALT4_Pressure_mBar", alt4_data.pressure);   
+        iotcl_telemetry_set_number(msg, "ALT4_Altitude_m", alt4_data.altitude);
+    }
+    
+    
+    //PHT Click Reading
+    if (click_board_detection.pht == true) {
+        pht_data_struct pht_data;
+        //Read the calibration values form the sensor
+        PHT_cal_vals(&pht_data);
+        //Take measurements from sensor using the calibration values as multipliers
+        PHT_readData(&pht_data);
+        //Report data pulled from readData function output
+        iotcl_telemetry_set_number(msg, "PHT_Temp_DegC", pht_data.temperature);
+        iotcl_telemetry_set_number(msg, "PHT_Pressure_mBar", pht_data.pressure);  
+        iotcl_telemetry_set_number(msg, "PHT_Humidity_Percent", pht_data.humidity);
+    } 
+    
+    
+    //T6713-6H Proto Click Reading
+    if (click_board_detection.t6713 == true) {
+        t6713_data_struct t6713_data;
+        T6713_readData(&t6713_data);
+        //If the sensor has been warming up for at least 10 minutes
+        if (running_time > 600) {
+            //Report status and data from readData function output
+            iotcl_telemetry_set_string(msg, "T6713_Status", "READY");
+            iotcl_telemetry_set_number(msg, "T6713_CO2_ppm", t6713_data.co2);
+        } else {
+            //Report status and zeros for data
+            iotcl_telemetry_set_string(msg, "T6713_Status", "WARMING_UP");
+            iotcl_telemetry_set_number(msg, "T6713_CO2_ppm", 0);
         }
     }
 
-    if (ALTITUDE2_status == ALTITUDE2_OK) {
-        float ALT2_temperature, ALT2_pressure, ALT2_altitude;
-        ALTITUDE2_readData(&altitude2, &ALT2_temperature, &ALT2_pressure, &ALT2_altitude);
-        iotcl_telemetry_set_number(msg, "ALT2_temperature", ALT2_temperature);
-        iotcl_telemetry_set_number(msg, "ALT2_pressure", ALT2_pressure);
-        iotcl_telemetry_set_number(msg, "ALT2_altitude", ALT2_altitude);
+    
+    //T9602 Terminal 2 Click Reading
+    if (click_board_detection.t9602 == true) {
+        t9602_data_struct t9602_data;
+        T9602_readData(&t9602_data);
+        //If the sensor has been warming up for at least 2 minutes
+        if (running_time > 120) {
+            //Report status and data from readData function output
+            iotcl_telemetry_set_string(msg, "T9602_Status", "READY");
+            iotcl_telemetry_set_number(msg, "T9602_Humidity_Percent", t9602_data.humidity);
+            iotcl_telemetry_set_number(msg, "T9602_Temp_DegC", t9602_data.temperature);
+        } else {
+            //Report status and zeros for data
+            iotcl_telemetry_set_string(msg, "T9602_Status", "WARMING_UP");
+            iotcl_telemetry_set_number(msg, "T9602_Humidity_Percent", 0);
+            iotcl_telemetry_set_number(msg, "T9602_Temp_DegC", 0);
+        }
     }
+    
+    
+    //TempHum14 Click Reading
+    if (click_board_detection.temphum14 == true) {
+        temphum14_data_struct temphum14_data;
+        TEMPHUM14_setConversion(TEMPHUM14_I2C_SLAVE_ADDR_GND, TEMPHUM14_CONVERSION_HUM_OSR_0_020, TEMPHUM14_CONVERSION_TEMP_0_040 );
+        TEMPHUM14_getTemperatureHumidity (TEMPHUM14_I2C_SLAVE_ADDR_GND, &temphum14_data);
 
-    if (PHT_status == PHT_OK) {
-        float PHT_temperature, PHT_pressure, PHT_humidity;
-        PHT_getTemperaturePressure(&pht, &PHT_temperature, &PHT_pressure);
-        PHT_getRelativeHumidity(&PHT_humidity);
-        iotcl_telemetry_set_number(msg, "PHT_temperature", PHT_temperature);
-        iotcl_telemetry_set_number(msg, "PHT_pressure", PHT_pressure);
-        iotcl_telemetry_set_number(msg, "PHT_humidity", PHT_humidity);
+        //Report data from readData function output
+        iotcl_telemetry_set_number(msg, "TH14_Humidity_Percent", temphum14_data.humidity);
+        iotcl_telemetry_set_number(msg, "TH14_Temp_DegC", temphum14_data.temperature);
     }
-
-    if (HTU31_serialNumber != 0) {
-        float TEMPHUM14_temperature, TEMPHUM14_humidity;
-        TEMPHUM14_setConversion( TEMPHUM14_I2C_SLAVE_ADDR_GND, TEMPHUM14_CONVERSION_HUM_OSR_0_020, TEMPHUM14_CONVERSION_TEMP_0_040 );
-        TEMPHUM14_getTemperatureHumidity (TEMPHUM14_I2C_SLAVE_ADDR_GND, &TEMPHUM14_temperature, &TEMPHUM14_humidity );
-        iotcl_telemetry_set_number(msg, "TEMPHUM14_temperature", TEMPHUM14_temperature);
-        iotcl_telemetry_set_number(msg, "TEMPHUM14_humidity", TEMPHUM14_humidity);
-
+    
+    
+    //ULP Click Reading
+    if (click_board_detection.ulp == true) {
+        ulp_data_struct ulp_data;
+        if (ULTRALOWPRESS_isReady()) 
+        {
+            ULTRALOWPRESS_getData(&ulp_data);
+            //Report data from getData function output
+            iotcl_telemetry_set_number(msg, "ULP_Temp_DegC", ulp_data.temperature);
+            iotcl_telemetry_set_number(msg, "ULP_Pressure_Pa", ulp_data.pressure);
+        }
+    }
+    
+    
+    //VAVPress Click Reading
+    if (click_board_detection.vav == true) {
+        vav_data_struct vav_data;
+        VAVPRESS_getSensorReadings(&vav_data);
+        //Report data from getSensorReadings function output
+        iotcl_telemetry_set_number(msg, "VAV_Pressure_Pa", vav_data.pressure);
+        iotcl_telemetry_set_number(msg, "VAV_Temp_DegC", vav_data.temperature);
     }
 
 
@@ -275,44 +365,98 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     APP_SWITCH_init();
 
     APP_SENSORS_init();
+    
+    //Declare connection struct and initialize all values to false
+    struct click_board_connections click_board_detection = {0};
+       
+    //Keep track of the program start time so warm-up times for sensors can be honored
+    time_t start_time = time(NULL);
 
     printf("Detecting attached Click Board sensors...\r\n");
-
-    VAVPRESS_init();
-    if (VAVPRESS_status == VAVPRESS_OK) {
-        printf("VAV Click detected\r\n");
-    } else {
-        printf("VAV Click not detected\r\n");
+    
+    //AQ7
+    air7_data_struct air7_data;
+    AIRQUALITY7_readData(&air7_data);
+    //If calibration values is non-zero, it is connected
+    if (0 != air7_data.resistor_val) {
+        printf("Air Quality 7 Click Detected!\r\n");
+        click_board_detection.air7 = true;
     }
-
-    uint32_t SM8436_serialNumber = ULTRALOWPRESS_init();
-    if (ULTRALOWPRESS_status == ULTRALOWPRESS_OK) {
-        printf("ULP Click detected. Serial Number = %u\r\n", SM8436_serialNumber);
-    } else {
-        printf("ULP Click not detected\r\n");
+    
+    //ALT2
+    alt2_data_struct alt2_data;
+    ALTITUDE2_cal_vals(&alt2_data);
+    //If a calibration values is non-zero, it is connected
+    if (0 != alt2_data.cal_1) {
+        printf("Altitude 2 Click Detected!\r\n");
+        click_board_detection.alt2 = true;
     }
-
-    ALTITUDE2_status = ALTITUDE2_init(&altitude2);
-    if (ALTITUDE2_status == ALTITUDE2_OK) {
-        printf("ALT2 Click detected\r\n");
-    } else {
-        printf("ALT2 Click not detected\r\n");
+    
+    //ALT4
+    alt4_data_struct alt4_data;
+    ALTITUDE4_readData(&alt4_data);
+    //If a pressure value is not 260 or a temp value is not -40, it is connected
+    //(+260 and -40 correspond to zero-readings on ALT4)
+    if (260 != alt4_data.pressure || -40 != alt4_data.temperature) {
+        printf("Altitude 4 Click Detected!\r\n");
+        click_board_detection.alt4 = true;
     }
-
-    PHT_status = PHT_init(&pht);
-    if (PHT_status == PHT_OK) {
-        printf("PHT Click detected\r\n");
-    } else {
-        printf("PHT Click not detected\r\n");
+    
+    //PHT
+    pht_data_struct pht_data;
+    PHT_cal_vals(&pht_data);
+    //If a calibration values is non-zero, it is connected
+    if (0 != pht_data.cal_1) {
+        printf("PHT Click Detected!\r\n");
+        click_board_detection.pht = true;
     }
-
-    HTU31_serialNumber = TEMPHUM14_init(TEMPHUM14_I2C_SLAVE_ADDR_GND);
-    if (HTU31_serialNumber != 0) {
-        printf("TEMPHUM14 Click detected. Serial Number = %u\r\n", HTU31_serialNumber);
-    } else {
-        printf("TEMPHUM14 Click not detected\r\n");
+    
+    //T6713
+    t6713_data_struct t6713_data;
+    T6713_readData(&t6713_data);
+    //If a CO2 measurement is non-zero, it is connected
+    if (0 != t6713_data.co2) {
+        printf("T6713 CO2 Sensor Detected!\r\n");
+        T6713_calibrate();
+        click_board_detection.t6713 = true;
     }
-
+    
+    //T9602
+    t9602_data_struct t9602_data;
+    //If humidity or temperature measurements are non-zero, it is connected
+    //(-40 corresponds to a zero reading for temperature)
+    T9602_readData(&t9602_data);
+    if (0 != t9602_data.humidity || -40 != t9602_data.temperature) {
+        printf("T9602 TempHum Sensor Detected!\r\n");
+        click_board_detection.t9602 = true;
+    }
+    
+    //TempHum14
+    uint32_t temphum14_serial_number = 0;
+    //If the serial number is non-zero, it is connected
+    temphum14_serial_number = TEMPHUM14_init(0x40);
+    if (0 != temphum14_serial_number) {
+        printf("TempHum14 Click Detected!\r\n");
+        click_board_detection.temphum14 = true;
+    }
+    
+    //ULP
+    uint32_t ulp_serial_number = 0;
+    //If serial number is non-zero, it is connected
+    ulp_serial_number = ULTRALOWPRESS_init();
+    if (0 != ulp_serial_number) {
+        printf("Ultra Low Press Click Detected!\r\n");
+        click_board_detection.ulp = true;
+    }
+    
+    //VAVpress
+    uint16_t vav_cal_ID = 0;
+    //If calibration ID is non-zero, it is connected
+    vav_cal_ID = VAVPRESS_init();
+    if (0 != vav_cal_ID) {
+        printf("VAVPress Click Detected!\r\n");
+        click_board_detection.vav = true;
+    }
     
     IotConnectClientConfig *config = iotconnect_sdk_init_and_get_config();
     azrtos_config.ip_ptr = ip_ptr;
@@ -423,11 +567,15 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
             printf("Unable to establish the IoTConnect connection.\r\n");
             return false;
         }
-        // send telemetry at regular intervals
-        for (int i = 0; i < 36000; i++) { // 10 hours if 1s delay
+        //MAIN LOOP  36000 * 2 seconds = 20 hourhs
+        for (int cycles = 0; cycles < 36000; cycles++) {
             if (iotconnect_sdk_is_connected()) {
-                publish_telemetry();  // underlying code will report an error
-                iotconnect_sdk_poll(1000);
+                publish_telemetry(click_board_detection, start_time);
+                //Yellow LED Blinks for 500ms when telemetry is being sent
+                LED_YELLOW_On();
+                iotconnect_sdk_poll(500);
+                LED_YELLOW_Off();
+                iotconnect_sdk_poll(1500);
             } else {
                 return false;
             }

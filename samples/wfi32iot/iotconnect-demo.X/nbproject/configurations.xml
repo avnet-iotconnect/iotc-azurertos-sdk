@@ -36,6 +36,10 @@
         <itemPath>../src/clicks/altitude2.h</itemPath>
         <itemPath>../src/clicks/pht.h</itemPath>
         <itemPath>../src/clicks/temphum14.h</itemPath>
+        <itemPath>../src/clicks/altitude4.h</itemPath>
+        <itemPath>../src/clicks/T6713.h</itemPath>
+        <itemPath>../src/clicks/T9602.h</itemPath>
+        <itemPath>../src/clicks/airquality7.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="config" projectFiles="true">
         <logicalFolder name="f1" displayName="pic32mz_w1" projectFiles="true">
@@ -933,7 +937,6 @@
                      projectFiles="true">
         <logicalFolder name="azrtos-ota" displayName="azrtos-ota" projectFiles="true">
           <logicalFolder name="include" displayName="include" projectFiles="true">
-            <itemPath>../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/nx_azure_iot_adu_agent.h</itemPath>
             <itemPath>../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/azrtos_ota_fw_client.h</itemPath>
           </logicalFolder>
           <logicalFolder name="src" displayName="src" projectFiles="true">
@@ -1036,6 +1039,10 @@
         <itemPath>../src/clicks/altitude2.c</itemPath>
         <itemPath>../src/clicks/pht.c</itemPath>
         <itemPath>../src/clicks/temphum14.c</itemPath>
+        <itemPath>../src/clicks/airquality7.c</itemPath>
+        <itemPath>../src/clicks/altitude4.c</itemPath>
+        <itemPath>../src/clicks/T6713.c</itemPath>
+        <itemPath>../src/clicks/T9602.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="config" projectFiles="true">
         <logicalFolder name="f1" displayName="pic32mz_w1" projectFiles="true">
