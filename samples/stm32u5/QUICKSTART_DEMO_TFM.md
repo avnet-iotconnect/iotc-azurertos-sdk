@@ -15,7 +15,7 @@ Configure settings per the screenshot below:
 ![Tera Term Serial Settings](media/teraterm-settings.png "Tera Term Serial Settings")
 
 ## Cloud Account Setup
-An IoTConnect accounnt is required to continue this guide. If you need to create an account, a free 2-month subscription is available.  Please follow the [Creating a New IoTConnect Account](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/subscription/subscription.md) guide and return to this guide once complete.
+An IoTConnect account is required to continue this guide. If you need to create an account, a free 2-month subscription is available.  Please follow the [Creating a New IoTConnect Account](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/subscription/subscription.md) guide and return to this guide once complete.
 
 ## Firmware Setup
 
@@ -31,8 +31,7 @@ Running this script will make it so that only TrustZone enabled applications are
 * In your terminal application enter "y" when prompted to set device configuration.
 * Set values for you WiFi SSID (Network Name) and Password
 * Set the values for your CPID and Environment. These values can be located 
-in  the IoTConnect WebUI on the *Key Vault* page. Navigate there using the image below:
-  ![Key Vault](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/assets/key_vault.png "Key Vault")
+in  the IoTConnect WebUI on the *Key Vault* page. Navigate there using the image below:<br>![Key Vault](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/assets/key_vault.png "Key Vault")
 * The DUID value can be left unset. A DUID unique to your device 
 will be generated and displayed on the console during startup.
 * To utilize the secure element, leave the symetric key blank as this will allow for STSAFE with x509 authentication.
