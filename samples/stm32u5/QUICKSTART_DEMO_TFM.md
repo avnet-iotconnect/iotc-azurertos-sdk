@@ -45,7 +45,7 @@ will be generated and displayed on the console during startup.
 ## IoTConnect Template Setup
 A Device Template with Self Signed authentication type will need to be imported.
 * Download the premade [Device Template with Self-Signed Auth](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/templates/devices/stm32u5/stm32u5self_signed_template.JSON).
-* Import the template into your IoTConnect instance. (A guide on *Importing a Device Template* is available or for more information on creating templates, please see the IoTConnect documentation website.)
+* Import the template into your IoTConnect instance. (A guide on [Importing a Device Template](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/import_device_template.md) is available or for more information on creating templates, please see the IoTConnect documentation website.)
 
 ## IoTConnect Device Setup
 Creating a new devices in the IoTConnect portal is essential to receive data from the device.
