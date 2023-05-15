@@ -1,6 +1,6 @@
 ## Introduction
 
-This document aims to provide a step-by-step-guide way to test and evaluate the 
+This document provides a step-by-step-guide way to test and evaluate the 
 [B-U585I-IOT02A STM32U4 Discovery kit for IoT](https://www.st.com/en/evaluation-tools/b-u585i-iot02a.html) board 
 with IoTConnect and Trusted Firmware-M support.
 
@@ -9,9 +9,9 @@ This guide supports only Windows at this time.
 ## Required Software
 
 * Download and install the [STM32CubeProgrammer software for STM32](https://www.st.com/en/development-tools/stm32cubeprog.html).
-Please ensure that the 64-bit version is installed and into the default installation directory in C:\Program Files.
-* You will need a serial console application for the next steps. We recommend [Tera Term](https://ttssh2.osdn.jp/index.html.en)
-The serial console application needs to be configured per settings () in this screenshot:
+(Please ensure that the 64-bit version is installed and use the default installation directory of "C:\Program Files\")
+* A serial console application, such as [Tera Term](https://ttssh2.osdn.jp/index.html.en), is required for the next steps. 
+Configure settings per screenshot below:
 
 ![Tera Term Serial Settings](media/teraterm-settings.png "Tera Term Serial Settings")
 
@@ -19,13 +19,12 @@ The serial console application needs to be configured per settings () in this sc
 
 * Download and extract the [binary package zip](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/stm32u5-tfm-package-041823.zip)
 * Plug in a USB cable into the Micro USB slot of the B-U585I-IOT02A board.
-* Execute the trust-zone-enable.bat batch script from the package. 
+* Execute the trust-zone-enable.bat batch script from the package.
 This will enable the TrustZones feature which is required to run the next step.
-Running this script will make it so only TrustZone enabled applications will run on the board.
-You need to run this step only once per board. 
+Running this script will make it so that only TrustZone enabled applications are able to run on the board.
+You need to run this step only once per board.
 * Execute the tfm-update.bat batch script from the package.
-* You can run trust-zone-disable.bat batch script once you are finished with the evaluation. 
-The script will revert the board to factory setting where only non-TrustZone applications will run.
+* You can run trust-zone-disable.bat batch script once you are finished with the evaluation to again allow non-TrustZone applications to run.
 
 ## Device Configuration
 
