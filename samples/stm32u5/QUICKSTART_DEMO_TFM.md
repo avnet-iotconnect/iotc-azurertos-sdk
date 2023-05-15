@@ -54,6 +54,6 @@ A Device Template with Self Signed authentication type will need to be imported.
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
 * Click Save.
 
-## IoTConnect Dashboard Setup (Optional)
+## IoTConnect Dashboard Setup
 An easier way to view sensor data from the device is to visualize using a dashboard.
-* Download the premade *STM32U5 TFM Dashboard Example* and follow the *Import an Existing Dashboard* guide to create the dasbhaord.  Be sure to connect the dashboard elements to your specific device using the *Unique ID* created in the previous a step.
+* Download the premade *STM32U5 TFM Dashboard Example* and follow the (TBD) *Import an Existing Dashboard* guide to create the dasbhaord.  Be sure to connect the dashboard elements to your specific device using the *Unique ID* created in the previous a step.
