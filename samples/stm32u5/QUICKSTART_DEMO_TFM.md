@@ -58,6 +58,17 @@ A Device Template with Self Signed authentication type will need to be imported.
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
 * Click Save and press the Reset button.
 
+## Verification
+At this point the board should be sending telemetry to the IoTConnect portal. We can verify by checking the "Live Data" feed.
+* Return to the *Devices* page and click on the newly created Device ID.
+* On the left sub-menu, click "Live Data" and after a few seconds, MQTT data should be shown. See below:<br>![image](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/assets/40640041/21d25bbb-71d0-4a9d-9e74-e2acf0983183)
+
 ## IoTConnect Dashboard Setup
 An easier way to view sensor data from the device is to visualize using a dashboard.
 * Download the premade *STM32U5 TFM Dashboard Example* and follow the (TBD) *Import an Existing Dashboard* guide to create the dasbhaord.  Be sure to connect the dashboard elements to your specific device using the *Unique ID* created in the previous a step.
+
+## Troubleshooting
+Using the serial terminal is the best way to identify problems. Common issues can be resolved by verifying the following items:
+* Output stopping with a message about "IP Address":  Ensure valid WiFI credentials are used and that a DHCP server is operational
+* Output stopping before data is sent:  Verify CPID and Environment names
+* Output stopping with "No Device Found":  Ensure a new device was created in the portal and that the DUID matches the Device ID
