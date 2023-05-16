@@ -28,6 +28,7 @@ Running this script will make it so that only TrustZone enabled applications are
 
 ## Device Configuration
 * Ensure your serial termainal application is running.
+* Press the RST button on the board.  It is the black button next to the only blue button on the top of the board.
 * In your terminal application enter "y" when prompted to set device configuration.
 * Set values for you WiFi SSID (Network Name) and Password
 * Set the values for your CPID and Environment. These values can be located 
