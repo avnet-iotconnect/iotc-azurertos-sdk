@@ -19,7 +19,7 @@ An IoTConnect account is required to continue this guide. If you need to create 
 
 ## Firmware Setup
 
-* Download and extract the latest [binary package](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/stm32u5-tfm-package-041823.zip) zip file.
+* Download and extract the latest [binary package](https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/stm32u5-tfm-package-050223.zip) zip file.
 * Connect a USB cable to the Micro USB slot of the B-U585I-IOT02A board.
 * Execute the *trust-zone-enable.bat* batch script included in the package.<br>This will enable the TrustZone feature which is required to run the next step.
 Running this script will make it so that only TrustZone enabled applications are authorized to run on the board. This only needs to be run once per board.
