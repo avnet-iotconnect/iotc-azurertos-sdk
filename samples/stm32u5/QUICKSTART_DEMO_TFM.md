@@ -56,7 +56,7 @@ A Device Template with Self Signed authentication type will need to be imported.
 * Enter a the DUID saved from earlier in the *Unique ID* field and enter a descriptive *Display Name* of your choice.
 * Select the template from the dropdwon box that was just imported.
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
-* Click Save.
+* Click Save and press the Reset button.
 
 ## IoTConnect Dashboard Setup
 An easier way to view sensor data from the device is to visualize using a dashboard.
