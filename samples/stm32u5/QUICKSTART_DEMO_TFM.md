@@ -41,6 +41,7 @@ will be generated and displayed on the console during startup.
   * Copy the Device Certificate from the console, including the BEGIN and END lines.
   * Paste the contents into the X509 Cert field on  [this web site](https://www.samltool.com/fingerprint.php). (Optionally you can use openssl to print the device fingerprint, but this is outside the scope of this guide.)
   * Leave the "Algorithum" selection at the default, press "Calculate Fingerprint" and copy/save the Fingerprint field for later use.
+* Copy the generated DUID displayed and save for later use.
 
 ## IoTConnect Template Setup
 A Device Template with Self Signed authentication type will need to be imported.
@@ -49,7 +50,7 @@ A Device Template with Self Signed authentication type will need to be imported.
 
 ## IoTConnect Device Setup
 * Create a new device in the IoTConnect portal. (Follow the [Create a New Device](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/create_new_device.md) guide for a detailed walkthrough.)
-* Enter a *Unique ID* and descriptive *Display Name* of your choice.
+* Enter a the DUID saved from earlier in the *Unique ID* field and enter a descriptive *Display Name* of your choice.
 * Select the template from the dropdwon box that was just imported.
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
 * Click Save.
