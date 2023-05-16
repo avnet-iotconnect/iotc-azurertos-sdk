@@ -29,13 +29,15 @@ Running this script will make it so that only TrustZone enabled applications are
 ## Device Configuration
 * Ensure your serial termainal application is running.
 * Press the RST button on the board and look for the "X-CUBE-AZURE" title block. This may take 1 or two presses of the button. (The reset button is the black button labled "RST" next to the only blue button on the top of the board.)
-* In your terminal application enter "y" when prompted to set device configuration.
-* Set values for you WiFi SSID (Network Name) and Password
-* Set the values for your CPID and Environment. These values can be located 
+* In your terminal application enter "y" when prompted to set device configuration. You will only need to set values 1-4.
+  * Configure your WiFi SSID (Network Name) by pressing 1
+  * Configure your WiFi Password by pressing 2
+  * Set the values for your CPID and Environment by pressing 3 and 4 respectively. These values can be located 
 in  the IoTConnect WebUI on the *Key Vault* page. Navigate there using the image below:<br>![Key Vault](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/assets/key_vault.png "Key Vault")
-* The DUID value can be left unset. A DUID unique to your device 
-will be generated and displayed on the console during startup.
-* To utilize the secure element, leave the symetric key blank as this will allow for STSAFE with x509 authentication.
+  * The DUID value should be left unset. A DUID unique to your device will be generated and displayed on the console during startup.
+  * The Symetric key should be left unset. This will allow for authentication using STSAFE with x509 authentication.
+  * Press '0' to write the configuration/
+  * Press the Reset button
 * After configuring your device's settings, reset the device and monitor the serial terminal for information similar to the screenshot below
   ![Certificate and DUID Screemshot](media/duid-and-certifciate-console.png "Certificate and DUID Screemshot") 
 * A device fingerprint needs to be generated from the certificate.
