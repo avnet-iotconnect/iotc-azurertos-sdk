@@ -18,7 +18,7 @@ If contributing to this project, follow the [contributing guidelines](CONTRIBUTI
 
 ## Build Instructions
 
-* If using the STM32U5, you should follow the initial [QUICKSTART_DEMO.md](samples/stm32u5/QUICKSTART_DEMO.md) 
+* If using the STM32U5, you should follow the initial [QUICKSTART.md](samples/stm32u5/QUICKSTART.md) 
 located in the sample directory. Note that software X509 mutual authentication is also supported with the board but the 
 steps are described in this document.
 * Download and extract the project package for your board from the [Releases page](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) in this repo. This option is not supported for STM32U5.
