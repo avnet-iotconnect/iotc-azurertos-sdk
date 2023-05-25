@@ -46,7 +46,7 @@ in  the IoTConnect WebUI on the *Key Vault* page. Navigate there using the image
   * Leave the "Algorithum" selection at the default, press "Calculate Fingerprint" and copy/save the Fingerprint field for later use.
 * Copy the generated DUID displayed and save for later use.
 
-## IoTConnect Template Setup
+## IoTConnect Device Template Setup
 A Device Template with Self Signed authentication type will need to be imported.
 * Download the premade [Device Template with Self-Signed Auth](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/templates/devices/stm32u5/stm32u5self_signed_template.JSON).
 * Import the template into your IoTConnect instance. (A guide on [Importing a Device Template](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/import_device_template.md) is available or for more information on [Template Management](https://docs.iotconnect.io/iotconnect/user-manuals/devices/template-management/), please see the [IoTConnect Documentation](https://iotconnect.io) website.)
