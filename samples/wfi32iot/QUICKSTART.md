@@ -97,7 +97,7 @@ following templates per the network configuration:
         ```bash
         CMD:SEND_UART=wifi MY_SSID,,1
         ```
-    - Wi-Fi Protected Access 2 (WPA2)
+    - Wi-Fi Protected Access 2 (WPA2) [Most Common]
         ```bash
         CMD:SEND_UART=wifi MY_SSID,MY_PSWD,2
         ```
