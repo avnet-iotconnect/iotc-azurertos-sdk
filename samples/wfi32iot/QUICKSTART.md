@@ -87,8 +87,11 @@ manufacturer data, including the device serial number. Below is a sample screens
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
 * Click Save and press the Reset button.
 
-## Setting up the WIFI.CFG file.
-* The WIFI.CFG file is located on the MSD. Open the file in a text editor and input the WiFi credentials using one of the
+## Configuration
+To configure the WiFi Credentials and IoTConnect Account environment information, you will need to edit two file located on the USB Mass Storage Device
+
+### Configure the WiFi Credentials
+* The WiFi Credentials are configred in the WIFI.CFG file located on the MSD. Open the file in a text editor and input the WiFi credentials using one of the
 following templates per the network configuration:
    - Open Unsecured Network (no password protection)
         ```bash
@@ -108,14 +111,9 @@ following templates per the network configuration:
         ```
 * Save the file when done.
 
-
-### Setting up the CLOUD.CFG file
-
-* Ensure that you eject the drive after making any changes to the files, and then restarting the board.
-The PC filesystem may be caching the file contents, and it may not allow the device to complete writing to the device before a restart.
+### Configure the IoTConnect Account
 * Open the CLOUD.CFG file in a text editor. If the contents of CLOUD.CFG do not have text like CPID and ENV, 
-delete the file, eject the drive, restart the board and re-open the file.
-Restarting will populate the defaults.
+delete the file, eject the drive, reset the board and re-open the file as resetting will populate the defaults.
 * Set the CPID and Environment per your IoTConnect account settings, which can be found in Settings -> Key Vault in your IoTConnect portal.
-* Save the file, eject the drive and restart the board.
+* Save the file, eject the USB drive then reset the board.
 * Your device should connect to your IoTConnect account and publish sensor data periodically.
