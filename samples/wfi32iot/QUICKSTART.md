@@ -82,7 +82,7 @@ manufacturer data, including the device serial number. Below is a sample screens
 
 ## IoTConnect Device Setup
 * Create a new device in the IoTConnect portal. (Follow the [Create a New Device](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/create_new_device.md) guide for a detailed walkthrough.)
-* Enter a the "snXXXXXXXX" saved from earlier in the *Unique ID* field and enter a descriptive *Display Name* of your choice.
+* Enter a the "snXXXXXXXX" (do not include the "__device.pem") from earlier in the *Unique ID* field and enter a descriptive *Display Name* of your choice.
 * Select the template from the dropdwon box that was just imported.
 * Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
 * Click Save and press the Reset button.
