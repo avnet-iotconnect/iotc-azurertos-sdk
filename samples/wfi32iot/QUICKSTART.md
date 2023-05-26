@@ -80,20 +80,14 @@ manufacturer data, including the device serial number. Below is a sample screens
 
 ![Fingerprint Web Site Screenshot](media/fingerprint.png "Fingerprint Web Site Screenshot")
 
-### Setting up the Device in IoTConnect
- 
-* Navigate to Device -> Device and click the **Create Device** button.
-* Your device unique ID is the "snXXXXXXXX" collection numbers and letters by which the files on the MSD are created. 
-Enter that name (including "sn") as the device name and display name.
-* Choose your entity where you will create the device.
-* Select the Template that was created in a previous step.
-* Enter the fingerprint obtained in the previous step (without colons) as the **Primary Thumbprint**. See screenshot below.
-* Click **Save**.
+## IoTConnect Device Setup
+* Create a new device in the IoTConnect portal. (Follow the [Create a New Device](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/create_new_device.md) guide for a detailed walkthrough.)
+* Enter a the "snXXXXXXXX" saved from earlier in the *Unique ID* field and enter a descriptive *Display Name* of your choice.
+* Select the template from the dropdwon box that was just imported.
+* Enter the Fingerprint calculated in the "Device Configuration" step into the Thumbprint field.
+* Click Save and press the Reset button.
 
-![Device Creation Screenshot](media/iotc-device.png "Device Creation Screenshot")
-
-### Setting up the WIFI.CFG file.
-
+## Setting up the WIFI.CFG file.
 * The WIFI.CFG file is located on the MSD. Open the file in a text editor and input the WiFi credentials using one of the
 following templates per the network configuration:
    - Open Unsecured Network (no password protection)
