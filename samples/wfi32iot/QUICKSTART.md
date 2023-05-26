@@ -56,64 +56,17 @@ MPLAB IPE and 32-bit device support are the only required options during the ins
 ## Cloud Account Setup
 An IoTConnect account is required to continue this guide. If you need to create an account, a free 2-month subscription is available.  Please follow the [Creating a New IoTConnect Account](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/subscription/subscription.md) guide and return to this guide once complete.
 
-### IoTConnect Template Setup
-
-* Login to the IoTConnect platform, navigate to Devices -> Device -> Templates and click "Create Template."
-  * Enter a name like "wfi32demo" for **Template Code** and **Template Name**. 
-  * Select *Self Signed Certificate* in the **Authentication Type** pulldown.
-  * Ensure that **Device Message Version** is **1.0**
-  * Click **Save**
-* On the same page, click the Attributes tab.
-* Add a field to the list of attributes called "version" of type **STRING** 
-* Add the following **STRING** fields to the list of attributes (click/sensor-specific attributes are only necessary if you are using those specific clicks/sensors):
-  * *version* - Software version. 
-  * *AIR7_Status* - Tells whether the Air Quality 7 Click board is warming up or is ready to report data.
-  * *T6713_Status* - Tells whether the T6713 Sensor on the Proto Click board is warming up or is ready to report data.
-  * *T9602_Status* - Tells whether the T9602 Sensor on the Terminal 2 Click board is warming up or is ready to report data.
-* Add the following **NUMERIC** fields to the list of attributes (click/sensor-specific attributes are only necessary if you are using those specific clicks/sensors):
-  * *Onboard_Temp_DegC* - Note that this value seems rather high. It is likely measuring the chip internal temperature (in degrees Celsius) of the WFI32-IoT.
-  * *Onboard_Light_Lux* - The amount of light (in lux) reported by the light sensor on the WFI32-IoTboard.
-  * *WFI32IoT_button1* - Will be set to 1, if button 1 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
-  * *WFI32IoT_button2* - Will be set to 1, if button 2 was pressed before the telemetry data was sent. Button status will reset to 0 after the message is sent.
-  * *WFI32IoT_button1_count* - The number of times that button 1 was pressed since the board started or "reset-counters" command (see below) was issued. 
-  * *WFI32IoT_button2_count* - The number of times that button 2 was pressed since the board started or "reset-counters" command (see below) was issued. 
-  * *AIR7_tVOC_ppb* - The Total Volatile Organic Compounds (in parts per billion) measured on the Air Quality 7 Click Board.
-  * *AIR7_CO2_ppm* - The Carbon Dioxide (in parts per million) measured on the Air Quality 7 Click Board.
-  * *ULP_Pressure_Pa* - Air pressure (in Pascals) measured on the Ultra-Low Press Click Board.
-  * *ULP_Temp_DegC* - Temperature (in degrees Celsius) measured on the Ultra-Low Press Click Board.
-  * *VAV_Pressure_Pa* - Air pressure (in Pascals) measured on the VAV Press Click Board.
-  * *VAV_Temp_DegC* - Temperature (in degrees Celsius) measured on the VAV Press Click Board.
-  * *ALT2_Altitude_m* - Altitude above sea level (in meters) measured on the Altitude 2 Click Board. 
-  * *ALT2_Temp_DegC* - Temperature (in degrees Celsius) measured on the Altitude 2 Click Board.
-  * *ALT2_Pressure_mBar* - Air pressure (in millibars) measured on the Altitude 2 Click Board.
-  * *PHT_Temp_DegC* - Temperature (in degrees Celsius) measured on the VAV Press Click Board.
-  * *PHT_Pressure_mBar* - Air pressure (in millibars) measured on the PHT Click Board.
-  * *PHT_Humidity_Percent* - Air humidity (%) measured on the PHT Click Board.
-  * *TH14_Temp_DegC* - Temperature (in degrees Celsius) measured on the TEMP&HUM 14 Board.
-  * *TH14_Humidity_Percent* - Air humidity (%) measured on the TEMP&HUM 14 Board.
-  * *ALT4_Altitude_m* - Altitude above sea level (in meters) measured on the Altitude 4 Click Board. 
-  * *ALT4_Temp_DegC* - Temperature (in degrees Celsius) measured on the Altitude 4 Click Board.
-  * *ALT4_Pressure_mBar* - Air pressure (in millibars) measured on the Altitude 4 Click Board.
-  * *T6713_CO2_ppm* - The Carbon Dioxide (in parts per million) measured on the T6713 sensor.
-  * *T9602_Temp_DegC* - Temperature (in degrees Celsius) measured on the T9602 sensor.
-  * *T9602_Humidity_Percent* - Air humidity (%) measured on the T9602 sensor.
-* The screenshot below shows an example template:
-
-![Template Screenshot](media/attributes_list.png "Template Screenshot")
-
-* Add the following commands in the *Commands* tab:
-  * *led-red*   - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the red LED on the board next to the reset switch will be turned on. 
-  * *led-green* - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the green LED on the board next to the reset switch will be turned on. 
-  * *led-blue*  - Toggle the *Parameter Required* toggle button to *enabled*. If parameter is set to "on", the blue LED on the board next to the reset switch will be turned on.
-  * *reset-counters* - When issued, this command will reset the running counters for button 1 and 2 presses.
+## IoTConnect Device Template Setup
+A Device Template with Self Signed authentication type will need to be imported.
+* Download the premade [Device Template with Self-Signed Auth](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/templates/devices/wfi32iot/wfi32ss_template.JSON).
+* Import the template into your IoTConnect instance. (A guide on [Importing a Device Template](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/import_device_template.md) is available or for more information on [Template Management](https://docs.iotconnect.io/iotconnect/user-manuals/devices/template-management/), please see the [IoTConnect Documentation](https://iotconnect.io) website.)
 
 ## Obtaining the Device Certificate Fingerprint
-
 This section outlines how to set up the device for IoTConnect Self Signed Certificate authentication type.
 Steps for other authentication types are out of scope for this guide and are available in the main README.md.
 
 * In order to complete the next steps, obtain the fingerprint of device certificate.
-The device certificate is located in the MSD in the file named snXXXXXX_device.pem.
+The device certificate is located in the file named snXXXXXX_device.pem on the Mass Storage Device.
 The fingerprint of the certificate can be either SHA256 or SHA1.
 There are a couple of ways to go about that:
    * One can execute ``` openssl x509 -noout -fingerprint -inform pem -in snxXXXX_device.pem ``` if openssl is installed.
