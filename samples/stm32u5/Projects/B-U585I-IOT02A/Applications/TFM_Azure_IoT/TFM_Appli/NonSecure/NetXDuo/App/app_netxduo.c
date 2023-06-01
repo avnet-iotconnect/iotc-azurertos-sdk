@@ -28,7 +28,7 @@
 #include "nxd_sntp_client.h"
 #include "app_azure_iot.h"
 #include "azrtos_time.h"
-#include "app_config.h"
+#include "iotconnect_app_config.h"
 
 // avoid warnings for duplicate WIFI_SSID/WIFI_PASSWORD definitions
 // We don't use any of those defines

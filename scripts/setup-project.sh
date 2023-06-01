@@ -299,7 +299,7 @@ case "$name" in
     git_hide_config_files
   ;;
   stm32u5)
-    cube_zip_name='en.x-cube-azure-v2-2-0.zip'
+    cube_zip_name='en.x-cube-azure-v2-3-0.zip'
     if [ ! -f ${cube_zip_name} ]; then
       echo "The X-Cube Azure project needs to be downloaded as ${cube_zip_name} into ${PWD} "
       exit -2

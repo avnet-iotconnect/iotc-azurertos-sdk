@@ -3,7 +3,7 @@
 // Created by Nik Markovic <nikola.markovic@avnet.com> on 1/11/23.
 //
 
-#include "app_config.h"
+#include "iotconnect_app_config.h"
 
 #include "stm32u5xx.h"
 #include "b_u585i_iot02a.h"
@@ -161,7 +161,7 @@ static void on_connection_status(IotConnectConnectionStatus status) {
 }
 
 static void publish_telemetry() {
-    IotclMessageHandle msg = iotcl_telemetry_create(iotconnect_sdk_get_lib_config());
+    IotclMessageHandle msg = iotcl_telemetry_create();
 
     // Optional. The first time you create a data point, the current timestamp will be automatically added
     // TelemetryAddWith* calls are only required if sending multiple data points in one packet.
