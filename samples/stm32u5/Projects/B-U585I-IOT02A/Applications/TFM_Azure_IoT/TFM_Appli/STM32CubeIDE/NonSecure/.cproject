@@ -201,7 +201,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/nx-http-client|iotc-azrtos-sdk/iotc-c-lib/tests|Application/NetXDuo/App/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota|iotc-azrtos-sdk/authentication/driver|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/libTO|Middlewares/netxduo/drivers/Cellular|Drivers/BSP/Components/cellular|Middlewares/netxduo/drivers/Cellular/nx_driver_stm32_cellular.c|Middlewares/Interfaces/Network/cellular|Middlewares/netxduo/drivers/cellular|Middlewares/cellular|Application/Cellular|Middlewares/cmsis_rtos_threadx|Middlewares/Cellular" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Application/User/app_config.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client|iotc-azrtos-sdk/iotc-c-lib/tests|Application/NetXDuo/App/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota|iotc-azrtos-sdk/authentication/driver|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/libTO|Middlewares/netxduo/drivers/Cellular|Drivers/BSP/Components/cellular|Middlewares/netxduo/drivers/Cellular/nx_driver_stm32_cellular.c|Middlewares/Interfaces/Network/cellular|Middlewares/netxduo/drivers/cellular|Middlewares/cellular|Application/Cellular|Middlewares/cmsis_rtos_threadx|Middlewares/Cellular" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -613,7 +613,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="iotc-azrtos-sdk/azrtos-layer/nx-http-client|iotc-azrtos-sdk/iotc-c-lib/tests|Application/NetXDuo/App/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota|iotc-azrtos-sdk/authentication/driver|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/libTO|Application/Wifi|Drivers/BSP/Components/cellular/BG96|Middlewares/netxduo/drivers/wifi|Drivers/BSP/Components/cellular/_embedded|Middlewares/Interfaces/Network/wifi|Drivers/BSP/Components/mx_wifi" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Application/User/app_config.c|iotc-azrtos-sdk/azrtos-layer/nx-http-client|iotc-azrtos-sdk/iotc-c-lib/tests|Application/NetXDuo/App/nx_azure_iot_ciphersuites.c|iotc-azrtos-sdk/azrtos-layer/azrtos-ota|iotc-azrtos-sdk/authentication/driver|iotc-azrtos-sdk/cJSON/test.c|iotc-azrtos-sdk/libTO|Application/Wifi|Drivers/BSP/Components/cellular/BG96|Middlewares/netxduo/drivers/wifi|Drivers/BSP/Components/cellular/_embedded|Middlewares/Interfaces/Network/wifi|Drivers/BSP/Components/mx_wifi" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
