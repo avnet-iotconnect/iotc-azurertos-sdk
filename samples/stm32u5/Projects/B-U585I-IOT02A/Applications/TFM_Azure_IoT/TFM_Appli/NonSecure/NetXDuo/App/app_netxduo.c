@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "app_netxduo.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -33,13 +34,12 @@
 // avoid warnings for duplicate WIFI_SSID/WIFI_PASSWORD definitions
 // We don't use any of those defines
 
-
-#if (USE_CELLULAR == 1)
-#include "nx_driver_stm32_cellular.c"
-#endif /* USE_CELLULAR == 1 */
-#if (USE_WIFI == 1)
-#include "nx_driver_emw3080.c"
-#endif /* USE_WIFI == 1 */
+//#if (USE_CELLULAR == 1)
+//#include "nx_driver_stm32_cellular.c"
+//#endif /* USE_CELLULAR == 1 */
+//#if (USE_WIFI == 1)
+//#include "nx_driver_emw3080.c"
+//#endif /* USE_WIFI == 1 */
 
 /* USER CODE END Includes */
 
@@ -82,7 +82,7 @@ ULONG   NetMask;
 /* EPOCH_TIME_DIFF is equivalent to 70 years in sec
    calculated with www.epochconverter.com/date-difference
    This constant is used to delete difference between :
-   Epoch converter (referenced to 1970) and SNTP (referenced to 1900) */
+   Unix time (referenced to 1970) and SNTP (referenced to 1900) */
 #define EPOCH_TIME_DIFF          2208988800
 
 #define SNTP_SYNC_MAX            (uint32_t)30
@@ -128,7 +128,6 @@ static const char *sntp_servers[] =
   "2.pool.ntp.org",
   "3.pool.ntp.org"
 };
-
 
 static UINT sntp_server_index;
 #endif
@@ -375,6 +374,7 @@ void free(void * ptr)
 static VOID ip_address_change_notify_callback(NX_IP *ip_instance, VOID *ptr)
 {
   /* release the semaphore as soon as an IP address is available */
+  printf("IP Address change notification...\r\n");
   tx_semaphore_put(&IpAddrSemaphore);
 }
 
@@ -409,10 +409,10 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
 #endif /* DHCP_DISABLE */
 
   /* wait until an IP address is ready */
-  if(tx_semaphore_get(&IpAddrSemaphore, IP_ADDR_TIMEOUT) != TX_SUCCESS)
+  while(tx_semaphore_get(&IpAddrSemaphore, IP_ADDR_TIMEOUT) != TX_SUCCESS)
   {
-    printf("IpAddrSemaphore timeout fail\r\n");
-    Error_Handler();
+    printf("IpAddrSemaphore timeout - retrying\r\n");
+    //Error_Handler();
   }
 
   ret = nx_ip_address_get(&IpInstance, &IpAddress, &NetMask);
@@ -491,7 +491,6 @@ UINT dns_create(NX_DNS *dns_ptr)
 * @param  thread_input: ULONG user argument used by the thread entry
 * @retval none
 */
-
 static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
 {
   UINT ret = NX_SUCCESS;
@@ -529,7 +528,7 @@ static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
 static UINT unix_time_get(ULONG *unix_time)
 {
   /* Return number of seconds since Unix Epoch (1/1/1970 00:00:00).  */
-  *unix_time =  unix_time_base + (tx_time_get() / TX_TIMER_TICKS_PER_SECOND);
+  *unix_time =  UnixTime;
 
   return(NX_SUCCESS);
 }
@@ -607,7 +606,6 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address)
       /* Server status is good. Now get the Client local time. */
       ULONG sntp_seconds;
       ULONG sntp_fraction;
-      ULONG system_time_in_seconds;
 
       /* Get the local time. */
       ret = nx_sntp_client_get_local_time_extended(&SntpClient,
@@ -620,11 +618,8 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address)
         continue;
       }
 
-      /* Get the system time in second. */
-      system_time_in_seconds = tx_time_get() / TX_TIMER_TICKS_PER_SECOND;
-
-      /* Convert to Unix epoch and minus the current system time.  */
-      unix_time_base = (sntp_seconds - (system_time_in_seconds + EPOCH_TIME_DIFF));
+      /* Convert NTP time (01/01/1900 0:0:0) to Unix time (01/01/1970 0:0:0) */
+      UnixTime = sntp_seconds - EPOCH_TIME_DIFF;
 
       /* Stop and delete SNTP. */
       nx_sntp_client_stop(&SntpClient);
@@ -719,6 +714,6 @@ static UINT sntp_time_sync(VOID)
 
   return NX_NOT_SUCCESSFUL;
 }
-#endif // comment out removed code
+#endif // if 0
 
 /* USER CODE END 1 */
