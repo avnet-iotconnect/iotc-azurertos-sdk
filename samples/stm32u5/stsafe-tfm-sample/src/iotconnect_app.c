@@ -29,15 +29,16 @@ static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 #define std_component_name "std_comp"
 
 
-//#define MEMORY_TEST
+#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  1 * 1024
 #define TEST_BLOCK_COUNT 30
 static void *blocks[TEST_BLOCK_COUNT];
-void memory_test() {
+void memory_test(void) {
     int i = 0;
     for (; i < TEST_BLOCK_COUNT; i++) {
         void *ptr = malloc(TEST_BLOCK_SIZE);
+        printf("0x%lx\r\n", (unsigned long) ptr);
         if (!ptr) {
             break;
         }
@@ -295,6 +296,7 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to get the certificate common name.\r\n");
             return false;
         }
+        memory_test();
         if (!md->duid || strlen(md->duid) == 0) {
             printf("Using certificate CN as DUID.\r\n");
             strcpy(duid_buffer, operational_cn);

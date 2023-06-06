@@ -31,6 +31,13 @@
 #include "azrtos_time.h"
 #include "iotconnect_app_config.h"
 
+
+#if defined (TFM_PSA_API)
+#include "psa/crypto.h"
+#include "psa/update.h"
+#endif /* TFM_PSA_API */
+
+
 // avoid warnings for duplicate WIFI_SSID/WIFI_PASSWORD definitions
 // We don't use any of those defines
 
@@ -195,6 +202,32 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
 #endif
 
 
+#if defined (TFM_PSA_API)
+  uint32_t seed = 0;
+  uint8_t random[sizeof(uint32_t)];
+  psa_status_t status;
+  status = psa_generate_random(random, sizeof(random));
+  seed = (uint32_t)(random[0] + (random[1] << 8) + (random[2] << 16) + (random[3] << 24));
+  if (status != PSA_SUCCESS)
+  {
+    Error_Handler();
+  }
+  srand(seed);
+#else
+  uint32_t seed = 0;
+  MX_RNG_Init();
+
+  /* generate a seed for C library srand() */
+  /* (needed for NetXDuo TLS) */
+  if(HAL_RNG_GenerateRandomNumber(&hrng, &seed) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  srand(seed);
+#endif /* TFM_PSA_API */
+
+
+  memory_test();
   CHAR *pointer;
   
   /* Allocate the memory for packet_pool.  */
