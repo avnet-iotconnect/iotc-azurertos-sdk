@@ -7,9 +7,11 @@
 #define IOTCONNECT_MALLOC_TX_BYTE_POOL
 #include "tx_port.h"
 /*
+To enable this functionality set the IOTC_ROUTE_MALLOC_TO_TX_BYTE_POOL compile flag.
+
 This is a slightly rough implementation of routing malloc to tx_byte_pool.
 In order to use this implementation:
- o The byte pool of IOTCONNECT_MALLOC_BUFFER_SIZE (6k currently)
+ o The byte pool of IOTC_MALLOC_BUFFER_SIZE (6k currently)
  but the user can override the define with the same compile-time define.
  o Ensure that no malloc calls are being executed before you call malloc_byte_pool_allocate().
  This part can be tricky because many standard C library functions may call malloc under the hood.

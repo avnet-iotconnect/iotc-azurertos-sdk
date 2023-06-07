@@ -8,13 +8,13 @@
 #include "tx_api.h"
 #include "iotconnect_malloc_tx_byte_pool.h"
 
-#ifdef IOTCONNECT_ROUTE_MALLOC_TO_TX_BYTE_POOL
+#ifdef IOTC_ROUTE_MALLOC_TO_TX_BYTE_POOL
 
-#ifndef IOTCONNECT_MALLOC_BUFFER_SIZE
-#define IOTCONNECT_MALLOC_BUFFER_SIZE (6 * 1024)
+#ifndef IOTC_MALLOC_BUFFER_SIZE
+#define IOTC_MALLOC_BUFFER_SIZE (6 * 1024)
 #endif
 
-static UCHAR malloc_pool_buff[IOTCONNECT_MALLOC_BUFFER_SIZE];
+static UCHAR malloc_pool_buff[IOTC_MALLOC_BUFFER_SIZE];
 static TX_BYTE_POOL malloc_pool;
 
 UINT malloc_byte_pool_allocate(void) {

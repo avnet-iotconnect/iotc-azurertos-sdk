@@ -262,14 +262,14 @@ int main(int argc, char **argv)
   MX_GPDMA1_Init();
   MX_I2C2_Init();
 
-#ifdef IOTCONNECT_ROUTE_MALLOC_TO_TX_BYTE_POOL
+#ifdef IOTC_ROUTE_MALLOC_TO_TX_BYTE_POOL
   // this should be called before rand/srand gets called so we hook into malloc early
   if(malloc_byte_pool_allocate())
   {
 	  // called function prints the error
 	  Error_Handler();
   }
-#endif // IOTCONNECT_ROUTE_MALLOC_TO_TX_BYTE_POOL
+#endif // IOTC_ROUTE_MALLOC_TO_TX_BYTE_POOL
 
 #if defined (TFM_PSA_API)
   uint32_t seed = 0;
