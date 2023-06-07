@@ -29,7 +29,7 @@ static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
 #define std_component_name "std_comp"
 
 
-#define MEMORY_TEST
+//#define MEMORY_TEST
 #ifdef MEMORY_TEST
 #define TEST_BLOCK_SIZE  1 * 1024
 #define TEST_BLOCK_COUNT 30
