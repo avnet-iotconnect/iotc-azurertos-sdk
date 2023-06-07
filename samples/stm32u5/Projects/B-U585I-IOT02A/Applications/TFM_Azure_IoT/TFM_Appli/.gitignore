@@ -1,4 +1,5 @@
 /*
 !/.gitignore
 !/NonSecure
+!/Secure
 !/STM32CubeIDE
