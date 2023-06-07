@@ -15,12 +15,13 @@ extern   "C" {
 #define IOTC_ADU_SAME54 "SAME54"
 #define IOTC_ADU_STM "STMicroelectronics"
 #define IOTC_ADU_STM32L4S5 "STM32L4S5"
+#define IOTC_ADU_STM32U5 "STM32U5"
 
 UINT iothub_start_device_agent(
     const char *manufacturer,
     const char *model,
-    const char *provider,
-    const char *name,
+    const char *provider, // provider and name are ignored for NetX 6.2.0 and newer
+    const char *name, // provider and name are ignored for NetX 6.2.0 and newer
     const char *version
     );
 
