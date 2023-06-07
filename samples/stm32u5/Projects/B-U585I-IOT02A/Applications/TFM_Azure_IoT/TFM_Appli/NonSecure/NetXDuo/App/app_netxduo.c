@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "app_netxduo.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -61,7 +62,10 @@ NX_IP                 IpInstance;
 NX_DHCP               DhcpClient;
 #endif /* DHCP_DISABLE */
 static NX_DNS         DnsClient;
+
+#if 0 // Move SNTP functionality to the IoTConnect SDK
 static NX_SNTP_CLIENT SntpClient;
+#endif
 
 ULONG   IpAddress;
 ULONG   NetMask;
@@ -448,7 +452,7 @@ static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
   }
 
     /* Sync up time by SNTP at start up. */
-  ret = sntp_time_sync();
+  ret = sntp_time_sync(&IpInstance, &AppPool, &DnsClient, SAMPLE_SNTP_SERVER_NAME);
 
   /* Check status.  */
   if (ret != NX_SUCCESS)

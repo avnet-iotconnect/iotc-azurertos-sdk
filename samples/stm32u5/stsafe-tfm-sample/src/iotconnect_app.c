@@ -296,7 +296,6 @@ bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
             printf("Unable to get the certificate common name.\r\n");
             return false;
         }
-        memory_test();
         if (!md->duid || strlen(md->duid) == 0) {
             printf("Using certificate CN as DUID.\r\n");
             strcpy(duid_buffer, operational_cn);

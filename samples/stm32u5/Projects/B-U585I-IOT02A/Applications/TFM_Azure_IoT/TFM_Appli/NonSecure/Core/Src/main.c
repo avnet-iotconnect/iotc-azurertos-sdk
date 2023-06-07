@@ -263,7 +263,9 @@ int main(int argc, char **argv)
   MX_I2C2_Init();
 
 #ifdef IOTCONNECT_ROUTE_MALLOC_TO_TX_BYTE_POOL
-  if(malloc_byte_pool_allocate()) {
+  // this should be called before rand/srand gets called so we hook into malloc early
+  if(malloc_byte_pool_allocate())
+  {
 	  // called function prints the error
 	  Error_Handler();
   }
