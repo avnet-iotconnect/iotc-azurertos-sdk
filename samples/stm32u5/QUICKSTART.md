@@ -70,4 +70,4 @@ Using the serial terminal is the best way to identify issues. Common issues can 
 * Output stopping with "No Device Found":  Ensure a new device was created in the portal and that the DUID matches the Device ID
 
 ## Further Reading
-* Visualize the data using Dynamic Dashboards
+* Visualize the data using [Dynamic Dashboards](https://help.iotconnect.io/documentation/dashboard/).
