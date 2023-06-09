@@ -28,7 +28,6 @@ static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context = NULL;
 
 static char common_name_buffer[IOTC_COMMON_NAME_MAX_LEN + 1];
-
 #define APP_VERSION "1.0.0"
 #define std_component_name "std_comp"
 
@@ -133,9 +132,9 @@ static UINT start_ota(char *url) {
     }
 
     req.azrtos_config = &azrtos_config;
-    // URLs should come in with blob.core.windows.net and similar so baltimore cert should work for all
-    req.tls_cert = (unsigned char*) IOTCONNECT_BALTIMORE_ROOT_CERT;
-    req.tls_cert_len = IOTCONNECT_BALTIMORE_ROOT_CERT_SIZE;
+    // URLs should come in with blob.core.windows.net and similar so Digicert cert should work for all
+    req.tls_cert = (unsigned char*) IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
+    req.tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
 
     status = iotc_ota_fw_download(
             &req,
