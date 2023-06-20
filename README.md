@@ -35,14 +35,7 @@ and run it via. Windows Subsystem for Linux.
   * When running/debugging, choose one of the demos form the project list first.
 Keep subdirectories selected, but unselect the actual stm32l4 sample directory.
 * For Avnet MaaxBoardRT and NXP MIMXRT1060 EVK: 
-  * Note that for the MaaxBoardRT, the WiFi and gigabit Ethernet are not supported.
-  * Download and install MCUXpresso IDE
-  * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list. 
-  * Make sure to switch to IDE view (top right IDE icon).
-  * It is also recommended closing the "Globals" window, next to the "Outline" in the top right dock.
-It may be causing hangs during debugging and perspective switching.
-  * Select the bottom-middle dock "Installed SDKs" tab and install the MCUExpresso SDK for your board. 
-Keep subdirectories selected, but unselect the actual mimxrt1060 sample directory
+  * See the [QUICKSTART](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/maaxboardrt/QUICKSTART.md) in the [maaxboardrt](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/maaxboardrt) samples directory.
 * For SAM E54 Xplained Pro:
   * Download and install MPLAB X IDE 5.45. IDE 5.40 has a known issue right now, so please use 5.35, or 5.45 and newer.
   * Download and install the MPLAB XC32/32++ Compiler 2.4.0 or later.
