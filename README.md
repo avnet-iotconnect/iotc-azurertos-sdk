@@ -1,20 +1,20 @@
 ## About
 
-This repo contains the IoTConnect C SDK and samples for AzureRTOS for
-Avnet MaaxBoard RT,
-STM32L4+ IoT Discovery Kit (B-L4S5I-IOT01A), 
-STM32U5 IoT Discovery Kit (B-U585I-IOT02A),
-NXP MTIMXRT1060 EVK,
-Microchip SAME54 Xplained Pro,
-Microchip WFI32-IoT (EV36W50A),
-Renesas CK-RX65N board,
-and Renesas RX65N Cloud Kit.
+This repository contains the IoTConnect C SDK and samples for AzureRTOS running on the following devices:
+* Avnet MaaxBoard RT
+* NXP MTIMXRT1060 EVK
+* STM32L4+ IoT Discovery Kit (B-L4S5I-IOT01A)
+* STM32U5 IoT Discovery Kit (B-U585I-IOT02A)
+* Microchip SAME54 Xplained Pro
+* Microchip WFI32-IoT (EV36W50A)
+* Renesas CK-RX65N board
+* Renesas RX65N Cloud Kit
 
 Various Click Board sensors are also supported by the WFI32-IoT project. See the [WFI32-IoT Quickstart Demo Guide](samples/wfi32iot/QUICKSTART_DEMO.md).
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
 
-If contributing to this project, follow the [contributing guidelines](CONTRIBUTING.md)
+If contributing to this project, please follow the [contributing guidelines](CONTRIBUTING.md)
 
 ## Build Instructions
 
@@ -26,14 +26,7 @@ steps are described in this document.
 On Windows, you will need bash installed with MSYS2 or similar. Alternatively, install a Linux distribution through the Windows Store 
 and run it via. Windows Subsystem for Linux.   
 * For STM32L4:
-  * Download and install STM32CubeIDE.
-  * File->Open Projects form File System, navigate to one of the samples, and select all projects in the list.
-  * This board contains a sensors-demo in addition to the basic-sample. 
-    The basic-sample project contains a simple example how to send data to IoTConnect.
-    The sensor-demo contains integration with sensors from a very limited port 
-    of the STM32CubeExpansion_Cloud_AZURE_V1.2.1 BSP.
-  * When running/debugging, choose one of the demos form the project list first.
-Keep subdirectories selected, but unselect the actual stm32l4 sample directory.
+  * See the [README](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/stm32l4).
 * For Avnet MaaxBoardRT and NXP MIMXRT1060 EVK: 
   * See the [QUICKSTART](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/maaxboardrt/QUICKSTART.md) in the [maaxboardrt](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/maaxboardrt) samples directory.
 * For SAM E54 Xplained Pro:
