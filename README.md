@@ -10,9 +10,7 @@ This repository contains the IoTConnect C SDK and samples for AzureRTOS running 
 * Renesas CK-RX65N board
 * Renesas RX65N Cloud Kit
 
-Various Click Board sensors are also supported by the WFI32-IoT project. See the [WFI32-IoT Quickstart Demo Guide](samples/wfi32iot/QUICKSTART_DEMO.md).
-
-To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube.
+To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube for a walkthrough.
 
 If contributing to this project, please follow the [contributing guidelines](CONTRIBUTING.md)
 
@@ -21,10 +19,10 @@ If contributing to this project, please follow the [contributing guidelines](CON
 * If using the STM32U5, you should follow the initial [QUICKSTART.md](samples/stm32u5/QUICKSTART.md) 
 located in the sample directory. Note that software X509 mutual authentication is also supported with the board but the 
 steps are described in this document.
-* Download and extract the project package for your board from the [Releases page](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) in this repo. This option is not supported for STM32U5.
-* Optionally, you can directly clone this repo. After cloning, execute [setup-project.sh](scripts/setup-project.sh]). 
-On Windows, you will need bash installed with MSYS2 or similar. Alternatively, install a Linux distribution through the Windows Store 
-and run it via. Windows Subsystem for Linux.   
+* Obtain the software corresponding to your board by using one of the following methods:
+  * Option 1) Download and extract the project package for the target board from the [Releases](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/releases) page.
+  * Option 2) Clone this repository. After cloning, execute [setup-project.sh](scripts/setup-project.sh]) to setup the environment.
+* On Windows, a bash interpreter is required (such as MSYS2). Alternatively, a Linux distribution can be installed through the Windows Store and can be run via Windows Subsystem for Linux.
 * For STM32L4:
   * See the [README](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/tree/main/samples/stm32l4).
 * For Avnet MaaxBoardRT and NXP MIMXRT1060 EVK: 
