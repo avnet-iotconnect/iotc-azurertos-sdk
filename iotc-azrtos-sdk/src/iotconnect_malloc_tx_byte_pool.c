@@ -11,7 +11,7 @@
 #ifdef IOTC_ROUTE_MALLOC_TO_TX_BYTE_POOL
 
 #ifndef IOTC_MALLOC_BUFFER_SIZE
-#define IOTC_MALLOC_BUFFER_SIZE (6 * 1024)
+#define IOTC_MALLOC_BUFFER_SIZE (8 * 1024)
 #endif
 
 static UCHAR malloc_pool_buff[IOTC_MALLOC_BUFFER_SIZE];
@@ -68,10 +68,11 @@ void *realloc(void *ptr, size_t size) {
 	if (ret) {
 	    // NOTE that this is technically unsafe. See the header file!
 		memcpy(ret, ptr, size);
-
+		free(ptr);
 	}
 	// else return ret below, which will be null
-	free(ptr);
+	// else (malloc man page): If the space cannot be allocated, the object
+	//  shall remain unchanged. So we cannot free it.
 	return ret;
 
 }
