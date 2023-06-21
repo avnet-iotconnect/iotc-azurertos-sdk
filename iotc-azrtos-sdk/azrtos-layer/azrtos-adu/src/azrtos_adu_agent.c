@@ -65,7 +65,9 @@ UINT iothub_start_device_agent(
     ) {
     UINT status;
     NX_AZURE_IOT_HUB_CLIENT* iothub_client = iothub_client_internal_get_iothub_instance();
-
+#if ( IOTC_USE_ADU_API_620 == 1)
+  name = ""; version = ""; // just simplify the check below in case of 6.2.0
+#endif
     if (!manufacturer || !model || !provider || !name || !version) {
         printf("Error: iothub_start_device_agent missing required argument!\r\n");
         return 1;
