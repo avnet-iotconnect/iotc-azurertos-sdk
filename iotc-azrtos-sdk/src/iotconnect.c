@@ -131,7 +131,7 @@ static IotclDiscoveryResponse* run_http_discovery(const char *cpid, const char *
 static IotclSyncResponse* run_http_sync(const char *cpid, const char *uniqueid) {
     IotConnectHttpRequest req = { 0 };
     char post_data[IOTCONNECT_DISCOVERY_PROTOCOL_POST_DATA_MAX_LEN + 1] = {0};
-    char sync_path [strlen(discovery_response->path) + strlen("sync?") + 1];
+    char sync_path[strlen(discovery_response->path) + strlen("sync?") + 1];
 
     sprintf(sync_path, RESOURCE_PATH_SYNC, discovery_response->path);
     snprintf(post_data,
@@ -306,7 +306,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     memset(&iic, 0, sizeof(iic));
 
     last_sync_result = IOTCL_SR_UNKNOWN_DEVICE_STATUS;
-#ifndef PROTOCOL_V2_PROTOTYPE
 
 	iotcl_discovery_free_discovery_response(discovery_response);
 	iotcl_discovery_free_sync_response(sync_response);
@@ -341,19 +340,6 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     iic.auth = &config.auth;
     iic.status_cb = on_iotconnect_status;
 
-
-#else
-    iic.c2d_msg_cb = on_iothub_data;
-    char * client_id = NULL;
-    client_id = malloc(strlen(config.cpid) + strlen(config.duid) + 2 /* dash and null */);
-    sprintf(client_id, "%s-%s", config.cpid, config.duid);
-
-    iic.device_name = client_id; // sync_response->broker.client_id;
-    iic.host = "poc-iotconnect-iothub-eu.azure-devices.net"; // sync_response->broker.host;
-    iic.auth = &config.auth;
-    iic.status_cb = on_iotconnect_status;
-#endif
-
     lib_config.device.env = config.env;
     lib_config.device.cpid = config.cpid;
     lib_config.device.duid = config.duid;
@@ -366,20 +352,10 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     // intercept internal processing and forward to client
     lib_config.event_functions.msg_cb = on_message_intercept;
 
-#ifndef PROTOCOL_V2_PROTOTYPE
     lib_config.telemetry.dtg = sync_response->dtg;
-#else
-    lib_config.event_functions.response_cb = hello_response_callback;
-    // TODO: deal with workaround for telemetry config
-    lib_config.telemetry.dtg = "unused";
-    lib_config.request.sid = "Yjg5MmMzNThlMzc1NGNjMzg4NDEzMmUyNzFlMjYxNTE=UDI6MTI6MDMuOTA=";
-#endif
 
     if (!iotcl_init(&lib_config)) {
         printf("IOTC: Failed to initialize the IoTConnect Lib\r\n");
-#ifdef PROTOCOL_V2_PROTOTYPE
-        free (client_id);
-#endif
         return NX_FALSE;
     }
 
@@ -387,36 +363,9 @@ UINT iotconnect_sdk_init(IotConnectAzrtosConfig *ac) {
     ret = iothub_client_init(&iic, &azrtos_config);
     if (ret) {
         printf("IOTC: Failed to connect!\r\n");
-        #ifdef PROTOCOL_V2_PROTOTYPE
-                free (client_id);
-        #endif
     	return ret;
     }
 
-#ifdef PROTOCOL_V2_PROTOTYPE
-    char * hello_request = iotcl_request_create_hello();
-    iothub_send_message(hello_request);
-    free(hello_request);
-    ret = iothub_c2d_receive(false, 5 * NX_IP_PERIODIC_RATE);
-    if (ret) {
-        printf("IOTC: Timed out while receiving hello response\r\n");
-    } else {
-        printf("IOTC: Received response...!\r\n");
-    }
-
-    if (!hello_response_dtg) {
-        printf("IOTC: Failed to obtain DTG from hello request!\r\n");
-        iothub_client_disconnect();
-        return NX_FALSE;
-    }
-    lib_config.telemetry.dtg = hello_response_dtg;
-    // get dtg and reconfig with telemetry configuration
-    if (!iotcl_init(&lib_config)) {
-        printf("IOTC: Failed to initialize the IoTConnect Lib\r\n");
-        iothub_client_disconnect();
-        return NX_FALSE;
-    }
-#endif
     return ret;
 
 }

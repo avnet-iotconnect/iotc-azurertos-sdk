@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file    app_netxduo.c
-  * @author  MCD Application Team
+  * @author  GPM Application Team
   * @brief   NetXDuo applicative file
   ******************************************************************************
   * @attention
@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "app_netxduo.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -28,18 +29,17 @@
 #include "nxd_sntp_client.h"
 #include "app_azure_iot.h"
 #include "azrtos_time.h"
-#include "app_config.h"
+#include "iotconnect_app_config.h"
 
 // avoid warnings for duplicate WIFI_SSID/WIFI_PASSWORD definitions
 // We don't use any of those defines
 
-
-#if (USE_CELLULAR == 1)
-#include "nx_driver_stm32_cellular.c"
-#endif /* USE_CELLULAR == 1 */
-#if (USE_WIFI == 1)
-#include "nx_driver_emw3080.c"
-#endif /* USE_WIFI == 1 */
+//#if (USE_CELLULAR == 1)
+//#include "nx_driver_stm32_cellular.c"
+//#endif /* USE_CELLULAR == 1 */
+//#if (USE_WIFI == 1)
+//#include "nx_driver_emw3080.c"
+//#endif /* USE_WIFI == 1 */
 
 /* USER CODE END Includes */
 
@@ -75,14 +75,14 @@ ULONG   NetMask;
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 /* Default time. GMT: Friday, Jan 1, 2022 12:00:00 AM. Epoch timestamp: 1640995200.  */
-#ifndef SYSTEM_TIME 
+#ifndef SYSTEM_TIME
 #define SYSTEM_TIME              1640995200
 #endif /* SYSTEM_TIME  */
 
 /* EPOCH_TIME_DIFF is equivalent to 70 years in sec
    calculated with www.epochconverter.com/date-difference
    This constant is used to delete difference between :
-   Epoch converter (referenced to 1970) and SNTP (referenced to 1900) */
+   Unix time (referenced to 1970) and SNTP (referenced to 1900) */
 #define EPOCH_TIME_DIFF          2208988800
 
 #define SNTP_SYNC_MAX            (uint32_t)30
@@ -112,14 +112,9 @@ ULONG   NetMask;
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-/* System clock time for UTC.  */
-//#define ROUTE_MALLOC_TO_TX_BYTE_POOL
-#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
-static TX_BYTE_POOL malloc_pool;
-#endif
 
 #if 0 // Move SNTP functionality to the IoTConnect SDK
-static ULONG            unix_time_base;
+extern      ULONG            UnixTime;
 
 static const char *sntp_servers[] =
 {
@@ -128,7 +123,6 @@ static const char *sntp_servers[] =
   "2.pool.ntp.org",
   "3.pool.ntp.org"
 };
-
 
 static UINT sntp_server_index;
 #endif
@@ -155,14 +149,9 @@ static VOID ip_address_change_notify_callback(NX_IP *ip_instance, VOID *ptr);
 
 #if 0 // Move SNTP functionality to the IoTConnect SDK
 static UINT unix_time_get(ULONG *unix_time);
+
 static UINT sntp_time_sync_internal(ULONG sntp_server_address);
 static UINT sntp_time_sync(VOID);
-#endif
-
-// this a not fully tested implementation
-// of malloc that can be routed to a byte pool
-#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
-static UCHAR malloc_pool_buff[8 * 1024];
 #endif
 
 /* USER CODE END PFP */
@@ -184,36 +173,24 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
 #if (USE_STATIC_ALLOCATION == 1)
   printf("Start Azure IoT application...\r\n");
 
-#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
-  if (tx_byte_pool_create(&malloc_pool,
-		  "Heap Memory Pool",
-          (void *)malloc_pool_buff,
-		  sizeof(malloc_pool_buff))
-  	  ) {
-	    printf("tx_byte_pool_create (malloc_pool) fail\r\n");
-	    return TX_POOL_ERROR;
-  }
-#endif
-
-
   CHAR *pointer;
-  
+
   /* Allocate the memory for packet_pool.  */
   if (tx_byte_allocate(byte_pool, (VOID **) &pointer,  NX_PACKET_POOL_SIZE, TX_NO_WAIT) != TX_SUCCESS)
   {
     printf("tx_byte_allocate (packet_pool) fail\r\n");
     return TX_POOL_ERROR;
   }
-  
+
   /* Create the Packet pool to be used for packet allocation */
   ret = nx_packet_pool_create(&AppPool, "Main Packet Pool", PAYLOAD_SIZE, pointer, NX_PACKET_POOL_SIZE);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_packet_pool_create fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* Allocate the memory for Ip_Instance */
   if (tx_byte_allocate(byte_pool, (VOID **) &pointer, SAMPLE_IP_THREAD_STACK_SIZE, TX_NO_WAIT) != TX_SUCCESS)
   {
@@ -222,7 +199,7 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
   }
 
   printf("Create IP instance...\r\n");
-  
+
   /* Create the main NX_IP instance */
   ret = nx_ip_create(&IpInstance, "Main Ip instance", NULL_ADDRESS, NULL_ADDRESS, &AppPool, SAMPLE_NETWORK_DRIVER,
                      pointer, SAMPLE_IP_THREAD_STACK_SIZE, SAMPLE_IP_THREAD_PRIORITY);
@@ -232,18 +209,18 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
     printf("nx_ip_create fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
 #ifndef DHCP_DISABLE
   /* create the DHCP client */
   ret = nx_dhcp_create(&DhcpClient, &IpInstance, "DHCP Client");
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_dhcp_create fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
 #endif /* DHCP_DISABLE */
-  
+
 #ifndef ARP_DISABLE
   /* Allocate the memory for ARP */
   if (tx_byte_allocate(byte_pool, (VOID **) &pointer, ARP_MEMORY_SIZE, TX_NO_WAIT) != TX_SUCCESS)
@@ -251,81 +228,81 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
     printf("tx_byte_allocate (ARP) fail\r\n");
     return TX_POOL_ERROR;
   }
-  
+
   /* Enable the ARP protocol and provide the ARP cache size for the IP instance */
   ret = nx_arp_enable(&IpInstance, (VOID *)pointer, ARP_MEMORY_SIZE);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_arp_enable fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
 #endif /* ARP_DISABLE */
-  
+
   /* Enable the ICMP */
   ret = nx_icmp_enable(&IpInstance);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_icmp_enable fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* Enable the UDP protocol required for DHCP communication */
   ret = nx_udp_enable(&IpInstance);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_udp_enable fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* Enable the TCP protocol required for MQTT, ... */
   ret = nx_tcp_enable(&IpInstance);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("nx_tcp_enable fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* Allocate the memory for main thread   */
   if (tx_byte_allocate(byte_pool, (VOID **) &pointer, THREAD_MEMORY_SIZE, TX_NO_WAIT) != TX_SUCCESS)
   {
     printf("tx_byte_allocate (main thread) fail\r\n");
     return TX_POOL_ERROR;
   }
-  
+
   /* Initialize TLS. */
   nx_secure_tls_initialize();
-  
+
   /* Create the main thread */
   ret = tx_thread_create(&AppMainThread, "App Main thread", App_Main_Thread_Entry, 0, pointer, THREAD_MEMORY_SIZE,
                          DEFAULT_MAIN_PRIORITY, DEFAULT_MAIN_PRIORITY, TX_NO_TIME_SLICE, TX_AUTO_START);
-  
+
   if (ret != TX_SUCCESS)
   {
     printf("tx_thread_create (App Main thread) fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* Allocate the memory for Azure IoT application thread   */
   if (tx_byte_allocate(byte_pool, (VOID **) &pointer, THREAD_MEMORY_SIZE, TX_NO_WAIT) != TX_SUCCESS)
   {
     printf("tx_byte_allocate (Azure IoT application thread) fail\r\n");
     return TX_POOL_ERROR;
   }
-  
+
   /* create the Azure IoT application thread */
   ret = tx_thread_create(&AppAzureIotThread, "Azure IoT Thread", App_Azure_IoT_Thread_Entry, 0, pointer, THREAD_MEMORY_SIZE,
                          APP_PRIORITY, APP_PRIORITY, TX_NO_TIME_SLICE, TX_DONT_START);
-  
+
   if (ret != TX_SUCCESS)
   {
     printf("tx_thread_create (Azure IoT Thread) fail: %u\r\n", ret);
     return NX_NOT_ENABLED;
   }
-  
+
   /* set IpAddr notification callback  */
   tx_semaphore_create(&IpAddrSemaphore, "IpAddr Semaphore", 0);
 #endif
@@ -333,37 +310,6 @@ UINT MX_NetXDuo_Init(VOID *memory_ptr)
 
   return ret;
 }
-#ifdef ROUTE_MALLOC_TO_TX_BYTE_POOL
-void * malloc(size_t size)
-{
-    void * ptr = NULL;
-
-    if(size > 0)
-    {
-        // We simply wrap the threadX call into a standard form
-        uint8_t r = tx_byte_allocate(&malloc_pool, &ptr, size, TX_NO_WAIT);
-
-        if(r != TX_SUCCESS)
-        {
-            ptr = NULL;
-        }
-    }
-    //else NULL if there was no size
-
-    return ptr;
-}
-
-void free(void * ptr)
-{
-    if(ptr) {
-        //We simply wrap the threadX call into a standard form
-        UINT ret = tx_byte_release(ptr);
-        if (ret) {
-        	printf("tx_byte_release error 0x%x\r\n", ret);
-        }
-    }
-}
-#endif
 
 /* USER CODE BEGIN 1 */
 /**
@@ -375,6 +321,7 @@ void free(void * ptr)
 static VOID ip_address_change_notify_callback(NX_IP *ip_instance, VOID *ptr)
 {
   /* release the semaphore as soon as an IP address is available */
+  printf("IP Address change notification...\r\n");
   tx_semaphore_put(&IpAddrSemaphore);
 }
 
@@ -386,7 +333,7 @@ static VOID ip_address_change_notify_callback(NX_IP *ip_instance, VOID *ptr)
 static VOID App_Main_Thread_Entry(ULONG thread_input)
 {
   UINT ret = NX_SUCCESS;
-  
+
   printf("Get IP Address...\r\n");
 
   ret = nx_ip_address_change_notify(&IpInstance, ip_address_change_notify_callback, NULL);
@@ -395,7 +342,7 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
     printf("nx_ip_address_change_notify fail: %u\r\n", ret);
     Error_Handler();
   }
-  
+
 #ifndef DHCP_DISABLE
   /* start DHCP client */
   ret = nx_dhcp_start(&DhcpClient);
@@ -409,20 +356,20 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
 #endif /* DHCP_DISABLE */
 
   /* wait until an IP address is ready */
-  if(tx_semaphore_get(&IpAddrSemaphore, IP_ADDR_TIMEOUT) != TX_SUCCESS)
+  while(tx_semaphore_get(&IpAddrSemaphore, IP_ADDR_TIMEOUT) != TX_SUCCESS)
   {
-    printf("IpAddrSemaphore timeout fail\r\n");
-    Error_Handler();
+    printf("IpAddrSemaphore timeout - retrying\r\n");
+    //Error_Handler();
   }
 
   ret = nx_ip_address_get(&IpInstance, &IpAddress, &NetMask);
-  
+
   if (ret != TX_SUCCESS)
   {
     printf("nx_ip_address_get fail: %u\r\n", ret);
     Error_Handler();
   }
-  
+
   PRINT_IP_ADDRESS("STM32 IP Address: ", IpAddress);
 
 #ifndef DHCP_DISABLE
@@ -435,7 +382,7 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
 
   /* start the Azure IoT application thread */
   tx_thread_resume(&AppAzureIotThread);
-  
+
   /* this thread is not needed any more, we relinquish it */
   tx_thread_relinquish();
 }
@@ -448,7 +395,7 @@ static VOID App_Main_Thread_Entry(ULONG thread_input)
 UINT dns_create(NX_DNS *dns_ptr)
 {
   UINT ret = NX_SUCCESS;
-  
+
   /* Create a DNS instance for the Client */
   ret = nx_dns_create(dns_ptr, &IpInstance, (UCHAR *)"DNS Client");
   if (ret)
@@ -491,20 +438,19 @@ UINT dns_create(NX_DNS *dns_ptr)
 * @param  thread_input: ULONG user argument used by the thread entry
 * @retval none
 */
-
 static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
 {
   UINT ret = NX_SUCCESS;
-  
+
   /* Create a DNS client */
   ret = dns_create(&DnsClient);
-  
+
   if (ret != NX_SUCCESS)
   {
     printf("dns_create fail: %u\r\n", ret);
     Error_Handler();
   }
-  
+
     /* Sync up time by SNTP at start up. */
   ret = sntp_time_sync(&IpInstance, &AppPool, &DnsClient, SAMPLE_SNTP_SERVER_NAME);
 
@@ -525,11 +471,10 @@ static VOID App_Azure_IoT_Thread_Entry(ULONG thread_input)
 
 #if 0 // Delegate SNTP functionality to the IoTConnect SDK
 
-
 static UINT unix_time_get(ULONG *unix_time)
 {
   /* Return number of seconds since Unix Epoch (1/1/1970 00:00:00).  */
-  *unix_time =  unix_time_base + (tx_time_get() / TX_TIMER_TICKS_PER_SECOND);
+  *unix_time =  UnixTime;
 
   return(NX_SUCCESS);
 }
@@ -558,7 +503,7 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address)
                                              (sntp_server_address>>16) & 0xFF,
                                              (sntp_server_address>>8) & 0xFF,
                                              sntp_server_address & 0xFF);
-  
+
   /* Use the IPv4 service to initialize the Client and set the IPv4 SNTP server. */
   ret = nx_sntp_client_initialize_unicast(&SntpClient, sntp_server_address);
 
@@ -607,7 +552,6 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address)
       /* Server status is good. Now get the Client local time. */
       ULONG sntp_seconds;
       ULONG sntp_fraction;
-      ULONG system_time_in_seconds;
 
       /* Get the local time. */
       ret = nx_sntp_client_get_local_time_extended(&SntpClient,
@@ -620,11 +564,8 @@ static UINT sntp_time_sync_internal(ULONG sntp_server_address)
         continue;
       }
 
-      /* Get the system time in second. */
-      system_time_in_seconds = tx_time_get() / TX_TIMER_TICKS_PER_SECOND;
-
-      /* Convert to Unix epoch and minus the current system time.  */
-      unix_time_base = (sntp_seconds - (system_time_in_seconds + EPOCH_TIME_DIFF));
+      /* Convert NTP time (01/01/1900 0:0:0) to Unix time (01/01/1970 0:0:0) */
+      UnixTime = sntp_seconds - EPOCH_TIME_DIFF;
 
       /* Stop and delete SNTP. */
       nx_sntp_client_stop(&SntpClient);
@@ -665,7 +606,7 @@ static UINT sntp_time_sync(VOID)
   {
     for (UINT i = 0; (i * 4) < sntp_server_address_size; i++)
     {
-      printf("SNTP Time Sync... %lu.%lu.%lu.%lu (from DHCP)\r\n", 
+      printf("SNTP Time Sync... %lu.%lu.%lu.%lu (from DHCP)\r\n",
                (sntp_server_address[i] >> 24),
                (sntp_server_address[i] >> 16 & 0xFF),
                (sntp_server_address[i] >> 8 & 0xFF),
@@ -719,6 +660,6 @@ static UINT sntp_time_sync(VOID)
 
   return NX_NOT_SUCCESSFUL;
 }
-#endif // comment out removed code
+#endif // if 0
 
 /* USER CODE END 1 */

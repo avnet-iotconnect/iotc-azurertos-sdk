@@ -16,11 +16,14 @@ extern   "C" {
 #define IOTC_ADU_STM "STMicroelectronics"
 #define IOTC_ADU_STM32L4S5 "STM32L4S5"
 
+// in case of U5 we can use the board name compatible with X-Cube-Azures's board name defined in the project
+#define IOTC_ADU_STM32U5 "B-U585I-IOT02A"
+
 UINT iothub_start_device_agent(
     const char *manufacturer,
     const char *model,
-    const char *provider,
-    const char *name,
+    const char *provider, // provider and name are ignored for NetX 6.2.0 and newer
+    const char *name, // provider and name are ignored for NetX 6.2.0 and newer
     const char *version
     );
 

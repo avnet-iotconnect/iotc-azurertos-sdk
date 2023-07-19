@@ -46,11 +46,11 @@ static uint32_t metadata_write_data(void);
 static uint32_t metadata_set_default(void);
 static void flush_up_to_newline(void);
 
-uint32_t metadata_init(void) {
+uint32_t config_init(void) {
 	return metadata_get_data();
 }
 
-char metadata_display_menu(void) {
+char config_display_menu(void){
 	char choice;
 	printf("\r\n* Values for CPID and Environment must be set.");
 	printf("\r\n* To use x509 authentication, leave symmetric key blank.");
@@ -75,7 +75,7 @@ char metadata_display_menu(void) {
 	return choice;
 }
 
-uint32_t metadata_process_command(char command) {
+uint32_t config_process_command(char command) {
 	switch (command) {
 
 	case MODIFY_SSID:
