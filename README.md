@@ -4,11 +4,12 @@ This repository contains the IoTConnect C SDK and samples for AzureRTOS running 
 * Avnet MaaxBoard RT
 * NXP MTIMXRT1060 EVK
 * STM32L4+ IoT Discovery Kit (B-L4S5I-IOT01A)
-* STM32U5 IoT Discovery Kit (B-U585I-IOT02A)
 * Microchip SAME54 Xplained Pro
 * Microchip WFI32-IoT (EV36W50A)
 * Renesas CK-RX65N board
 * Renesas RX65N Cloud Kit
+
+For STM32U5 IoT Discovery Kit (B-U585I-IOT02A) support refer to the dedicated repository at [iotc-azurertos-stm32-u5](https://github.com/avnet-iotconnect/iotc-azurertos-stm32-u5)
 
 To get started quickly, see the [IoTConnect AzureRTOS SDK STM32L4](https://www.youtube.com/watch?v=kkR9r2D4zBQ) demo video on YouTube for a walkthrough.
 
