@@ -1,6 +1,1 @@
-## Introduction
- In this folder you will find support for the STM32U5 Discovery Kit on the Avnet IoTConnect Platform.
- 
- To get the device up and running without compling code, follow the [QUICKSTART](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/blob/main/samples/stm32u5/QUICKSTART.md).
- 
- To compile the project from source, follow the [DEVELOPER_GUIDE](https://github.com/avnet-iotconnect/iotc-azurertos-sdk/blob/main/samples/stm32u5/DEVELOPER_GUIDE.md).
+Please refer to the [iotc-azurertos-stm32-u5](https://github.com/avnet-iotconnect/iotc-azurertos-stm32-u5) repository for dedicated support for STM32U5 IoT Discovery Kit (B-U585I-IOT02A)
