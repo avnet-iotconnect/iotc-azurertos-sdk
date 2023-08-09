@@ -2,7 +2,7 @@
 /netxduo_addons
 /threadx
 /filex
-/iotc-azrtos-sdk
+iotc-azrtos-sdk
 
 *.html
 *.pdf
