@@ -6,8 +6,8 @@
 #include <Config_PORT.h>
 #include <r_cmt_rx_if.h>
 #include <r_cmt_rx_if.h>
-#include <r_ether_rx_if.h>
-#include <r_ether_rx_pinset.h>
+
+
 
 
 
@@ -29,7 +29,7 @@ void timer_callback(void * pdata)
 void platform_setup(void)
 {
     uint32_t chan;
-    ether_param_t eth_param = {0};
+
     int val;
 
     /* Setup SCI5 for printf output. */
@@ -41,13 +41,6 @@ void platform_setup(void)
     /* Create periodic timer for the system tick. */
     R_CMT_CreatePeriodic(TX_TIMER_TICKS_PER_SECOND, timer_callback, &chan);
 
-    /* Setup Ethernet hardware. */
-    R_ETHER_Initial();
-
-    R_ETHER_PinSet_ETHERC0_RMII();
-
-    eth_param.channel = 0u;
-    R_ETHER_Control(CONTROL_POWER_ON, eth_param);
 
     set_led(LED1, OFF);
     set_led(LED2, OFF);

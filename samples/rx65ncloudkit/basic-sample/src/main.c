@@ -27,6 +27,9 @@
 
 #include "hardware_setup.h"
 
+#define SAMPLE_DHCP_DISABLE
+#define USE_WIFI
+
 wifi_ip_configuration_t ip_cfg = {0};
 
 extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr);
@@ -83,6 +86,8 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #error "SYMBOL SAMPLE_GATEWAY_ADDRESS must be defined. This symbol specifies the gateway address for routing. "
 #endif /* SAMPLE_GATEWAY_ADDRESS */
 
+
+
 #ifndef SAMPLE_DNS_SERVER_ADDRESS
 /*#define SAMPLE_DNS_SERVER_ADDRESS     IP_ADDRESS(192, 168, 100, 1)*/
 #error "SYMBOL SAMPLE_DNS_SERVER_ADDRESS must be defined. This symbol specifies the dns server address for routing. "
@@ -91,11 +96,12 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #define SAMPLE_IPV4_ADDRESS             IP_ADDRESS(0, 0, 0, 0)
 #define SAMPLE_IPV4_MASK                IP_ADDRESS(0, 0, 0, 0)
 
-//#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
-#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(192, 168, 1, 1)
+#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
+//#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(0, 0, 0, 0)
+
 
 #ifndef SAMPLE_DHCP_WAIT_OPTION
-#define SAMPLE_DHCP_WAIT_OPTION         (20 * NX_IP_PERIODIC_RATE)
+#define SAMPLE_DHCP_WAIT_OPTION         (50 * NX_IP_PERIODIC_RATE)
 #endif /* SAMPLE_DHCP_WAIT_OPTION */
 
 #endif /* SAMPLE_DHCP_DISABLE */
@@ -124,6 +130,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 
 /* Seconds between Unix Epoch (1/1/1970) and NTP Epoch (1/1/1999) */
 #define SAMPLE_UNIX_TO_NTP_EPOCH_SECOND   0x83AA7E80
+
 
 static TX_THREAD        sample_helper_thread;
 static NX_PACKET_POOL   pool_0;
@@ -275,18 +282,14 @@ void    tx_application_define(void *first_unused_memory)
     nx_secure_tls_initialize();
 
     /* Create the main thread.  */
-#if 0
-    tx_thread_create(&sample_helper_thread, "thread 0", thread_0_entry, 0,
-    		sample_helper_thread_stack, sizeof(sample_helper_thread_stack),
-                     4, 4, TX_NO_TIME_SLICE, TX_AUTO_START);
-#else
+
     /* Create sample helper thread. */
     status = tx_thread_create(&sample_helper_thread, "Demo Thread",
                               sample_helper_thread_entry, 0,
                               sample_helper_thread_stack, SAMPLE_HELPER_STACK_SIZE,
                               SAMPLE_HELPER_THREAD_PRIORITY, SAMPLE_HELPER_THREAD_PRIORITY,
                               TX_NO_TIME_SLICE, TX_AUTO_START);
-#endif
+
     /* Check status.  */
     if (status)
     {
@@ -306,10 +309,13 @@ ULONG   dns_server_address[3];
 int val;
 
 #ifndef SAMPLE_DHCP_DISABLE
+	printf("Apparently DHCP works\r\n");
     dhcp_wait();
 #elif defined(SAMPLE_NETWORK_CONFIGURE)
+    printf("Apparently WIFI works\r\n");
     SAMPLE_NETWORK_CONFIGURE(&ip_0, &dns_server_address[0]);
 #else
+    printf("Apparently nothing works\r\n");
     nx_ip_gateway_address_set(&ip_0, SAMPLE_GATEWAY_ADDRESS);
 #endif /* SAMPLE_DHCP_DISABLE  */
 
@@ -546,58 +552,6 @@ static UINT wifi_connect()
 	}
 
 	return(status);
-}
-
-/* Define the test threads.  */
-void thread_0_entry(ULONG thread_input)
-{
-UINT    status;
-ULONG   actual_status;
-ULONG   temp;
-
-    /* Create the DHCP instance.  */
-    printf("DHCP In Progress...\r\n");
-
-    nx_dhcp_create(&dhcp_client, &ip_0, "dhcp_client");
-
-    /* Start the DHCP Client.  */
-    nx_dhcp_start(&dhcp_client);
-
-    /* Wait util address is solved. */
-    status = nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, 5000);
-
-    if (status)
-    {
-
-        /* DHCP Failed...  no IP address! */
-        printf("Can't resolve address\r\n");
-    }
-    else
-    {
-
-        /* Get IP address. */
-        nx_ip_address_get(&ip_0, (ULONG *) &ip_address[0], (ULONG *) &network_mask[0]);
-
-        /* Convert IP address & network mask from little endian.  */
-        temp =  *((ULONG *) &ip_address[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &ip_address[0]) =  temp;
-
-        temp =  *((ULONG *) &network_mask[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &network_mask[0]) =  temp;
-
-        /* Output IP address. */
-        printf("IP address: %d.%d.%d.%d\r\nMask: %d.%d.%d.%d\r\n",
-               (UINT) (ip_address[0]),
-               (UINT) (ip_address[1]),
-               (UINT) (ip_address[2]),
-               (UINT) (ip_address[3]),
-               (UINT) (network_mask[0]),
-               (UINT) (network_mask[1]),
-               (UINT) (network_mask[2]),
-               (UINT) (network_mask[3]));
-    }
 }
 
 

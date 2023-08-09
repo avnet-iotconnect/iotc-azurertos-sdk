@@ -29,8 +29,6 @@
 #include <tx_api.h>
 #include <nx_api.h>
 
-#include <r_ether_rx_if.h>
-
 #include "nx_driver_rx_fit.h"
 
 #define NX_DRIVER_ETHERNET_IP (0x0800U)
@@ -102,15 +100,15 @@ VOID nx_driver_rx_fit(NX_IP_DRIVER *driver_req_ptr)
         break;
 
     case NX_LINK_ENABLE:
-        _netx_driver_enable(driver_req_ptr);
+        //_netx_driver_enable(driver_req_ptr);
         break;
 
     case NX_LINK_DISABLE:
-        _netx_driver_disable(driver_req_ptr);
+        //_netx_driver_disable(driver_req_ptr);
         break;
 
     case NX_LINK_DEFERRED_PROCESSING:
-        _netx_driver_deferred_processing(driver_req_ptr);
+        //_netx_driver_deferred_processing(driver_req_ptr);
         break;
 
     case NX_LINK_ARP_SEND:
@@ -118,11 +116,11 @@ VOID nx_driver_rx_fit(NX_IP_DRIVER *driver_req_ptr)
     case NX_LINK_PACKET_BROADCAST:
     case NX_LINK_RARP_SEND:
     case NX_LINK_PACKET_SEND:
-        _netx_driver_packet_send(driver_req_ptr);
+        //_netx_driver_packet_send(driver_req_ptr);
         break;
 
     case NX_LINK_GET_STATUS:
-        _netx_driver_get_status(driver_req_ptr);
+        //_netx_driver_get_status(driver_req_ptr);
         break;
 
     case NX_LINK_MULTICAST_JOIN:
@@ -194,6 +192,7 @@ static VOID _netx_driver_initialize(NX_IP_DRIVER *driver_req_ptr)
 }
 
 
+#if 0
 static VOID _netx_driver_enable(NX_IP_DRIVER *driver_req_ptr)
 {
     ether_return_t rx_ether_ret;
@@ -579,4 +578,4 @@ static VOID _rx_ether_int_cb(VOID *p_arg)
     if(signal != 0u) {
         _nx_ip_driver_deferred_processing(netx_driver_rx_fit_data[chan].netx_ip_ptr);
     }
-}
+#endif
