@@ -3,6 +3,12 @@
 	<name>ck-rx65n</name>
 	<comment></comment>
 	<projects>
+		<project>basic-sample</project>
+		<project>filex</project>
+		<project>iotc-azrtos-sdk</project>
+		<project>netxduo</project>
+		<project>netxduo_addons</project>
+		<project>threadx</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
