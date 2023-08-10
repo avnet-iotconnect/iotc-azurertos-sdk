@@ -1,12 +1,15 @@
-/netxduo
 /netxduo_addons/Debug/
 /netxduo_addons/addons/
 /netxduo_addons/crypto_libraries/
 /netxduo_addons/nx_secure/
 
-/threadx
-/filex
-iotc-azrtos-sdk
+/adu_proxy_scripts/
+**/Debug
+**/common
+**/ports
+
+iotc-azrtos-sdk/cJSON/
+iotc-azrtos-sdk/libTO/
 
 *.html
 *.pdf
