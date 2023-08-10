@@ -497,33 +497,33 @@
         <pinItem allocation="28" comments="" direction="None" id="TXD0" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="7" comments="" direction="None" id="FINED" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
         <pinItem allocation="19" comments="" direction="I" id="P31" isUsedBySoftware="true" locked="false" operationMode="" status="0"/>
-        <pinnumItem comment="Reset SW" id="10"/>
-        <pinnumItem comment="User SW" id="19"/>
-        <pinnumItem comment="EMLE" id="2"/>
-        <pinnumItem comment="Silex HSUART2_TXD" id="20"/>
-        <pinnumItem comment="Silex HSUART2_RXD" id="22"/>
-        <pinnumItem comment="Silex HSUART1_CTS" id="25"/>
-        <pinnumItem comment="Silex HSUART1_RTS" id="26"/>
-        <pinnumItem comment="Silex HSUART1_RXD" id="27"/>
-        <pinnumItem comment="Silex HSUART1_TXD" id="28"/>
-        <pinnumItem comment="SDA0" id="33"/>
-        <pinnumItem comment="SCL0" id="34"/>
-        <pinnumItem comment="USB Micro DM" id="36"/>
-        <pinnumItem comment="USB Micro DP" id="37"/>
-        <pinnumItem comment="LED2" id="58"/>
-        <pinnumItem comment="LED1" id="61"/>
-        <pinnumItem comment="SERIAL RXD" id="66"/>
-        <pinnumItem comment="SERIAL TXD" id="67"/>
-        <pinnumItem comment="BMI160 INT2" id="71"/>
-        <pinnumItem comment="BMI160 INT1" id="72"/>
-        <pinnumItem comment="ISL29035 INT#" id="73"/>
-        <pinnumItem comment="QSPI SIO1" id="79"/>
-        <pinnumItem comment="QSPI SIO0" id="80"/>
-        <pinnumItem comment="QSPI SCLK" id="81"/>
-        <pinnumItem comment="QSPI CS#" id="82"/>
-        <pinnumItem comment="QSPI SIO3" id="83"/>
-        <pinnumItem comment="QSPI SIO2" id="84"/>
-        <pinnumItem comment="Silex RST" id="86"/>
+        <pinnumItem comment="Reset SW" id="10" symbolicname=""/>
+        <pinnumItem comment="User SW" id="19" symbolicname=""/>
+        <pinnumItem comment="EMLE" id="2" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART2_TXD" id="20" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART2_RXD" id="22" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART1_CTS" id="25" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART1_RTS" id="26" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART1_RXD" id="27" symbolicname=""/>
+        <pinnumItem comment="Silex HSUART1_TXD" id="28" symbolicname=""/>
+        <pinnumItem comment="SDA0" id="33" symbolicname=""/>
+        <pinnumItem comment="SCL0" id="34" symbolicname=""/>
+        <pinnumItem comment="USB Micro DM" id="36" symbolicname=""/>
+        <pinnumItem comment="USB Micro DP" id="37" symbolicname=""/>
+        <pinnumItem comment="LED2" id="58" symbolicname=""/>
+        <pinnumItem comment="LED1" id="61" symbolicname=""/>
+        <pinnumItem comment="SERIAL RXD" id="66" symbolicname=""/>
+        <pinnumItem comment="SERIAL TXD" id="67" symbolicname=""/>
+        <pinnumItem comment="BMI160 INT2" id="71" symbolicname=""/>
+        <pinnumItem comment="BMI160 INT1" id="72" symbolicname=""/>
+        <pinnumItem comment="ISL29035 INT#" id="73" symbolicname=""/>
+        <pinnumItem comment="QSPI SIO1" id="79" symbolicname=""/>
+        <pinnumItem comment="QSPI SIO0" id="80" symbolicname=""/>
+        <pinnumItem comment="QSPI SCLK" id="81" symbolicname=""/>
+        <pinnumItem comment="QSPI CS#" id="82" symbolicname=""/>
+        <pinnumItem comment="QSPI SIO3" id="83" symbolicname=""/>
+        <pinnumItem comment="QSPI SIO2" id="84" symbolicname=""/>
+        <pinnumItem comment="Silex RST" id="86" symbolicname=""/>
     </tool>
     <tool id="Summary" version="1.0.0.0">
         <option id="com.renesas.smc.code.path" value="src/smc_gen"/>
@@ -1637,8 +1637,13 @@
                     </option>
                 </allocatable>
                 <osocket id="PORTINFO" value=";P31_I;PB0_O;PB2_O;"/>
+                <option enabled="true" id="UnuseOutput" selection="NoChange">
+                    <item id="NoChange" input="" vlaue="0"/>
+                    <item id="Out0" input="" vlaue="0"/>
+                    <item id="Out1" input="" vlaue="0"/>
+                </option>
             </allocatable>
-            <component description="This software component provides configurations for General Purpose Input/Output. Common features such as reading, writing, and setting the direction of ports and pins can be configured. Enabling features such as open-drain outputs and internal pull-ups are also supported. " detailDescription="" display="Ports" id="com.renesas.smc.tools.swcomponent.codegenerator.port" version="2.4.0"/>
+            <component description="This software component provides configurations for General Purpose Input/Output. Common features such as reading, writing, and setting the direction of ports and pins can be configured. Enabling features such as open-drain outputs and internal pull-ups are also supported. " detailDescription="" display="Ports" id="com.renesas.smc.tools.swcomponent.codegenerator.port" version="2.4.1"/>
             <allocator channelLevel0="" channelLevel1="" channelLevel2="" channelLevel3="" channelLevel4="" channelLevel5="" description="Input output configuration of PORT" display="PORT" id="com.renesas.smc.tools.swcomponent.codegenerator.port.rx651.PORT" type="">
                 <context/>
             </allocator>
