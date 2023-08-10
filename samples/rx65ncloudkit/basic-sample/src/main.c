@@ -101,7 +101,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 
 
 #ifndef SAMPLE_DHCP_WAIT_OPTION
-#define SAMPLE_DHCP_WAIT_OPTION         (50 * NX_IP_PERIODIC_RATE)
+#define SAMPLE_DHCP_WAIT_OPTION         (20 * NX_IP_PERIODIC_RATE)
 #endif /* SAMPLE_DHCP_WAIT_OPTION */
 
 #endif /* SAMPLE_DHCP_DISABLE */
