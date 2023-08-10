@@ -150,6 +150,7 @@
 									<listOptionValue builtIn="false" value="IOTC_NEEDS_GETTIMEOFDAY_OU"/>
 									<listOptionValue builtIn="false" value="NX_WEB_HTTPS_ENABLE"/>
 									<listOptionValue builtIn="false" value="NX_SECURE_ENABLE"/>
+									<listOptionValue builtIn="false" value="NX_ENABLE_EXTENDED_NOTIFY_SUPPORT"/>
 								</option>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.179234483" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
 							</tool>

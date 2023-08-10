@@ -133,11 +133,9 @@ static void publish_telemetry() {
 
     const char *str = iotcl_create_serialized_string(msg, false);
     iotcl_telemetry_destroy(msg);
-    if (NULL != str) {
-        printf("Sending: %s\r\n", str);
-        iotconnect_sdk_send_packet(str); // underlying code will report an error
-        iotcl_destroy_serialized(str);
-    }
+    printf("Sending: %s\r\n", str);
+    iotconnect_sdk_send_packet(str); // underlying code will report an error
+    iotcl_destroy_serialized(str);
 }
 
 /* Include the sample.  */

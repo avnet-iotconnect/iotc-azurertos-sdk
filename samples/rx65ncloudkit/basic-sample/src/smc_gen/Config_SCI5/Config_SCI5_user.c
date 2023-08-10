@@ -20,7 +20,7 @@
 /***********************************************************************************************************************
 * File Name        : Config_SCI5_user.c
 * Component Version: 1.12.0
-* Device(s)        : R5F565NEHxFB
+* Device(s)        : R5F565NEDxFP
 * Description      : This file implements device driver for Config_SCI5.
 ***********************************************************************************************************************/
 
@@ -95,7 +95,7 @@ void r_Config_SCI5_transmit_interrupt(void)
 void r_Config_SCI5_transmitend_interrupt(void)
 {
     /* Set TXD5 pin */
-    PORTC.PMR.BYTE &= 0xF7U;
+    PORTA.PMR.BYTE &= 0xEFU;
 
     SCI5.SCR.BIT.TIE = 0U;
     SCI5.SCR.BIT.TE = 0U;

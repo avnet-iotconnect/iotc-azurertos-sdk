@@ -74,6 +74,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/web}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.macroDefines.1849413969" name="Macro Defines (-D)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.macroDefines" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NX_INCLUDE_USER_DEFINE_FILE"/>
@@ -184,6 +186,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/web}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.macroDefines.60201956" name="Macro Defines (-D)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.includes.macroDefines" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NX_INCLUDE_USER_DEFINE_FILE"/>

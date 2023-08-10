@@ -11,7 +11,6 @@
 
 #include <stdbool.h>
 #include "nx_api.h"
-#undef SAMPLE_DHCP_DISABLE
 #ifndef SAMPLE_DHCP_DISABLE
 #include "nxd_dhcp_client.h"
 #endif /* SAMPLE_DHCP_DISABLE */
@@ -20,12 +19,9 @@
 #include "nx_secure_tls_api.h"
 #include "azrtos_time.h"
 #include "nx_driver_rx65n_cloud_kit.h"
-#include "nx_driver_rx_fit.h"
 
 #include "demo_printf.h"
 #include "app_config.h"
-
-#include "hardware_setup.h"
 
 wifi_ip_configuration_t ip_cfg = {0};
 
@@ -33,7 +29,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */
 #ifndef SAMPLE_HELPER_STACK_SIZE
-#define SAMPLE_HELPER_STACK_SIZE      (7 * 1024)
+#define SAMPLE_HELPER_STACK_SIZE      (6 * 1024)
 #endif /* SAMPLE_HELPER_STACK_SIZE  */
 
 #ifndef SAMPLE_HELPER_THREAD_PRIORITY
@@ -91,8 +87,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #define SAMPLE_IPV4_ADDRESS             IP_ADDRESS(0, 0, 0, 0)
 #define SAMPLE_IPV4_MASK                IP_ADDRESS(0, 0, 0, 0)
 
-//#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
-#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(192, 168, 1, 1)
+#define SAMPLE_DNS_SERVER_ADDRESS       IP_ADDRESS(8, 8, 8, 8)
 
 #ifndef SAMPLE_DHCP_WAIT_OPTION
 #define SAMPLE_DHCP_WAIT_OPTION         (20 * NX_IP_PERIODIC_RATE)
@@ -131,9 +126,6 @@ static NX_IP            ip_0;
 static NX_DNS           dns_0;
 #ifndef SAMPLE_DHCP_DISABLE
 static NX_DHCP          dhcp_0;
-NX_DHCP           dhcp_client;
-UCHAR             ip_address[4];
-UCHAR             network_mask[4];
 #endif /* SAMPLE_DHCP_DISABLE  */
 
 /* Define the stack/cache for ThreadX.  */
@@ -156,8 +148,6 @@ static void dhcp_wait();
 #endif /* SAMPLE_DHCP_DISABLE */
 
 VOID sample_network_configure(NX_IP *ip_ptr, ULONG *dns_server_address);
-
-void thread_0_entry(ULONG thread_input);
 
 static UINT dns_create();
 static UINT wifi_connect();
@@ -200,30 +190,13 @@ void    tx_application_define(void *first_unused_memory)
         return;
     }
 
-
-#ifndef USE_WIFI
-    /* Create an IP instance.  */
-    status = nx_ip_create(&ip_0,
-                          "NetX IP Instance 0",
-#ifdef NX_ENABLE_DHCP
-                          IP_ADDRESS(0,0,0,0),
-                          IP_ADDRESS(0,0,0,0),
-#else
-                          IP_ADDRESS(192, 168, 1, 211),
-                          0xFFFFFF00UL,
-#endif
-                          &pool_0, nx_driver_rx_fit,
-                          (UCHAR*)sample_ip_stack,
-                          sizeof(sample_ip_stack),
-						  SAMPLE_IP_THREAD_PRIORITY);
-#else //USE_WIFI
     /* Create an IP instance.  */
     status = nx_ip_create(&ip_0, "NetX IP Instance 0",
                           SAMPLE_IPV4_ADDRESS, SAMPLE_IPV4_MASK,
                           &pool_0, nx_driver_rx65n_cloud_kit,
                           (UCHAR*)sample_ip_stack, sizeof(sample_ip_stack),
                           SAMPLE_IP_THREAD_PRIORITY);
-#endif //USE_WIFI
+
     /* Check for IP create errors.  */
     if (status)
     {
@@ -274,19 +247,13 @@ void    tx_application_define(void *first_unused_memory)
     /* Initialize TLS.  */
     nx_secure_tls_initialize();
 
-    /* Create the main thread.  */
-#if 0
-    tx_thread_create(&sample_helper_thread, "thread 0", thread_0_entry, 0,
-    		sample_helper_thread_stack, sizeof(sample_helper_thread_stack),
-                     4, 4, TX_NO_TIME_SLICE, TX_AUTO_START);
-#else
     /* Create sample helper thread. */
     status = tx_thread_create(&sample_helper_thread, "Demo Thread",
                               sample_helper_thread_entry, 0,
                               sample_helper_thread_stack, SAMPLE_HELPER_STACK_SIZE,
                               SAMPLE_HELPER_THREAD_PRIORITY, SAMPLE_HELPER_THREAD_PRIORITY,
                               TX_NO_TIME_SLICE, TX_AUTO_START);
-#endif
+
     /* Check status.  */
     if (status)
     {
@@ -303,7 +270,6 @@ ULONG   ip_address = 0;
 ULONG   network_mask = 0;
 ULONG   gateway_address = 0;
 ULONG   dns_server_address[3];
-int val;
 
 #ifndef SAMPLE_DHCP_DISABLE
     dhcp_wait();
@@ -312,8 +278,6 @@ int val;
 #else
     nx_ip_gateway_address_set(&ip_0, SAMPLE_GATEWAY_ADDRESS);
 #endif /* SAMPLE_DHCP_DISABLE  */
-
-
 
     /* Get IP address and gateway address. */
     nx_ip_address_get(&ip_0, &ip_address, &network_mask);
@@ -335,11 +299,6 @@ int val;
            (gateway_address >> 16 & 0xFF),
            (gateway_address >> 8 & 0xFF),
            (gateway_address & 0xFF));
-
-    val = read_user_switch();
-    printf("val 1 = %d\r\n", val);
-    val = read_user_switch();
-    printf("val 2 = %d\r\n", val);
 
     /* Create DNS.  */
     status = dns_create();
@@ -547,58 +506,5 @@ static UINT wifi_connect()
 
 	return(status);
 }
-
-/* Define the test threads.  */
-void thread_0_entry(ULONG thread_input)
-{
-UINT    status;
-ULONG   actual_status;
-ULONG   temp;
-
-    /* Create the DHCP instance.  */
-    printf("DHCP In Progress...\r\n");
-
-    nx_dhcp_create(&dhcp_client, &ip_0, "dhcp_client");
-
-    /* Start the DHCP Client.  */
-    nx_dhcp_start(&dhcp_client);
-
-    /* Wait util address is solved. */
-    status = nx_ip_status_check(&ip_0, NX_IP_ADDRESS_RESOLVED, &actual_status, 5000);
-
-    if (status)
-    {
-
-        /* DHCP Failed...  no IP address! */
-        printf("Can't resolve address\r\n");
-    }
-    else
-    {
-
-        /* Get IP address. */
-        nx_ip_address_get(&ip_0, (ULONG *) &ip_address[0], (ULONG *) &network_mask[0]);
-
-        /* Convert IP address & network mask from little endian.  */
-        temp =  *((ULONG *) &ip_address[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &ip_address[0]) =  temp;
-
-        temp =  *((ULONG *) &network_mask[0]);
-        NX_CHANGE_ULONG_ENDIAN(temp);
-        *((ULONG *) &network_mask[0]) =  temp;
-
-        /* Output IP address. */
-        printf("IP address: %d.%d.%d.%d\r\nMask: %d.%d.%d.%d\r\n",
-               (UINT) (ip_address[0]),
-               (UINT) (ip_address[1]),
-               (UINT) (ip_address[2]),
-               (UINT) (ip_address[3]),
-               (UINT) (network_mask[0]),
-               (UINT) (network_mask[1]),
-               (UINT) (network_mask[2]),
-               (UINT) (network_mask[3]));
-    }
-}
-
 
 
