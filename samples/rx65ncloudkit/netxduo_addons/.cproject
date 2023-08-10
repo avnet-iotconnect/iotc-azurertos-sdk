@@ -84,6 +84,7 @@
 									<listOptionValue builtIn="false" value="FLATCC_NO_ASSERT"/>
 									<listOptionValue builtIn="false" value="NX_AZURE_IOT_LOG_LEVEL=0"/>
 									<listOptionValue builtIn="false" value="DISABLE_ASC_PORT"/>
+									<listOptionValue builtIn="false" value="NX_ENABLE_EXTENDED_NOTIFY_SUPPORT"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std.1816112517" name="Language standard" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std" useByScannerDiscovery="true" value="com.renesas.cdt.managedbuild.gcc.core.option.compiler.common.gnu99" valueType="enumerated"/>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.197283125" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
