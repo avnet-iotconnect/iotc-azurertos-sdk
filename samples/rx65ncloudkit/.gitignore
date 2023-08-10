@@ -1,5 +1,9 @@
 /netxduo
-/netxduo_addons
+/netxduo_addons/Debug/
+/netxduo_addons/addons/
+/netxduo_addons/crypto_libraries/
+/netxduo_addons/nx_secure/
+
 /threadx
 /filex
 iotc-azrtos-sdk
