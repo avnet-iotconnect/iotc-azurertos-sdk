@@ -85,6 +85,7 @@
 									<listOptionValue builtIn="false" value="NX_AZURE_IOT_LOG_LEVEL=0"/>
 									<listOptionValue builtIn="false" value="DISABLE_ASC_PORT"/>
 									<listOptionValue builtIn="false" value="NX_ENABLE_EXTENDED_NOTIFY_SUPPORT"/>
+									<listOptionValue builtIn="false" value="NX_DISABLE_ERROR_CHECKING"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std.1816112517" name="Language standard" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std" useByScannerDiscovery="true" value="com.renesas.cdt.managedbuild.gcc.core.option.compiler.common.gnu99" valueType="enumerated"/>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c.197283125" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.compiler.c"/>
@@ -95,6 +96,7 @@
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler.230624848" name="Assembler" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.assembler">
 								<option id="com.renesas.cdt.managedbuild.gcc.core.option.assembler.source.usepreprocessor.751896217" name="Use preprocessor" superClass="com.renesas.cdt.managedbuild.gcc.core.option.assembler.source.usepreprocessor" useByScannerDiscovery="false"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.includeFileDirectories.1992469841" name="Include file directories" superClass="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.includeFileDirectories" useByScannerDiscovery="false" valueType="includePath"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="true" id="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.symbolDefines.1303570734" name="Define a symbol" superClass="com.renesas.cdt.managedbuild.gcc.core.option.assembler.includes.symbolDefines" valueType="definedSymbols"/>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.464569795" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
 							</tool>
 							<tool id="com.renesas.cdt.managedbuild.gcc.rx.tool.linker.2052363149" name="Linker" superClass="com.renesas.cdt.managedbuild.gcc.rx.tool.linker">
