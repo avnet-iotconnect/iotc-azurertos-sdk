@@ -53,5 +53,5 @@ inline void set_led(RX65N_LED_PIN led, RX65N_LED_STATE state)
 
 inline int read_user_switch()
 {
-	return !R_GPIO_PinRead(GPIO_PORT_D_PIN_1);
+	return !R_GPIO_PinRead(GPIO_PORT_3_PIN_1);
 }
