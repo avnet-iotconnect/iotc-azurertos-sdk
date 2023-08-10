@@ -20,7 +20,7 @@
 #include "nx_secure_tls_api.h"
 #include "azrtos_time.h"
 #include "nx_driver_rx65n_cloud_kit.h"
-#include "nx_driver_rx_fit.h"
+
 
 #include "demo_printf.h"
 #include "app_config.h"
@@ -207,30 +207,13 @@ void    tx_application_define(void *first_unused_memory)
         return;
     }
 
-
-#ifndef USE_WIFI
-    /* Create an IP instance.  */
-    status = nx_ip_create(&ip_0,
-                          "NetX IP Instance 0",
-#ifdef NX_ENABLE_DHCP
-                          IP_ADDRESS(0,0,0,0),
-                          IP_ADDRESS(0,0,0,0),
-#else
-                          IP_ADDRESS(192, 168, 1, 211),
-                          0xFFFFFF00UL,
-#endif
-                          &pool_0, nx_driver_rx_fit,
-                          (UCHAR*)sample_ip_stack,
-                          sizeof(sample_ip_stack),
-						  SAMPLE_IP_THREAD_PRIORITY);
-#else //USE_WIFI
     /* Create an IP instance.  */
     status = nx_ip_create(&ip_0, "NetX IP Instance 0",
                           SAMPLE_IPV4_ADDRESS, SAMPLE_IPV4_MASK,
                           &pool_0, nx_driver_rx65n_cloud_kit,
                           (UCHAR*)sample_ip_stack, sizeof(sample_ip_stack),
                           SAMPLE_IP_THREAD_PRIORITY);
-#endif //USE_WIFI
+
     /* Check for IP create errors.  */
     if (status)
     {
@@ -309,13 +292,11 @@ ULONG   dns_server_address[3];
 int val;
 
 #ifndef SAMPLE_DHCP_DISABLE
-	printf("Apparently DHCP works\r\n");
     dhcp_wait();
 #elif defined(SAMPLE_NETWORK_CONFIGURE)
-    printf("Apparently WIFI works\r\n");
+    printf("Using wifi\r\n");
     SAMPLE_NETWORK_CONFIGURE(&ip_0, &dns_server_address[0]);
 #else
-    printf("Apparently nothing works\r\n");
     nx_ip_gateway_address_set(&ip_0, SAMPLE_GATEWAY_ADDRESS);
 #endif /* SAMPLE_DHCP_DISABLE  */
 
