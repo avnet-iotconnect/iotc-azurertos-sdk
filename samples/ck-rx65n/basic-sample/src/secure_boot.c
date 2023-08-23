@@ -101,7 +101,7 @@ static int32_t check_secure_boot_status(void);
 static int32_t compare_sha1_value(uint8_t *pmsg_buff, uint32_t msg_legth, uint8_t *psrc_sha1);
 static void calc_sha1_value(uint8_t *pmsg_buff, uint32_t msg_legth, uint8_t *sha1_val);
 static void check_dataflash_area(uint32_t retry_counter);
-static void software_reset(void);
+void software_reset(void);
 static void update_dataflash_data_from_image(uint32_t select_df_bank);
 static void tsip_install_keyring(void);
 
@@ -416,7 +416,7 @@ static void update_dataflash_data_from_image(uint32_t select_df_bank)
  * Arguments    : none
  * Return Value : none
  *********************************************************************************************************************/
-static void software_reset(void)
+void software_reset(void)
 {
     R_BSP_InterruptsDisable();
     R_BSP_RegisterProtectDisable(BSP_REG_PROTECT_LPC_CGC_SWR);

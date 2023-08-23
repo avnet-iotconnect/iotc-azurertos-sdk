@@ -275,6 +275,8 @@ ULONG   ip_address = 0;
 ULONG   network_mask = 0;
 ULONG   gateway_address = 0;
 
+	printf("sntp server: %s\r\n", SAMPLE_SNTP_SERVER_NAME);
+
     /* Initialize Flash - dataflash used by TSIP */
     flash_err_t flash_error_code = FLASH_SUCCESS;
     flash_error_code = R_FLASH_Open();
@@ -347,7 +349,8 @@ ULONG   gateway_address = 0;
     if (status)
     {
         printf("dns_create fail: 0x%x\r\n", status);
-        return;
+        printf("Rebooting...\r\n");
+        software_reset();
     }
 
     /* Sync up time by SNTP at start up.  */
@@ -365,8 +368,8 @@ ULONG   gateway_address = 0;
     /* Check status.  */
     if (status)
     {
-        printf("SNTP Time Sync failed.\r\n");
-        return;
+        printf("SNTP Time Sync failed. Rebooting...\r\n");
+        software_reset();
     }
     else
     {
@@ -376,8 +379,14 @@ ULONG   gateway_address = 0;
     /* Start sample.  */
     bool app_status = app_startup_interactive(&ip_0, &pool_0, &dns_0);
     printf("App exited with status %s.\r\n", app_status ? "true" : "false");
-    while (true) {
-        tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);
+    if (app_status){
+    	printf("Status true\r\n");
+		while (true) {
+			tx_thread_sleep(10 * NX_IP_PERIODIC_RATE);
+		}
+    } else {
+    	printf("App startup failed. Rebooting...\r\n");
+    	software_reset();
     }
 }
 

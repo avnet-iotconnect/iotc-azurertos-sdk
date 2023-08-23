@@ -83,5 +83,6 @@ void tsip_keyring_restore(void);
 int32_t secure_boot(void);
 int32_t reset_key_provisioning_lifecycle_state(void);
 void tsip_print_installed_key_index(void);
+void software_reset(void);
 
 #endif /* SECURE_BOOT_H_ */
