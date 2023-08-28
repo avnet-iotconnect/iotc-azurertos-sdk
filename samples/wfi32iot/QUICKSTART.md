@@ -117,3 +117,5 @@ delete the file, eject the drive, reset the board and re-open the file as resett
 * Set the CPID and Environment per your IoTConnect account settings, which can be found in Settings -> Key Vault in your IoTConnect portal.
 * Save the file, eject the USB drive then reset the board.
 * Your device should connect to your IoTConnect account and publish sensor data periodically.
+
+### Visualization
