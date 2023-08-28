@@ -58,7 +58,7 @@ An IoTConnect account is required to continue this guide. If you need to create 
 
 ## IoTConnect Device Template Setup
 A Device Template with Self Signed authentication type will need to be imported.
-* Download the premade [Device Template with Self-Signed Auth](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/templates/devices/wfi32iot/wfi32ss_template.JSON).
+* Download the premade [Device Template with Self-Signed Auth](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotc-azurertos-sdk/samples/wfi32iot/templates/device/wfi32ss_device_template.JSON).
 * Import the template into your IoTConnect instance. (A guide on [Importing a Device Template](https://github.com/avnet-iotconnect/avnet-iotconnect.github.io/blob/main/documentation/iotconnect/import_device_template.md) is available or for more information on [Template Management](https://docs.iotconnect.io/iotconnect/user-manuals/devices/template-management/), please see the [IoTConnect Documentation](https://iotconnect.io) website.)
 
 ## Obtaining the Device Certificate Fingerprint
@@ -119,3 +119,4 @@ delete the file, eject the drive, reset the board and re-open the file as resett
 * Your device should connect to your IoTConnect account and publish sensor data periodically.
 
 ### Visualization
+The telemetry can be visualized by using the Dynamic Dashboard feature of IoTConnect. A sample dashboard that is preconfigured to display some telemtery from the board is available for download [here](documentation/iotc-azurertos-sdk/samples/wfi32iot/templates/dashboards/wfi32iot_quickstart_dashboard_export.json). Once downloaded, select "Create Dashboard" from the top of the IoTConnect portal and then choose the "Import Dashboard" option and select the template and device name used previously in this guide.
