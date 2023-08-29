@@ -645,20 +645,20 @@ void tsip_print_installed_key_index(void)
     sprintf(tmp, "user_rsa1024_nd_key_index:\t\t");
     strcat(g_print_buffer, tmp);
     for (i = 0;
-        i < ((sizeof(g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_management_info1)) / 4); i++)
+        i < ((sizeof(g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_management_info1)) / 4); i++)
     {
-        sprintf(tmp, "%08x", g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_management_info1[i]);
+        sprintf(tmp, "%08x", g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_management_info1[i]);
         strcat(g_print_buffer, tmp);
     }
-    for (i = 0; i < (sizeof(g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_n)); i++)
+    for (i = 0; i < (sizeof(g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_n)); i++)
     {
-        sprintf(tmp, "%02x", g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_n[i]);
+        sprintf(tmp, "%02x", g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_n[i]);
         strcat(g_print_buffer, tmp);
     }
     for (i = 0;
-        i < ((sizeof(g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_management_info2)) / 4); i++)
+        i < ((sizeof(g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_management_info2)) / 4); i++)
     {
-        sprintf(tmp, "%08x", g_key_block_image.key_data.user_rsa1024_nd_key_index.value.key_management_info2[i]);
+        sprintf(tmp, "%08x", g_key_block_image.key_data.user_rsa1024_ne_key_index.value.key_management_info2[i]);
         strcat(g_print_buffer, tmp);
     }
     strcat(g_print_buffer, "\r\n");
