@@ -77,6 +77,10 @@
 *         : 11.02.2022 3.01      Changed initial value of the following macro definitions.
 *                                - BSP_CFG_SWINT_UNIT1_ENABLE
 *                                - BSP_CFG_SWINT_UNIT2_ENABLE
+*         : 25.11.2022 3.02      Modified comment.
+*                                Added the following macro definition.
+*                                - BSP_CFG_EXPANSION_RAM_ENABLE
+*         : 28.02.2023 3.03      Modified comment.
 ***********************************************************************************************************************/
 #ifndef R_BSP_CONFIG_REF_HEADER_FILE
 #define R_BSP_CONFIG_REF_HEADER_FILE
@@ -202,7 +206,7 @@ Configuration Options
       settings and choosing the Standard Library section. After that choose 'Contents' in e2 studio.
       This will present a list of modules that can be included. Uncheck the box for stdio.h.
    NOTE: This setting is available only when using CCRX and GNUC. */
-#define BSP_CFG_HEAP_BYTES              (0x1900)
+#define BSP_CFG_HEAP_BYTES              (0x2800)
 
 /* Initializes C input & output library functions.
    0 = Disable I/O library initialization in resetprg.c. If you are not using stdio then use this value.
@@ -493,7 +497,7 @@ Configuration Options
                                   - 111: TM function is disabled.
        b23:b0  Reserved (set to 1)
        NOTE: If the dual bank function has not been incorporated in a device,
-             TMEFDB bits [b30:b26] are reserved area.
+             TMEFDB bits [b30:b28] are reserved area.
    Default value is 0xFFFFFFFF.
 */
 #define BSP_CFG_TRUSTED_MODE_FUNCTION  (0xFFFFFFFF)
@@ -552,7 +556,7 @@ Configuration Options
    2 = embOS is used.(This is not available.)
    3 = MicroC_OS is used.(This is not available.)
    4 = Renesas ITRON OS (RI600V4 or RI600PX) is used.
-   5 = Azure RTOS is used.(This is not available.)
+   5 = Azure RTOS is used.
 */
 #define BSP_CFG_RTOS_USED               (5)
 
@@ -738,6 +742,12 @@ Configuration Options
    1 = This project is a C++ project.
 */
 #define BSP_CFG_CPLUSPLUS             (0) /* Generated value. Do not edit this manually */
+
+/* Select whether to enable sections of the expansion RAM area.
+   0 = Sections of the expansion RAM area is disabled. (default)
+   1 = Sections of the expansion RAM area is enabled.
+*/
+#define BSP_CFG_EXPANSION_RAM_ENABLE  (0)
 
 #endif /* R_BSP_CONFIG_REF_HEADER_FILE */
 
