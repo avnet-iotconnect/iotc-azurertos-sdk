@@ -294,7 +294,6 @@ int val;
 #ifndef SAMPLE_DHCP_DISABLE
     dhcp_wait();
 #elif defined(SAMPLE_NETWORK_CONFIGURE)
-    printf("Using wifi\r\n");
     SAMPLE_NETWORK_CONFIGURE(&ip_0, &dns_server_address[0]);
 #else
     nx_ip_gateway_address_set(&ip_0, SAMPLE_GATEWAY_ADDRESS);
