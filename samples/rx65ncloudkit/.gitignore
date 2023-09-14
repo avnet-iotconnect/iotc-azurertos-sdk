@@ -6,3 +6,5 @@
 
 *.html
 *.pdf
+.project
+/adu_proxy_scripts

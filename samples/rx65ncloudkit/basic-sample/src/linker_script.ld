@@ -96,24 +96,6 @@ SECTIONS
 		. = ALIGN(2);
 		_mdata = .;
 	} > ROM
-	B_ETHERNET_BUFFERS_1 0x00010000 (NOLOAD) : AT(0x00010000)
-    {
-        _B_ETHERNET_BUFFERS_1_start = .;
-        *(B_ETHERNET_BUFFERS_1)
-        _B_ETHERNET_BUFFERS_1_end = .;
-    } >RAM
-        B_RX_DESC_1 (NOLOAD) :
-    {
-        _B_RX_DESC_1_start = .;
-        *(B_RX_DESC_1)
-        _B_RX_DESC_1_end = .;
-    } >RAM
-        B_TX_DESC_1 (NOLOAD) :
-    {
-        _B_TX_DESC_1_start = .;
-        *(B_TX_DESC_1)
-        _B_TX_DESC_1_end = .;
-    } >RAM
 	.data : AT(_mdata)
 	{
 		_data = .;
@@ -124,11 +106,6 @@ SECTIONS
 		*(D_2)
 		_edata = .;
 	} > RAM
-	.gcc_exc :
-	{
-		*(.gcc_exc)
-	} > RAM
-	
 	.bss :
 	{
 		_bss = .;
@@ -141,7 +118,7 @@ SECTIONS
 		_ebss = .;
 		. = ALIGN(128);
 		_end = .;
-	} > RAM2 AT>RAM2
+	} > RAM AT>RAM
 	.ofs1 0xFE7F5D00: AT(0xFE7F5D00)
 	{
 		KEEP(*(.ofs1))
@@ -174,12 +151,12 @@ SECTIONS
 	{
 		KEEP(*(.ofs8))
 	} > OFS
-.r_bsp_NULL :
+	.r_bsp_NULL :
 	{
 		. += 0x100;
 		"_r_bsp_NULL_end" = .;
 	} >RAM AT>RAM
-.r_bsp_istack BLOCK(0x4) (NOLOAD) :
+.r_bsp_istack ALIGN(0x4) (NOLOAD) :
 	{
 		KEEP(*(.r_bsp_istack))
 	} >RAM AT>RAM
@@ -187,7 +164,7 @@ SECTIONS
 	{
 		"_istack" = .;
 	} >RAM
-.r_bsp_ustack BLOCK(0x4) (NOLOAD) :
+.r_bsp_ustack ALIGN(0x4) (NOLOAD) :
 	{
 		KEEP(*(.r_bsp_ustack))
 	} >RAM AT>RAM

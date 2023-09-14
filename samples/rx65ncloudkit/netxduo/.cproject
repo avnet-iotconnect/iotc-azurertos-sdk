@@ -21,7 +21,7 @@
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.toolchainInfo">
 				<option id="toolchain.id" value="RENESAS_GCC_RX"/>
-				<option id="toolchain.version" value="8.3.0.202202"/>
+				<option id="toolchain.version" value="8.3.0.202305"/>
 				<option id="toolchain.enable" value="false"/>
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.boardInfo">
@@ -39,7 +39,7 @@
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.1647623966" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.314300596" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.rx.architecture.v2" valueType="enumerated"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1654305872" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.1372471990" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.rx64m" valueType="enumerated"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.1372471990" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.default" valueType="enumerated"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.2091974838" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName" useByScannerDiscovery="false" value="R5F565NEDxFP" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.1344322708" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand" useByScannerDiscovery="false" value="R5F565NE" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1071861214" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics" useByScannerDiscovery="false" value="true" valueType="boolean"/>
@@ -116,7 +116,7 @@
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.toolchainInfo">
 				<option id="toolchain.id" value="RENESAS_GCC_RX"/>
-				<option id="toolchain.version" value="8.3.0.202202"/>
+				<option id="toolchain.version" value="8.3.0.202305"/>
 				<option id="toolchain.enable" value="true"/>
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.boardInfo">
@@ -134,7 +134,7 @@
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.845812461" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.1379919874" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.rx.architecture.v2" valueType="enumerated"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.97878336" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.1863561314" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.rx64m" valueType="enumerated"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.1863561314" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.default" valueType="enumerated"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.2126136666" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName" useByScannerDiscovery="false" value="R5F565NEDxFP" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.555041601" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand" useByScannerDiscovery="false" value="R5F565NE" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1902761118" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics" useByScannerDiscovery="false" value="true" valueType="boolean"/>

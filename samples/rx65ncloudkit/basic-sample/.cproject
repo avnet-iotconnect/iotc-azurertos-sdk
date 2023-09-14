@@ -15,13 +15,13 @@
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.toolchainInfo">
 				<option id="toolchain.id" value="RENESAS_GCC_RX"/>
-				<option id="toolchain.version" value="8.3.0.202202"/>
+				<option id="toolchain.version" value="8.3.0.202305"/>
 				<option id="toolchain.enable" value="true"/>
 			</storageModule>
 			<storageModule moduleId="com.renesas.cdt.managedbuild.core.boardInfo">
-				<option id="board.id" value=""/>
-				<option id="board.name" value=""/>
-				<option id="board.device" value=""/>
+				<option id="board.id" value="CloudKitRX65N"/>
+				<option id="board.name" value="CloudKitRX65N"/>
+				<option id="board.device" value="R5F565NEDxFP"/>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" description="" errorParsers="org.eclipse.cdt.core.GASErrorParser;org.eclipse.cdt.core.GmakeErrorParser;org.eclipse.cdt.core.GLDErrorParser;org.eclipse.cdt.core.CWDLocator;org.eclipse.cdt.core.GCCErrorParser" id="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update.394248504" name="HardwareDebug" parent="com.renesas.cdt.managedbuild.gcc.rx.configuration.debug.update">
@@ -33,8 +33,8 @@
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize.503682089" name="Create Print Size" superClass="com.renesas.cdt.managedbuild.gcc.core.option.addtools.printsize" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.336464164" name="Architecture" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.rx.architecture.v2" valueType="enumerated"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability.1145556626" name="Architecture Applicability" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.architecture.applicability" useByScannerDiscovery="false" value="true" valueType="boolean"/>
-							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.rx64m" valueType="enumerated"/>
-							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName" useByScannerDiscovery="false" value="R5F565NEHxFB" valueType="string"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.879548997" name="CPU Type" superClass="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType" useByScannerDiscovery="false" value="com.renesas.cdt.managedbuild.gcc.core.option.cpu.cpuType.default" valueType="enumerated"/>
+							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName.630261189" name="DeviceName" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceShortName" useByScannerDiscovery="false" value="R5F565NEDxFP" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand.665315813" name="DeviceCommand" superClass="com.renesas.cdt.managedbuild.gcc.core.option.deviceCommand" useByScannerDiscovery="false" value="R5F565NE" valueType="string"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics.1509226162" name="Fixit error parser" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.fdiagnostics" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections.489490167" name="Function sections (-ffunction-sections)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.optimization.functionsections" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -72,7 +72,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/azure_iot}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/ports}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azurertos-sdk/samples/rx65ncloudkit/netxduo_addons/addons/dhcp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/nx_secure/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/addons/sntp}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo_addons/crypto_libraries/inc}&quot;"/>
@@ -98,7 +97,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
 								</option>
 								<option id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std.1966901222" name="Language standard" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.std" useByScannerDiscovery="true" value="com.renesas.cdt.managedbuild.gcc.core.option.compiler.common.gnu99" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.userDefinedCompilerOptions.1012001340" name="User defined compiler options" superClass="com.renesas.cdt.managedbuild.gcc.core.option.compiler.source.userDefinedCompilerOptions" useByScannerDiscovery="false" valueType="stringList">
@@ -134,7 +133,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/Config_PORT}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_gpio_rx/src}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen/r_ether_rx}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/smc_gen}&quot;"/>
 								</option>
 								<inputType id="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler.161547973" superClass="com.renesas.cdt.managedbuild.gcc.core.inputType.assembler"/>
 							</tool>
@@ -186,14 +185,14 @@
 									<listOptionValue builtIn="false" value="&quot;.\src\main.o&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;.\src\nx_driver_rx65n_cloud_kit.o&quot;"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l)" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles.1352170465" name="User defined archive (library) files (-l) [Only the library's name, without the &quot;lib&quot; prefix and &quot;.a&quot;extension]" superClass="com.renesas.cdt.managedbuild.gcc.core.option.linker.archives.userArchiveLibraryFiles" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="filex"/>
 									<listOptionValue builtIn="false" value="iotc-azrtos-sdk"/>
 									<listOptionValue builtIn="false" value="netxduo"/>
 									<listOptionValue builtIn="false" value="netxduo_addons"/>
 									<listOptionValue builtIn="false" value="threadx"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L)" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives.1995930819" name="User defined archive search directories (-L) [Only the path to the library]" superClass="com.renesas.cdt.managedbuild.gcc.rx.option.linker.userDefinedArchives" useByScannerDiscovery="false" valueType="stringList">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/filex/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/iotc-azrtos-sdk/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/netxduo/Debug}&quot;"/>
@@ -243,4 +242,5 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
