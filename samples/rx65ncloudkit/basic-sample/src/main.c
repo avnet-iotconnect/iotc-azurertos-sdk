@@ -29,7 +29,7 @@ extern bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT Platform).  */
 #ifndef SAMPLE_HELPER_STACK_SIZE
-#define SAMPLE_HELPER_STACK_SIZE      (6 * 1024)
+#define SAMPLE_HELPER_STACK_SIZE      (7 * 1024)
 #endif /* SAMPLE_HELPER_STACK_SIZE  */
 
 #ifndef SAMPLE_HELPER_THREAD_PRIORITY
