@@ -1,0 +1,974 @@
+
+1. Project Information
+	Project Name: basic-sample
+
+	Output Date: 2023.09.13
+
+2. Software Component Settings
+	2.1. Config_SCI5
+		Component: SCI/SCIF Asynchronous Mode
+
+		Use status: Used
+
+		Version: 1.12.0
+
+		Settings:
+
+		Setting name	Value
+		Start bit edge detection setting	Low level on RXD5 pin
+		Data length setting	8 bits
+		Parity setting	None
+		Stop bit length setting	1 bit
+		Transfer direction setting	LSB-first
+		Transfer clock	Internal clock
+		Base clock	16 cycles for 1-bit period
+		Bit rate	115200
+		Enable modulation duty correction	Disable
+		SCK5 pin function	SCK5 is not used
+		Enable noise filter	Disable
+		Noise filter clock	Clock signal divided by 1
+		Hardware flow control setting	None
+		Transmit data handling	Data handled in interrupt service routine
+		Receive data handling	Data handled in interrupt service routine
+		TXI5 priority	Level 15 (highest)
+		RXI5 priority	Level 10
+		Enable reception error interrupt (ERI5)	Enable
+		TEI5, ERI5 priority (Group BL0)	Level 3
+		Transmission end	Enable
+		Reception end	Enable
+		Reception error	Enable
+
+
+	2.2. Config_PORT
+		Component: Ports
+
+		Use status: Used
+
+		Version: 2.4.1
+
+		Common settings:
+
+		Setting name	Value
+		Handling of all unused pins	Keep as current
+
+		PORT0:
+
+		Setting name	Value
+		Port0 Enable	Disable
+
+		PORT1:
+
+		Setting name	Value
+		Port1 Enable	Disable
+
+		PORT2:
+
+		Setting name	Value
+		Apply to all	Unused
+		Use status	Disable
+		Pull-up all	Disable
+		Open-drain all	Disable
+		Output 1 all	Disable
+		High-drive output all	Normal drive output all
+
+		PORT20:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	High-drive output
+
+		PORT21:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	High-drive output
+
+		PORT22:
+
+		Setting name	Value
+		Use status	Out
+		Output 1	Used
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	High-drive output
+
+		PORT23:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	High-drive output
+
+		PORT24:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Disable
+
+		PORT25:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Disable
+
+		PORT26:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Disable
+
+		PORT27:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORT2:
+
+		Setting name	Value
+		Port2 Enable	Enable
+
+		PORT3:
+
+		Setting name	Value
+		Port3 Enable	Disable
+
+		PORT4:
+
+		Setting name	Value
+		Port4 Enable	Disable
+
+		PORT5:
+
+		Setting name	Value
+		Port5 Enable	Disable
+
+		PORT6:
+
+		Setting name	Value
+		Port6 Enable	Disable
+
+		PORT7:
+
+		Setting name	Value
+		Port7 Enable	Disable
+
+		PORT8:
+
+		Setting name	Value
+		Port8 Enable	Disable
+
+		PORT9:
+
+		Setting name	Value
+		Port9 Enable	Disable
+
+		PORTA:
+
+		Setting name	Value
+		Apply to all	Unused
+		Use status	Disable
+		Pull-up all	Disable
+		Open-drain all	Disable
+		Output 1 all	Disable
+		High-drive output all	Normal drive output all
+
+		PORTA0:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA1:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA2:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA3:
+
+		Setting name	Value
+		Use status	Out
+		Output 1	Used
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	High-drive output
+
+		PORTA4:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA5:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA6:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA7:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTA:
+
+		Setting name	Value
+		PortA Enable	Enable
+
+		PORTB:
+
+		Setting name	Value
+		PortB Enable	Disable
+
+		PORTC:
+
+		Setting name	Value
+		PortC Enable	Disable
+
+		PORTD:
+
+		Setting name	Value
+		Apply to all	Unused
+		Use status	Disable
+		Pull-up all	Disable
+		Open-drain all	Disable
+		Output 1 all	Disable
+		High-drive output all	Normal drive output all
+
+		PORTD0:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD1:
+
+		Setting name	Value
+		Use status	In
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD2:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD3:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD4:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD5:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD6:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD7:
+
+		Setting name	Value
+		Use status	Unused GPIO
+		Output 1	Unused
+		Pull-up	Unused
+		Open-drain	CMOS output
+		High-drive output	Normal drive output
+
+		PORTD:
+
+		Setting name	Value
+		PortD Enable	Enable
+
+		PORTE:
+
+		Setting name	Value
+		PortE Enable	Disable
+
+		PORTF:
+
+		Setting name	Value
+		PortF Enable	Disable
+
+		PORTJ:
+
+		Setting name	Value
+		PortJ Enable	Disable
+
+
+	2.3. r_ether_rx
+		Version: 1.23
+
+		Setting name	Value
+		Ethernet interface	RMII (Reduced Media Independent Interface)
+		PHY-LSI address setting for ETHER0	5
+		PHY-LSI address setting for ETHER1	1
+		The number of Rx descriptors	1
+		The number of Tx descriptors	1
+		Transmit and Receive buffer size	1536
+		Group AL1 interrupt priority level	Level 2
+		The register bus of PHY0 for ETHER0/1	Use ETHER0
+		The register bus of PHY1 for ETHER0/1	Use ETHER1
+		The access timing of MII/RMII register	8
+		The waiting time for reset completion of PHY-LSI	0x00020000L
+		The polarity of the link signal output by the PHY-LSI	Rise -> Fall
+		The link status is detected.	Used
+		Use KSZ8041NL of the Micrel Inc	Unused
+		Use ICS1894-32 of the Renesas Electronics Corporation	Used
+		Use non blocking	Unused
+		The clock of PMGI's MDC	2500000
+		PHY Station Management Preamble Control	Include
+		PHY Station Management Hold Time Adjustment	0
+		PHY Station Management Capture Timing Adjustment	0
+		PMGI interrupt priority level	Level 2
+
+
+	2.4. r_hs300x_rx
+		Version: 1.22
+
+		Setting name	Value
+		Parameter Checking	System Default
+		Number of HS300x Sensors	1
+		Data types from HS300x Sensors	Humidity and Temperature
+		Programming mode for HS300x sensor	OFF
+		I2C Communication device No. for HS300x sensor device0	I2C Communication Device0
+		Callback function for HS300x sensor device0	hs300x_user_callback0
+		I2C Communication device No. for HS300x sensor device1	I2C Communication Device1
+		Callback function for HS300x sensor device1	hs300x_user_callback1
+
+
+	2.5. r_bsp
+		Version: 7.41
+
+		Setting name	Value
+		User stack setting	2 stacks
+		User stack size	0x1000
+		Interrupt stack size	0x400
+		Heap size	0x2800
+		Initializes C input and output library functions	Disable
+		Enable user stdio charget function	Use user charget() function
+		User stdio charget function name	my_sw_charget_function
+		Enable user stdio charput function	Use user charput() function
+		User stdio charput function name	my_sw_charput_function
+		Processor Mode	Stay in Supervisor mode
+		ID code 1	0xFFFFFFFF
+		ID code 2	0xFFFFFFFF
+		ID code 3	0xFFFFFFFF
+		ID code 4	0xFFFFFFFF
+		Serial programmer conection select	Enabled
+		ROM Cache Enable Register	Disabled
+		TMEF - TM Enable Flag Register	0xFFFFFFFF
+		FAW - Flash Access Window Setting Register	0xFFFFFFFF
+		ROMCODE - ROM Code Protection Register	0xFFFFFFFF
+		Select the startup bank	Bank 1: FFE00000h~FFEFFFFFh; Bank 0:  FFF00000h~FFFFFFFFh.
+		Lock function select	Use default locking (non-RTOS)
+		Lock function type	bsp_lock_t
+		HW lock function name	my_hw_locking_function
+		HW unlock function name	my_hw_unlocking_function
+		SW lock function name	my_sw_locking_function
+		SW unlock function name	my_sw_unlocking_function
+		Enable user warm start callback (PRE)	Unused
+		User warm start callback  function name (PRE)	my_sw_warmstart_prec_function
+		Enable user warm start callback (POST)	Unused
+		User warm start callback  function name (POST)	my_sw_warmstart_postc_function
+		Parameter checking	Enabled
+		Extended Bus Master 1st Priority Selection	GLCDC graphics 1 data read
+		Extended Bus Master 2nd Priority Selection	GLCDC graphics 2 data read
+		Extended Bus Master 3rd Priority Selection	DRW2D texture data read
+		Extended Bus Master 4th Priority Selection	DRW2D frame buffer data read write and display list data read
+		Extended Bus Master 5th Priority Selection	EDMAC
+		Interrupt Priority Level When FIT Module Interrupts Are Disabled	Priority level 15 (highest)
+		Software Interrupt Unit1 (SWINT1)	Unused
+		Software Interrupt Unit2 (SWINT2)	Unused
+		Software Interrupt Task Buffer Number	8
+		Initial value of the software interrupt priority.	Priority level 1
+		Serial terminal select	Disabled
+		Channel for serial terminal	Channel 8
+		Bitrate for serial terminal	115200
+		Interrupt priority  for serial terminal	Priority level 15 (highest)
+
+
+	2.6. r_gpio_rx
+		Version: 4.90
+
+		Setting name	Value
+		Parameter checking	System Default
+
+
+	2.7. r_tsip_rx
+		Version: 1.18.l
+
+
+
+	2.8. r_sci_iic_rx
+		Version: 2.60
+
+		Setting name	Value
+		Set parameter checking enable	Include
+		MCU supported channels for CH0	Not supported
+		MCU supported channels for CH1	Supported
+		MCU supported channels for CH2	Not supported
+		MCU supported channels for CH3	Not supported
+		MCU supported channels for CH4	Not supported
+		MCU supported channels for CH5	Not supported
+		MCU supported channels for CH6	Not supported
+		MCU supported channels for CH7	Not supported
+		MCU supported channels for CH8	Not supported
+		MCU supported channels for CH9	Not supported
+		MCU supported channels for CH10	Not supported
+		MCU supported channels for CH11	Not supported
+		MCU supported channels for CH12	Not supported
+		SCI IIC bitrate (bps) for CH0	384000
+		SCI IIC bitrate (bps) for CH1	384000
+		SCI IIC bitrate (bps) for CH2	384000
+		SCI IIC bitrate (bps) for CH3	384000
+		SCI IIC bitrate (bps) for CH4	384000
+		SCI IIC bitrate (bps) for CH5	384000
+		SCI IIC bitrate (bps) for CH6	384000
+		SCI IIC bitrate (bps) for CH7	384000
+		SCI IIC bitrate (bps) for CH8	384000
+		SCI IIC bitrate (bps) for CH9	384000
+		SCI IIC bitrate (bps) for CH10	384000
+		SCI IIC bitrate (bps) for CH11	384000
+		SCI IIC bitrate (bps) for CH12	384000
+		Interrupt Priority for CH0	Level 2
+		Interrupt Priority for CH1	Level 2
+		Interrupt Priority for CH2	Level 2
+		Interrupt Priority for CH3	Level 2
+		Interrupt Priority for CH4	Level 2
+		Interrupt Priority for CH5	Level 2
+		Interrupt Priority for CH6	Level 2
+		Interrupt Priority for CH7	Level 2
+		Interrupt Priority for CH8	Level 2
+		Interrupt Priority for CH9	Level 2
+		Interrupt Priority for CH10	Level 2
+		Interrupt Priority for CH11	Level 2
+		Interrupt Priority for CH12	Level 2
+		Digital noise filter (NFEN bit) for CH0	Enable
+		Digital noise filter (NFEN bit) for CH1	Enable
+		Digital noise filter (NFEN bit) for CH2	Enable
+		Digital noise filter (NFEN bit) for CH3	Enable
+		Digital noise filter (NFEN bit) for CH4	Enable
+		Digital noise filter (NFEN bit) for CH5	Enable
+		Digital noise filter (NFEN bit) for CH6	Enable
+		Digital noise filter (NFEN bit) for CH7	Enable
+		Digital noise filter (NFEN bit) for CH8	Enable
+		Digital noise filter (NFEN bit) for CH9	Enable
+		Digital noise filter (NFEN bit) for CH10	Enable
+		Digital noise filter (NFEN bit) for CH11	Enable
+		Digital noise filter (NFEN bit) for CH12	Enable
+		Noise Filter Setting Register (NFCS bit) for CH0	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH1	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH2	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH3	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH4	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH5	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH6	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH7	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH8	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH9	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH10	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH11	The clock divided by 1
+		Noise Filter Setting Register (NFCS bit) for CH12	The clock divided by 1
+		I2C Mode Register 1 (IICDL bit) for CH0	18
+		I2C Mode Register 1 (IICDL bit) for CH1	18
+		I2C Mode Register 1 (IICDL bit) for CH2	18
+		I2C Mode Register 1 (IICDL bit) for CH3	18
+		I2C Mode Register 1 (IICDL bit) for CH4	18
+		I2C Mode Register 1 (IICDL bit) for CH5	18
+		I2C Mode Register 1 (IICDL bit) for CH6	18
+		I2C Mode Register 1 (IICDL bit) for CH7	18
+		I2C Mode Register 1 (IICDL bit) for CH8	18
+		I2C Mode Register 1 (IICDL bit) for CH9	18
+		I2C Mode Register 1 (IICDL bit) for CH10	18
+		I2C Mode Register 1 (IICDL bit) for CH11	18
+		I2C Mode Register 1 (IICDL bit) for CH12	18
+		Software bus busy check counter	1000
+		Setting port setting processing	Include port setting
+
+
+	2.9. r_cmt_rx
+		Version: 5.50
+
+		Setting name	Value
+		CMT interrupts priority level	5
+		Include software support for nested interrupt CMT channel 0	Not
+		Include software support for nested interrupt CMT channel 1	Not
+		Include software support for nested interrupt CMT channel 2	Not
+		Include software support for nested interrupt CMT channel 3	Not
+
+
+	2.10. r_byteq
+		Version: 2.10
+
+		Setting name	Value
+		Parameter check	Use system default
+		Memory allocation for queue control blocks	Static memory allocation
+		Number of static queue control blocks	32
+		Use disable interrupt to protect queue	Unused
+		Use disable interrupt to protect critical section	Unused
+
+
+	2.11. r_flash_rx
+		Version: 4.90
+
+		Setting name	Value
+		Parameter check	Enable parameter checks
+		Enable code flash programming	Only data flash
+		Enable BGO/Non-blocking data flash operations	Forces data flash API function to block until completed.
+		Enable BGO/Non-blocking code flash operations	Forces ROM API function to block until completed.
+		Enable code flash self-programming	Programming code flash while executing in RAM.
+
+
+	2.12. r_sci_rx
+		Version: 4.40
+
+		Setting name	Value
+		Parameter checking	System Default
+		Use ASYNC mode	Include
+		Use SYNC mode	Not
+		Use SSPI mode	Not
+		Use IRDA mode	Not
+		Use circular buffer in ASYNC mode 	Unused
+		Byte value to transmit while clocking in data in SSPI mode	0xFF
+		Include software support for channel 0	Include
+		Include software support for channel 1	Not
+		Include software support for channel 2	Include
+		Include software support for channel 3	Not
+		Include software support for channel 4	Not
+		Include software support for channel 5	Not
+		Include software support for channel 6	Not
+		Include software support for channel 7	Not
+		Include software support for channel 8	Not
+		Include software support for channel 9	Not
+		Include software support for channel 10	Not
+		Include software support for channel 11	Not
+		Include software support for channel 12	Not
+		ASYNC mode TX queue buffer size for channel 0	80
+		ASYNC mode TX queue buffer size for channel 1	80
+		ASYNC mode TX queue buffer size for channel 2	80
+		ASYNC mode TX queue buffer size for channel 3	80
+		ASYNC mode TX queue buffer size for channel 4	80
+		ASYNC mode TX queue buffer size for channel 5	80
+		ASYNC mode TX queue buffer size for channel 6	80
+		ASYNC mode TX queue buffer size for channel 7	80
+		ASYNC mode TX queue buffer size for channel 8	80
+		ASYNC mode TX queue buffer size for channel 9	80
+		ASYNC mode TX queue buffer size for channel 10	80
+		ASYNC mode TX queue buffer size for channel 11	80
+		ASYNC mode TX queue buffer size for channel 12	80
+		ASYNC mode RX queue buffer size for channel 0	80
+		ASYNC mode RX queue buffer size for channel 1	80
+		ASYNC mode RX queue buffer size for channel 2	80
+		ASYNC mode RX queue buffer size for channel 3	80
+		ASYNC mode RX queue buffer size for channel 4	80
+		ASYNC mode RX queue buffer size for channel 5	80
+		ASYNC mode RX queue buffer size for channel 6	80
+		ASYNC mode RX queue buffer size for channel 7	80
+		ASYNC mode RX queue buffer size for channel 8	80
+		ASYNC mode RX queue buffer size for channel 9	80
+		ASYNC mode RX queue buffer size for channel 10	80
+		ASYNC mode RX queue buffer size for channel 11	80
+		ASYNC mode RX queue buffer size for channel 12	80
+		Transmit end interrupt	Enable
+		GROUPBL0 (ERI, TEI) interrupt priority	3
+		TX/RX FIFO for channel 7	Not
+		TX/RX FIFO for channel 8	Not
+		TX/RX FIFO for channel 9	Not
+		TX/RX FIFO for channel 10	Not
+		TX/RX FIFO for channel 11	Not
+		TX FIFO threshold for channel 7	8
+		TX FIFO threshold for channel 8	8
+		TX FIFO threshold for channel 9	8
+		TX FIFO threshold for channel 10	8
+		TX FIFO threshold for channel 11	8
+		RX FIFO threshold for channel 7	8
+		RX FIFO threshold for channel 8	8
+		RX FIFO threshold for channel 9	8
+		RX FIFO threshold for channel 10	8
+		RX FIFO threshold for channel 11	8
+		Received data match function for channel 0	Not
+		Received data match function for channel 1	Not
+		Received data match function for channel 2	Not
+		Received data match function for channel 3	Not
+		Received data match function for channel 4	Not
+		Received data match function for channel 5	Not
+		Received data match function for channel 6	Not
+		Received data match function for channel 7	Not
+		Received data match function for channel 8	Not
+		Received data match function for channel 9	Not
+		Received data match function for channel 10	Not
+		Received data match function for channel 11	Not
+		Use DTC/DMAC for transmit (SCI0)	0
+		Use DTC/DMAC for transmit (SCI1)	0
+		Use DTC/DMAC for transmit (SCI2)	0
+		Use DTC/DMAC for transmit (SCI3)	0
+		Use DTC/DMAC for transmit (SCI4)	0
+		Use DTC/DMAC for transmit (SCI5)	0
+		Use DTC/DMAC for transmit (SCI6)	0
+		Use DTC/DMAC for transmit (SCI7)	0
+		Use DTC/DMAC for transmit (SCI8)	0
+		Use DTC/DMAC for transmit (SCI9)	0
+		Use DTC/DMAC for transmit (SCI10)	0
+		Use DTC/DMAC for transmit (SCI11)	0
+		Use DTC/DMAC for transmit (SCI12)	0
+		Use DTC/DMAC for receive (SCI0)	0
+		Use DTC/DMAC for receive (SCI1)	0
+		Use DTC/DMAC for receive (SCI2)	0
+		Use DTC/DMAC for receive (SCI3)	0
+		Use DTC/DMAC for receive (SCI4)	0
+		Use DTC/DMAC for receive (SCI5)	0
+		Use DTC/DMAC for receive (SCI6)	0
+		Use DTC/DMAC for receive (SCI7)	0
+		Use DTC/DMAC for receive (SCI8)	0
+		Use DTC/DMAC for receive (SCI9)	0
+		Use DTC/DMAC for receive (SCI10)	0
+		Use DTC/DMAC for receive (SCI11)	0
+		Use DTC/DMAC for receive (SCI12)	0
+		Select channel DMAC in case using DMAC to transmit (TX SCI0)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI1)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI2)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI3)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI4)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI5)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI6)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI7)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI8)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI9)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI10)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI11)	0
+		Select channel DMAC in case using DMAC for transferring data (TX SCI12)	0
+		Select channel DMAC in case using DMAC for transferring data (RX SCI0)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI1)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI2)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI3)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI4)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI5)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI6)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI7)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI8)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI9)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI10)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI11)	1
+		Select channel DMAC in case using DMAC for transferring data (RX SCI12)	1
+		Include software support for IrDA channel 5	Not
+		Set the non-active level of the TXD pin	Include
+		Set the non-active level of the RXD pin	Include
+		Receive data sampling timing adjustment CH0	Disable
+		Receive data sampling timing adjustment CH1	Disable
+		Receive data sampling timing adjustment CH2	Disable
+		Receive data sampling timing adjustment CH3	Disable
+		Receive data sampling timing adjustment CH4	Disable
+		Receive data sampling timing adjustment CH5	Disable
+		Receive data sampling timing adjustment CH6	Disable
+		Receive data sampling timing adjustment CH7	Disable
+		Receive data sampling timing adjustment CH8	Disable
+		Receive data sampling timing adjustment CH9	Disable
+		Receive data sampling timing adjustment CH10	Disable
+		Receive data sampling timing adjustment CH11	Disable
+		Transmit signal transition timing adjustment CH0	Disable
+		Transmit signal transition timing adjustment CH1	Disable
+		Transmit signal transition timing adjustment CH2	Disable
+		Transmit signal transition timing adjustment CH3	Disable
+		Transmit signal transition timing adjustment CH4	Disable
+		Transmit signal transition timing adjustment CH5	Disable
+		Transmit signal transition timing adjustment CH6	Disable
+		Transmit signal transition timing adjustment CH7	Disable
+		Transmit signal transition timing adjustment CH8	Disable
+		Transmit signal transition timing adjustment CH9	Disable
+		Transmit signal transition timing adjustment CH10	Disable
+		Transmit signal transition timing adjustment CH11	Disable
+
+
+	2.13. r_riic_rx
+		Version: 2.60
+
+		Setting name	Value
+		Set parameter checking enable	Include
+		MCU supported channels for CH0	Supported
+		MCU supported channels for CH1	Not supported
+		MCU supported channels for CH2	Not supported
+		CH0 RIIC bps(kbps)	400
+		CH1 RIIC bps(kbps)	400
+		CH2 RIIC bps(kbps)	400
+		Digital filter for CH0	Two IIC phi
+		Digital filter for CH1	Two IIC phi
+		Digital filter for CH2	Two IIC phi
+		Setting port setting processing	Include port setting
+		Master arbitration lost detection function for CH0	Used
+		Master arbitration lost detection function for CH1	Used
+		Master arbitration lost detection function for CH2	Used
+		Address 0 format for CH0	7 bit address format
+		Address 1 format for CH0	Not
+		Address 2 format for CH0	Not
+		Slave address 0 for CH0	0x0044
+		Slave address 1 for CH0	0x0000
+		Slave address 2 for CH0	0x0000
+		Address 0 format for CH1	7 bit address format
+		Address 1 format for CH1	Not
+		Address 2 format for CH1	Not
+		Slave address 0 for CH1	0x0025
+		Slave address 1 for CH1	0x0000
+		Slave address 2 for CH1	0x0000
+		Address 0 format for CH2	7 bit address format
+		Address 1 format for CH2	Not
+		Address 2 format for CH2	Not
+		Slave address 0 for CH2	0x0025
+		Slave address 1 for CH2	0x0000
+		Slave address 2 for CH2	0x0000
+		General call address for CH0	Unused
+		General call address for CH1	Unused
+		General call address for CH2	Unused
+		CH0 RXI INT Priority Level	Level 1
+		CH0 TXI INT Priority Level	Level 1
+		CH0 EEI INT Priority Level	Level 1
+		CH0 TEI INT Priority Level	Level 1
+		CH1 RXI INT Priority Level	Level 1
+		CH1 TXI INT Priority Level	Level 1
+		CH1 EEI INT Priority Level	Level 1
+		CH1 TEI INT Priority Level	Level 1
+		CH2 RXI INT Priority Level	Level 1
+		CH2 TXI INT Priority Level	Level 1
+		CH2 EEI INT Priority Level	Level 1
+		CH2 TEI INT Priority Level	Level 1
+		Timeout function for CH0	Used
+		Timeout function for CH1	Used
+		Timeout function for CH2	Used
+		Timeout detection time for CH0	Long mode
+		Timeout detection time for CH1	Long mode
+		Timeout detection time for CH2	Long mode
+		Count up during low period of timeout detection for CH0	Used
+		Count up during low period of timeout detection for CH1	Used
+		Count up during low period of timeout detection for CH2	Used
+		Count up during high period of timeout detection for CH0	Used
+		Count up during high period of timeout detection for CH1	Used
+		Count up during high period of timeout detection for CH2	Used
+		Set Counter of checking bus busy	1000
+
+
+	2.14. r_comms_i2c_rx
+		Version: 1.21
+
+		Setting name	Value
+		Parameter Checking	System Default
+		Number of I2C Shared Buses	1
+		Number of I2C Communication Devices	1
+		Blocking operation supporting with RTOS	Disabled
+		Bus lock operation supporting with RTOS	Disabled
+		I2C Driver Type for I2C Shared Bus0	RIIC
+		Channel No. for I2C Shared Bus0	0
+		Timeout for the bus lock of I2C Shared Bus0	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus1	Not selected
+		Channel No. for I2C Shared Bus1	0
+		Timeout for the bus lock of I2C Shared Bus1	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus2	Not selected
+		Channel No. for I2C Shared Bus2	0
+		Timeout for the bus lock of I2C Shared Bus2	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus3	Not selected
+		Channel No. for I2C Shared Bus3	0
+		Timeout for the bus lock of I2C Shared Bus3	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus4	Not selected
+		Channel No. for I2C Shared Bus4	0
+		Timeout for the bus lock of I2C Shared Bus4	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus5	Not selected
+		Channel No. for I2C Shared Bus5	0
+		Timeout for the bus lock of I2C Shared Bus5	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus6	Not selected
+		Channel No. for I2C Shared Bus6	0
+		Timeout for the bus lock of I2C Shared Bus6	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus7	Not selected
+		Channel No. for I2C Shared Bus7	0
+		Timeout for the bus lock of I2C Shared Bus7	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus8	Not selected
+		Channel No. for I2C Shared Bus8	0
+		Timeout for the bus lock of I2C Shared Bus8	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus9	Not selected
+		Channel No. for I2C Shared Bus9	0
+		Timeout for the bus lock of I2C Shared Bus9	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus10	Not selected
+		Channel No. for I2C Shared Bus10	0
+		Timeout for the bus lock of I2C Shared Bus10	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus11	Not selected
+		Channel No. for I2C Shared Bus11	0
+		Timeout for the bus lock of I2C Shared Bus11	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus12	Not selected
+		Channel No. for I2C Shared Bus12	0
+		Timeout for the bus lock of I2C Shared Bus12	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus13	Not selected
+		Channel No. for I2C Shared Bus13	0
+		Timeout for the bus lock of I2C Shared Bus13	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus14	Not selected
+		Channel No. for I2C Shared Bus14	0
+		Timeout for the bus lock of I2C Shared Bus14	0xFFFFFFFF
+		I2C Driver Type for I2C Shared Bus15	Not selected
+		Channel No. for I2C Shared Bus15	0
+		Timeout for the bus lock of I2C Shared Bus15	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device0	I2C Shared Bus0
+		Slave address for I2C Communication Device0	0x44
+		Address mode for I2C Communication Device0	7bit address mode
+		Callback function for I2C Communication Device0	rm_hs300x_callback0
+		Timeout for the blocking bus of I2C Communication Device0	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device1	I2C Shared Bus0
+		Slave address for I2C Communication Device1	0x00
+		Address mode for I2C Communication Device1	7bit address mode
+		Callback function for I2C Communication Device1	comms_i2c_user_callback1
+		Timeout for the blocking bus of I2C Communication Device1	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device2	I2C Shared Bus0
+		Slave address for I2C Communication Device2	0x00
+		Address mode for I2C Communication Device2	7bit address mode
+		Callback function for I2C Communication Device2	comms_i2c_user_callback2
+		Timeout for the blocking bus of I2C Communication Device2	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device3	I2C Shared Bus0
+		Slave address for I2C Communication Device3	0x00
+		Address mode for I2C Communication Device3	7bit address mode
+		Callback function for I2C Communication Device3	comms_i2c_user_callback3
+		Timeout for the blocking bus of I2C Communication Device3	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device4	I2C Shared Bus0
+		Slave address for I2C Communication Device4	0x00
+		Address mode for I2C Communication Device4	7bit address mode
+		Callback function for I2C Communication Device4	comms_i2c_user_callback4
+		Timeout for the blocking bus of I2C Communication Device4	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device5	I2C Shared Bus0
+		Slave address for I2C Communication Device5	0x00
+		Address mode for I2C Communication Device5	7bit address mode
+		Callback function for I2C Communication Device5	comms_i2c_user_callback5
+		Timeout for the blocking bus of I2C Communication Device5	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device6	I2C Shared Bus0
+		Slave address for I2C Communication Device6	0x00
+		Address mode for I2C Communication Device6	7bit address mode
+		Callback function for I2C Communication Device6	comms_i2c_user_callback6
+		Timeout for the blocking bus of I2C Communication Device6	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device7	I2C Shared Bus0
+		Slave address for I2C Communication Device7	0x00
+		Address mode for I2C Communication Device7	7bit address mode
+		Callback function for I2C Communication Device7	comms_i2c_user_callback7
+		Timeout for the blocking bus of I2C Communication Device7	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device8	I2C Shared Bus0
+		Slave address for I2C Communication Device8	0x00
+		Address mode for I2C Communication Device8	7bit address mode
+		Callback function for I2C Communication Device8	comms_i2c_user_callback8
+		Timeout for the blocking bus of I2C Communication Device8	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device9	I2C Shared Bus0
+		Slave address for I2C Communication Device9	0x00
+		Address mode for I2C Communication Device9	7bit address mode
+		Callback function for I2C Communication Device9	comms_i2c_user_callback9
+		Timeout for the blocking bus of I2C Communication Device9	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device10	I2C Shared Bus0
+		Slave address for I2C Communication Device10	0x00
+		Address mode for I2C Communication Device10	7bit address mode
+		Callback function for I2C Communication Device10	comms_i2c_user_callback10
+		Timeout for the blocking bus of I2C Communication Device10	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device11	I2C Shared Bus0
+		Slave address for I2C Communication Device11	0x00
+		Address mode for I2C Communication Device11	7bit address mode
+		Callback function for I2C Communication Device11	comms_i2c_user_callback11
+		Timeout for the blocking bus of I2C Communication Device11	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device12	I2C Shared Bus0
+		Slave address for I2C Communication Device12	0x00
+		Address mode for I2C Communication Device12	7bit address mode
+		Callback function for I2C Communication Device12	comms_i2c_user_callback12
+		Timeout for the blocking bus of I2C Communication Device12	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device13	I2C Shared Bus0
+		Slave address for I2C Communication Device13	0x00
+		Address mode for I2C Communication Device13	7bit address mode
+		Callback function for I2C Communication Device13	comms_i2c_user_callback13
+		Timeout for the blocking bus of I2C Communication Device13	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device14	I2C Shared Bus0
+		Slave address for I2C Communication Device14	0x00
+		Address mode for I2C Communication Device14	7bit address mode
+		Callback function for I2C Communication Device14	comms_i2c_user_callback14
+		Timeout for the blocking bus of I2C Communication Device14	0xFFFFFFFF
+		I2C Shared Bus No. for I2C Communication Device15	I2C Shared Bus0
+		Slave address for I2C Communication Device15	0x00
+		Address mode for I2C Communication Device15	7bit address mode
+		Callback function for I2C Communication Device15	comms_i2c_user_callback15
+		Timeout for the blocking bus of I2C Communication Device15	0xFFFFFFFF
+
+
