@@ -77,7 +77,6 @@ static char* compose_device_id() {
     printf("DUID: %s\r\n", duid);
     return duid;
 }
-#pragma GCC diagnostic pop
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
@@ -110,8 +109,8 @@ static command_type_t get_command_type(const char* command_str) {
     {
         if (does_command_match(command_str, i))
         {
-        return i;
-    }
+            return i;
+        }
     }
 
     printf("Unknown command\r\n");
@@ -125,7 +124,7 @@ static bool command_led(const char* command_str){
         return false;
     }
 
-    char* setting_ptr = command_str + strlen(command_strings[LED]);
+    const char* setting_ptr = command_str + strlen(command_strings[LED]);
     RX65N_LED_STATE state = (setting_ptr[0] == '1') || (strncmp(setting_ptr, "true", sizeof("true")) == 0 ) ? ON : OFF;
     set_led(LED2, state);
     return true;    
