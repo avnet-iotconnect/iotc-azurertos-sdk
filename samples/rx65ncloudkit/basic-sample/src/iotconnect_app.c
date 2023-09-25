@@ -43,6 +43,9 @@ void memory_test() {
 
 
 #define STRINGS_ARE_EQUAL 0
+
+// On some hardware tested, the behaviour of free() causes crashes if trying to free a null pointer
+// the macro avoids this and also sets the pointer to null afterwards
 #define FREE(x) if ((x)) { free((void*)x); (x) = NULL; }
 #define DOES_COMMAND_MATCH(input_str, command_enum) (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == STRINGS_ARE_EQUAL)
 typedef enum command_type
