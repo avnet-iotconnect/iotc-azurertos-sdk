@@ -135,7 +135,7 @@ static void iotc_create_and_send_ack(IotclEventData data, bool success)
 {
     const char* message = success ? "OK" : "Failed_or_not_implemented";
 
-    char *ack = iotcl_create_ack_string_and_destroy_event(data, success, message);
+    const char *ack = iotcl_create_ack_string_and_destroy_event(data, success, message);
     printf("Sent CMD ack: %s\r\n", ack);
     iotconnect_sdk_send_packet(ack);
     FREE(ack);
