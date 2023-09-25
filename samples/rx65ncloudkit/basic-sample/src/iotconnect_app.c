@@ -47,7 +47,8 @@ void memory_test() {
 // On some hardware tested, the behaviour of free() causes crashes if trying to free a null pointer
 // the macro avoids this and also sets the pointer to null afterwards
 #define FREE(x) if ((x)) { free((void*)x); (x) = NULL; }
-#define DOES_COMMAND_MATCH(input_str, command_enum) (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == STRINGS_ARE_EQUAL)
+
+
 typedef enum command_type
 {
     COMMAND_UNKNOWN = 0,
@@ -61,8 +62,12 @@ const char *command_strings[] = {
     [LED] = "led ",
 };
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
+static bool does_command_match(const char* input_str, const command_type_t command_enum)
+{
+    return (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == STRINGS_ARE_EQUAL);
+}
+
+
 static char* compose_device_id() {
 #define PREFIX_LEN (sizeof(DUID_PREFIX) - 1)
     uint8_t mac_addr[6] = { 0 };
