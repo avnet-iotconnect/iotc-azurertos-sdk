@@ -42,7 +42,6 @@ void memory_test() {
 #endif /* MEMORY_TEST */
 
 
-#define STRINGS_ARE_EQUAL 0
 
 // On some hardware tested, the behaviour of free() causes crashes if trying to free a null pointer
 // the macro avoids this and also sets the pointer to null afterwards
@@ -64,7 +63,7 @@ const char *command_strings[] = {
 
 static bool does_command_match(const char* input_str, const command_type_t command_enum)
 {
-    return (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == STRINGS_ARE_EQUAL);
+    return (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == 0);
 }
 
 
