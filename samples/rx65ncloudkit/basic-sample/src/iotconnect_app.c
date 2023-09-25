@@ -105,16 +105,15 @@ static void publish_message(const char* key_str,const char* value_str) {
     iotcl_destroy_serialized(str);
 }
 
-static int get_command_type(const char* command_str) {
+static command_type_t get_command_type(const char* command_str) {
 
-
-    if (DOES_COMMAND_MATCH(command_str, ECHO)){
-        return ECHO;
+    for (command_type_t i = COMMAND_UNKNOWN; i < COMMAND_MAX; i++)
+    {
+        if (does_command_match(command_str, i))
+        {
+        return i;
     }
-    if (DOES_COMMAND_MATCH(command_str, LED)){
-        return LED;
     }
-
 
     printf("Unknown command\r\n");
     return COMMAND_UNKNOWN;
