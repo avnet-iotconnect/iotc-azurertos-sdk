@@ -47,7 +47,7 @@ void memory_test() {
 #define DOES_COMMAND_MATCH(input_str, command_enum) (strncmp((input_str), command_strings[(command_enum)], strlen(command_strings[(command_enum)])) == STRINGS_ARE_EQUAL)
 typedef enum command_type
 {
-    COMMAND_UNKOWN = 0,
+    COMMAND_UNKNOWN = 0,
     ECHO,
     LED,
     COMMAND_MAX
@@ -109,7 +109,7 @@ static int get_command_type(const char* command_str) {
 
 
     printf("Unknown command\r\n");
-    return COMMAND_UNKOWN;
+    return COMMAND_UNKNOWN;
 }
 
 static bool command_led(const char* command_str){
