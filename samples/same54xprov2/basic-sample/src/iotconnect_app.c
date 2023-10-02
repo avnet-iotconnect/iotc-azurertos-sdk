@@ -209,6 +209,13 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
 #else
     config->auth.type = IOTC_X509;
 
+    printf("Obtaining the secure element certificates....\r\n");
+
+    // IMPORTANT: This small delay may be necessary to prevent a
+    // crash that we haven't investigated yet. The crash is likely related to
+    // accessing ATECC608 or HTTPS too early.
+    tx_thread_sleep(50);
+    
 #ifdef ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
     auth_driver_context = NULL;
     struct pkcs11_atca_driver_parameters parameters = {0}; // dummy, for now
@@ -262,6 +269,21 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     printf("DUID: %s\r\n", config->duid);
     
     auth_driver_context = auth_context;
+    // SDM TEST ---------------------------------------------------------------
+
+    printf("Obtaining the secure element CA certificate...\r\n");
+    tx_thread_sleep(20); // let logs show in case we crash below
+
+    extern int sdm_atca_get_signer_cert(void);
+    sdm_atca_get_signer_cert();
+
+    printf("Running the SDM demo...\r\n");
+    tx_thread_sleep(20); // let logs show in case we crash below
+    
+    extern int iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config);
+    iotc_sdm_test(&azrtos_config);
+    // SDM  TEST ---------------------------------------------------------------
+    
 
 #else // not ENABLE_DDIM_PKCS11_ATCA_DRIVER_SAMPLE
     extern const UCHAR sample_device_cert_ptr[];
@@ -309,4 +331,29 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     }
     printf("Done.\r\n");
     return true;
+}
+
+#include "cryptoauthlib.h"
+extern ATCAIfaceCfg atecc608_0_init_data;  // Sets up configuration of interface
+
+// uint8_t sn[ATCA_SERIAL_NUM_SIZE];
+// make sure that buffer is of length ATCA_SERIAL_NUM_SIZE;
+int atca_get_serial(uint8_t* serial_buffer)
+{
+    ATCA_STATUS status;
+
+    status = atcab_init(&atecc608_0_init_data);
+    if (status != ATCA_SUCCESS) {
+        printf("atcab_init() failed: %02x\r\n", status);
+        return((int)status);
+    }
+
+    status = atcab_read_serial_number(serial_buffer);
+    if (status != ATCA_SUCCESS) {
+        printf("atcab_init() failed: %02x\r\n", status);
+        atcab_release();
+        return((int)status);
+    }
+    atcab_release();
+    return 0;
 }

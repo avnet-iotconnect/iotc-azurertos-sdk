@@ -73,9 +73,8 @@ static int pkcs11_atca_get_cert(IotcAuthInterfaceContext context, uint8_t cert_s
     cinit_args.flags = CKF_OS_LOCKING_OK;
 
     rv = C_Initialize( &cinit_args );
-    if (rv != CKR_OK && rv != CKR_CRYPTOKI_ALREADY_INITIALIZED)
-    {
-        printf("C_Initialize: rv = 0x%.8lX\n", rv);
+    if (rv != CKR_OK && rv != CKR_CRYPTOKI_ALREADY_INITIALIZED) {
+        printf("C_Initialize: rv = 0x%.8lX\r\n", rv);
         return(rv);
     }
 
@@ -88,9 +87,8 @@ static int pkcs11_atca_get_cert(IotcAuthInterfaceContext context, uint8_t cert_s
 	rv = C_OpenSession(slotID, CKF_SERIAL_SESSION, NULL_PTR, NULL_PTR,
 	    &hSession);
 
-	if (rv != CKR_OK)
-    {
-		printf("C_OpenSession: rv = 0x%.8lX\n", rv);
+	if (rv != CKR_OK) {
+		printf("C_OpenSession: rv = 0x%.8lX\r\n", rv);
 		goto exit_program;
 	}
   
@@ -106,7 +104,7 @@ static int pkcs11_atca_get_cert(IotcAuthInterfaceContext context, uint8_t cert_s
 
     rv = nx_crypto_find_pkcs11_object(hSession, device_cert_template, &device_cert);
     if (rv != CKR_OK) {
-		printf("find_object for device_cert: rv = 0x%.8lX\n", rv);
+		printf("find_object for device_cert: rv = 0x%.8lX\r\n", rv);
 		goto exit_session;
 	}
     
@@ -116,7 +114,7 @@ static int pkcs11_atca_get_cert(IotcAuthInterfaceContext context, uint8_t cert_s
 
     rv = C_GetAttributeValue(hSession, device_cert, device_cert_template_1, 1);
     if (rv != CKR_OK) {
-		printf("C_GetAttributeValue for device_cert: rv = 0x%.8lX\n", rv);
+		printf("C_GetAttributeValue for device_cert: rv = 0x%.8lX\r\n", rv);
 		goto exit_session;
 	}
     
@@ -292,7 +290,6 @@ int pkcs11_atca_create_auth_driver(IotcAuthInterface* driver_interface, IotcDdim
 int pkcs11_atca_create_auth_driver(IotcAuthInterface* driver_interface, IotcDdimInterface* ddim_interface, IotcAuthInterfaceContext* context, struct pkcs11_atca_driver_parameters *driver_parameters) {
 	printf("ATECC608: NetX 6.1.7 or newer is required\r\n");
 	return -1;
-
 }
 #endif
 

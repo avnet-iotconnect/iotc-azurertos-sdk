@@ -1,9 +1,12 @@
 //
 // Copyright: Avnet 2021
-// Created by Shu Liu <shu.liu@avnet.com> on 4/19/21.
-// Modified by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
+// Created by Nik Markovic <nikola.markovic@avnet.com> on 4/19/21.
+// Modified by Shu Liu <shu.liu@avnet.com> on 4/19/21.
 //
 
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 #include "nx_secure_tls.h"
 #include "nx_secure_tls_api.h"
 #include "nx_web_http_client.h"
@@ -62,13 +65,27 @@ static NX_SECURE_X509_DNS_NAME dns_name;
 
 // single request only support. Record current request for tls callback
 static IotConnectHttpRequest *current_request = NULL;
+static size_t last_response_header_index = 0;
 
 static UINT tls_setup_callback(NX_WEB_HTTP_CLIENT *client_ptr, NX_SECURE_TLS_SESSION *tls_session);
+
+static VOID iotc_https_response_header_callback(
+    NX_WEB_HTTP_CLIENT *client_ptr,
+    CHAR *field_name,
+    UINT field_name_length,
+    CHAR *field_value,
+    UINT field_value_length
+) {
+    (void) client_ptr;
+    current_request->custom_response_header_cb(field_name, field_name_length, field_value, field_value_length);
+}
 
 UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     UINT status;
     NX_WEB_HTTP_CLIENT http_client;
     NXD_ADDRESS server_ip_address;
+    
+    last_response_header_index = 0;
 
     if (!r ||  !r->azrtos_config || !r->host_name || !r->tls_cert || 0 == r->tls_cert_len) {
         printf("HTTP: Invalid arguments\r\n");
@@ -83,6 +100,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
             r->azrtos_config->ip_ptr,
             r->azrtos_config->pool_ptr,
             NX_WEB_HTTP_TCP_WINDOW_SIZE);
+
     if (status) {
         printf("HTTP: Client create failed: 0x%x\r\n", status);
         return status;
@@ -94,14 +112,11 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
             &server_ip_address.nxd_ip_address.v4,
             5 * NX_IP_PERIODIC_RATE
     ); // give it 5 seconds to resolve
+
     if (status) {
         printf("HTTP: Host DNS resolution failed 0x%x\r\n", status);
-        nx_web_http_client_delete(&http_client);
-        return status;
+        goto cleanup;
     }
-
-    // Set the header callback routine.
-    // nx_web_http_client_response_header_callback_set(http_client_ptr, http_header_response_callback);
 
     current_request = r;
     server_ip_address.nxd_ip_version = NX_IP_VERSION_V4;
@@ -111,25 +126,26 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
             NX_WEB_HTTPS_SERVER_PORT,//
             tls_setup_callback,//
             NX_WAIT_FOREVER);
-    current_request = NULL;
 
     if (status) {
         printf("HTTP: Error in HTTP Connect: 0x%x\r\n", status);
-        nx_web_http_client_delete(&http_client);
-        return status;
+        goto cleanup;
     }
 
 
     // PROVIDED HANDLER CALLBACK
     if (r->custom_handler_cb) {
         status = r->custom_handler_cb(r, &http_client);
-        nx_web_http_client_delete(&http_client);
-        return status;
+        if (status != NX_SUCCESS) {
+            printf("HTTP: Error in HTTP PUT request initialization: 0x%x\r\n", status);
+            goto cleanup;
+        }
     }
 
     if (!r->resource) {
         printf("HTTP: Resource needs to be provided\r\n");
-        return NX_INVALID_PARAMETERS;
+        status = NX_INVALID_PARAMETERS;
+        goto cleanup;
     }
 
     if (r->payload) {
@@ -145,20 +161,9 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
 
         if (status != NX_SUCCESS) {
             printf("HTTP: Error in HTTP PUT request initialization: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return status;
+            goto cleanup;
         }
 
-        status = nx_web_http_client_request_header_add(&http_client,
-                HDR_CT_NAME, strlen(HDR_CT_NAME),
-                HDR_CT_VALUE, strlen(HDR_CT_VALUE),
-                NX_WAIT_FOREVER);
-
-        if (status != NX_SUCCESS) {
-            printf("HTTP: Error in HTTP request headers setup: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return status;
-        }
     } else {
         status = nx_web_http_client_request_initialize(&http_client,
                 NX_WEB_HTTP_METHOD_GET, /* GET, PUT, DELETE, POST, HEAD */
@@ -169,17 +174,57 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
                 NX_WAIT_FOREVER);
         if (status != NX_SUCCESS) {
             printf("HTTP: Error in HTTP GET request initialization: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return status;
+            goto cleanup;
         }
+    }
+
+    if (0 == r->request_headers_size) {
+        status = nx_web_http_client_request_header_add(&http_client,
+                HDR_CT_NAME, strlen(HDR_CT_NAME),
+                HDR_CT_VALUE, strlen(HDR_CT_VALUE),
+                NX_WAIT_FOREVER);
+        if (status != NX_SUCCESS) {
+            printf("HTTP: Error in HTTP request headers setup: 0x%x\r\n", status);
+            goto cleanup;
+        }
+    } else {
+        if (r->request_headers_size > IOTC_HTTP_CLIENT_MAX_HEADERS) {
+            printf("HTTP: HTTP request header size is greater than maximum supported!\r\n"); 
+            status = NX_INVALID_PARAMETERS;
+            goto cleanup;            
+        }
+        for (int req_hdr_idx = 0; req_hdr_idx < r->request_headers_size; req_hdr_idx++) {
+            IotConnectHttpHeader * req_hdr = &r->request_headers[req_hdr_idx];
+            if (NULL == req_hdr->name || 0 == strlen(req_hdr->name)
+                    || NULL == req_hdr->value || 0 == strlen(req_hdr->value)) {
+                printf("HTTP: HTTP request header is not valid!\r\n"); 
+                goto cleanup;
+            }
+            printf("Adding header: %s=%s\r\n", req_hdr->name, req_hdr->value);
+            status = nx_web_http_client_request_header_add(&http_client,
+                    req_hdr->name, strlen(req_hdr->name),
+                    req_hdr->value, strlen(req_hdr->value),
+                    NX_WAIT_FOREVER);            
+            if (status != NX_SUCCESS) {
+                printf("HTTP: Error in HTTP request headers setup: 0x%x\r\n", status);
+                goto cleanup;
+            }
+        }
+    }
+    
+    if (r->custom_response_header_cb) {        
+        status = nx_web_http_client_response_header_callback_set(&http_client, iotc_https_response_header_callback);
+        if (status != NX_SUCCESS) {
+            printf("HTTP: Error in HTTP response headers setup: 0x%x\r\n", status);
+            goto cleanup;
+        }        
     }
 
     // common for both GET and POST
     status = nx_web_http_client_request_send(&http_client, NX_WAIT_FOREVER);
     if (status) {
         printf("HTTP: Error in HTTP request send: 0x%x\r\n", status);
-        nx_web_http_client_delete(&http_client);
-        return status;
+        goto cleanup;
     }
 
     if (r->payload) {
@@ -188,8 +233,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
         nx_web_http_client_request_packet_allocate(&http_client, &packet_ptr, NX_WAIT_FOREVER);
         if (status != NX_SUCCESS) {
             printf("HTTP: Error while allocating packet: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return status;
+            goto cleanup;
         }
 
         status = nx_packet_data_append(packet_ptr, (VOID *) r->payload, strlen(r->payload),
@@ -197,18 +241,15 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
                                        NX_WAIT_FOREVER);
         if (status) {
             printf("HTTP: Error while appending packet data: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return(status);
+            goto cleanup;
         }
 
          /* Send data packet request to server. */
         status = nx_web_http_client_request_packet_send(&http_client, packet_ptr, 0, NX_WAIT_FOREVER);
         if (status) {
             printf("HTTP: Error sending packet: 0x%x\r\n", status);
-            nx_web_http_client_delete(&http_client);
-            return(status);
+             goto cleanup;
         }
-
     }
 
     /* Receive response data from the server. Loop until all data is received. */
@@ -243,6 +284,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
                 &(r->response[data_length]), // where to put data
                 IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length - 1 /* 1 for null */, // bytes left in buffer
                 &bytes_received);
+
         if (status) {
             printf("HTTP: Packet data extraction error: 0x%x\r\n", status);
             break;
@@ -262,16 +304,19 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     if (receive_packet) {
     	nx_packet_release(receive_packet);
     }
-    status = nx_web_http_client_delete(&http_client);
-    if (status != NX_SUCCESS) {
+    
+cleanup:
+    current_request = NULL;
+
+    UINT delete_status = nx_web_http_client_delete(&http_client);
+    if (delete_status != NX_SUCCESS) {
         printf("Warning to delete web client: 0x%x\r\n", status);
     }
 
-    return NX_SUCCESS;
+    return status;
 }
 
-static ULONG iotc_https_certificate_verify(NX_SECURE_TLS_SESSION *session, NX_SECURE_X509_CERT* certificate)
-{
+static ULONG iotc_https_certificate_verify(NX_SECURE_TLS_SESSION *session, NX_SECURE_X509_CERT* certificate) {
     (void) session; // unused
     UINT status = nx_secure_x509_common_name_dns_check(
     		certificate,
