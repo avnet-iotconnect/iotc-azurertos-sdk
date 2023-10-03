@@ -35,6 +35,7 @@
 #ifndef IOTCONNECT_HTTPS_CERT_BUFFERSIZE
 #define IOTCONNECT_HTTPS_CERT_BUFFERSIZE  4000
 #endif
+
 #define HDR_CT_NAME "Content-Type"
 #define HDR_CT_VALUE "application/json" // for content type
 
@@ -87,7 +88,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     
     last_response_header_index = 0;
 
-    if (!r ||  !r->azrtos_config || !r->host_name || !r->tls_cert || 0 == r->tls_cert_len) {
+    if (!r ||  !r->azrtos_config || !r->host_name) {
         printf("HTTP: Invalid arguments\r\n");
         return NX_INVALID_PARAMETERS;
     }
@@ -105,7 +106,7 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
         printf("HTTP: Client create failed: 0x%x\r\n", status);
         return status;
     }
-
+    
     status = nx_dns_host_by_name_get(
             r->azrtos_config->dns_ptr,
             (UCHAR*) r->host_name,
@@ -120,12 +121,28 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
 
     current_request = r;
     server_ip_address.nxd_ip_version = NX_IP_VERSION_V4;
-    status = nx_web_http_client_secure_connect(
-            &http_client, //
-            &server_ip_address,//
-            NX_WEB_HTTPS_SERVER_PORT,//
-            tls_setup_callback,//
-            NX_WAIT_FOREVER);
+
+    if (r->tls_cert) {
+        status = nx_web_http_client_secure_connect(
+                &http_client, //
+                &server_ip_address,//
+                NX_WEB_HTTPS_SERVER_PORT,//
+                tls_setup_callback,//
+                NX_WAIT_FOREVER);
+    } else {
+        UINT port = NX_WEB_HTTP_SERVER_PORT;
+        // hack this by allowing the user to set the http port in tls_cert_len
+        // it's used for testing anyways, we'd assume...
+        if (r->tls_cert_len) {
+            port = r->tls_cert_len;
+        }
+        printf("HTTP: Warning: TLS cert is required for HTTP connections. Assuming test mode HTTP connection on port %u.\r\n", port);
+        status = nx_web_http_client_connect(
+                &http_client, //
+                &server_ip_address,//
+                port,
+                NX_WAIT_FOREVER);
+    }
 
     if (status) {
         printf("HTTP: Error in HTTP Connect: 0x%x\r\n", status);
