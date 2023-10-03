@@ -1,3 +1,4 @@
 *
 !.gitignore
+!/hal/
 !atca_config.h
