@@ -274,9 +274,6 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     printf("Obtaining the secure element CA certificate...\r\n");
     tx_thread_sleep(20); // let logs show in case we crash below
 
-    extern int sdm_atca_get_signer_cert(void);
-    sdm_atca_get_signer_cert();
-
     printf("Running the SDM demo...\r\n");
     tx_thread_sleep(20); // let logs show in case we crash below
     
