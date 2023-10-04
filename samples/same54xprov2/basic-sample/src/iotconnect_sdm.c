@@ -2,7 +2,6 @@
 // START ATCA definitions
 #include "definitions.h"                // SYS function prototypes
 #include "cryptoauthlib.h"              //must be manually added for now
-#include "atca_test.h"
 #include "nx_crypto.h"
 #include "nx_crypto_ec.h"
 
@@ -46,8 +45,15 @@ if options.debug: print(f'alias: {alias}')
 #endif
 
 //#define SDM_HOST "uatpartnerservice.iotconnect.io"
+//#define SDM_HOST "avnetiotpartnerprogram.azure-api.net"
 #define SDM_HOST "192.168.38.212"
-#define SDM_INFO_PATH "/partner-api-deviceauth/api/v1/auth/challenge"
+
+// this path is for "uatpartnerservice.iotconnect.io"
+//#define SDM_INFO_PATH "/partner-api-deviceauth/api/v1/auth/challenge"
+#define SDM_CHALLENGE_PATH "/uat-device-auth/api/v1/auth/challenge"
+#define SDM_RESPONSE_PATH "/uat-device-auth/api/v1/auth/response"
+#define SDM_INFO_PATH "/uat-device-auth/api/v1/info"
+
 
 extern const atcacert_def_t g_cert_def_1_signer;
 extern const uint8_t g_cert_ca_public_key_1_signer[];
@@ -55,15 +61,15 @@ extern ATCAIfaceCfg atecc608_0_init_data;
 
 static char* hdr_challenge;
 static char* hdr_alias;
+static char* hdr_token;
 
 static int sdm_atca_print_signer_cert(void);
 
 static void setup_request_common_field(IotConnectHttpRequest* r, const char* path) {
 	r->resource = (char *) path;
 	r->host_name = (char *) SDM_HOST;
-    // when using HTT
-	//r->tls_cert = (unsigned char*) IOTCONNECT_GODADDY_G2_ROOT_CERT;
-	//r->tls_cert_len = IOTCONNECT_GODADDY_G2_ROOT_CERT_SIZE;
+	//r->tls_cert = (unsigned char*) IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
+	//r->tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
     r->tls_cert_len = 8080;
 }
 
@@ -80,6 +86,15 @@ static char *clone_header_str(CHAR *str, UINT len) {
     return ret;
 }
 
+static VOID on_rsp_header_record_token(
+    CHAR *field_name, UINT field_name_length, CHAR *field_value, UINT field_value_length
+) {
+    if (0 == strncmp("token", field_name, field_name_length)) {
+        hdr_token = clone_header_str(field_value, field_value_length);
+    }
+    // else ignore the header
+}
+
 static VOID on_rsp_header_record_challenge_and_alias(
     CHAR *field_name, UINT field_name_length, CHAR *field_value, UINT field_value_length
 ) {
@@ -91,29 +106,36 @@ static VOID on_rsp_header_record_challenge_and_alias(
     // else ignore the header
 }
 
+#define HEX_PREFIX "hex."
 bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
+    UINT http_status;
+    ATCA_STATUS atca_status;
     int ret = true;
-	IotConnectHttpRequest http_req = {0};
+	IotConnectHttpRequest http_req = {0};    
+    uint8_t sha256_digest[IOTC_SHA256_HASH_SIZE];
+    uint8_t signature[IOTC_256_BIT_SIGNATURE_SIZE];
+    char signature_str[sizeof(HEX_PREFIX) + IOTC_256_BIT_SIGNATURE_SIZE * 2];
 	http_req.azrtos_config = azrtos_config;
 
     hdr_challenge = NULL;
     hdr_alias = NULL;
+    hdr_token = NULL;
 
-	setup_request_common_field(&http_req, SDM_INFO_PATH);
+	setup_request_common_field(&http_req, SDM_CHALLENGE_PATH);
 
 
     sdm_atca_print_signer_cert();
 
-    http_req.request_headers[0].name = "keystoreId";
-    http_req.request_headers[0].value = "23DEE57F64FAD5C4597952C88224957A6A0BA63DCABD13AF889CA9A857F1C3B5";
+    http_req.request_headers[0].name = "KeystoreId";
+    http_req.request_headers[0].value = "01231C3A79D721D101";
     http_req.request_headers_size = 1;
     
     http_req.custom_response_header_cb = on_rsp_header_record_challenge_and_alias;
-    
-    UINT status = iotconnect_https_request(&http_req);
+        
+    http_status = iotconnect_https_request(&http_req);
 
-    if (status != NX_SUCCESS) {
-        printf("SDM: HTTP request error code: 0x%x data: %s\r\n", status, http_req.response);
+    if (http_status != NX_SUCCESS) {
+        printf("SDM: Auth request error code: 0x%x data: %s\r\n", http_status, http_req.response);
     }
     
     printf("----\r\n");
@@ -132,9 +154,85 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
     }
     printf("----\r\n");
     
-    if (!ret) {
+    if (false == ret) {
         goto cleanup;
     }
+    
+    atca_status = atcab_init(&atecc608_0_init_data);
+    if (atca_status != ATCA_SUCCESS) {
+        printf("SDM: atcab_init() failed: 0x%x\r\n", atca_status);
+        ret = false;        
+        goto cleanup;
+    }
+    
+    /*
+    size_t challenge_bin_buffer_size = sizeof(challenge_bin_buffer);
+    atca_status = atcab_hex2bin(hdr_challenge, strlen(hdr_challenge), challenge_bin_buffer, &challenge_bin_buffer_size);
+    if (atca_status != ATCA_SUCCESS) {
+        printf("SDM: atcab_hex2bin() failed: 0x%x\r\n", atca_status);
+        goto cleanup;
+    }
+    */
+    
+    atca_status = atcab_sha((uint16_t)strlen(hdr_challenge), (uint8_t*)hdr_challenge, sha256_digest);
+    if (atca_status != ATCA_SUCCESS) {
+        printf("SDM: atcab_sha() failed: 0x%x\r\n", atca_status);
+        ret = false;        
+        goto cleanup;
+    }
+
+    
+    atca_status = atcab_sign(0 /* slot */, sha256_digest, signature);
+    if (atca_status != ATCA_SUCCESS) {
+        printf("SDM: atcab_sign() failed: 0x%x\r\n", atca_status);
+        ret = false;        
+        goto cleanup;
+    }
+    
+    size_t signature_str_size = sizeof(signature_str) - strlen(HEX_PREFIX); // when placing after "hex." ...
+    atca_status = atcab_bin2hex_(signature, sizeof(signature), &signature_str[strlen(HEX_PREFIX)], &signature_str_size, false, false, false);
+    if (atca_status != ATCA_SUCCESS) {
+        printf("SDM: atcab_bin2hex_() failed: 0x%x\r\n", atca_status);
+        ret = false;        
+        goto cleanup_atca;
+    }
+    memcpy(signature_str, HEX_PREFIX, strlen(HEX_PREFIX));
+    printf("signature: %s\r\n", signature_str);
+    
+    free(hdr_alias); // don't need anymore
+    hdr_alias = NULL;
+    
+    setup_request_common_field(&http_req, SDM_RESPONSE_PATH);
+
+    http_req.request_headers[0].name = "challenge";
+    http_req.request_headers[0].value = hdr_challenge;
+    http_req.request_headers[1].name = "response";
+    http_req.request_headers[1].value = signature_str;
+    http_req.request_headers_size = 2;
+    
+    http_req.custom_response_header_cb = on_rsp_header_record_token;
+
+    http_status = iotconnect_https_request(&http_req);
+
+    if (http_status != NX_SUCCESS) {
+        printf("SDM: Auth response error code: 0x%x data: %s\r\n", http_status, http_req.response);
+        ret = false;
+        goto cleanup_atca;        
+    }
+    
+    free(hdr_challenge);
+    hdr_challenge = NULL; // don't need anymore
+    
+    if (NULL == hdr_token) {
+        printf("SDM: Failed to get auth token\r\n");
+        ret = false;
+        goto cleanup_atca;        
+    }
+    
+    printf("Token: %s\r\n", hdr_token);
+    
+cleanup_atca:
+    atcab_release();
     
 cleanup:
     if(NULL != hdr_challenge) {
@@ -144,6 +242,10 @@ cleanup:
     if (NULL != hdr_alias) {
         free(hdr_alias);
         hdr_alias = NULL;
+    }
+    if (NULL != hdr_token) {
+        free(hdr_token);
+        hdr_token = NULL;
     }
     return ret;
 }
