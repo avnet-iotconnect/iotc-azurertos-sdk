@@ -1,69 +1,40 @@
 
-// START ATCA definitions
-#include "definitions.h"                // SYS function prototypes
-#include "cryptoauthlib.h"              //must be manually added for now
-#include "nx_crypto.h"
-#include "nx_crypto_ec.h"
-
 #include "atcacert/atcacert.h"
 #include "atcacert/atcacert_def.h"
 #include "atcacert/atcacert_pem.h"
-#include "atcacert/atcacert_host_hw.h"
 #include "atcacert/atcacert_client.h"
-// END ATCA definitions
+
+#include "tng_root_cert.h"
+#include "tngtls_cert_def_1_signer.h"
+#include "tngtls_cert_def_3_device.h"
 
 #include "iotconnect_certs.h"
 #include "azrtos_https_client.h"
-
-
-#if 0
-python ./auth.py -D -ks 23DEE57F64FAD5C4597952C88224957A6A0BA63DCABD13AF889CA9A857F1C3B5
-# Authenticating step1: receiving challenge and alias
-response = requests.get(
-    'https://uatpartnerservice.iotconnect.io/partner-api-deviceauth/api/v1/auth/challenge',
-    params={},
-    headers={'keystoreId': ks},
-)
-if response.status_code != 204:
-    if options.verbose: print(f"challenge Status: {response.status_code}")
-    exit(1)
-response_headers = response.headers
-# print(f'response_headers: {response_headers}')
-
-challenge = response_headers['challenge']
-if not challenge:
-    if options.verbose or options.debug: print("No challenge received.")
-    exit(1)
-if options.debug: print(f'challenge: {challenge}')
-
-alias = response_headers['alias']
-if not alias:
-    if options.verbose or options.debug: print("No alias received.")
-    exit(1)
-if options.debug: print(f'alias: {alias}')
-
-#endif
 
 //#define SDM_HOST "uatpartnerservice.iotconnect.io"
 //#define SDM_HOST "avnetiotpartnerprogram.azure-api.net"
 #define SDM_HOST "192.168.38.212"
 
 // this path is for "uatpartnerservice.iotconnect.io"
-//#define SDM_INFO_PATH "/partner-api-deviceauth/api/v1/auth/challenge"
-#define SDM_CHALLENGE_PATH "/uat-device-auth/api/v1/auth/challenge"
-#define SDM_RESPONSE_PATH "/uat-device-auth/api/v1/auth/response"
-#define SDM_INFO_PATH "/uat-device-auth/api/v1/info"
+#define SDM_API_PREFIX "/partner-api-deviceauth/api/v1"
+//#define SDM_API_PREFIX "/uat-device-auth/api/v1"
+#define SDM_CHALLENGE_PATH  SDM_API_PREFIX "/auth/challenge"
+#define SDM_RESPONSE_PATH   SDM_API_PREFIX "/auth/response"
+#define SDM_INFO_PATH       SDM_API_PREFIX "/api/v1/info"
+
+#define CERT_BUF_MAX_SIZE           1024
 
 
-extern const atcacert_def_t g_cert_def_1_signer;
-extern const uint8_t g_cert_ca_public_key_1_signer[];
 extern ATCAIfaceCfg atecc608_0_init_data;
 
-static char* hdr_challenge;
-static char* hdr_alias;
-static char* hdr_token;
+static char* sdm_challenge;
+static char* sdm_alias;
+static char* sdm_token;
 
+static int sdm_atca_get_serial_as_string(char* serial_buffer);
+//static void sdm_atca_print_root_ca_cert(void);
 static int sdm_atca_print_signer_cert(void);
+static int sdm_atca_print_device_cert(void);
 
 static void setup_request_common_field(IotConnectHttpRequest* r, const char* path) {
 	r->resource = (char *) path;
@@ -90,7 +61,7 @@ static VOID on_rsp_header_record_token(
     CHAR *field_name, UINT field_name_length, CHAR *field_value, UINT field_value_length
 ) {
     if (0 == strncmp("token", field_name, field_name_length)) {
-        hdr_token = clone_header_str(field_value, field_value_length);
+        sdm_token = clone_header_str(field_value, field_value_length);
     }
     // else ignore the header
 }
@@ -99,9 +70,9 @@ static VOID on_rsp_header_record_challenge_and_alias(
     CHAR *field_name, UINT field_name_length, CHAR *field_value, UINT field_value_length
 ) {
     if (0 == strncmp("challenge", field_name, field_name_length)) {       
-        hdr_challenge = clone_header_str(field_value, field_value_length);
+        sdm_challenge = clone_header_str(field_value, field_value_length);
     } else if (0 == strncmp("alias", field_name, field_name_length)) {
-        hdr_alias = clone_header_str(field_value, field_value_length);
+        sdm_alias = clone_header_str(field_value, field_value_length);
     }
     // else ignore the header
 }
@@ -117,37 +88,46 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
     char signature_str[sizeof(HEX_PREFIX) + IOTC_256_BIT_SIGNATURE_SIZE * 2];
 	http_req.azrtos_config = azrtos_config;
 
-    hdr_challenge = NULL;
-    hdr_alias = NULL;
-    hdr_token = NULL;
+    sdm_challenge = NULL;
+    sdm_alias = NULL;
+    sdm_token = NULL;
 
 	setup_request_common_field(&http_req, SDM_CHALLENGE_PATH);
 
-
+    char* serial_str = malloc(2 * ATCA_SERIAL_NUM_SIZE + 1);
+    sdm_atca_get_serial_as_string(serial_str);
+    printf("ATECC608 Serial: %s\r\n", serial_str);
+    
+    // sdm_atca_print_root_ca_cert();
     sdm_atca_print_signer_cert();
+    sdm_atca_print_device_cert();
 
     http_req.request_headers[0].name = "KeystoreId";
-    http_req.request_headers[0].value = "01231C3A79D721D101";
+    http_req.request_headers[0].value = serial_str;
     http_req.request_headers_size = 1;
     
     http_req.custom_response_header_cb = on_rsp_header_record_challenge_and_alias;
         
     http_status = iotconnect_https_request(&http_req);
 
+//    free(serial_str);
+//    serial_str = NULL;
+
     if (http_status != NX_SUCCESS) {
         printf("SDM: Auth request error code: 0x%x data: %s\r\n", http_status, http_req.response);
+        goto cleanup;
     }
     
     printf("----\r\n");
-    if (NULL != hdr_challenge) {
-        printf("SDM: challenge: %s\r\n", hdr_challenge);
+    if (NULL != sdm_challenge) {
+        printf("SDM: challenge: %s\r\n", sdm_challenge);
     } else {
         printf("SDM: Failed to get challenge\r\n");
         ret = false;
     }
 
-    if (NULL != hdr_alias) {
-        printf("SDM: alias: %s\r\n", hdr_alias);
+    if (NULL != sdm_alias) {
+        printf("SDM: alias: %s\r\n", sdm_alias);
     } else {
         printf("SDM: Failed to get alias\r\n");
         ret = false;
@@ -165,16 +145,7 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
         goto cleanup;
     }
     
-    /*
-    size_t challenge_bin_buffer_size = sizeof(challenge_bin_buffer);
-    atca_status = atcab_hex2bin(hdr_challenge, strlen(hdr_challenge), challenge_bin_buffer, &challenge_bin_buffer_size);
-    if (atca_status != ATCA_SUCCESS) {
-        printf("SDM: atcab_hex2bin() failed: 0x%x\r\n", atca_status);
-        goto cleanup;
-    }
-    */
-    
-    atca_status = atcab_sha((uint16_t)strlen(hdr_challenge), (uint8_t*)hdr_challenge, sha256_digest);
+    atca_status = atcab_sha((uint16_t)strlen(sdm_challenge), (uint8_t*)sdm_challenge, sha256_digest);
     if (atca_status != ATCA_SUCCESS) {
         printf("SDM: atcab_sha() failed: 0x%x\r\n", atca_status);
         ret = false;        
@@ -182,7 +153,7 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
     }
 
     
-    atca_status = atcab_sign(0 /* slot */, sha256_digest, signature);
+    atca_status = atcab_sign(g_tngtls_cert_def_3_device.private_key_slot, sha256_digest, signature);
     if (atca_status != ATCA_SUCCESS) {
         printf("SDM: atcab_sign() failed: 0x%x\r\n", atca_status);
         ret = false;        
@@ -199,13 +170,13 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
     memcpy(signature_str, HEX_PREFIX, strlen(HEX_PREFIX));
     printf("signature: %s\r\n", signature_str);
     
-    free(hdr_alias); // don't need anymore
-    hdr_alias = NULL;
+    free(sdm_alias); // don't need anymore
+    sdm_alias = NULL;
     
     setup_request_common_field(&http_req, SDM_RESPONSE_PATH);
 
     http_req.request_headers[0].name = "challenge";
-    http_req.request_headers[0].value = hdr_challenge;
+    http_req.request_headers[0].value = sdm_challenge;
     http_req.request_headers[1].name = "response";
     http_req.request_headers[1].value = signature_str;
     http_req.request_headers_size = 2;
@@ -220,51 +191,96 @@ bool iotc_sdm_test(IotConnectAzrtosConfig* azrtos_config) {
         goto cleanup_atca;        
     }
     
-    free(hdr_challenge);
-    hdr_challenge = NULL; // don't need anymore
+    free(sdm_challenge);
+    sdm_challenge = NULL; // don't need anymore
     
-    if (NULL == hdr_token) {
+    if (NULL == sdm_token) {
         printf("SDM: Failed to get auth token\r\n");
         ret = false;
         goto cleanup_atca;        
     }
     
-    printf("Token: %s\r\n", hdr_token);
-    
+    printf("Token: %s\r\n", sdm_token);
+
 cleanup_atca:
     atcab_release();
     
 cleanup:
-    if(NULL != hdr_challenge) {
-        free(hdr_challenge);
-        hdr_challenge = NULL;        
+    if(NULL != sdm_challenge) {
+        free(sdm_challenge);
+        sdm_challenge = NULL;        
     }
-    if (NULL != hdr_alias) {
-        free(hdr_alias);
-        hdr_alias = NULL;
+    if (NULL != sdm_alias) {
+        free(sdm_alias);
+        sdm_alias = NULL;
     }
-    if (NULL != hdr_token) {
-        free(hdr_token);
-        hdr_token = NULL;
+    if (NULL != sdm_token) {
+        free(sdm_token);
+        sdm_token = NULL;
+    }
+    if (NULL != serial_str) {
+        free(serial_str);
     }
     return ret;
 }
 
-static int sdm_atca_print_signer_cert(void) {
-    int ret;
-    ATCA_STATUS status;
-    #define CERT_BUF_MAX_SIZE           1024
-    UCHAR signer_cert[CERT_BUF_MAX_SIZE];
-    UINT  signer_cert_size = sizeof(signer_cert);
-
+// Buffer have extra element for null, so 2*ATCA_SERIAL_NUM_SIZE+1
+static int sdm_atca_get_serial_as_string(char* serial_str) {
+    int status;
+    uint8_t serial_buffer[ATCA_SERIAL_NUM_SIZE];
     status = atcab_init(&atecc608_0_init_data);
     if (status != ATCA_SUCCESS) {
-        printf("SDM: atcab_init() failed: %02x\r\n", status);
-        return((int)status);
+        printf("atcab_init() failed: %02x\r\n", status);
+        return status;
+    }
+
+    // a tricky way to convert numbers to hex
+    // we push the numbers to the second half of the buffer and
+    // then print the hex value for each into the same buffer from the beginning
+    status = atcab_read_serial_number(serial_buffer);
+    if (status != ATCA_SUCCESS) {
+        printf("atcab_read_serial_number() failed: %02x\r\n", status);
+        atcab_release();
+        return status;
+    }
+    
+    for (int i = 0; i < ATCA_SERIAL_NUM_SIZE; i++) {
+        sprintf(&serial_str[i * 2], "%02X", serial_buffer[i]);
+    }
+    serial_str[ATCA_SERIAL_NUM_SIZE * 2] = 0;
+    
+    atcab_release();
+    return 0;
+}
+
+#if 0
+static void sdm_atca_print_root_ca_cert(void) {
+    char displaystr[CERT_BUF_MAX_SIZE];
+    size_t displaylen;
+    displaylen = sizeof(displaystr);
+    atcacert_encode_pem_cert(g_cryptoauth_root_ca_002_cert, g_cryptoauth_root_ca_002_cert_size, displaystr, &displaylen);
+    printf("%s", displaystr);
+}
+#endif
+
+static int sdm_atca_print_signer_cert(void) {
+    int ret;
+    uint8_t signer_cert[CERT_BUF_MAX_SIZE];
+    size_t  signer_cert_size;
+    
+    ret = atcab_init(&atecc608_0_init_data);
+    if (ret != ATCA_SUCCESS) {
+        printf("SDM: atcab_init() failed: %02x\r\n", ret);
+        return ret;
     }
 
     signer_cert_size = sizeof(signer_cert);
-    ret = atcacert_read_cert(&g_cert_def_1_signer, g_cert_ca_public_key_1_signer, signer_cert, &signer_cert_size);
+    ret = atcacert_read_cert(
+            &g_tngtls_cert_def_1_signer, 
+            &g_cryptoauth_root_ca_002_cert[CRYPTOAUTH_ROOT_CA_002_PUBLIC_KEY_OFFSET], 
+            signer_cert, 
+            &signer_cert_size
+    );    
     if(ATCACERT_E_SUCCESS != ret) {
         printf("SDM: atcacert_read_cert failed with an error %d\r\n", ret);
         atcab_release();
@@ -275,8 +291,44 @@ static int sdm_atca_print_signer_cert(void) {
     size_t displaylen;
     displaylen = sizeof(displaystr);
     atcacert_encode_pem_cert(signer_cert, signer_cert_size, displaystr, &displaylen);
-    printf("SIGNER CERTIFICATE: \r\n%s\r\n SIGNER CERTIFICATE END\r\n", displaystr);
+    printf("%s", displaystr);
 
+    atcab_release();
+    return 0;
+}
+
+static int sdm_atca_print_device_cert(void) {
+    int ret;
+    uint8_t device_cert[CERT_BUF_MAX_SIZE];
+    uint8_t signer_public_key[64] = {0};
+    size_t  device_cert_size = sizeof(device_cert);
+
+    ret = atcab_init(&atecc608_0_init_data);
+    if (ret != ATCA_SUCCESS) {
+        printf("SDM: atcab_init() failed: %02x\r\n", ret);
+        return ret;
+    }
+
+    ret = atcab_read_pubkey(g_tngtls_cert_def_3_device.ca_cert_def->public_key_dev_loc.slot, signer_public_key);
+    if (ATCA_SUCCESS != ret) {
+        printf("atcab_read_pubkey failed with an error 0x%x\r\n", ret);
+        atcab_release();        
+        return ret;
+    }
+    
+    device_cert_size = sizeof(device_cert);
+    ret = atcacert_read_cert(&g_tngtls_cert_def_3_device, signer_public_key, device_cert, &device_cert_size);
+    if(ATCACERT_E_SUCCESS != ret) {
+        printf("SDM: atcacert_read_cert failed with an error %d\r\n", ret);
+        atcab_release();
+        return ret;
+    }
+
+    char displaystr[CERT_BUF_MAX_SIZE];
+    size_t displaylen;
+    displaylen = sizeof(displaystr);
+    atcacert_encode_pem_cert(device_cert, device_cert_size, displaystr, &displaylen);
+    printf("%s", displaystr);
     atcab_release();
     return ret;
 }

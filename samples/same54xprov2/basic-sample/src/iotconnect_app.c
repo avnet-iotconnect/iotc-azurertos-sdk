@@ -329,28 +329,3 @@ bool iotconnect_sample_app(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_
     printf("Done.\r\n");
     return true;
 }
-
-#include "cryptoauthlib.h"
-extern ATCAIfaceCfg atecc608_0_init_data;  // Sets up configuration of interface
-
-// uint8_t sn[ATCA_SERIAL_NUM_SIZE];
-// make sure that buffer is of length ATCA_SERIAL_NUM_SIZE;
-int atca_get_serial(uint8_t* serial_buffer)
-{
-    ATCA_STATUS status;
-
-    status = atcab_init(&atecc608_0_init_data);
-    if (status != ATCA_SUCCESS) {
-        printf("atcab_init() failed: %02x\r\n", status);
-        return((int)status);
-    }
-
-    status = atcab_read_serial_number(serial_buffer);
-    if (status != ATCA_SUCCESS) {
-        printf("atcab_init() failed: %02x\r\n", status);
-        atcab_release();
-        return((int)status);
-    }
-    atcab_release();
-    return 0;
-}
