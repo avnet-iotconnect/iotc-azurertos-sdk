@@ -36,8 +36,8 @@ typedef VOID (*IotConnectHttpResponseHeaderHandler) (
 );
 
 typedef struct IotConnectHttpHeader {
-    char *name;
-    char *value;
+    const char *name;
+    const char *value;
 } IotConnectHttpHeader;
 
 

@@ -219,8 +219,8 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
             }
             printf("Adding header: %s=%s\r\n", req_hdr->name, req_hdr->value);
             status = nx_web_http_client_request_header_add(&http_client,
-                    req_hdr->name, strlen(req_hdr->name),
-                    req_hdr->value, strlen(req_hdr->value),
+                    (CHAR *) req_hdr->name, (UINT) strlen(req_hdr->name),
+                    (CHAR *) req_hdr->value, (UINT) strlen(req_hdr->value),
                     NX_WAIT_FOREVER);            
             if (status != NX_SUCCESS) {
                 printf("HTTP: Error in HTTP request headers setup: 0x%x\r\n", status);
@@ -285,14 +285,18 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
 
 		UINT packet_len = receive_packet->nx_packet_length;
 		if (packet_len == 0) {
-			if (get_status == NX_WEB_HTTP_GET_DONE) {
+			if (get_status == NX_SUCCESS) {
+                // For some reason packet length is 0 and we got "success".
+				// Flask seems to return this and it seems that we ought to proceed to receive...
+			} else if (get_status == NX_WEB_HTTP_GET_DONE) {                
 				status = NX_SUCCESS;
+    			break; // we are done receiving
 			} else {
 				// not sure how to handle this case. I guess break and send last status.
+				printf("HTTP packet length was zero. Aborting the receive loop, error: 0x%x\r\n", get_status);
 				status = get_status;
-				printf("HTTP packet length was zero. Aborting the receive loop!");
-			}
-			break; // in both cases
+				break; // got non-200 result code
+            }
 		}
 		ULONG bytes_received = 0;
         status = nx_packet_data_extract_offset( //
