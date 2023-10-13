@@ -1,0 +1,1 @@
+bool iotc_sdm_test(IotConnectAzrtosConfig *rtos_config, SdmInfoResponse *sir);

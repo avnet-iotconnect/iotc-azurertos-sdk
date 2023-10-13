@@ -3,8 +3,8 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>iotconnect-demo</name>
-            <creation-uuid>e54023e9-3948-44ef-bf6f-29d8b223e555</creation-uuid>
+            <name>iotconnect-sdm-demo</name>
+            <creation-uuid>e54023e9-3948-44ef-bf6f-29d8b223e556</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
@@ -16,6 +16,7 @@
                 <sourceRootElem>../src</sourceRootElem>
                 <sourceRootElem>../basic-sample</sourceRootElem>
                 <sourceRootElem>../iotc-azrtos-sdk</sourceRootElem>
+                <sourceRootElem>../sdm-sample</sourceRootElem>
                 <sourceRootElem>../app-common</sourceRootElem>
             </sourceRootList>
             <confList>

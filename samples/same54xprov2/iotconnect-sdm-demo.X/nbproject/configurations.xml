@@ -4,19 +4,22 @@
     <logicalFolder name="f1" displayName="App" projectFiles="true">
       <logicalFolder name="app-common" displayName="app-common" projectFiles="true">
         <logicalFolder name="include" displayName="include" projectFiles="true">
+          <itemPath>../app-common/include/pkcs11_atca_auth_driver.h</itemPath>
         </logicalFolder>
         <logicalFolder name="src" displayName="src" projectFiles="true">
           <itemPath>../app-common/src/pkcs11_atca_auth_driver.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <logicalFolder name="basic-sample"
-                     displayName="basic-sample"
-                     projectFiles="true">
+      <logicalFolder name="sdm-sample" displayName="sdm-sample" projectFiles="true">
         <logicalFolder name="include" displayName="include" projectFiles="true">
-          <itemPath>../basic-sample/include/app_config.h</itemPath>
+          <itemPath>../sdm-sample/include/iotconnect_sdm.h</itemPath>
+          <itemPath>../sdm-sample/include/iotconnect_sdm_app_interface.h</itemPath>
+          <itemPath>../sdm-sample/include/app_config.h</itemPath>
         </logicalFolder>
         <logicalFolder name="src" displayName="src" projectFiles="true">
-          <itemPath>../basic-sample/src/iotconnect_app.c</itemPath>
+          <itemPath>../sdm-sample/src/iotconnect_sdm_app.c</itemPath>
+          <itemPath>../sdm-sample/src/iotconnect_sdm_app_interface.c</itemPath>
+          <itemPath>../sdm-sample/src/iotconnect_sdm.c</itemPath>
         </logicalFolder>
       </logicalFolder>
     </logicalFolder>
@@ -2854,6 +2857,7 @@
     <Elem>../src</Elem>
     <Elem>../basic-sample</Elem>
     <Elem>../iotc-azrtos-sdk</Elem>
+    <Elem>../sdm-sample</Elem>
     <Elem>../app-common</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
@@ -2864,7 +2868,7 @@
         <targetDevice>ATSAME54P20A</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>noID</platformTool>
+        <platformTool>EdbgTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.10</languageToolchainVersion>
         <platform>2</platform>
@@ -3041,7 +3045,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src;../src/config/sam_e54_xpro;../src/config/sam_e54_xpro/library/cryptoauthlib;../src/config/sam_e54_xpro/library/cryptoauthlib/crypto;../src/config/sam_e54_xpro/library/cryptoauthlib/pkcs11;../src/config/sam_e54_xpro/library/cryptoauthlib/test;../src/config/sam_e54_xpro/library/cryptoauthlib/tng;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src/config/sam_e54_xpro/threadx_config;../src/packs/ATSAME54P20A_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/cortex_m4/gnu/inc;../src/third_party/azure_rtos/netxduo;../src/third_party/azure_rtos/netxduo/addons;../src/third_party/azure_rtos/netxduo/addons/azure_iot;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE_UT;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include ;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc;../src/third_party/azure_rtos/netxduo/addons/cloud;../src/third_party/azure_rtos/netxduo/addons/dhcp;../src/third_party/azure_rtos/netxduo/addons/dns;../src/third_party/azure_rtos/netxduo/addons/mqtt;../src/third_party/azure_rtos/netxduo/addons/sntp;../src/third_party/azure_rtos/netxduo/common/inc;../src/third_party/azure_rtos/netxduo/crypto_libraries/inc;../src/third_party/azure_rtos/netxduo/nx_secure/inc;../src/third_party/azure_rtos/netxduo/nx_secure/ports;../src/third_party/azure_rtos/netxduo/ports/cortex_m4/gnu/inc;../src/third_party/rtos/threadx/common/inc;../src/third_party/rtos/threadx/ports/cortex_m4/mplabx/inc;../basic-sample/include;../app-common/include;../iotc-azrtos-sdk/authentication/driver;../../../iotc-azrtos-sdk/authentication/include;../../../iotc-azrtos-sdk/azrtos-layer/include;../../../iotc-azrtos-sdk/include;../src/third_party/azure_rtos/netxduo/addons/web;../iotc-azrtos-sdk/iotc-c-lib/include;../iotc-azrtos-sdk/cJSON;../iotc-azrtos-sdk/libTO/include;../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/;../src/azure_rtos_demo/pkcs11_ciphersuites;../src/azure_rtos_demo/WeatherClick"/>
+                  value="../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src;../src/config/sam_e54_xpro;../src/config/sam_e54_xpro/library/cryptoauthlib;../src/config/sam_e54_xpro/library/cryptoauthlib/crypto;../src/config/sam_e54_xpro/library/cryptoauthlib/pkcs11;../src/config/sam_e54_xpro/library/cryptoauthlib/test;../src/config/sam_e54_xpro/library/cryptoauthlib/tng;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src;../src/config/sam_e54_xpro/third_party_adapter/azure_rtos/src/tcpip;../src/config/sam_e54_xpro/threadx_config;../src/packs/ATSAME54P20A_DFP;../src/packs/CMSIS/;../src/packs/CMSIS/CMSIS/Core/Include;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/cortex_m4/gnu/inc;../src/third_party/azure_rtos/netxduo;../src/third_party/azure_rtos/netxduo/addons;../src/third_party/azure_rtos/netxduo/addons/azure_iot;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure-sdk-for-c/sdk/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/inc/configs/RTOS_BASE_UT;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/deps/flatcc/include ;../src/third_party/azure_rtos/netxduo/addons/azure_iot/azure_iot_security_module/iot-security-module-core/inc;../src/third_party/azure_rtos/netxduo/addons/cloud;../src/third_party/azure_rtos/netxduo/addons/dhcp;../src/third_party/azure_rtos/netxduo/addons/dns;../src/third_party/azure_rtos/netxduo/addons/mqtt;../src/third_party/azure_rtos/netxduo/addons/sntp;../src/third_party/azure_rtos/netxduo/common/inc;../src/third_party/azure_rtos/netxduo/crypto_libraries/inc;../src/third_party/azure_rtos/netxduo/nx_secure/inc;../src/third_party/azure_rtos/netxduo/nx_secure/ports;../src/third_party/azure_rtos/netxduo/ports/cortex_m4/gnu/inc;../src/third_party/rtos/threadx/common/inc;../src/third_party/rtos/threadx/ports/cortex_m4/mplabx/inc;../sdm-sample/include;../app-common/include;../iotc-azrtos-sdk/authentication/driver;../../../iotc-azrtos-sdk/authentication/include;../../../iotc-azrtos-sdk/azrtos-layer/include;../../../iotc-azrtos-sdk/include;../src/third_party/azure_rtos/netxduo/addons/web;../iotc-azrtos-sdk/iotc-c-lib/include;../iotc-azrtos-sdk/cJSON;../iotc-azrtos-sdk/libTO/include;../iotc-azrtos-sdk/azrtos-layer/azrtos-ota/include/;../src/azure_rtos_demo/pkcs11_ciphersuites;../src/azure_rtos_demo/WeatherClick"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
