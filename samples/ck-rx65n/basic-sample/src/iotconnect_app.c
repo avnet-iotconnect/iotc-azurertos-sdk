@@ -206,7 +206,7 @@ typedef struct credentials {
 	char symmkey[IOTC_CONFIG_BUFF_LEN_SYMMKEY];
 } credentials_t;
 
-static UINT save_creds_to_file(credentials_t creds){
+static UINT save_creds_to_file(void *data, size_t size, const char* filename){
 	UINT status;
 
 	status =  fx_media_open(&ram_disk, media_name, _fx_ram_driver, ram_disk_memory, media_memory, sizeof(media_memory));
@@ -218,7 +218,7 @@ static UINT save_creds_to_file(credentials_t creds){
 		goto SAVE_CLEANUP;
 	}
 
-	status =  fx_file_open(&ram_disk, &my_file, credentials_filename, FX_OPEN_FOR_READ);
+	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_READ);
 
 	if (status != FX_SUCCESS) {
 		printf("Failed to open file. status: %d\r\n", status);
@@ -235,7 +235,7 @@ static UINT save_creds_to_file(credentials_t creds){
 			goto SAVE_CLEANUP;
 		}
 
-		status = fx_file_delete(&ram_disk, credentials_filename);
+		status = fx_file_delete(&ram_disk, filename);
 
 		if (status != FX_SUCCESS){
 			printf("Failed to delete credentials file error: %d\r\n", status);
@@ -244,14 +244,14 @@ static UINT save_creds_to_file(credentials_t creds){
 
 	}
 
-	status = fx_file_create(&ram_disk, credentials_filename);
+	status = fx_file_create(&ram_disk, filename);
 
 	if (status != FX_SUCCESS){
 		printf("Failed to create file. status: %d\r\n", status);
 		goto SAVE_CLEANUP;
 	}
 
-	status =  fx_file_open(&ram_disk, &my_file, credentials_filename, FX_OPEN_FOR_WRITE);
+	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_WRITE);
 
 	if (status != FX_SUCCESS){
 		printf("Failed to open file\r\n");
@@ -265,7 +265,7 @@ static UINT save_creds_to_file(credentials_t creds){
 		goto SAVE_CLEANUP;
 	}
 
-	status = fx_file_write(&my_file, &creds, sizeof(credentials_t));
+	status = fx_file_write(&my_file, data, size);
 
 	if (status != FX_SUCCESS){
 		printf("failed to write data to file\r\n");
@@ -305,7 +305,7 @@ SAVE_CLEANUP:
 	return status;
 }
 
-static UINT load_creds_from_file(credentials_t *creds){
+static UINT load_creds_from_file(void *data, size_t size_to_read, const char* filename){
 	UINT status;
 
 	status =  fx_media_open(&ram_disk, media_name, _fx_ram_driver, ram_disk_memory, media_memory, sizeof(media_memory));
@@ -317,7 +317,7 @@ static UINT load_creds_from_file(credentials_t *creds){
 		goto LOAD_CLEANUP;
 	}
 
-	status =  fx_file_open(&ram_disk, &my_file, credentials_filename, FX_OPEN_FOR_READ);
+	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_READ);
 
 	if (status != FX_SUCCESS){
 		printf("Failed to open file\r\n");
@@ -333,7 +333,7 @@ static UINT load_creds_from_file(credentials_t *creds){
 
 	ULONG actual = 0;
 
-	status = fx_file_read(&my_file, creds, sizeof(credentials_t), &actual);
+	status = fx_file_read(&my_file, data, size_to_read, &actual);
 	if (status != FX_SUCCESS){
 		printf("failed to read creds file\r\n");
 		goto LOAD_CLEANUP;
@@ -404,7 +404,7 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     	scanf("%c", in_buff);
     	printf("\r\n");
     	if (in_buff[0] == '1'){
-    		if (load_creds_from_file(&creds) == FX_SUCCESS){
+    		if (load_creds_from_file(&creds, sizeof(credentials_t), credentials_filename) == FX_SUCCESS){
     			break;
     		} else {
     			printf("Failed to load credentials from file. Try again or input them\r\n");
@@ -569,7 +569,7 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
         }
         // save credentials to a file
 #ifdef SYMMETRIC_KEY_INPUT
-        if (save_creds_to_file(creds) != FX_SUCCESS){
+        if (save_creds_to_file(&creds, sizeof(credentials_t), credentials_filename) != FX_SUCCESS){
         	printf("Failed to save credentials to a file\r\n");
         } else {
         	printf("Successfully saved credentials to a file\r\n");
