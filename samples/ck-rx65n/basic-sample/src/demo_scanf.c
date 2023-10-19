@@ -65,3 +65,77 @@ char my_sw_charget_function_timeout(uint16_t timeout)
 
     return c;
 }
+
+char my_sw_charget_function_variable_length(char **buff, uint8_t len, uint16_t timeout)
+{
+    char c = 0;
+
+    if (len == 0){
+        printf("impossible buffer len %d\r\n", len);
+        return 0;
+    }
+
+    *buff = (char*)calloc(len+1, sizeof(char));
+
+    if (!(*buff)){
+        printf("failed to calloc\r\n");
+        return 0;
+    } 
+
+    tx_mutex_get(&demo_scanf_mutex, TX_WAIT_FOREVER);
+
+    if(R_Config_SCI5_Serial_Receive(*buff, len) != MD_OK) {
+        c = 0;
+    }
+
+    tx_semaphore_get(&demo_scanf_semaphore, timeout);
+
+    tx_mutex_put(&demo_scanf_mutex);
+
+    // echo character back...
+
+    for (int i = 0; i < len; i++){
+    	if (*buff[i] == '\0'){
+    		break;
+    	}
+    	my_sw_charput_function(*buff[i]);
+    }
+
+
+    return c;
+}
+
+char my_sw_charget_function_variable_length_v2(char *buff, uint8_t len, uint16_t timeout)
+{
+    char c = 0;
+
+    if (len == 0){
+        printf("impossible buffer len %d\r\n", len);
+        return 0;
+    }
+
+    tx_mutex_get(&demo_scanf_mutex, TX_WAIT_FOREVER);
+
+    if(R_Config_SCI5_Serial_Receive(buff, len) != MD_OK) {
+        c = 0;
+    }
+
+    tx_semaphore_get(&demo_scanf_semaphore, timeout);
+
+    tx_mutex_put(&demo_scanf_mutex);
+
+    // echo character back...
+
+    for (int i = 0; i < len; i++){
+    	if (buff[i] == '\0'){
+    		break;
+    	}
+    	my_sw_charput_function(buff[i]);
+    }
+
+
+
+    return c;
+}
+
+    
