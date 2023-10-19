@@ -22,6 +22,10 @@
 
 #ifdef SYMMETRIC_KEY_INPUT
 #include "r_flash_rx_if.h"
+#include "demo_scanf.h"
+
+#define TX_SECONDS_TO_TICKS(x) (x*TX_TIMER_TICKS_PER_SECOND)
+
 #endif
 
 static IotConnectAzrtosConfig azrtos_config;
@@ -259,19 +263,21 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     bool save_req = false;
 
 
-    char in_buff[2];
+    char in_buff = 0;
     while(1){
-    	printf("to load credentials: type '1'\r\nto enter credentials: type '2'\r\n");
-    	scanf("%c", in_buff);
+    	printf("to load credentials: type '1' (this will be executed in 5s)\r\nto enter credentials: type '2'\r\n");
+
+        in_buff = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(5));
+
     	printf("\r\n");
-    	if (in_buff[0] == '1'){
+    	if (in_buff == '1' || in_buff == 0){
     		if (load_creds_from_file(&creds, CREDENTIALS_BLOCK_DATA) == FLASH_SUCCESS){
                 save_req = false;
     			break;
     		} else {
     			printf("Failed to load credentials from file. Try again or input them\r\n");
     		}
-    	}else if (in_buff[0] == '2') {
+    	}else if (in_buff == '2') {
 
             creds = (credentials_t*)malloc(sizeof(credentials_t));
             
