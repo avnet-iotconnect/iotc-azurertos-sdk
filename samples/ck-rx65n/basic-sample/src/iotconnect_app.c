@@ -20,6 +20,10 @@
 #include "hardware_setup.h"
 #include "hs300x_sensor_thread_entry.h"
 
+#ifdef SYMMETRIC_KEY_INPUT
+#include "r_flash_rx_if.h"
+#endif
+
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
 
@@ -173,27 +177,7 @@ static void publish_telemetry() {
 
 #ifdef SYMMETRIC_KEY_INPUT
 
-/*
- * global variables for filex
- *
- * Taken from e2studio ccrx demo
- *
- *  */
-extern CHAR* ram_disk_memory;
-FX_MEDIA        ram_disk;
-FX_FILE         my_file;
-const char media_name[] = "RAM DISK";
-
-VOID _fx_ram_driver(FX_MEDIA *media_ptr);
-
-/* Buffer for FileX FX_MEDIA sector cache. This must be large enough for at least one
-   sector, which are typically 512 bytes in size.  */
-
-unsigned char media_memory[512];
-
-//
-const char credentials_filename[] = "creds.txt";
-
+#define CREDENTIALS_BLOCK_DATA FLASH_DF_BLOCK_24
 
 
 // be careful with changing these constants
@@ -206,170 +190,45 @@ typedef struct credentials {
 	char symmkey[IOTC_CONFIG_BUFF_LEN_SYMMKEY];
 } credentials_t;
 
-static UINT save_creds_to_file(void *data, size_t size, const char* filename){
+static flash_err_t save_creds_to_file(void *data, uint32_t address, size_t size){
+	
+    flash_err_t ret;
+
+    ret = R_FLASH_Erase(address, size);
+    if (ret != FLASH_SUCCESS)
+    {
+        printf("Failed to erase credentials data before writing\r\n");
+        return ret;
+    }
+
+    ret = R_FLASH_Write((uint32_t*)data, address,
+                size);
+
+    if (ret != FLASH_SUCCESS) {
+        printf("Failed to write credentials data\r\n");
+    }
+
+    return ret;
+}
+    
+
+static flash_err_t load_creds_from_file(void **data, uint32_t address){
 	UINT status;
 
-	status =  fx_media_open(&ram_disk, media_name, _fx_ram_driver, ram_disk_memory, media_memory, sizeof(media_memory));
+    flash_err_t ret = FLASH_SUCCESS;
 
-	/* Check the media open status.  */
-	if (status != FX_SUCCESS)
-	{
-		printf("Failed to open filex media status: %d\r\n", status);
-		goto SAVE_CLEANUP;
-	}
+    *data = address;
+    if (!data){
+        printf("nothing found at the provided address: 0x%x\r\n", address);
+        data = NULL;
+        ret = FLASH_ERR_FAILURE;
+    } else {
+        printf("Loaded successfully\r\n");
+    }
 
-	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_READ);
-
-	if (status != FX_SUCCESS) {
-		printf("Failed to open file. status: %d\r\n", status);
-		if (status != FX_NOT_FOUND){
-			goto SAVE_CLEANUP;
-		}
-		printf("Creating new credentials file\r\n");
-	} else {
-		printf("File found. Deleting before writing\r\n");
-
-		status = fx_file_close(&my_file);
-		if (status != FX_SUCCESS){
-			printf("failed to close filex file\r\n");
-			goto SAVE_CLEANUP;
-		}
-
-		status = fx_file_delete(&ram_disk, filename);
-
-		if (status != FX_SUCCESS){
-			printf("Failed to delete credentials file error: %d\r\n", status);
-			goto SAVE_CLEANUP;
-		}
-
-	}
-
-	status = fx_file_create(&ram_disk, filename);
-
-	if (status != FX_SUCCESS){
-		printf("Failed to create file. status: %d\r\n", status);
-		goto SAVE_CLEANUP;
-	}
-
-	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_WRITE);
-
-	if (status != FX_SUCCESS){
-		printf("Failed to open file\r\n");
-		goto SAVE_CLEANUP;
-	}
-
-	status =  fx_file_seek(&my_file, 0);
-
-	if (status != FX_SUCCESS){
-		printf("failed to rewind file\r\n");
-		goto SAVE_CLEANUP;
-	}
-
-	status = fx_file_write(&my_file, data, size);
-
-	if (status != FX_SUCCESS){
-		printf("failed to write data to file\r\n");
-		goto SAVE_CLEANUP;
-	}
-	status =  fx_file_seek(&my_file, 0);
-
-	if (status != FX_SUCCESS){
-		printf("failed to rewind file\r\n");
-		goto SAVE_CLEANUP;
-	}
-
-
-
-	status = fx_media_flush(&ram_disk);
-
-	if (status != FX_SUCCESS){
-		printf("fx_media_flush failed: %d\r\n", status);
-		goto SAVE_CLEANUP;
-	}
-
-	UINT status_cleanup;
-SAVE_CLEANUP:
-
-	status_cleanup = fx_file_close(&my_file);
-	if (status_cleanup != FX_SUCCESS && status_cleanup != FX_NOT_OPEN){
-		printf("failed to close filex file: %d\r\n");
-		return status_cleanup;
-	}
-	status_cleanup = fx_media_close(&ram_disk);
-
-	if (status_cleanup != FX_SUCCESS && status_cleanup != FX_MEDIA_NOT_OPEN){
-		printf("failed to close filex media\r\n");
-		return status_cleanup;
-	}
-
-	return status;
+    return ret;
 }
 
-static UINT load_creds_from_file(void *data, size_t size_to_read, const char* filename){
-	UINT status;
-
-	status =  fx_media_open(&ram_disk, media_name, _fx_ram_driver, ram_disk_memory, media_memory, sizeof(media_memory));
-
-		/* Check the media open status.  */
-	if (status != FX_SUCCESS)
-	{
-		printf("Failed to open filex media status: %d\r\n", status);
-		goto LOAD_CLEANUP;
-	}
-
-	status =  fx_file_open(&ram_disk, &my_file, filename, FX_OPEN_FOR_READ);
-
-	if (status != FX_SUCCESS){
-		printf("Failed to open file\r\n");
-		goto LOAD_CLEANUP;
-	}
-
-	status =  fx_file_seek(&my_file, 0);
-
-	if (status != FX_SUCCESS){
-		printf("failed to rewind file\r\n");
-		goto LOAD_CLEANUP;
-	}
-
-	ULONG actual = 0;
-
-	status = fx_file_read(&my_file, data, size_to_read, &actual);
-	if (status != FX_SUCCESS){
-		printf("failed to read creds file\r\n");
-		goto LOAD_CLEANUP;
-	}
-
-	status = fx_file_close(&my_file);
-	if (status != FX_SUCCESS){
-		printf("failed to close filex file\r\n");
-		goto LOAD_CLEANUP;
-	}
-
-	status = fx_media_close(&ram_disk);
-
-	if (status != FX_SUCCESS){
-		printf("failed to close filex media\r\n");
-
-	}
-	UINT status_cleanup;
-LOAD_CLEANUP:
-
-
-	status_cleanup = fx_file_close(&my_file);
-	if (status_cleanup != FX_SUCCESS && status_cleanup != FX_NOT_OPEN){
-		printf("failed to close filex file: %d\r\n");
-		return status_cleanup;
-	}
-	status_cleanup = fx_media_close(&ram_disk);
-
-	if (status_cleanup != FX_SUCCESS && status_cleanup != FX_MEDIA_NOT_OPEN){
-		printf("failed to close filex media\r\n");
-		return status_cleanup;
-	}
-
-
-	return status;
-}
 #endif
 
 /* Include the sample.  */
@@ -396,7 +255,9 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #ifdef SYMMETRIC_KEY_INPUT
 
 
-	credentials_t creds;
+	credentials_t* creds;
+    bool save_req = false;
+
 
     char in_buff[2];
     while(1){
@@ -404,41 +265,50 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     	scanf("%c", in_buff);
     	printf("\r\n");
     	if (in_buff[0] == '1'){
-    		if (load_creds_from_file(&creds, sizeof(credentials_t), credentials_filename) == FX_SUCCESS){
+    		if (load_creds_from_file(&creds, CREDENTIALS_BLOCK_DATA) == FLASH_SUCCESS){
+                save_req = false;
     			break;
     		} else {
     			printf("Failed to load credentials from file. Try again or input them\r\n");
     		}
     	}else if (in_buff[0] == '2') {
 
+            creds = (credentials_t*)malloc(sizeof(credentials_t));
+            
+            if (!creds){
+                printf("failed to malloc\r\n");
+                return false;
+            }
+            save_req = true;
     		printf("Device is setup for interactive input of its symmetric key:\r\n\r\n");
 
 
     		printf("Type the CPID:\r\n");
-    		scanf("%s", creds.cpid);
+    		scanf("%s", creds->cpid);
     		printf("\r\n");
     		printf("Type the ENV:\r\n");
-    		scanf("%s", creds.env);
+    		scanf("%s", creds->env);
     		printf("\r\n");
     		printf("Type the DUID:\r\n");
-    		scanf("%s", creds.duid);
+    		scanf("%s", creds->duid);
     		printf("\r\n");
     		printf("Type the SYMMETRIC_KEY:\r\n");
-    		scanf("%s", creds.symmkey);
+    		scanf("%s", creds->symmkey);
     		printf("\r\n");
     		break;
     	}
     }
 
+    
 
     //
     // Only options for SYMMETRIC_KEY_INPUT
     //
-    config->cpid = creds.cpid;
-    config->env = creds.env;
-    config->duid = creds.duid;
+    config->cpid = creds->cpid;
+    config->env = creds->env;
+    config->duid = creds->duid;
     config->auth.type = IOTC_KEY;
-    config->auth.data.symmetric_key = creds.symmkey;
+    config->auth.data.symmetric_key = creds->symmkey;
 
     //
     // Echo back values typed in, just for confirmation
@@ -565,14 +435,20 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
             printf("Unable to establish the IoTConnect connection.\r\n");
+            if (creds){
+                free(creds);
+                creds = NULL;
+            }
             return false;
         }
         // save credentials to a file
 #ifdef SYMMETRIC_KEY_INPUT
-        if (save_creds_to_file(&creds, sizeof(credentials_t), credentials_filename) != FX_SUCCESS){
-        	printf("Failed to save credentials to a file\r\n");
-        } else {
-        	printf("Successfully saved credentials to a file\r\n");
+        if (save_req){
+            if (save_creds_to_file(creds, CREDENTIALS_BLOCK_DATA, sizeof(credentials_t)) != FX_SUCCESS){
+                printf("Failed to save credentials to a file\r\n");
+            } else {
+                printf("Successfully saved credentials to a file\r\n");
+            }
         }
 #endif
 
@@ -586,6 +462,10 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(5000);
             } else {
+                if (creds){
+                    free(creds);
+                    creds = NULL;
+                }
                 return false;
             }
         }
@@ -597,6 +477,10 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #else  //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
         release_sw_der_auth_driver(auth_driver_context);
 #endif //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+    }
+    if (creds){
+        free(creds);
+        creds = NULL;
     }
     printf("Done.\r\n");
     return true;
@@ -615,42 +499,6 @@ bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dn
     {
         printf("Failed to create status_hs300x_sensor_thread.\r\n");
     }
-
-
-#ifdef SYMMETRIC_KEY_INPUT
-
-    // checking if required media was created aleady
-    status =  fx_media_open(&ram_disk, media_name, _fx_ram_driver, ram_disk_memory, media_memory, sizeof(media_memory));
-
-        	/* Check the media open status.  */
-    if (status != FX_SUCCESS)
-    {
-    printf("Failed to open filex media status: %d\r\n", status);
-
-    fx_media_format(&ram_disk,
-		_fx_ram_driver,         /* Driver entry*/
-		ram_disk_memory,        /* RAM disk memory pointer*/
-		media_memory,           /* Media buffer pointer*/
-		sizeof(media_memory),   /* Media buffer size */
-		"RAM_DISK",          /* Volume Name*/
-		1,                      /* Number of FATs*/
-		32,                     /* Directory Entries*/
-		0,                      /* Hidden sectors*/
-		256,                    /* Total sectors */
-		128,                    /* Sector size  */
-		1,                      /* Sectors per cluster*/
-		1,                      /* Heads*/
-		1);                     /* Sectors per track */
-
-    } else {
-		printf("Successfully opened filex media\r\n");
-		if (fx_media_close(&ram_disk) != FX_SUCCESS){
-			printf("Failed to close open media!\r\n");
-			return false;
-		}
-    }
-#endif
-
 
         	//status = find_credentials_data();
         	//printf("status from find_credentials_data: %d\r\n", status);

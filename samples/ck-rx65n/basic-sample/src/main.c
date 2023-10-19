@@ -145,18 +145,6 @@ extern ULONG sample_pool_stack_size;
 static ULONG sample_arp_cache_area[SAMPLE_ARP_CACHE_SIZE / sizeof(ULONG)];
 static ULONG sample_helper_thread_stack[SAMPLE_HELPER_STACK_SIZE / sizeof(ULONG)];
 
-#ifdef SYMMETRIC_KEY_INPUT
-/*
- * global variables for filex
- *
- * Taken from e2studio ccrx demo
- *
- *	this pointer is declared here but mostly used in iotconnect_app.c
- *
- *  */
-CHAR *ram_disk_memory;
-#endif
-
 
 /* Define the prototypes for sample thread.  */
 static void sample_helper_thread_entry(ULONG parameter);
@@ -189,9 +177,6 @@ int main(void)
 void    tx_application_define(void *first_unused_memory)
 {
 
-	CHAR *ptr;
-
-	ptr = (CHAR*)first_unused_memory;
 
 
     UINT  status;
@@ -279,13 +264,7 @@ void    tx_application_define(void *first_unused_memory)
                               TX_NO_TIME_SLICE, TX_AUTO_START);
 
 
-#ifdef SYMMETRIC_KEY_INPUT
 
-    ptr = ptr + (SAMPLE_HELPER_STACK_SIZE*2);
-    ram_disk_memory = ptr;
-    fx_system_initialize();
-
-#endif
 
     /* Check status.  */
     if (status)
