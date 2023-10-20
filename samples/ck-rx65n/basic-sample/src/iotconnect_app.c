@@ -15,9 +15,18 @@
 #include "iotc_auth_driver.h"
 #include "sw_auth_driver.h"
 #include "rx65n_tsip_auth_driver.h"
+#include "fx_api.h"
 
 #include "hardware_setup.h"
 #include "hs300x_sensor_thread_entry.h"
+
+#ifdef CLI_MODE
+#include "r_flash_rx_if.h"
+#include "demo_scanf.h"
+
+#define TX_SECONDS_TO_TICKS(x) (x*TX_TIMER_TICKS_PER_SECOND)
+
+#endif
 
 static IotConnectAzrtosConfig azrtos_config;
 static IotcAuthInterfaceContext auth_driver_context;
@@ -39,7 +48,7 @@ TX_THREAD               hs300x_sensor_thread;
  **********************************************************************************************************************/
 UCHAR               hs300x_sensor_thread_memory_stack[1024];
 
-#ifdef SYMMETRIC_KEY_INPUT
+#ifdef CLI_MODE
 
 static char iotconnect_cpid[CONFIG_IOTCONNECT_CPID_MAX_LEN + 1] = {0};
 static char iotconnect_env[CONFIG_IOTCONNECT_ENV_MAX_LEN + 1] = {0};
@@ -47,6 +56,8 @@ static char iotconnect_duid[CONFIG_IOTCONNECT_DUID_MAX_LEN + 1] = {0};
 static char iotconnect_symmetric_key[256] = {0};
 
 #endif
+
+
 
 //#define MEMORY_TEST
 #ifdef MEMORY_TEST
@@ -69,7 +80,7 @@ void memory_test() {
 }
 #endif /* MEMORY_TEST */
 
-#ifndef SYMMETRIC_KEY_INPUT
+#ifndef CLI_MODE
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
 static char* compose_device_id() {
@@ -83,7 +94,7 @@ static char* compose_device_id() {
     return duid;
 }
 #pragma GCC diagnostic pop
-#endif // SYMMETRIC_KEY_INPUT
+#endif // CLI_MODE
 
 static void on_ota(IotclEventData data) {
     const char *message = NULL;
@@ -167,6 +178,71 @@ static void publish_telemetry() {
     }
 }
 
+
+#ifdef CLI_MODE
+
+#define CREDENTIALS_BLOCK_DATA FLASH_DF_BLOCK_24
+
+
+// be careful with changing these constants
+#define IOTC_CONFIG_BUFF_LEN_GENERIC 64
+#define IOTC_CONFIG_BUFF_LEN_SYMMKEY 256
+typedef struct credentials {
+	char cpid[IOTC_CONFIG_BUFF_LEN_GENERIC];
+	char env[IOTC_CONFIG_BUFF_LEN_GENERIC];
+	char duid[IOTC_CONFIG_BUFF_LEN_GENERIC];
+	char symmkey[IOTC_CONFIG_BUFF_LEN_SYMMKEY];
+} credentials_t;
+
+static flash_err_t save_to_flash(void *data, uint32_t address, size_t size){
+	
+    flash_err_t ret;
+
+    ret = R_FLASH_Erase(address, size);
+    if (ret != FLASH_SUCCESS)
+    {
+        printf("Failed to erase credentials data before writing\r\n");
+        return ret;
+    }
+
+    ret = R_FLASH_Write((uint32_t*)data, address,
+                size);
+
+    if (ret != FLASH_SUCCESS) {
+        printf("Failed to write credentials data\r\n");
+    }
+
+    return ret;
+}
+    
+
+static flash_err_t load_from_flash(void **data, uint32_t address){
+	UINT status;
+
+    flash_err_t ret = FLASH_SUCCESS;
+
+    *data = address;
+    if (!data){
+        printf("nothing found at the provided address: 0x%x\r\n", address);
+        data = NULL;
+        ret = FLASH_ERR_FAILURE;
+    } else {
+        printf("Loaded successfully\r\n");
+    }
+
+    return ret;
+}
+
+static flash_err_t save_credentials(credentials_t *credentials){
+    return save_to_flash(credentials, CREDENTIALS_BLOCK_DATA, sizeof(credentials_t));
+}
+
+static flash_err_t load_credentials(credentials_t *credentials){
+    return load_from_flash(credentials, CREDENTIALS_BLOCK_DATA);
+}
+
+#endif
+
 /* Include the sample.  */
 static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr) {
     printf("Starting App Version %s\r\n", APP_VERSION);
@@ -176,7 +252,7 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     azrtos_config.dns_ptr = dns_ptr;
 
 //
-// If SYMMETRIC_KEY_INPUT is defined, then the user
+// If CLI_MODE is defined, then the user
 // will be prompted on a terminal to input values to be used for:
 // - IOTCONNECT_CPID
 // - IOTCONNECT_ENV
@@ -184,37 +260,69 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 // - IOTCONNECT_SYMETRIC_KEY
 //
 // X.509 certificate based schemes still require setting values in this file and recompiling
-// without SYMMETRIC_KEY_INPUT defined.
+// without CLI_MODE defined.
 //
-#ifdef SYMMETRIC_KEY_INPUT
-    static char iotconnect_cpid[64] = {0};
-    static char iotconnect_env[64] = {0};
-    static char iotconnect_duid[64] = {0};
-    static char iotconnect_symmetric_key[256] = {0};
 
-    printf("Device is setup for interactive input of its symmetric key:\r\n\r\n");
 
-    printf("Type the CPID:\r\n");
-    scanf("%s", iotconnect_cpid);
-    printf("\r\n");
-    printf("Type the ENV:\r\n");
-    scanf("%s", iotconnect_env);
-    printf("\r\n");
-    printf("Type the DUID:\r\n");
-    scanf("%s", iotconnect_duid);
-    printf("\r\n");
-    printf("Type the SYMMETRIC_KEY:\r\n");
-    scanf("%s", iotconnect_symmetric_key);
-    printf("\r\n");
+#ifdef CLI_MODE
+
+
+	credentials_t* credentials;
+    bool save_req = false;
+
+
+    char in_buff = 0;
+    while(1){
+    	printf("to load credentials: type '1' (this will be executed in 5s)\r\nto enter credentials: type '2'\r\n");
+
+        in_buff = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(5));
+
+    	printf("\r\n");
+    	if (in_buff == '1' || in_buff == CLI_NO_INPUT){
+    		if (load_credentials(&credentials) == FLASH_SUCCESS){
+                save_req = false;
+    			break;
+    		} else {
+    			printf("Failed to load credentials from file. Try again or input them\r\n");
+    		}
+    	}else if (in_buff == '2') {
+
+            credentials = (credentials_t*)malloc(sizeof(credentials_t));
+            
+            if (!credentials){
+                printf("failed to malloc\r\n");
+                return false;
+            }
+            save_req = true;
+    		printf("Device is setup for interactive input of its symmetric key:\r\n\r\n");
+
+
+    		printf("Type the CPID:\r\n");
+    		scanf("%s", credentials->cpid);
+    		printf("\r\n");
+    		printf("Type the ENV:\r\n");
+    		scanf("%s", credentials->env);
+    		printf("\r\n");
+    		printf("Type the DUID:\r\n");
+    		scanf("%s", credentials->duid);
+    		printf("\r\n");
+    		printf("Type the SYMMETRIC_KEY:\r\n");
+    		scanf("%s", credentials->symmkey);
+    		printf("\r\n");
+    		break;
+    	}
+    }
+
+    
 
     //
-    // Only options for SYMMETRIC_KEY_INPUT
+    // Only options for CLI_MODE
     //
-    config->cpid = iotconnect_cpid;
-    config->env = iotconnect_env;
-    config->duid = iotconnect_duid;
+    config->cpid = credentials->cpid;
+    config->env = credentials->env;
+    config->duid = credentials->duid;
     config->auth.type = IOTC_KEY;
-    config->auth.data.symmetric_key = iotconnect_symmetric_key;
+    config->auth.data.symmetric_key = credentials->symmkey;
 
     //
     // Echo back values typed in, just for confirmation
@@ -224,6 +332,8 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     printf("ENV: '%s'\r\n", config->env);
     printf("DUID: '%s'\r\n", config->duid);
     printf("SYMMETRIC_KEY: '%s'\r\n", config->auth.data.symmetric_key);
+
+
 #else
     config->cpid = IOTCONNECT_CPID;
     config->env = IOTCONNECT_ENV;
@@ -327,7 +437,7 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
     auth_driver_context = config->auth.data.x509.auth_interface_context;
 #endif // ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
 #endif  // IOTCONNECT_SYMETRIC_KEY
-#endif  // SYMMETRIC_KEY_INPUT
+#endif  // CLI_MODE
 
     while (true) {
         /* Switch to another thread */
@@ -339,8 +449,24 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #endif //MEMORY_TEST
         if (iotconnect_sdk_init(&azrtos_config)) {
             printf("Unable to establish the IoTConnect connection.\r\n");
+            if (credentials){
+                free(credentials);
+                credentials = NULL;
+            }
             return false;
         }
+        // save credentials to a file
+#ifdef CLI_MODE
+        if (save_req){
+            if (save_credentials(credentials) != FX_SUCCESS){
+                printf("Failed to save credentials to a file\r\n");
+            } else {
+                printf("Successfully saved credentials to a file\r\n");
+            }
+        }
+#endif
+
+
         // send telemetry periodically
         for (int i = 0; i < 50; i++) {
             /* Switch to another thread */
@@ -350,6 +476,10 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
                 publish_telemetry();  // underlying code will report an error
                 iotconnect_sdk_poll(5000);
             } else {
+                if (credentials){
+                    free(credentials);
+                    credentials = NULL;
+                }
                 return false;
             }
         }
@@ -361,6 +491,10 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
 #else  //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
         release_sw_der_auth_driver(auth_driver_context);
 #endif //ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
+    }
+    if (credentials){
+        free(credentials);
+        credentials = NULL;
     }
     printf("Done.\r\n");
     return true;
@@ -380,17 +514,23 @@ bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dn
         printf("Failed to create status_hs300x_sensor_thread.\r\n");
     }
 
+        	//status = find_credentials_data();
+        	//printf("status from find_credentials_data: %d\r\n", status);
+
+
     while(1) {
         char repeat[16] = "n";
-
+        
         status = app_startup(ip_ptr, pool_ptr, dns_ptr);
 
-#ifdef SYMMETRIC_KEY_INPUT
-        printf("Repeat [y/n]?\r\n");
-        scanf("%s", repeat);
+#ifdef CLI_MODE
+        repeat[0] = 'y';
+        printf("Repeat [y/n]? (auto-repeat in 10s)\r\n");
+        repeat[0] = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(10));
+    
         printf("\r\n");
 #endif
-        if(repeat[0] != 'y' && repeat[0] != 'Y') {
+        if(repeat[0] != 'y' && repeat[0] != 'Y' && repeat[0] != CLI_NO_INPUT) {
             break;
         }
     }

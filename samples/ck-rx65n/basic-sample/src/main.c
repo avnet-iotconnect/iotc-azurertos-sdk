@@ -144,6 +144,7 @@ extern ULONG sample_pool_stack_size;
 static ULONG sample_arp_cache_area[SAMPLE_ARP_CACHE_SIZE / sizeof(ULONG)];
 static ULONG sample_helper_thread_stack[SAMPLE_HELPER_STACK_SIZE / sizeof(ULONG)];
 
+
 /* Define the prototypes for sample thread.  */
 static void sample_helper_thread_entry(ULONG parameter);
 
@@ -174,6 +175,8 @@ int main(void)
 /* Define what the initial system looks like.  */
 void    tx_application_define(void *first_unused_memory)
 {
+
+
 
     UINT  status;
 
@@ -259,6 +262,9 @@ void    tx_application_define(void *first_unused_memory)
                               SAMPLE_HELPER_THREAD_PRIORITY, SAMPLE_HELPER_THREAD_PRIORITY,
                               TX_NO_TIME_SLICE, TX_AUTO_START);
 
+
+
+
     /* Check status.  */
     if (status)
     {
@@ -267,6 +273,8 @@ void    tx_application_define(void *first_unused_memory)
     }
 }
 
+
+
 /* Define sample helper thread entry.  */
 void sample_helper_thread_entry(ULONG parameter)
 {
@@ -274,6 +282,8 @@ UINT    status;
 ULONG   ip_address = 0;
 ULONG   network_mask = 0;
 ULONG   gateway_address = 0;
+
+
 
 	printf("sntp server: %s\r\n", SAMPLE_SNTP_SERVER_NAME);
 
