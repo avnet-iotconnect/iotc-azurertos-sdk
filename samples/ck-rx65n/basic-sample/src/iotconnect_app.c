@@ -520,15 +520,17 @@ bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dn
 
     while(1) {
         char repeat[16] = "n";
-
+        
         status = app_startup(ip_ptr, pool_ptr, dns_ptr);
 
 #ifdef CLI_MODE
-        printf("Repeat [y/n]?\r\n");
-        scanf("%s", repeat);
+        repeat[0] = 'y';
+        printf("Repeat [y/n]? (auto-repeat in 10s)\r\n");
+        repeat[0] = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(10));
+    
         printf("\r\n");
 #endif
-        if(repeat[0] != 'y' && repeat[0] != 'Y') {
+        if(repeat[0] != 'y' && repeat[0] != 'Y' && repeat[0] != CLI_NO_INPUT) {
             break;
         }
     }
