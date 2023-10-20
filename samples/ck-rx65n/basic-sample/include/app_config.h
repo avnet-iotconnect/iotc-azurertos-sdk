@@ -32,6 +32,6 @@
 #define ENABLE_RX_TSIP_AUTH_DRIVER_SAMPLE
 #endif // IOTCONNECT_INTERACTIVE_SYMMETRIC_KEY
 
-#define SAMPLE_SNTP_SERVER_NAME "time.google.com"    /* SNTP Server.  */
+#define SAMPLE_SNTP_SERVER_NAME "time.apple.com"    /* SNTP Server.  */
 
 #endif // APP_CONFIG_H
