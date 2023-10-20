@@ -22,7 +22,6 @@
 #include "nx_driver_rx_fit.h"
 #include "r_tsip_rx_if.h"
 #include "secure_boot.h"
-#include "fx_api.h"
 
 #include "demo_printf.h"
 #include "demo_scanf.h"

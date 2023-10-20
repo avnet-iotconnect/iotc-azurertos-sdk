@@ -6,7 +6,7 @@
 #define APP_CONFIG_H
 
 //
-// If SYMMETRIC_KEY_INPUT is defined, then the user
+// If CLI_MODE is defined, then the user
 // will be prompted on a terminal to input values to be used for:
 // - IOTCONNECT_CPID
 // - IOTCONNECT_ENV
@@ -14,11 +14,11 @@
 // - IOTCONNECT_SYMETRIC_KEY
 //
 // X.509 certificate based schemes still require setting values in this file and recompiling
-// without SYMMETRIC_KEY_INPUT defined.
+// without CLI_MODE defined.
 //
-#define SYMMETRIC_KEY_INPUT 1
+#define CLI_MODE 1
 
-#ifndef SYMMETRIC_KEY_INPUT
+#ifndef CLI_MODE
 #define IOTCONNECT_CPID ""
 #define IOTCONNECT_ENV  ""
 

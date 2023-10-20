@@ -46,12 +46,13 @@ char my_sw_charget_function(void)
 
 char my_sw_charget_function_timeout(uint16_t timeout)
 {
-    char c = 0;
+    char c = CLI_NO_INPUT;
 
     tx_mutex_get(&demo_scanf_mutex, TX_WAIT_FOREVER);
 
     if(R_Config_SCI5_Serial_Receive(&c, 1u) != MD_OK) {
-        c = 0;
+        printf("error reading\r\n");
+        c = CLI_NO_INPUT;
     }
 
     tx_semaphore_get(&demo_scanf_semaphore, timeout);
