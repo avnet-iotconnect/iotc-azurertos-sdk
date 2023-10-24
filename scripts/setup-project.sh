@@ -167,7 +167,9 @@ create_threadx_projects() {
       project_platform_dir=''
       project_ide_dir='e2studio_gnurx/'
       libs="filex netxduo_addons "
-      ;;
+      rm -rf basic-sample/src/smc_gen/*
+      git clone git@github.com:vputys/testing_submodules.git basic-sample/src/smc_gen/
+      ;; 
     rx65ncloudkit)
       echo Downloading Azure_RTOS_6...
       ${FETCH} azrtos.zip https://saleshosted.z13.web.core.windows.net/sdk/AzureRTOS/Azure_RTOS_6.1_ADU_Renesas_RX65N_Cloud_Kit_e2studio_gnurx_Sample_2022_04_28.zip
