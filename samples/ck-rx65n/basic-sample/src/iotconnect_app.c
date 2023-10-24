@@ -239,6 +239,7 @@ static flash_err_t save_credentials(credentials_t *credentials){
 
 static flash_err_t load_credentials(credentials_t *credentials){
     return load_from_flash(credentials, CREDENTIALS_BLOCK_DATA);
+}
 static void loop_for_input(char* param){
     char ready = 0;
     while (1){
@@ -291,6 +292,7 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
         in_buff = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(5));
 
     	printf("\r\n");
+
     	if (in_buff == '1' || in_buff == CLI_NO_INPUT){
     		if (load_credentials(&credentials) == FLASH_SUCCESS){
                 save_req = false;
@@ -309,25 +311,20 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr, NX_DNS *dns_ptr
             save_req = true;
     		printf("Device is setup for interactive input of its symmetric key:\r\n\r\n");
 
-            loop_for_input("cpid");
     		printf("Type the CPID:\r\n");
-            my_sw_charget_function_variable_length_v2(credentials->cpid, IOTC_CONFIG_BUFF_LEN_GENERIC, TX_SECONDS_TO_TICKS(5));
-    		//scanf("%s", credentials->cpid);
+            my_sw_get_string(&credentials->cpid, IOTC_CONFIG_BUFF_LEN_GENERIC);
     		printf("\r\n");
-            loop_for_input("env");
+
     		printf("Type the ENV:\r\n");
-    		//scanf("%s", credentials->env);
-            my_sw_charget_function_variable_length_v2(credentials->env, IOTC_CONFIG_BUFF_LEN_GENERIC, TX_SECONDS_TO_TICKS(5));
+            my_sw_get_string(credentials->env, IOTC_CONFIG_BUFF_LEN_GENERIC);
     		printf("\r\n");
-            loop_for_input("duid");
+
     		printf("Type the DUID:\r\n");
-    		//scanf("%s", credentials->duid);
-            my_sw_charget_function_variable_length_v2(credentials->duid, IOTC_CONFIG_BUFF_LEN_GENERIC, TX_SECONDS_TO_TICKS(5));
+            my_sw_get_string(credentials->duid, IOTC_CONFIG_BUFF_LEN_GENERIC);
     		printf("\r\n");
-            loop_for_input("symmetric key");
+
     		printf("Type the SYMMETRIC_KEY:\r\n");
-    		//scanf("%s", credentials->symmkey);
-            my_sw_charget_function_variable_length_v2(credentials->symmkey, IOTC_CONFIG_BUFF_LEN_GENERIC, TX_SECONDS_TO_TICKS(5));
+            my_sw_get_string(credentials->symmkey, IOTC_CONFIG_BUFF_LEN_SYMMKEY);
     		printf("\r\n");
     		break;
     	}

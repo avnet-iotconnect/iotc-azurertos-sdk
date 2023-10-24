@@ -38,6 +38,7 @@ Includes
 /* Start user code for include. Do not edit comment generated here */
 /* End user code. Do not edit comment generated here */
 #include "r_cg_userdefine.h"
+#include "tx_api.h"
 
 /***********************************************************************************************************************
 Global variables and functions
@@ -111,24 +112,6 @@ void r_Config_SCI5_transmitend_interrupt(void)
 * Return Value : None
 ***********************************************************************************************************************/
 
-void r_Config_SCI5_receive_interrupt(void)
-{
-    if (g_sci5_rx_length > g_sci5_rx_count)
-    {
-        *gp_sci5_rx_address = SCI5.RDR;
-        gp_sci5_rx_address++;
-        g_sci5_rx_count++;
-    }
-    
-    if (g_sci5_rx_length <= g_sci5_rx_count)
-    {
-        /* All data received */
-        SCI5.SCR.BIT.RIE = 0U;
-        SCI5.SCR.BIT.RE = 0U;
-        r_Config_SCI5_callback_receiveend();
-    }
-}
-
 /***********************************************************************************************************************
 * Function Name: r_Config_SCI5_receiveerror_interrupt
 * Description  : This function is ERI5 interrupt service routine
@@ -193,4 +176,39 @@ static void r_Config_SCI5_callback_receiveerror(void)
 }
 
 /* Start user code for adding. Do not edit comment generated here */
-/* End user code. Do not edit comment generated here */
+/* End user code. Do not edit comment gene
+rated here */
+
+void r_Config_SCI5_receive_interrupt(void)
+{
+    
+    if (g_sci5_rx_length > g_sci5_rx_count)
+    {
+        *gp_sci5_rx_address = SCI5.RDR;
+        //R_BSP_SoftwareDelay(20, BSP_DELAY_MICROSECS);
+        //R_Config_SCI5_Serial_Send(gp_sci5_rx_address, 1);
+        
+        gp_sci5_rx_address++;
+        g_sci5_rx_count++;
+    }
+    
+    if (g_sci5_rx_length <= g_sci5_rx_count)
+    {
+        /* All data received */
+        SCI5.SCR.BIT.RIE = 0U;
+        SCI5.SCR.BIT.RE = 0U;
+        r_Config_SCI5_callback_receiveend();
+    } else { // checking for "enter" key
+        gp_sci5_rx_address--;
+        if (*gp_sci5_rx_address == '\r' || *gp_sci5_rx_address == 13){
+            
+            gp_sci5_rx_address++;
+            SCI5.SCR.BIT.RIE = 0U;
+            SCI5.SCR.BIT.RE = 0U;
+            r_Config_SCI5_callback_receiveend();
+        } else {
+            gp_sci5_rx_address++;
+        }       
+    }
+    
+}
