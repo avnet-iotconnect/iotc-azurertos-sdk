@@ -2653,7 +2653,7 @@ typedef struct UX_HOST_CLASS_DPUMP_STRUCT
    application source code, hence the conditional that turns off this
    stuff when the include file is processed by the ThreadX source. */
 
-#ifndef  UX_SOURCE_CODE
+//#ifndef  UX_SOURCE_CODE
 
 
 /* Define USBX Services.  */
@@ -2730,7 +2730,7 @@ typedef struct UX_HOST_CLASS_DPUMP_STRUCT
 
 #define ux_network_driver_init                                  _ux_network_driver_init 
 
-#endif
+//#endif
 
 
 /* Define USBX API prototypes.  */

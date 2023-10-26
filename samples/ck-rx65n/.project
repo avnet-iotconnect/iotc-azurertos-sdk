@@ -9,6 +9,7 @@
 		<project>netxduo</project>
 		<project>netxduo_addons</project>
 		<project>threadx</project>
+		<project>usbx</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>

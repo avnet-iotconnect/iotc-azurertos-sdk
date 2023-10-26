@@ -64,6 +64,7 @@
    by internal code in order to prevent duplicate declarations for 
    applications.  */
 
+#define UX_SOURCE_CODE
 
 #ifdef UX_SOURCE_CODE
 UINT  _ux_system_initialize(VOID *regular_memory_pool_start, ULONG regular_memory_size, 
