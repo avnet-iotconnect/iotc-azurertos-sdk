@@ -312,7 +312,7 @@ void hs300x_sensor_thread_entry(ULONG entry_input)
             case DEMO_SEQUENCE_6 :
             {
                 /* Wait 4 seconds. See table 4 on the page 6 of the datasheet. */
-                tx_thread_sleep(4000);
+                tx_thread_sleep(400);
                 sequence = DEMO_SEQUENCE_1;
             }
             break;
