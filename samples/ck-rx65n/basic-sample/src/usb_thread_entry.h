@@ -3,4 +3,6 @@
 
 void usb_thread_entry_func();
 
+void get_json_str(char *json_str);
+
 #endif

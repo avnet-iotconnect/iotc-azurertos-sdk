@@ -24,12 +24,12 @@
 #include "secure_boot.h"
 
 #include "app_config.h"
+#include "basic-sample-common.h"
 #include "demo_printf.h"
 #include "demo_scanf.h"
 
 #include "hardware_setup.h"
 
-#define USB_DEMO_SUPPORT
 #ifdef USB_DEMO_SUPPORT
 #include "usb_thread_entry.h"
 #endif
