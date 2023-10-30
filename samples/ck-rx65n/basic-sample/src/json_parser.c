@@ -321,13 +321,13 @@ int parse_json_config(const char *json_str, IotConnectClientConfig *iotc_config,
   }
 
   if (parse_base_params(&iotc_config->cpid, "cpid", json_parser) != 0) {
-    printf("Failed to get duid from json file. Aborting.\r\n");
+    printf("Failed to get cpid from json file. Aborting.\r\n");
     ret = 1;
     goto END;
   }
 
   if (parse_base_params(&iotc_config->env, "env", json_parser) != 0) {
-    printf("Failed to get duid from json file. Aborting.\r\n");
+    printf("Failed to get env from json file. Aborting.\r\n");
     ret = 1;
     goto END;
   }
@@ -362,6 +362,7 @@ int parse_json_config(const char *json_str, IotConnectClientConfig *iotc_config,
     goto END;
   }
 
+#ifdef EMBEDDED_LINUX
   cJSON *device_parser = NULL;
 
   if (cJSON_HasObjectItem(json_parser, "device") == true) {
@@ -399,8 +400,10 @@ int parse_json_config(const char *json_str, IotConnectClientConfig *iotc_config,
       // sensor->s_path);
     }
   }
+#endif
 
 END:
+  printf("parser cleanup\r\n");
   cJSON_Delete(json_parser);
   return ret;
 }

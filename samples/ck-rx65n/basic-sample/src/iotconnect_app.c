@@ -277,16 +277,11 @@ iotc_app_parse_json_and_update_config(IotConnectClientConfig *config) {
     return -1;
   }
 
-  /*
-  IotConnectClientConfig *new_config =
-      calloc(1, sizeof(IotConnectClientConfig));
-  */
-
   commands_data_t commands;
   sensors_data_t sensors;
   char board[64];
 
-  ret = parse_json_config(json_str, config, &commands, &sensors, &board);
+  ret = parse_json_config(&json_str, config, &commands, &sensors, &board);
 
   return ret;
 }
@@ -328,6 +323,61 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
     in_buff = my_sw_charget_function_timeout(TX_SECONDS_TO_TICKS(5));
 
     printf("\r\n");
+
+#ifdef USB_DEMO_SUPPORT
+    if (config_update_required_usb) {
+
+      printf("received new credentials config via USB!\r\n");
+      if (credentials) {
+        free(credentials);
+        credentials = NULL;
+      }
+
+      if (config->cpid) {
+        free(config->cpid);
+        config->cpid = NULL;
+      }
+
+      if (config->env) {
+        free(config->env);
+        config->env = NULL;
+      }
+
+      if (config->duid) {
+        free(config->duid);
+        config->duid = NULL;
+      }
+
+      if (config->auth.data.symmetric_key) {
+        free(config->auth.data.symmetric_key);
+        config->auth.data.symmetric_key = NULL;
+      }
+      int ret = 0;
+      ret = iotc_app_parse_json_and_update_config(config);
+
+      if (ret != 0) {
+        printf("failed to parse new json!\r\n");
+        config_update_required_usb = false;
+        // return -1;
+      } else {
+        // copy newly received config into local cred structure to write it
+        // into flash
+        credentials_t new_creds;
+        strncpy(&new_creds.cpid, config->cpid, IOTC_CONFIG_BUFF_LEN_GENERIC);
+        strncpy(&new_creds.env, config->env, IOTC_CONFIG_BUFF_LEN_GENERIC);
+        strncpy(&new_creds.duid, config->duid, IOTC_CONFIG_BUFF_LEN_GENERIC);
+        strncpy(&new_creds.symmkey, config->auth.data.symmetric_key,
+                IOTC_CONFIG_BUFF_LEN_SYMMKEY);
+        if (save_credentials(&new_creds) != FX_SUCCESS) {
+          printf("Failed to save new credentials to a file\r\n");
+          ret = -1;
+        } else {
+          printf("Successfully saved new credentials to a file\r\n");
+        }
+      }
+      config_update_required_usb = false;
+    }
+#endif
 
     if (in_buff == '1' || in_buff == CLI_NO_INPUT) {
       if (load_credentials(&credentials) == FLASH_SUCCESS) {
@@ -509,10 +559,9 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
       }
       return false;
     }
-    printf("sizeof iotc conf: %d conf var: %d\r\n",
-           sizeof(IotConnectClientConfig), sizeof(config));
-    // save credentials to a file
+
 #ifdef CLI_MODE
+    // save credentials to a file
     if (save_req) {
       if (save_credentials(credentials) != FX_SUCCESS) {
         printf("Failed to save credentials to a file\r\n");
@@ -539,16 +588,42 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
       }
 
 #ifdef USB_DEMO_SUPPORT
+      // update config with new one
+
       if (config_update_required_usb) {
+
         printf("received new credentials config via USB!\r\n");
         if (credentials) {
           free(credentials);
           credentials = NULL;
         }
-        // TODO: check config here
-        if (iotc_app_parse_json_and_update_config(config) != 0) {
+
+        if (config->cpid) {
+          free(config->cpid);
+          config->cpid = NULL;
+        }
+
+        if (config->env) {
+          free(config->env);
+          config->env = NULL;
+        }
+
+        if (config->duid) {
+          free(config->duid);
+          config->duid = NULL;
+        }
+
+        if (config->auth.data.symmetric_key) {
+          free(config->auth.data.symmetric_key);
+          config->auth.data.symmetric_key = NULL;
+        }
+        int ret = 0;
+        ret = iotc_app_parse_json_and_update_config(config);
+
+        if (ret != 0) {
           printf("failed to parse new json!\r\n");
-          return false;
+          config_update_required_usb = false;
+          return -1;
         } else {
           // copy newly received config into local cred structure to write it
           // into flash
@@ -562,11 +637,12 @@ static bool app_startup(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
             printf("Failed to save new credentials to a file\r\n");
           } else {
             printf("Successfully saved new credentials to a file\r\n");
+            // disconnect to reconnect with new credentials
+            iotconnect_sdk_disconnect();
           }
         }
         config_update_required_usb = false;
       }
-#endif
     }
     iotconnect_sdk_disconnect();
   }
@@ -592,6 +668,17 @@ bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
                              NX_DNS *dns_ptr) {
   bool status;
 
+  IotConnectClientConfig *config_test;
+  credentials_t *credentials;
+#if 0
+  while (1) {
+    tx_thread_sleep(TX_SECONDS_TO_TICKS(2));
+    if (config_update_required_usb) {
+      config_get_new_config(config_test, credentials);
+      break;
+    }
+  }
+#endif
   /* Start HS3001 sensor.  */
   UINT status_hs300x_sensor_thread;
   status_hs300x_sensor_thread = tx_thread_create(

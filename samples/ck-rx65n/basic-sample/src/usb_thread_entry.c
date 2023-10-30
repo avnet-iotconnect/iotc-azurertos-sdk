@@ -17,11 +17,6 @@
 
 #define TX_USER_ENABLE_TRACE
 
-/******************************************************************************
- Macro definitions
- *****************************************************************************/
-#define UX_STORAGE_BUFFER_SIZE (8 * 1024)
-
 #define EVENT_USB_PLUG_IN (1UL << 0)
 #define EVENT_USB_PLUG_OUT (1UL << 1)
 #define MEMPOOL_SIZE (36864)
@@ -34,7 +29,7 @@ static TX_EVENT_FLAGS_GROUP g_usb_plug_events;
 static FX_FILE g_file;
 static FX_MEDIA *g_p_media = UX_NULL;
 static uint16_t g_read_buf[JSON_BUFFER_LEN];
-// static uint16_t g_write_buf[UX_STORAGE_BUFFER_SIZE];
+
 static uint8_t g_ux_pool_memory[MEMPOOL_SIZE];
 
 static void usb_thread_main();
@@ -97,12 +92,12 @@ void usb_thread_entry_func() {
   fx_system_initialize();
   ux_ret =
       ux_system_initialize((CHAR *)g_ux_pool_memory, MEMPOOL_SIZE, UX_NULL, 0);
-  printf("ux ret \r\n", ux_ret);
+
   ux_ret = ux_host_stack_initialize(apl_change_function);
-  printf("ux ret \r\n", ux_ret);
+
   tx_ret =
       tx_event_flags_create(&g_usb_plug_events, (CHAR *)"USB Plug Event Flags");
-  printf("tx ret \r\n", tx_ret);
+
   /* Register the USB device controllers available in this system */
   R_USB_PinSet_USB0_HOST();
 
@@ -161,22 +156,7 @@ static void usb_thread_main() {
                  volume, fx_return, fx_return);
 
           break;
-
-          /*
-          fx_return = fx_file_create(p_media, "counter.txt");
-          if (FX_SUCCESS != fx_return) {
-            break;
-          }
-
-          fx_return = fx_file_open(p_media, &g_file, "counter.txt",
-                                   (FX_OPEN_FOR_READ | FX_OPEN_FOR_WRITE));
-          if (FX_SUCCESS != fx_return) {
-            break;
-          } */
         }
-
-        /* Already open a file, then read the file in blocks */
-        /* Set a specified byte offset for reading */
         fx_return = fx_file_seek(&g_file, 0);
 
         if (fx_return != FX_SUCCESS) {
@@ -201,36 +181,6 @@ static void usb_thread_main() {
         printf("received json:\r\n%s\r\n", g_read_buf);
 
         config_update_required_set();
-
-        /*
-        if (FX_SUCCESS == fx_return) {
-          fx_return =
-              fx_file_read(&g_file, g_read_buf, DATA_LEN, &actual_length);
-          if ((FX_SUCCESS == fx_return) || (FX_END_OF_FILE == fx_return)) {
-            if (data_count == 1024) {
-
-              data_count = 0;
-            }
-
-            for (uint16_t data_max_count = data_count;
-                 data_count < (data_max_count + 256); data_count++) {
-              g_write_buf[data_count] = data_count;
-            }
-
-            fx_return = fx_file_seek(&g_file, 0);
-            if (FX_SUCCESS == fx_return) {
-
-              fx_return = fx_file_write(&g_file, g_write_buf, DATA_LEN);
-              if (FX_SUCCESS == fx_return) {
-
-              } else {
-                tx_thread_sleep(TX_WAIT_FOREVER);
-              }
-            }
-          }
-        } else {
-          USB_DEBUG_HOOK(USB_DEBUG_HOOK_APL | USB_DEBUG_HOOK_CODE1);
-        } */
 
         /* Close already opened file */
         fx_return = fx_file_close(&g_file);

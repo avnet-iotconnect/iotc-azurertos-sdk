@@ -40,7 +40,7 @@ extern bool app_startup_interactive(NX_IP *ip_ptr, NX_PACKET_POOL *pool_ptr,
 /* Define the helper thread for running Azure SDK on ThreadX (THREADX IoT
  * Platform).  */
 #ifndef SAMPLE_HELPER_STACK_SIZE
-#define SAMPLE_HELPER_STACK_SIZE (10 * 1024)
+#define SAMPLE_HELPER_STACK_SIZE (20 * 1024)
 #endif /* SAMPLE_HELPER_STACK_SIZE  */
 
 #ifndef SAMPLE_HELPER_THREAD_PRIORITY
@@ -144,8 +144,9 @@ static NX_DNS dns_0;
 
 #ifdef USB_DEMO_SUPPORT
 static TX_THREAD usb_thread;
-UCHAR usb_thread_memory_stack[2048];
 #define USB_DEMO_THREAD_STACK_SIZE (2 * 1024)
+UCHAR usb_thread_memory_stack[USB_DEMO_THREAD_STACK_SIZE];
+
 #endif
 
 #ifndef SAMPLE_DHCP_DISABLE
@@ -162,8 +163,8 @@ extern ULONG sample_pool_stack[];
 extern ULONG sample_pool_stack_size;
 #endif
 static ULONG sample_arp_cache_area[SAMPLE_ARP_CACHE_SIZE / sizeof(ULONG)];
-static ULONG
-    sample_helper_thread_stack[SAMPLE_HELPER_STACK_SIZE / sizeof(ULONG)];
+static UCHAR
+    sample_helper_thread_stack[SAMPLE_HELPER_STACK_SIZE / sizeof(UCHAR)];
 
 /* Define the prototypes for sample thread.  */
 static void sample_helper_thread_entry(ULONG parameter);
