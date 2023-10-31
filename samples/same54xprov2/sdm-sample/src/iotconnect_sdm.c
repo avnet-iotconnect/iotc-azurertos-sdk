@@ -246,8 +246,12 @@ bool iotc_sdm_test(IotConnectAzrtosConfig *azrtos_config, SdmInfoResponse *sir) 
 
     printf("Raw Info: %s\r\n", http_req.response);
 
-    if (sdm_parse_connection_info(sir, http_req.response, 0)) {
-        printf("Info duid:%s cpid:%s env:%s\r\n", sir->duid, sir->cpid, sir->env);
+    if (sdm_parse_connection_info(sir, http_req.response, 1)) {
+        printf("Connection 1 info duid:%s cpid:%s env:%s\r\n", sir->duid, sir->cpid, sir->env);
+    } else  if (sdm_parse_connection_info(sir, http_req.response, 0)) {
+        printf("Connection 0 info duid:%s cpid:%s env:%s\r\n", sir->duid, sir->cpid, sir->env);
+    } else {
+        ret = false;
     }
 
 cleanup_atca:
