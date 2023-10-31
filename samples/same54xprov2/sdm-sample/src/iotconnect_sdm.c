@@ -22,12 +22,12 @@
 #include "iotconnect_common.h" // for strdup
 
 //#define SDM_HOST "uatpartnerservice.iotconnect.io"
-//#define SDM_HOST "avnetiotpartnerprogram.azure-api.net"
-#define SDM_HOST "192.168.38.212"
+#define SDM_HOST "avnetiotpartnerprogram.azure-api.net"
+//#define SDM_HOST "192.168.38.212"
 
 // this path is for "uatpartnerservice.iotconnect.io"
+//#define SDM_API_PREFIX "/partner-api-deviceauth/api/v1"
 #define SDM_API_PREFIX "/uat-device-auth/api/v1"
-//#define SDM_API_PREFIX "/uat-device-auth/api/v1"
 #define SDM_CHALLENGE_PATH  SDM_API_PREFIX "/auth/challenge"
 #define SDM_RESPONSE_PATH   SDM_API_PREFIX "/auth/response"
 #define SDM_INFO_PATH       SDM_API_PREFIX "/info"
@@ -57,9 +57,9 @@ static void sdm_initialize_request(IotConnectHttpRequest* r,
     r->azrtos_config = azrtos_config;
 	r->host_name = (char *) SDM_HOST;
 	r->resource = (char *) path;
-	//r->tls_cert = (unsigned char*) IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
-	//r->tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
-    r->tls_cert_len = 8080; // port specified in HTTP test mode
+    //r->tls_cert_len = 8080; // port specified in HTTP test mode
+	r->tls_cert = (unsigned char*) IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2;
+	r->tls_cert_len = IOTCONNECT_DIGICERT_GLOBAL_ROOT_G2_SIZE;
 }
 
 static void add_request_header(IotConnectHttpRequest* r,
@@ -91,6 +91,7 @@ static VOID on_rsp_header_record_token(
     if (0 == strncmp("token", field_name, field_name_length)) {
         sdm_token = clone_header_str(field_value, field_value_length);
     }
+    printf("%.*s=%.*s\r\n", field_name_length, field_name, field_value_length, field_value);
     // else ignore the header
 }
 
