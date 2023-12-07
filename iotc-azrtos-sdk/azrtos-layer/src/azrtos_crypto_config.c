@@ -39,10 +39,13 @@ const NX_CRYPTO_METHOD* default_nx_crypto_methods[] =
     &crypto_method_hmac,
     &crypto_method_hmac_sha256,
     &crypto_method_tls_prf_sha256,
-#ifdef IOTC_USE_PSA_CIPHERS
-	// TODO: Figure out the problem with crypto_method_sha256_psa
+  #ifdef STM32U585xx
+	// TODO: Figure out the problem with crypto_method_sha256_psa on STM32U5
+	// we ought to be using crypto_method_sha256_psa
     &crypto_method_sha256,
-    &crypto_method_aes_cbc_128_psa,
+  #else
+    &crypto_method_sha256_psa,
+  #endif /* STM32U585xx */
 #else
     &crypto_method_sha256,
     &crypto_method_aes_cbc_128,
