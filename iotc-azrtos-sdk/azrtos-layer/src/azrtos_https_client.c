@@ -17,7 +17,7 @@
 #endif
 
 #ifndef IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE
-#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 1000
+#define IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE 3000
 #endif
 
 #ifndef IOTCONNECT_TLS_PACKET_BUFFER_SIZE
@@ -247,8 +247,8 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
             printf("HTTP: Packet data extraction error: 0x%x\r\n", status);
             break;
         }
-        if (bytes_received >= IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length) {
-            printf("HTTP Receive buffer empty! Increase IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE\r\n");
+        if (bytes_received >= IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE - data_length - 1) {
+            printf("HTTP Receive buffer too small! Increase IOTCONNECT_HTTP_RECEIVE_BUFFER_SIZE\r\n");
             // just return bad status so that the user can print what we have so far with += bytes_received below
             status = NX_OVERFLOW;
         }
@@ -257,17 +257,21 @@ UINT iotconnect_https_request(IotConnectHttpRequest *r) {
     	receive_packet = NULL;
 		data_length += bytes_received;
 		printf("HTTP: %lu bytes received.\r\n", bytes_received);
+		if (status == NX_OVERFLOW) {
+			// cleam up but stop to return the proper status here
+			break;
+		}
     }
     r->response[data_length] = 0; // terminate the string
     if (receive_packet) {
     	nx_packet_release(receive_packet);
     }
-    status = nx_web_http_client_delete(&http_client);
-    if (status != NX_SUCCESS) {
+    UINT delete_status = nx_web_http_client_delete(&http_client);
+    if (delete_status != NX_SUCCESS) {
         printf("Warning to delete web client: 0x%x\r\n", status);
     }
 
-    return NX_SUCCESS;
+    return status;
 }
 
 static ULONG iotc_https_certificate_verify(NX_SECURE_TLS_SESSION *session, NX_SECURE_X509_CERT* certificate)

@@ -19,10 +19,16 @@
 #include "nx_azure_iot_hub_client.h"
 #include "nx_azure_iot_ciphersuites.h"
 #include "azrtos_time.h"
+#include "iotcl_cfg.h"
+#include "iotcl.h"
 #include "iotconnect_certs.h"
 #include "iotconnect.h"
 #include "azrtos_iothub_client.h"
 #include "iotc_auth_driver.h"
+
+#define IOTC_MPROP_CD "cd"
+#define IOTC_MPROP_VERSION "v"
+#define IOTC_MPROP_MESSAGE_TYPE "mt"
 
 
 /* Define the Azure RTOS IOT thread stack and priority.  */
@@ -92,11 +98,17 @@ static VOID connection_status_callback(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr, 
 static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
     UINT status;
 
+    IotclMqttConfig * mqtt_cfg = iotcl_mqtt_get_config();
+    if (!mqtt_cfg) {
+    	printf("Failed to get mqtt config!\r\n");
+    	return IOTCL_ERR_CONFIG_MISSING;
+    }
+
     /* Initialize IoTHub client. */
     if (config.auth->type == IOTC_KEY) {
         if ((status = nx_azure_iot_hub_client_initialize(iothub_client_ptr, &nx_azure_iot, //
-                (UCHAR*) config.host, strlen(config.host), //
-                (UCHAR*) config.device_name, strlen(config.device_name), //
+                (UCHAR*) mqtt_cfg->host, strlen(mqtt_cfg->host), //
+                (UCHAR*) mqtt_cfg->client_id, strlen(mqtt_cfg->client_id), //
                 (UCHAR*) "", 0, // modules are not supported
                 _nx_azure_iot_tls_supported_crypto, //
                 _nx_azure_iot_tls_supported_crypto_size, //
@@ -121,8 +133,8 @@ static UINT initialize_iothub(NX_AZURE_IOT_HUB_CLIENT *iothub_client_ptr) {
         IotcAuthInterface* ai = &(config.auth->data.x509.auth_interface);
         IotcAuthInterfaceContext aic = config.auth->data.x509.auth_interface_context;
         if ((status = nx_azure_iot_hub_client_initialize(iothub_client_ptr, &nx_azure_iot, //
-                (UCHAR*) config.host, strlen(config.host), //
-                (UCHAR*) config.device_name, strlen(config.device_name), //
+                (UCHAR*) mqtt_cfg->host, strlen(mqtt_cfg->host), //
+                (UCHAR*) mqtt_cfg->client_id, strlen(mqtt_cfg->client_id), //
                 (UCHAR*) "", 0, // modules are not supported
                 ai->get_crypto_config(aic)->crypto_methods, //
 				ai->get_crypto_config(aic)->crypto_methods_length, //
@@ -216,6 +228,7 @@ UINT iothub_client_init(IotConnectIotHubConfig *c, IotConnectAzrtosConfig *azrto
 
     is_connected = false;
 
+
     memset(&config, 0, sizeof(config));
     memcpy(&config, c, sizeof(config));
 
@@ -305,8 +318,77 @@ bool iothub_client_is_connected(void) {
     return is_connected;
 }
 
+// isolates topic properties Azure's iot_hub_client mechanism
+static UINT iothub_set_topic_properties_helper(
+		NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr,
+        NX_PACKET *packet_ptr,
+		const char* topic) {
+	IotclMqttConfig *c = iotcl_mqtt_get_config();
+	if (!c) {
+		printf("IOTCL not configured?\r\n");
+		return NX_INVALID_PARAMETERS;
+	}
+	if (!c->cd || 0 == strlen(c->cd)) {
+		printf("IOTCL is missing the \"cd\" MQTT config value.\r\n");
+		return NX_INVALID_PARAMETERS;
+	}
+	if (!topic) {
+		printf("Topic not configured?\r\n");
+		return NX_INVALID_PARAMETERS;
+	}
+	size_t topic_len = strlen(topic);
+	if (topic_len == 0) {
+		printf("Topic not configured?\r\n");
+		return NX_INVALID_PARAMETERS;
+	}
+	// somewhat of a hack... message type should be parsed from the topic
+	// and then we need to send the appropriate type, but here we assume that it's a single digit at the end of the message
+	const char* mt = &topic[topic_len - 1];
+	char msg_type_ch = mt[0];
 
-UINT iothub_send_message(const char *message) {
+	// quick sanity check the message type and ensure it's a single digit
+	if (msg_type_ch < '0' || msg_type_ch > '9') {
+		printf("Unable to parse message type from topic. The character is found '%c' and not a digit!\r\n", msg_type_ch);
+		return NX_INVALID_PARAMETERS;
+	}
+
+    if (nx_azure_iot_hub_client_telemetry_property_add(
+    		packet_ptr,
+			(UCHAR *)IOTC_MPROP_CD,
+			(USHORT)strlen(IOTC_MPROP_CD),
+			(UCHAR *)c->cd,
+			(USHORT)strlen(c->cd),
+			NX_WAIT_FOREVER)
+    		) {
+    	printf("Unable to set the\"%s\" message property!\r\n", IOTC_MPROP_CD);
+    	return NX_NOT_SUCCESSFUL;
+    }
+    if (nx_azure_iot_hub_client_telemetry_property_add(
+    		packet_ptr,
+			(UCHAR *)IOTC_MPROP_VERSION,
+			(USHORT)strlen(IOTC_MPROP_VERSION),
+			(UCHAR *)IOTCL_PROTOCOL_VERSION_DEFAULT,
+			(USHORT)strlen(IOTCL_PROTOCOL_VERSION_DEFAULT),
+			NX_WAIT_FOREVER)
+    		) {
+    	printf("Unable to set the\"%s\" message property!\r\n", IOTC_MPROP_VERSION);
+    	return NX_NOT_SUCCESSFUL;
+    }
+    if (nx_azure_iot_hub_client_telemetry_property_add(
+    		packet_ptr,
+			(UCHAR*)IOTC_MPROP_MESSAGE_TYPE,
+			(USHORT)strlen(IOTC_MPROP_MESSAGE_TYPE),
+			(UCHAR*)mt,
+			(USHORT)strlen(mt),
+			NX_WAIT_FOREVER)
+    		) {
+    	printf("Unable to set the\"%s\" message property!\r\n", IOTC_MPROP_MESSAGE_TYPE);
+    	return NX_NOT_SUCCESSFUL;
+    }
+    return 0;
+}
+
+UINT iothub_send_message(const char* topic, const char *message) {
     UINT status = 0;
     NX_PACKET *packet_ptr;
 
@@ -315,7 +397,11 @@ UINT iothub_send_message(const char *message) {
         printf("Telemetry message create failed!: error code = 0x%08x\r\n", status);
         return status;
     }
-
+    if((status = iothub_set_topic_properties_helper(&iothub_client, packet_ptr, topic))) {
+    	nx_azure_iot_hub_client_telemetry_message_delete(packet_ptr);
+    	// called function will print the error
+    	return status;
+    }
     if (nx_azure_iot_hub_client_telemetry_send(&iothub_client, packet_ptr, (UCHAR*) message, strlen(message),
     NX_WAIT_FOREVER)) {
         printf("Telemetry message send failed!: error code = 0x%08x\r\n", status);
@@ -348,11 +434,6 @@ UINT iothub_c2d_receive(bool loop_forever, ULONG wait_ticks) {
                     packet_ptr->nx_packet_prepend_ptr, //
                     packet_ptr->nx_packet_append_ptr - packet_ptr->nx_packet_prepend_ptr //
                             );
-#if 0
-            printf("Received message:");
-            printf_packet(packet_ptr);
-            printf("\r\n");
-#endif
         }
         if (packet_ptr) {
             nx_packet_release(packet_ptr);

@@ -17,8 +17,6 @@ extern   "C" {
 typedef void (*IotConnectC2dCallback)(UCHAR* message, size_t message_len);
 
 typedef struct {
-    char *host;    // IoTHub host to connect the client to
-    char *device_name;   // Name of the device - combined "cpid-duid"
     IotConnectAuth *auth; // Pointer to IoTConnect auth configuration
     IotConnectC2dCallback c2d_msg_cb; // callback for inbound messages
     IotConnectStatusCallback status_cb; // callback for connection status
@@ -31,7 +29,8 @@ void iothub_client_disconnect(void);
 bool iothub_client_is_connected(void);
 
 // send a null terminated string to IoTHub
-UINT iothub_send_message(const char *message);
+// topic, typically received from iotc-c-lib, will be used to parse out message type and pass it as message "property"
+UINT iothub_send_message(const char *topic, const char *message);
 
 /**
 Receive message(s) from IoTHub when a message is received, status_cb is called.
