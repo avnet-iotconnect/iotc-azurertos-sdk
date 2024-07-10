@@ -1,0 +1,204 @@
+{
+    "code": "wfi32r2",
+    "name": "wfi32demo_r2",
+    "authType": 3,
+    "isIotEdgeEnable": false,
+    "attributes": [
+        {
+            "name": "version",
+            "type": "STRING"
+        },
+        {
+            "name": "Onboard_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "Onboard_Light_Lux",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "WFI32IoT_button1",
+            "type": "NUMBER"
+        },
+        {
+            "name": "WFI32IoT_button2",
+            "type": "NUMBER"
+        },
+        {
+            "name": "WFI32IoT_button1_count",
+            "type": "NUMBER"
+        },
+        {
+            "name": "WFI32IoT_button2_count",
+            "type": "NUMBER"
+        },
+        {
+            "name": "ULP_Pressure_Pa",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "ULP_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "VAV_Pressure_Pa",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "VAV_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "ALT2_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "ALT2_Pressure_mBar",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "ALT2_Altitude_m",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "PHT_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "PHT_Pressure_mBar",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "PHT_Humidity_Percent",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "TH14_Temp_DegC",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "TH14_Humidity_Percent",
+            "type": "NUMBER",
+            "description": null
+        },
+        {
+            "name": "AIR7_Status",
+            "type": "STRING",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "AIR7_tVOC_ppb",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "AIR7_CO2_ppm",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "ALT4_Temp_DegC",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "ALT4_Pressure_mBar",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "ALT4_Altitude_m",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "T6713_Status",
+            "type": "STRING",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "T6713_CO2_ppm",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "T9602_Status",
+            "type": "STRING",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "T9602_Humidity_Percent",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        },
+        {
+            "name": "T9602_Temp_DegC",
+            "type": "NUMBER",
+            "description": null,
+            "unit": null
+        }
+    ],
+    "commands": [
+        {
+            "name": "led-red",
+            "command": "led-red",
+            "requiredParam": true,
+            "requiredAck": false,
+            "isOTACommand": false
+        },
+        {
+            "name": "led-blue",
+            "command": "led-blue",
+            "requiredParam": true,
+            "requiredAck": false,
+            "isOTACommand": false
+        },
+        {
+            "name": "reset-counters",
+            "command": "reset-counters",
+            "requiredParam": false,
+            "requiredAck": false,
+            "isOTACommand": false
+        },
+        {
+            "name": "led-green",
+            "command": "led-green",
+            "requiredParam": true,
+            "requiredAck": false,
+            "isOTACommand": false
+        }
+    ],
+    "messageVersion": "1.0",
+    "msgCode": "7LIB4J2",
+    "properties": {
+        "description": "Use \"on\" and \"off\" to control LED lights.",
+        "dataFrequency": "60",
+        "fileSupport": false
+    },
+    "_meta": {
+        "version": "2.0"
+    }
+}
